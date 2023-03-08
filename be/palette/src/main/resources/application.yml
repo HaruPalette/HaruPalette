@@ -1,0 +1,16 @@
+spring:
+  # MySQL
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/palette?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    username: palette
+    password: haru0220
+
+  # JPA Properties
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
