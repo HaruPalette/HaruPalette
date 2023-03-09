@@ -17,8 +17,8 @@ public class UserCharacter {
 
     // 캐릭터
     @ManyToOne
-    @JoinColumn(name = "character_id")
-    private Character character;
+    @JoinColumn(name = "friend_id")
+    private Friend friend;
 
     // 구매 일시
     private String purchaseDate;

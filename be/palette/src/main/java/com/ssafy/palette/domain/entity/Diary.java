@@ -40,6 +40,6 @@ public class Diary  {
 
     // 캐릭터
     @ManyToOne
-    @JoinColumn(name = "character_id")
-    private Character character;
+    @JoinColumn(name = "friend_id")
+    private Friend friend;
 }
