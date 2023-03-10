@@ -3,7 +3,9 @@ package com.ssafy.palette.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.palette.domain.entity.Challenge;
 import com.ssafy.palette.domain.entity.Friend;
+import com.ssafy.palette.repository.ChallengeRepository;
 import com.ssafy.palette.repository.FriendRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -14,34 +16,35 @@ import lombok.RequiredArgsConstructor;
 public class InitService {
 
 	private final FriendRepository friendRepository;
+	private final ChallengeRepository challengeRepository;
 	public void addInitFriend()
 	{
 		Friend haru = Friend.builder()
-			.friendId(1L)
+			.id(1L)
 			.name("하루")
 			.tag("#다정한 #진솔한 #ISFP")
-			.contents("안녕🐾 난 하루야😻 난 하루하루 기록하는 걸 좋아해\n"+"너도 나와 같이 오늘 하루를 기록하지않을래?")
+			.contents("안녕🐾 난 하루야😻\n"+"난 하루하루 기록하는 걸 좋아해\n"+"너도 나와 같이 오늘 하루를\n"+"기록하지않을래?")
 			.price(0)
 			.build();
 
 		Friend gomi = Friend.builder()
-			.friendId(2L)
+			.id(2L)
 			.name("고미")
 			.tag("#섬세한 #느긋한 #INFJ")
-			.contents("안녕🐾 난 고미야~🐼 항상 고민이 많은 나는 그걸 일기에 기록하곤해\n"+"어때? 너도 고민을 말해볼래?")
+			.contents("안녕🐾 난 고미야~🐼"+"항상 고민이 많은 나는\n"+"그걸 일기에 기록하곤해\n"+"어때? 너도 고민을 말해볼래?")
 			.price(100)
 			.build();
 
 		Friend tori = Friend.builder()
-			.friendId(3L)
+			.id(3L)
 			.name("토리")
 			.tag("#낙천적인 #발랄한 #ESFP")
-			.contents("안녕🐾 난 토리야!🐿 난 도토리를 좋아해서 이름도 토리로 개명했어!\n"+"난 외톨이가 아니라구! 나랑 친구할래?")
+			.contents("안녕🐾 난 토리야!🐿\n"+"난 도토리를 좋아해서\n"+"이름도 토리로 개명했어!\n"+"난 외톨이가 아니라구! 나랑 친구할래?")
 			.price(500)
 			.build();
 
 		Friend mystery = Friend.builder()
-			.friendId(4L)
+			.id(4L)
 			.name("?")
 			.tag("?")
 			.contents("?")
@@ -53,5 +56,44 @@ public class InitService {
 		friendRepository.save(gomi);
 		friendRepository.save(tori);
 		friendRepository.save(mystery);
+	}
+
+	public void addInitChallenge()
+	{
+		Challenge one = Challenge.builder()
+			.id(1L)
+			.contents("주 3회 작성")
+			.point(10)
+			.build();
+
+		Challenge two = Challenge.builder()
+			.id(2L)
+			.contents("주 5회 작성")
+			.point(20)
+			.build();
+
+		Challenge three = Challenge.builder()
+			.id(3L)
+			.contents("주 7회 작성")
+			.point(30)
+			.build();
+
+		Challenge four = Challenge.builder()
+			.id(4L)
+			.contents("연속 한달 작성")
+			.point(30)
+			.build();
+
+		Challenge five = Challenge.builder()
+			.id(5L)
+			.contents("하루 작성")
+			.point(5)
+			.build();
+
+		challengeRepository.save(one);
+		challengeRepository.save(two);
+		challengeRepository.save(three);
+		challengeRepository.save(four);
+		challengeRepository.save(five);
 	}
 }
