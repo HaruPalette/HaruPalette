@@ -3,7 +3,7 @@ package com.ssafy.palette.domain.entity;
 import javax.persistence.*;
 
 @Entity
-public class UserCharacter {
+public class UserFriend {
 
     // 기본키
     @Id
