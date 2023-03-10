@@ -18,6 +18,9 @@ public class initDB {
 
 		// 캐릭터 초기 데이터
 		initService.addInitFriend();
+
+		// 도전과제 초기 데이터
+		initService.addInitChallenge();
 	}
 
 }
