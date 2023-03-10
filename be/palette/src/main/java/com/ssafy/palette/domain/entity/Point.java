@@ -7,8 +7,9 @@ public class Point {
 
     // 기본키
     @Id
+    @Column(name = "point_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long pointId;
+    private Long id;
 
     // 사용자
     @ManyToOne
@@ -16,11 +17,14 @@ public class Point {
     private User user;
 
     // 포인트
+    @Column
     private int point;
 
     // 구분
+    @Column
     private String category;
 
     // 일시
+    @Column
     private String date;
 }

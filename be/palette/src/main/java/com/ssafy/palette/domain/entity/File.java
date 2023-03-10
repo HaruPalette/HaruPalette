@@ -7,8 +7,9 @@ public class File {
 
     // 기본키
     @Id
+    @Column(name = "file_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long fileId;
+    private Long id;
 
     // 일기
     @ManyToOne
@@ -16,5 +17,6 @@ public class File {
     private Diary diary;
 
     // 경로
+    @Column
     private String path;
 }

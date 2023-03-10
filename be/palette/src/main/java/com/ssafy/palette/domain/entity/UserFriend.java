@@ -7,8 +7,9 @@ public class UserFriend {
 
     // 기본키
     @Id
+    @Column(name = "user_friend_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userCharacterId;
+    private Long id;
 
     // 사용자
     @ManyToOne
@@ -21,5 +22,6 @@ public class UserFriend {
     private Friend friend;
 
     // 구매 일시
+    @Column
     private String purchaseDate;
 }
