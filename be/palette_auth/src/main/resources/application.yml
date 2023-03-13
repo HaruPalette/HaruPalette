@@ -5,7 +5,7 @@ spring:
   # MySQL
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/palette_auth?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://j8b303.p.ssafy.io:3306/palette_auth?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
     username: palette
     password: haru0220
 
@@ -15,9 +15,9 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     open-in-view: false
 
-  # application-oauth
+  # application-auth
   profiles:
-    include: oauth
+    includ e: auth
