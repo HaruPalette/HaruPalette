@@ -20,4 +20,4 @@ spring:
 
   # application-auth
   profiles:
-    includ e: auth
+    include: auth
