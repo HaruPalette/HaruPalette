@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.palette.domain.dto.Role;
+import com.ssafy.palette.model.Role;
 
 import lombok.extern.slf4j.Slf4j;
 

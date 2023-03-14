@@ -1,4 +1,4 @@
-package com.ssafy.palette.domain.dto;
+package com.ssafy.palette.model;
 
 import lombok.Builder;
 import lombok.Getter;

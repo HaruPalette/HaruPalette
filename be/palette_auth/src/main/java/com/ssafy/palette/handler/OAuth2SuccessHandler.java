@@ -13,13 +13,14 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.ssafy.palette.client.UserClient;
 import com.ssafy.palette.domain.dto.AuthDto;
-import com.ssafy.palette.domain.dto.JwtCode;
-import com.ssafy.palette.domain.dto.Role;
-import com.ssafy.palette.domain.dto.Token;
-import com.ssafy.palette.domain.dto.TokenKey;
 import com.ssafy.palette.domain.dto.UserDto;
 import com.ssafy.palette.domain.entity.Auth;
+import com.ssafy.palette.model.JwtCode;
+import com.ssafy.palette.model.Role;
+import com.ssafy.palette.model.Token;
+import com.ssafy.palette.model.TokenKey;
 import com.ssafy.palette.provider.TokenProvider;
 import com.ssafy.palette.repository.AuthRepository;
 
@@ -32,7 +33,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
 	private final AuthRepository authRepository;
 	private final TokenProvider tokenProvider;
-	// private final AuthUserClient authUserClient;
+	private final UserClient userClient;
 	private String redirectUrl = "http://localhost:3000/login";
 
 	@Override
@@ -78,8 +79,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 				, tokenProvider.getExpiration(TokenKey.REFRESH)
 			);
 
-			// 프로필 DB에 저장
-			// authUserClient.insertUser(userDto);
+			// 사용자 DB에 저장
+			userClient.insertUser(userDto);
 		} else {
 			userDto = new UserDto(
 				String.valueOf(auth.getAuthId()),
@@ -97,7 +98,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 				tokens = tokenProvider.generateToken(userDto.getUserId(), Role.USER.getKey());
 			}
 
-			// userClient.updateImage(userDto);
+			userClient.updateImage(userDto);
 		}
 
 		String targetUrl;

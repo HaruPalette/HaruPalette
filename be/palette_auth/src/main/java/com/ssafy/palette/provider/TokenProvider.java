@@ -10,9 +10,9 @@ import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.ssafy.palette.domain.dto.JwtCode;
-import com.ssafy.palette.domain.dto.Token;
-import com.ssafy.palette.domain.dto.TokenKey;
+import com.ssafy.palette.model.JwtCode;
+import com.ssafy.palette.model.Token;
+import com.ssafy.palette.model.TokenKey;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

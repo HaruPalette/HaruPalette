@@ -18,13 +18,4 @@ public class UserDto {
 
 	// 프로필 이미지
 	String image;
-
-	// 캐릭터 FK
-	int characterId;
-
-	public UserDto(String userId, String image) {
-		this.userId = userId;
-		this.image = image;
-	}
-
 }

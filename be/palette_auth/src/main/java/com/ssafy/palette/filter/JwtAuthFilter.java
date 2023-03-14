@@ -17,10 +17,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.ssafy.palette.domain.dto.AuthDto;
-import com.ssafy.palette.domain.dto.JwtCode;
-import com.ssafy.palette.domain.dto.Role;
-import com.ssafy.palette.domain.dto.Token;
-import com.ssafy.palette.domain.dto.TokenKey;
+import com.ssafy.palette.model.JwtCode;
+import com.ssafy.palette.model.Role;
+import com.ssafy.palette.model.Token;
+import com.ssafy.palette.model.TokenKey;
 import com.ssafy.palette.provider.TokenProvider;
 
 import io.jsonwebtoken.Claims;
