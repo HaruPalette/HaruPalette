@@ -33,6 +33,15 @@ function Header() {
       </Link>
     );
   });
+
+  const loginKakao = () => {
+    window.Kakao.Auth.authorize({
+      redirectUri: process.env.NEXT_PUBLIC_KAKAO_REDIRECTURI,
+    });
+    window.location.href = process.env.NEXT_PUBLIC_LOGIN_REDIRECTURI
+      ? process.env.NEXT_PUBLIC_LOGIN_REDIRECTURI
+      : "/";
+  };
   return (
     <StylesHeader>
       <div
@@ -83,6 +92,7 @@ function Header() {
             background: "#FFEB3B",
           }}
           type="button"
+          onClick={loginKakao}
         >
           <Image src="assets/img/common/kakao.svg" width={24} height={24} alt="kakao" />
           <div
