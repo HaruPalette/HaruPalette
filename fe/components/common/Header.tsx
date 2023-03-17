@@ -1,30 +1,30 @@
-import Image from "next/image";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import Link from "next/link";
+import Image from 'next/image';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import Link from 'next/link';
 
 function Header() {
   const menuItem = [
     {
-      title: "일기 작성",
-      link: "/",
+      title: '일기 작성',
+      link: '/',
     },
     {
-      title: "달력 보기",
-      link: "/",
+      title: '달력 보기',
+      link: '/',
     },
     {
-      title: "상점 가기",
-      link: "/",
+      title: '상점 가기',
+      link: '/',
     },
   ];
-  const menu = menuItem.map((item) => {
+  const menu = menuItem.map(item => {
     return (
       <Link
         css={{
-          color: "white",
-          textDecoration: "none",
-          margin: "24px",
+          color: 'white',
+          textDecoration: 'none',
+          margin: '24px',
         }}
         key={item.title}
         href={item.link}
@@ -40,21 +40,21 @@ function Header() {
     });
     window.location.href = process.env.NEXT_PUBLIC_LOGIN_REDIRECTURI
       ? process.env.NEXT_PUBLIC_LOGIN_REDIRECTURI
-      : "/";
+      : '/';
   };
   return (
     <StylesHeader>
       <div
         css={{
-          display: "flex",
-          flexDirection: "row",
+          display: 'flex',
+          flexDirection: 'row',
         }}
       >
         <div
           css={{
-            fontSize: "48px",
-            fontWeight: "bold",
-            marginRight: "32px",
+            fontSize: '48px',
+            fontWeight: 'bold',
+            marginRight: '32px',
           }}
         >
           LOGO
@@ -63,43 +63,53 @@ function Header() {
       </div>
       <div
         css={{
-          display: "flex",
-          flexDirection: "row",
+          display: 'flex',
+          flexDirection: 'row',
         }}
       >
         <div
           css={{
-            width: "40px",
-            height: "40px",
-            background: "white",
-            borderRadius: "20px",
-            textAlign: "center",
-            lineHeight: "50px",
-            marginRight: "16px",
+            width: '40px',
+            height: '40px',
+            background: 'white',
+            borderRadius: '20px',
+            textAlign: 'center',
+            lineHeight: '50px',
+            marginRight: '16px',
           }}
         >
-          <Image src="assets/img/common/dark/dark_theme.svg" width={24} height={24} alt="theme" />
+          <Image
+            src="assets/img/common/dark/dark_theme.svg"
+            width={24}
+            height={24}
+            alt="theme"
+          />
         </div>
         <button
           css={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "104px",
-            height: "40px",
-            borderRadius: "8px",
-            background: "#FFEB3B",
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '104px',
+            height: '40px',
+            borderRadius: '8px',
+            background: '#FFEB3B',
           }}
           type="button"
           onClick={loginKakao}
         >
-          <Image src="assets/img/common/kakao.svg" width={24} height={24} alt="kakao" />
+          <Image
+            src="assets/img/common/kakao.svg"
+            width={24}
+            height={24}
+            alt="kakao"
+          />
           <div
             css={{
-              fontSize: "16px",
-              fontWeight: "bold",
-              marginLeft: "8px",
+              fontSize: '16px',
+              fontWeight: 'bold',
+              marginLeft: '8px',
             }}
           >
             로그인
