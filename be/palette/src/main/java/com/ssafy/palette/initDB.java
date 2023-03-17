@@ -21,6 +21,9 @@ public class initDB {
 
 		// 도전과제 초기 데이터
 		initService.addInitChallenge();
+
+		// 더미 데이터
+		initService.tempUser();
 	}
 
 }
