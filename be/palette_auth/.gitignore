@@ -37,7 +37,7 @@ out/
 .vscode/
 
 ### security ###
-application-oauth.yml
+application-auth.yml
 
 ### dev ###
 gradle
