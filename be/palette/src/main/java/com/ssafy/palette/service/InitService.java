@@ -5,8 +5,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.palette.domain.entity.Challenge;
 import com.ssafy.palette.domain.entity.Friend;
+import com.ssafy.palette.domain.entity.User;
 import com.ssafy.palette.repository.ChallengeRepository;
 import com.ssafy.palette.repository.FriendRepository;
+import com.ssafy.palette.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class InitService {
 
+	private final UserRepository userRepository;
 	private final FriendRepository friendRepository;
 	private final ChallengeRepository challengeRepository;
 	public void addInitFriend()
@@ -95,5 +98,14 @@ public class InitService {
 		challengeRepository.save(three);
 		challengeRepository.save(four);
 		challengeRepository.save(five);
+	}
+
+	public void tempUser()
+	{
+		User jiyeon = User.builder()
+			.id("test")
+			.build();
+
+		userRepository.save(jiyeon);
 	}
 }

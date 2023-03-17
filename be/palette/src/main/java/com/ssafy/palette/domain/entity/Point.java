@@ -8,11 +8,11 @@ public class Point {
     // 기본키
     @Id
     @Column(name = "point_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue//(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // 사용자
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
