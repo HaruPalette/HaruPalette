@@ -1,23 +1,38 @@
 package com.ssafy.palette.domain.entity;
 
-import javax.persistence.*;
+import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
 public class Diary  {
 
     // 기본키
     @Id
     @Column(name = "diary_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue//(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // 사용자
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     // 내용
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String contents;
 
     // 날씨 (SUN:해, CLOUD:구름, SNOW:눈, RAIN:비)
@@ -28,25 +43,29 @@ public class Diary  {
     @Column
     private int feelingValue;
 
-    // 상태 (V:보기, D:삭제)
+    // 상태 (기본값 V:보기, D:삭제)
     @Column
-    private String status;
+    //@ColumnDefault("V")
+    private String status = "V";
 
     // 등록 일시
     @Column
-    private String registrationDate;
+    private LocalDate registrationDate;
 
-    // 템플릿 코드
+    // 스티커 코드
     @Column
-    private String templateCode;
+    private String stickerCode;
 
     // 답변
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "answer_id")
     private Answer answer;
 
     // 캐릭터
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "friend_id")
     private Friend friend;
+
+    public Diary() {
+    }
 }

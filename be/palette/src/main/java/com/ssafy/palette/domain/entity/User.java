@@ -2,12 +2,20 @@ package com.ssafy.palette.domain.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
 @Table(name = "USER")
 public class User {
 
@@ -29,7 +37,10 @@ public class User {
     private int point;
 
     // 현재 설정된 캐릭터
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "friend_id")
     private Friend friend;
+
+    public User() {
+    }
 }
