@@ -26,7 +26,12 @@ public class Friend {
     // 이름
     @NotNull
     @Column
-    private String name;
+    private String kname;
+
+    // 영문 이름
+    @NotNull
+    @Column
+    private String ename;
 
     // 설명
     @NotNull

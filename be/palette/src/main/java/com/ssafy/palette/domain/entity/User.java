@@ -24,10 +24,6 @@ public class User {
     @Column(name = "user_id")
     private String id;
 
-    // 닉네임
-    @Column
-    private String nickname;
-
     // 프로필 이미지
     @Column
     private String image;
