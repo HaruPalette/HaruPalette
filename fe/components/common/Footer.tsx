@@ -52,7 +52,7 @@ const StylesFooter = styled.div`
   background: black;
   color: white;
   display: flex;
-  flex-diraction: row;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
 `;
