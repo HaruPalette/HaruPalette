@@ -5,7 +5,7 @@ function NavList() {
   const navList = [
     {
       title: '일기 작성',
-      link: '/',
+      link: '/create',
     },
     {
       title: '달력 보기',
@@ -39,5 +39,6 @@ const HaruNav = styled.nav`
 const NavItem = styled(Link)`
   color: ${inheritWhite};
   text-decoration: none;
+  width: 5rem;
   margin-left: 1.5rem;
 `;
