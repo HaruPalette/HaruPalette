@@ -1,14 +1,16 @@
 import styled from '@emotion/styled';
 import Logo from './Logo';
 import Icon from './Icon';
+import getTheme from '../../hooks/themeHook';
+import { ColorTheme } from '../../styles/theme';
 
 function Footer() {
+  const theme = getTheme();
   return (
-    <HaruFooter>
+    <HaruFooter theme={theme}>
       <FooterContainer>
         <Logo />
-        <Icon />
-        © 2020 Lift Media. All rights reserved.
+        <Icon />© 2020 Lift Media. All rights reserved.
       </FooterContainer>
     </HaruFooter>
   );
@@ -16,17 +18,13 @@ function Footer() {
 
 export default Footer;
 
-const primary = 'pink';
-const inheritBlack = 'black';
-const inheritWhite = 'white';
-
-const HaruFooter = styled.footer`
+const HaruFooter = styled.footer<{ theme?: ColorTheme }>`
   width: 100vw;
   position: fixed;
   left: 0;
   bottom: 0;
-  background: ${inheritBlack};
-  color: ${inheritWhite};
+  background: ${props => props.theme.background};
+  color: ${props => props.theme.color};
 `;
 
 const FooterContainer = styled.div`
@@ -38,4 +36,4 @@ const FooterContainer = styled.div`
   padding: 0 160px;
 
   font-size: 1rem;
-`
+`;

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import getTheme from '../../hooks/themeHook';
 import { selectTheme, setTheme } from '../../store/modules/theme';
+import { ColorTheme } from '../../styles/theme';
 
 function DarkModeButton() {
   // 현재 다크모드 여부
@@ -18,7 +19,7 @@ function DarkModeButton() {
     isDark ? 'dark' : 'light'
   }_theme.svg`;
   return (
-    <ThemeButton onClick={handleChangeTheme}>
+    <ThemeButton onClick={handleChangeTheme} theme={theme}>
       <Image src={img} width={24} height={24} alt="theme" />
     </ThemeButton>
   );
@@ -26,9 +27,10 @@ function DarkModeButton() {
 
 export default DarkModeButton;
 
-const ThemeButton = styled.button`
+const ThemeButton = styled.button<{ theme?: ColorTheme }>`
   cursor: pointer;
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
+  background: ${props => props.theme.background};
 `;
