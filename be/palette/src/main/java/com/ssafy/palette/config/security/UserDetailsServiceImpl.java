@@ -1,3 +1,4 @@
+/*
 package com.ssafy.palette.config.security;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,3 +26,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return new UserDetailsImpl(user.getId());
 	}
 }
+*/
