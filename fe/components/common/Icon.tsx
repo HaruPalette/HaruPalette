@@ -1,38 +1,44 @@
-import styled from '@emotion/styled'
-import Image from 'next/image'
+import styled from '@emotion/styled';
+import Image from 'next/image';
+import { useAppSelector } from '../../hooks/reduxHook';
+import { selectTheme } from '../../store/modules/theme';
 
 function Icon() {
+  const isDark = useAppSelector(selectTheme);
   const iconItem = {
     facebook: {
-      light:'assets/img/common/light/light_facebook.svg',
-      dark:'assets/img/common/dark/dark_facebook.svg',
-      url:'https://lab.ssafy.com/s08-ai-speech-sub2/S08P22B303/-/tree/main',
+      icon: `assets/img/common/${isDark ? 'dark' : 'light'}/${
+        isDark ? 'dark' : 'light'
+      }_facebook.svg`,
+      url: 'https://lab.ssafy.com/s08-ai-speech-sub2/S08P22B303/-/tree/main',
     },
     linkedin: {
-      light:'assets/img/common/light/light_Linkedin.svg',
-      dark:'assets/img/common/dark/dark_Linkedin.svg',
-      url:'https://ssafy.atlassian.net/jira/software/c/projects/S08P22B303/boards/1698',
+      icon: `assets/img/common/${isDark ? 'dark' : 'light'}/${
+        isDark ? 'dark' : 'light'
+      }_Linkedin.svg`,
+      url: 'https://ssafy.atlassian.net/jira/software/c/projects/S08P22B303/boards/1698',
     },
     twitter: {
-      light:'assets/img/common/light/light_Twitter.svg',
-      dark:'assets/img/common/dark/dark_Twitter.svg',
-      url:'https://chat.openai.com/chat',
+      icon: `assets/img/common/${isDark ? 'dark' : 'light'}/${
+        isDark ? 'dark' : 'light'
+      }_Twitter.svg`,
+      url: 'https://chat.openai.com/chat',
     },
-  }
+  };
   return (
     <IconList>
       {Object.entries(iconItem).map((item, idx) => (
         <IconItem key={idx}>
           <a href={item[1].url} target="_blank">
-          <Image src={item[1].dark} width={40} height={40} alt={item[0]}/>
+            <Image src={item[1].icon} width={40} height={40} alt={item[0]} />
           </a>
         </IconItem>
-        ))}
+      ))}
     </IconList>
-  )
+  );
 }
 
-export default Icon
+export default Icon;
 
 const IconList = styled.div`
   list-style: none;
@@ -40,8 +46,8 @@ const IconList = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 
 const IconItem = styled.li`
   cursor: pointer;
-`
+`;
