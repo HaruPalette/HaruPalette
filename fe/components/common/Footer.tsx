@@ -1,58 +1,40 @@
-import Image from 'next/image';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import Logo from './Logo';
+import Icon from './Icon';
 
 function Footer() {
-  const iconItem = [
-    'assets/img/common/dark/dark_facebook.svg',
-    'assets/img/common/dark/dark_Linkedin.svg',
-    'assets/img/common/dark/dark_Twitter.svg',
-  ];
-  const icon = iconItem.map(item => {
-    return (
-      <Image
-        css={{
-          margin: '0 48px',
-        }}
-        key={item}
-        src={item}
-        width={35}
-        height={35}
-        alt="icon"
-      />
-    );
-  });
   return (
-    <StylesFooter>
-      <div
-        css={{
-          fontSize: '48px',
-          fontWeight: 'bold',
-        }}
-      >
-        LOGO
-      </div>
-      <div>{icon}</div>
-      <div css={{ fontSize: '12px' }}>
+    <HaruFooter>
+      <FooterContainer>
+        <Logo />
+        <Icon />
         © 2020 Lift Media. All rights reserved.
-      </div>
-    </StylesFooter>
+      </FooterContainer>
+    </HaruFooter>
   );
 }
 
 export default Footer;
 
-const StylesFooter = styled.div`
-  height: 88px;
-  width: calc(100vw - 320px);
+const primary = 'pink';
+const inheritBlack = 'black';
+const inheritWhite = 'white';
+
+const HaruFooter = styled.footer`
+  width: 100vw;
   position: fixed;
-  padding: 0 160px;
-  bottom: 0;
   left: 0;
-  background: black;
-  color: white;
+  bottom: 0;
+  background: ${inheritBlack};
+  color: ${inheritWhite};
+`;
+
+const FooterContainer = styled.div`
   display: flex;
-  flex-diraction: row;
   align-items: center;
   justify-content: space-between;
-`;
+
+  padding: 0 160px;
+
+  font-size: 1rem;
+`
