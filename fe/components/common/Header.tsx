@@ -6,10 +6,13 @@ import LoginButton from '../button/LoginButton';
 import DarkModeButton from '../button/DarkModeButton';
 import Logo from './Logo';
 import NavList from '../nav/NavList';
+import getTheme from '../../hooks/themeHook';
+import { ColorTheme } from '../../styles/theme';
 
 function Header() {
+  const theme = getTheme();
   return (
-    <HaruHeader>
+    <HaruHeader theme={theme}>
       <HeaderContainer>
         <LeftContainer>
           <Logo />
@@ -27,17 +30,13 @@ function Header() {
 
 export default Header;
 
-const primary = 'pink';
-const inheritBlack = 'black';
-const inheritWhite = 'white';
-
-const HaruHeader = styled.header`
+const HaruHeader = styled.header<{ theme?: ColorTheme }>`
   width: 100vw;
   position: fixed;
   top: 0;
   left: 0;
-  background: ${inheritBlack};
-  color: ${inheritWhite};
+  background: ${props => props.theme.background};
+  color: ${props => props.theme.color};
 `;
 
 const HeaderContainer = styled.div`
