@@ -1,4 +1,3 @@
-/*
 package com.ssafy.palette.config.security;
 
 import java.util.ArrayList;
@@ -52,4 +51,3 @@ public class UserDetailsImpl implements UserDetails {
 		return true;
 	}
 }
-*/
