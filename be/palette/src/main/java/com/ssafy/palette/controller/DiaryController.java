@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/app/v1/diaries")
+@RequestMapping("/api/v1/diaries")
 @Transactional
 public class DiaryController {
 
