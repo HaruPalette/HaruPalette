@@ -1,6 +1,8 @@
 // import "@/styles/globals.css";
 import { useEffect } from 'react';
 import type { AppProps } from 'next/app';
+import { Provider } from 'react-redux';
+import store from '../store';
 
 declare global {
   interface Window {
@@ -17,5 +19,9 @@ export default function App({ Component, pageProps }: AppProps) {
       console.log(window.Kakao.isInitialized()); // 초기화 여부 확인(true 나와야 함)
     }
   }, []);
-  return <Component {...pageProps} />;
+  return (
+    <Provider store={store}>
+      <Component {...pageProps} />;
+    </Provider>
+  );
 }
