@@ -31,6 +31,7 @@ const HaruFooter = styled.footer`
 
 const FooterContainer = styled.div`
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
 
