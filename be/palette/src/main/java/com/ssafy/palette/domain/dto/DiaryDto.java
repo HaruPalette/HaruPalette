@@ -8,7 +8,6 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class DiaryDto {
-
 	String stickerCode;
 	String weather;
 	String contents;
