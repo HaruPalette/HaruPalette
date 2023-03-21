@@ -39,6 +39,17 @@ fail_message = {
     "response_msg": "Occured a server error"
 }
 
+ko2en = {
+    "중립": "neutral",
+    "행복": "happy",
+    "당황": "surprise",
+    "분노": "anger",
+    "불안": "anxiety",
+    "슬픔": "sadness",
+    "혐오": "disgust",
+}
+
+
 # 메인 로직
 class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
     def __init__(self):
@@ -51,11 +62,20 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
         return 0
 
     def TextToEmotion(self, request, context):
-        predictions = bertClassifier(request.text)[0]
-        res = palette_ai_pb2.EmotionResponse(
-            predictions = predictions
+        result = bertClassifier(request.text)[0]
+        data = {
+            ko2en[r["label"]]: r["score"] for r in result
+        }
+        ret = palette_ai_pb2.EmotionResponse(
+            neutral=data.get("neutral", 0),
+            happy=data.get("happy", 0),
+            surprise=data.get("surprise", 0),
+            anger=data.get("anger", 0),
+            anxiety=data.get("anxiety", 0),
+            sadness=data.get("sadness", 0),
+            disgust=data.get("disgust", 0),
         )
-        return res
+        return ret
 
 
 # 서버 실행
@@ -72,6 +92,6 @@ def serve():
 
 
 if __name__ == '__main__':
-    #로그 설정
+    # 로그 설정
     logging.basicConfig()
     serve()
