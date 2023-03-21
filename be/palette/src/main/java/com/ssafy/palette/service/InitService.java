@@ -1,5 +1,7 @@
 package com.ssafy.palette.service;
 
+import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ public class InitService {
 	private final UserRepository userRepository;
 	private final FriendRepository friendRepository;
 	private final ChallengeRepository challengeRepository;
+	private final RedisTemplate<String, String> redisTemplate;
 	public void addInitFriend()
 	{
 		Friend haru = Friend.builder()
@@ -104,5 +107,21 @@ public class InitService {
 			.build();
 
 		userRepository.save(jiyeon);
+	}
+
+	public void tempText()
+	{
+		redisTemplate.opsForList().rightPush("hi", "하루야");
+		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
+		System.out.println(operations.opsForList().range("hi", 0, -1));
+
+		Long size = operations.opsForList().size("hi");
+
+		for (int i = 0; i < size; i++) {
+			System.out.println(operations.opsForList().leftPop("hi"));
+		}
+
+		operations.opsForList().rightPush("hi", "안녕");
+		System.out.println(operations.opsForList().range("hi", 0, -1));
 	}
 }
