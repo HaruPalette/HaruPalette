@@ -11,7 +11,7 @@ function NavList() {
     },
     {
       title: '달력 보기',
-      link: '/',
+      link: '/diary',
     },
     {
       title: '상점 가기',
