@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import Logo from './Logo';
 import Icon from './Icon';
-import getTheme from '../../hooks/themeHook';
+import useTheme from '../../hooks/useTheme';
 import { ColorTheme } from '../../styles/theme';
 
 function Footer() {
-  const theme = getTheme();
+  const theme = useTheme();
   return (
     <HaruFooter theme={theme}>
       <FooterContainer>
