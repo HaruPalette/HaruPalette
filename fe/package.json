@@ -11,6 +11,8 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@plot-and-scatter/react-animated-number": "^1.1.0",
+    "@ramonak/react-progress-bar": "^5.0.3",
     "@reduxjs/toolkit": "^1.9.3",
     "@types/node": "18.15.0",
     "@types/react": "18.0.28",
@@ -24,6 +26,7 @@
     "next": "13.2.3",
     "next-redux-wrapper": "^8.1.0",
     "react": "18.2.0",
+    "react-animated-numbers": "^0.16.0",
     "react-dom": "18.2.0",
     "react-query": "^3.39.3",
     "react-redux": "^8.0.5",

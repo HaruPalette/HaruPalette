@@ -1,16 +1,15 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useAppSelector } from '../../hooks/reduxHook';
+import { selectProfile } from '../../store/modules/profile';
 
 function Logo() {
+  const chr = useAppSelector(selectProfile);
+  const logo = `assets/img/${chr.chrName}/logo.svg`;
   return (
     <HaruLogo href={'/'}>
-      <Image
-        src={'next.svg'}
-        width={100}
-        height={100}
-        alt={'Next Logo'}
-      ></Image>
+      <Image src={logo} width={100} height={100} alt={'Logo'}></Image>
     </HaruLogo>
   );
 }
