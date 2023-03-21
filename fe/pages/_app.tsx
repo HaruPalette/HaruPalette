@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
 import type { AppProps } from 'next/app';
-import { Provider, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import store from '../store';
 import GlobalStyle from '../styles/globals';
-import getTheme from '../hooks/themeHook';
-import { ThemeProvider } from '@emotion/react';
 
 declare global {
   interface Window {
