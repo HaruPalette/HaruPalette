@@ -38,3 +38,6 @@ out/
 
 ### dev ###
 gradle
+
+### security ###
+application-auth.yml
