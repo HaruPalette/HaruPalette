@@ -6,7 +6,7 @@ import { selectProfile } from '../../store/modules/profile';
 
 function Logo() {
   const chr = useAppSelector(selectProfile);
-  const logo = `assets/img/logo/${chr.chrName}.svg`;
+  const logo = `assets/img/${chr.chrName}/logo.svg`;
   return (
     <HaruLogo href={'/'}>
       <Image src={logo} width={100} height={100} alt={'Logo'}></Image>
