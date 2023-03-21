@@ -10,21 +10,19 @@ import {
 } from '../styles/theme';
 import { useAppSelector } from './reduxHook';
 
-function getTheme() {
-  // 다크모드 여부
+function useTheme() {
   const isDark = useAppSelector(selectTheme);
-  // 선택된 캐릭터 정보
-  const chr = useAppSelector(selectProfile);
+  const profile = useAppSelector(selectProfile);
 
-  if (chr.chrName === 'haru') {
+  if (profile.chrName === 'haru') {
     return isDark ? haruDark : haruLight;
-  } else if (chr.chrName === 'tori') {
+  } else if (profile.chrName === 'tori') {
     return isDark ? toriDark : toriLight;
-  } else if (chr.chrName === 'gomi') {
+  } else if (profile.chrName === 'gomi') {
     return isDark ? gomiDark : gomiLight;
   }
 
   return haruLight;
 }
 
-export default getTheme;
+export default useTheme;

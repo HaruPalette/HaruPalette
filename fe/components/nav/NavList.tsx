@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import getTheme from '../../hooks/themeHook';
+import useTheme from '../../hooks/useTheme';
 import { ColorTheme } from '../../styles/theme';
 
 function NavList() {
@@ -19,7 +19,7 @@ function NavList() {
     },
   ];
   // 현재 테마 가져오기
-  const theme = getTheme();
+  const theme = useTheme();
   return (
     <HaruNav>
       {navList.map((item, idx) => (
