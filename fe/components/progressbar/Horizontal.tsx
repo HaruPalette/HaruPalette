@@ -1,6 +1,5 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
 import getTheme from '../../hooks/themeHook';
 import { ColorTheme } from '../../styles/theme';
 
@@ -19,6 +18,7 @@ function Horizontal() {
   );
 }
 
+// width 늘어나는 애니메이션
 const animation = (percent: number) => keyframes`
     0% {
       width: 0%;
