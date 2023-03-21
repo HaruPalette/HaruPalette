@@ -9,10 +9,9 @@ function Horizontal() {
   // 감정 : % 단위로 받음
   // 즉, 퍼센트 값을 props로 전달받아야 함 !!!
   const percent = Math.floor((4 / 7) * 100);
-  console.log(percent);
   const theme = getTheme();
   return (
-    <ProgressWrap data-progress-percent={60} theme={theme}>
+    <ProgressWrap theme={theme}>
       <ProgressBar theme={theme} percent={percent} />
     </ProgressWrap>
   );
@@ -38,12 +37,12 @@ const ProgressWrap = styled.div<{ theme?: ColorTheme }>`
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
 `;
 // 진행바
-const ProgressBar = styled.div<{ theme?: ColorTheme; percent?: number }>`
+const ProgressBar = styled.div<{ theme: ColorTheme; percent: number }>`
   width: ${props => props.percent}%;
   height: 1rem;
   border-radius: 1rem;
   background: ${props => props.theme.primary20};
-  animation: ${props => animation(props.percent ? props.percent : 0)} 2.5s ease;
+  animation: ${props => animation(props.percent)} 2.5s ease;
 `;
 
 export default Horizontal;
