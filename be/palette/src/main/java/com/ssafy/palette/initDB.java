@@ -24,6 +24,9 @@ public class initDB {
 
 		// 더미 데이터
 		initService.tempUser();
+
+		// redis test
+		initService.tempText();
 	}
 
 }
