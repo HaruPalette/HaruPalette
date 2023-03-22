@@ -1,21 +1,15 @@
+import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { WEATHER_LIST } from '../../constants/weather';
 import useTheme from '../../hooks/useTheme';
 import useWeather from '../../hooks/useWeather';
-import { ColorTheme } from '../../styles/theme';
 
 function WeatherButton() {
   const theme = useTheme();
   const newWeather = useWeather();
   const [curWeather, setcurWeather] = useState(newWeather);
-
-  const weatherList = {
-    Clear: 'assets/img/common/Clear.svg',
-    Clouds: 'assets/img/common/Clouds.svg',
-    Rain: 'assets/img/common/Rain.svg',
-    Snow: 'assets/img/common/Snow.svg',
-  };
 
   const handleCurWeather = (weather: string) => {
     setcurWeather(weather);
@@ -27,7 +21,7 @@ function WeatherButton() {
 
   return (
     <WeatherContainer theme={theme}>
-      {Object.entries(weatherList).map((weather, idx) =>
+      {Object.entries(WEATHER_LIST).map((weather, idx) =>
         curWeather === weather[0] ? (
           <>
             <CurWeatherIcon key={idx}>
@@ -48,7 +42,7 @@ function WeatherButton() {
 
 export default WeatherButton;
 
-const WeatherContainer = styled.div<{ theme: ColorTheme }>`
+const WeatherContainer = styled.div<{ theme: ColorTypes }>`
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -5,10 +5,11 @@ import DarkModeButton from '../button/DarkModeButton';
 import Logo from './Logo';
 import NavList from '../nav/NavList';
 import useTheme from '../../hooks/useTheme';
-import { ColorTheme } from '../../styles/theme';
+import { ColorTypes } from '@emotion/react';
 
 function Header() {
   const theme = useTheme();
+
   return (
     <HaruHeader theme={theme}>
       <HeaderContainer>
@@ -28,7 +29,7 @@ function Header() {
 
 export default Header;
 
-const HaruHeader = styled.header<{ theme?: ColorTheme }>`
+const HaruHeader = styled.header<{ theme: ColorTypes }>`
   width: 100vw;
   position: fixed;
   top: 0;
