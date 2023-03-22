@@ -66,6 +66,7 @@ public class DiaryService {
 		detailDiaryDto.setImage("abcd");
 
 		return detailDiaryDto;
+	}
 
 	public void textToEmotion(String text, User user, Diary diary, PaletteAIGrpc.PaletteAIBlockingStub paletteAIStub) {
 		PaletteProto.TextRequest request = PaletteProto.TextRequest.newBuilder().setText(text).build();

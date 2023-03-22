@@ -33,17 +33,17 @@ public class DiaryController {
 
 	private final DiaryService diaryService;
 	private final JwtUtil jwtUtil;
-	private final PaletteAIGrpc.PaletteAIBlockingStub paletteAIStub;
+	private PaletteAIGrpc.PaletteAIBlockingStub paletteAIStub;
 
 	@Autowired
-	DiaryController(ManagedChannel managedChannel, DiaryService diaryService) {
-		paletteAIStub = PaletteAIGrpc.newBlockingStub(managedChannel);
-		this.diaryService = diaryService;
+	public void setPaletteAIStub(ManagedChannel managedChannel) {
+		this.paletteAIStub = PaletteAIGrpc.newBlockingStub(managedChannel);
 	}
 
 	@PostMapping(value="/stt", produces = "application/json; charset=utf8")
 	public String speechToText() {
 		return "speech";
+	}
 
 	// 일기 작성
 	@PostMapping()
