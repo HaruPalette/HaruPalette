@@ -44,17 +44,17 @@ const Circle1 = styled.div<{ theme: ColorTheme }>`
   position: absolute;
   top: calc(50% - 600px);
   left: calc(50% - 600px);
-  @media all and(max-width: 960px) {
+  @media all and (max-width: 960px) {
     width: 968px;
     height: 968px;
     top: calc(50% - 484px);
     left: calc(50% - 484px);
   }
-  @media all and(max-width: 480px) {
-    width: 750px;
-    height: 750px;
-    top: calc(50% - 375px);
-    left: calc(50% - 375px);
+  @media all and (max-width: 480px) {
+    width: 500px;
+    height: 500px;
+    top: calc(50% - 250px);
+    left: calc(50% - 250px);
   }
 `;
 
@@ -70,17 +70,17 @@ const Circle2 = styled.div<{ theme: ColorTheme }>`
   position: absolute;
   top: calc(50% - 600px);
   left: calc(50% - 600px);
-  @media all and(max-width: 960px) {
+  @media all and (max-width: 960px) {
     width: 968px;
     height: 968px;
     top: calc(50% - 484px);
     left: calc(50% - 484px);
   }
-  @media all and(max-width: 480px) {
-    width: 750px;
-    height: 750px;
-    top: calc(50% - 375px);
-    left: calc(50% - 375px);
+  @media all and (max-width: 480px) {
+    width: 500px;
+    height: 500px;
+    top: calc(50% - 250px);
+    left: calc(50% - 250px);
   }
 `;
 
@@ -96,17 +96,17 @@ const Circle3 = styled.div<{ theme: ColorTheme }>`
   position: absolute;
   top: calc(50% - 600px);
   left: calc(50% - 600px);
-  @media all and(max-width: 960px) {
+  @media all and (max-width: 960px) {
     width: 968px;
     height: 968px;
     top: calc(50% - 484px);
     left: calc(50% - 484px);
   }
-  @media all and(max-width: 480px) {
-    width: 750px;
-    height: 750px;
-    top: calc(50% - 375px);
-    left: calc(50% - 375px);
+  @media all and (max-width: 480px) {
+    width: 500px;
+    height: 500px;
+    top: calc(50% - 250px);
+    left: calc(50% - 250px);
   }
 `;
 

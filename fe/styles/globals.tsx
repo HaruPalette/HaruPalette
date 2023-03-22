@@ -7,6 +7,10 @@ const style = () => css`
     border: 0;
     vertical-align: baseline;
   }
+
+  button {
+    all: unset;
+  }
 `;
 
 const GlobalStyle = () => {
