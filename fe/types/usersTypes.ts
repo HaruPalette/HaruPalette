@@ -1,5 +1,5 @@
 export interface UserData {
-  image: string | null;
+  image: string;
   ename: string;
   characterId: number;
 }
