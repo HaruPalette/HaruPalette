@@ -1,17 +1,16 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
-import cookies from 'js-cookie';
+import Cookies from 'js-cookie';
+import { BASE_URL } from '../constants/api';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants/token';
 
 interface DecodedToken {
   exp: number;
 }
 
-const ACCESS_TOKEN: string = 'access_token';
-const REFRESH_TOKEN: string = 'refresh_token';
-
 // refresh token을 사용해 access token을 재발급 받는 함수
 const reissueAccessToken = async () => {
-  const refreshToken = cookies.get(REFRESH_TOKEN);
+  const refreshToken = Cookies.get(REFRESH_TOKEN);
   if (!refreshToken) {
     throw new Error('No refresh token found.');
   }
@@ -22,17 +21,14 @@ const reissueAccessToken = async () => {
     { withCredentials: true },
   );
   const { accessToken } = response.data;
-  cookies.set(ACCESS_TOKEN, accessToken, { expires: 1 });
+  Cookies.set(ACCESS_TOKEN, accessToken, { expires: 1 });
 
   return accessToken;
 };
 
 const createAxiosInstance = (): AxiosInstance => {
-  const baseURL: string =
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:8080/api'
-      : 'https://harupalette.com/api';
-  const accessToken: string | undefined = cookies.get(ACCESS_TOKEN);
+  const baseURL = BASE_URL;
+  const accessToken: string | undefined = Cookies.get(ACCESS_TOKEN);
   const headers = accessToken
     ? { Authorization: `Bearer ${accessToken}` }
     : undefined;
@@ -86,4 +82,4 @@ const createAxiosInstance = (): AxiosInstance => {
   return axiosInstance;
 };
 
-export default { createAxiosInstance };
+export const axiosInstance = createAxiosInstance();
