@@ -1,3 +1,4 @@
+import Pulse from '../../components/animation/Pulse';
 import HomeButton from '../../components/button/HomeButton';
 import WeatherButton from '../../components/button/WeatherButton';
 
@@ -6,6 +7,7 @@ function Create() {
     <>
       <HomeButton></HomeButton>
       <WeatherButton></WeatherButton>
+      <Pulse />
     </>
   );
 }
