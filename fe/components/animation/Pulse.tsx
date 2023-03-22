@@ -1,7 +1,6 @@
-import { keyframes } from '@emotion/react';
+import { ColorTypes, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import useTheme from '../../hooks/useTheme';
-import { ColorTheme } from '../../styles/theme';
 
 function Pulse() {
   const theme = useTheme();
@@ -32,7 +31,7 @@ const Container = styled.div`
   position: absolute;
 `;
 
-const Circle1 = styled.div<{ theme: ColorTheme }>`
+const Circle1 = styled.div<{ theme: ColorTypes }>`
   width: 1200px;
   height: 1200px;
   border-radius: 1200px;
@@ -58,7 +57,7 @@ const Circle1 = styled.div<{ theme: ColorTheme }>`
   }
 `;
 
-const Circle2 = styled.div<{ theme: ColorTheme }>`
+const Circle2 = styled.div<{ theme: ColorTypes }>`
   width: 1200px;
   height: 1200px;
   border-radius: 1200px;
@@ -84,7 +83,7 @@ const Circle2 = styled.div<{ theme: ColorTheme }>`
   }
 `;
 
-const Circle3 = styled.div<{ theme: ColorTheme }>`
+const Circle3 = styled.div<{ theme: ColorTypes }>`
   width: 1200px;
   height: 1200px;
   border-radius: 1200px;
