@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useAppSelector } from '../../hooks/reduxHook';
 import { selectProfile } from '../../store/modules/profile';
+import { common } from '../../styles/theme';
 
 function Logo() {
   const chr = useAppSelector(selectProfile);
@@ -17,7 +18,7 @@ function Logo() {
 export default Logo;
 
 const HaruLogo = styled(Link)`
-  font-size: 3rem;
+  font-size: ${common.fontSize.fs48};
   font-weight: bold;
-  margin-right: 32px;
+  margin-right: ${common.fontSize.fs32};
 `;
