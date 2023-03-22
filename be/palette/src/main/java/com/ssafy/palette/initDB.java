@@ -22,12 +22,14 @@ public class initDB {
 		// 도전과제 초기 데이터
 		initService.addInitChallenge();
 
-		// 더미 데이터
-		initService.tempUser();
-		initService.tempAnswer();
+		// 위로의 말 초기 데이터
+		initService.addAnswer();
+
+		// 테스트 데이터
+		//initService.tempUser();
 
 		// redis test
-		initService.tempText();
+		//initService.tempText();
 
 	}
 

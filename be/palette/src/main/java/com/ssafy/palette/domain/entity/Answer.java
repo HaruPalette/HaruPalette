@@ -23,6 +23,10 @@ public class Answer {
     @GeneratedValue//(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 감정 타입 (neutral, happy, surprise, anger, anxiety, sadness, disqust)
+    @Column
+    private String type;
+
     // 내용
     @Column(columnDefinition = "TEXT")
     private String contents;
