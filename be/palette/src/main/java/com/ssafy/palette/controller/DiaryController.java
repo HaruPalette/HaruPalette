@@ -3,6 +3,9 @@ package com.ssafy.palette.controller;
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpHeaders;
+import com.ssafy.palette.PaletteAIGrpc;
+import io.grpc.ManagedChannel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,6 +33,17 @@ public class DiaryController {
 
 	private final DiaryService diaryService;
 	private final JwtUtil jwtUtil;
+	private final PaletteAIGrpc.PaletteAIBlockingStub paletteAIStub;
+
+	@Autowired
+	DiaryController(ManagedChannel managedChannel, DiaryService diaryService) {
+		paletteAIStub = PaletteAIGrpc.newBlockingStub(managedChannel);
+		this.diaryService = diaryService;
+	}
+
+	@PostMapping(value="/stt", produces = "application/json; charset=utf8")
+	public String speechToText() {
+		return "speech";
 
 	// 일기 작성
 	@PostMapping()
@@ -37,8 +51,7 @@ public class DiaryController {
 
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
-
-		diaryService.writeDiary(diaryDto, userId);
+		diaryService.writeDiary(diaryDto, userId, paletteAIStub);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
