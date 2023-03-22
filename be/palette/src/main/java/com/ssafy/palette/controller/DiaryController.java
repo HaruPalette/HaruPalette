@@ -23,6 +23,7 @@ import com.ssafy.palette.service.DiaryService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Controller
@@ -33,25 +34,20 @@ public class DiaryController {
 
 	private final DiaryService diaryService;
 	private final JwtUtil jwtUtil;
-	private PaletteAIGrpc.PaletteAIBlockingStub paletteAIStub;
-
-	@Autowired
-	public void setPaletteAIStub(ManagedChannel managedChannel) {
-		this.paletteAIStub = PaletteAIGrpc.newBlockingStub(managedChannel);
-	}
 
 	@PostMapping(value="/stt", produces = "application/json; charset=utf8")
-	public String speechToText() {
-		return "speech";
+	public ResponseEntity<?> speechToText(MultipartFile file) throws Exception {
+		String message = diaryService.file2Bytes(file);
+		log.info(message);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	// 일기 작성
 	@PostMapping()
 	public ResponseEntity<?> writeDiary(@RequestHeader HttpHeaders header, @RequestBody DiaryDto diaryDto) {
-
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
-		diaryService.writeDiary(diaryDto, userId, paletteAIStub);
+		diaryService.writeDiary(diaryDto, userId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

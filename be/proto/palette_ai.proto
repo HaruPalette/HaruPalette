@@ -2,6 +2,7 @@ syntax = "proto3";
 
 option java_package = "com.ssafy.palette";
 option java_outer_classname = "PaletteProto";
+option java_multiple_files = true;
 
 package palette_ai;
 

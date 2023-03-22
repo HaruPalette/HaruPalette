@@ -1,20 +1,21 @@
 import grpc
-import palette_ai_pb2, palette_ai_pb2_grpc
+import palette_ai_pb2
+import palette_ai_pb2_grpc
 from concurrent import futures
 import logging
 import torch
 import torchaudio
 from transformers import pipeline
 
+device = "cuda:0" if torch.cuda.is_available() else "cpu"
 # 모델 로드
 # whisper 모델
-# whisperPipe = pipeline(
-#     "automatic-speech-recognition",
-#     model="openai/whisper-medium",
-#     chunk_length_s=30,
-#     device="cpu",
-#     max_new_tokens=65535,
-# )
+whisperPipe = pipeline(
+    "automatic-speech-recognition",
+    model="openai/whisper-medium",
+    chunk_length_s=30,
+    device="cuda:0",
+)
 
 # RoBERTa fine-tuned 모델
 bertClassifier = pipeline(
@@ -23,21 +24,6 @@ bertClassifier = pipeline(
     device="cpu",
     top_k=None,
 )
-
-success_message = {
-    "response_code": "200",
-    "response_msg": "it has been successfully done"
-}
-
-not_found_message = {
-    "response_code": "404",
-    "response_msg": "No data found"
-}
-
-fail_message = {
-    "response_code": "500",
-    "response_msg": "Occured a server error"
-}
 
 ko2en = {
     "중립": "neutral",
@@ -56,10 +42,22 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
         pass
 
     def SpeechToText(self, request, context):
-        # audio_input, _ = torchaudio.load(audio_path)
-        # input_values = torch.mean(audio_input, dim=0).numpy()
-        # prediction = whisperPipe(input_values)
-        return 0
+        audio_data = request.audio
+        audio_path = 'audio.wav'
+        with open(audio_path, 'wb') as f:
+            f.write(audio_data)
+        audio_input, _ = torchaudio.load(audio_path)
+        input_values = torch.mean(audio_input, dim=0).numpy()
+        prediction = whisperPipe(
+            input_values,
+            generate_kwargs={
+                "task": "transcribe",
+                "language": "korean",
+                "max_new_tokens": 65535
+             }
+        )['text']
+        print(prediction)
+        return palette_ai_pb2.TextResponse(prediction=prediction)
 
     def TextToEmotion(self, request, context):
         result = bertClassifier(request.text)[0]
