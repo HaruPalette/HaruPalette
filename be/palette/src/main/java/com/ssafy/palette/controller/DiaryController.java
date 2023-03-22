@@ -37,6 +37,7 @@ public class DiaryController {
 
 	@PostMapping(value="/stt", produces = "application/json; charset=utf8")
 	public ResponseEntity<?> speechToText(MultipartFile file) throws Exception {
+		// stt 결과
 		String message = diaryService.file2Bytes(file);
 		log.info(message);
 		return new ResponseEntity<>(HttpStatus.OK);

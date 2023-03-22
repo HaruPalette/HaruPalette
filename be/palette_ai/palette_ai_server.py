@@ -14,7 +14,7 @@ whisperPipe = pipeline(
     "automatic-speech-recognition",
     model="openai/whisper-medium",
     chunk_length_s=30,
-    device="cuda:0",
+    device="cpu",
 )
 
 # RoBERTa fine-tuned 모델
@@ -56,7 +56,6 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
                 "max_new_tokens": 65535
              }
         )['text']
-        print(prediction)
         return palette_ai_pb2.TextResponse(prediction=prediction)
 
     def TextToEmotion(self, request, context):
