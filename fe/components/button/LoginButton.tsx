@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
+import { common } from '../../styles/theme';
 
 function LoginButton() {
   const loginKakao = () => {
@@ -38,9 +39,9 @@ const KakaoLogInButton = styled.button`
   width: 6rem;
   height: 2.5rem;
 
-  border-radius: 0.5rem;
+  border-radius: ${common.fontSize.fs8};
   background-color: #ffeb3b;
-  font-size: 1rem;
+  font-size: ${common.fontSize.fs16};
   font-weight: bold;
 
   color: black;

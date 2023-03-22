@@ -1,13 +1,6 @@
-import {
-  HaruLight,
-  HaruDark,
-  ToriLight,
-  ToriDark,
-  GomiLight,
-  GomiDark,
-} from '@emotion/react';
+import { CommonTypes, ColorTypes } from '@emotion/react';
 
-export const common = {
+export const common: CommonTypes = {
   colors: {
     secondary: '#888888',
     inheritBlack: '#000000',
@@ -27,10 +20,11 @@ export const common = {
     fs20: '1.25rem',
     fs16: '1rem',
     fs12: '0.75rem',
+    fs8: '0.5rem',
   },
 };
 
-export const haruLight: HaruLight = {
+export const haruLight: ColorTypes = {
   primary20: '#FFA6D6',
   primary40: '#ED62AD',
   primary60: '#C12D7D',
@@ -43,7 +37,7 @@ export const haruLight: HaruLight = {
   diaryBackground: 'rgba(255,166,214,0.2)',
 };
 
-export const haruDark: HaruDark = {
+export const haruDark: ColorTypes = {
   primary20: '#FFA6D6',
   primary40: '#ED62AD',
   primary60: '#C12D7D',
@@ -56,7 +50,7 @@ export const haruDark: HaruDark = {
   diaryBackground: 'rgba(10, 20, 46, 0.4)',
 };
 
-export const toriLight: ToriLight = {
+export const toriLight: ColorTypes = {
   primary20: '#D29763',
   primary40: '#CB7428',
   primary60: '#A35F23',
@@ -68,7 +62,7 @@ export const toriLight: ToriLight = {
   color: '#000000',
   diaryBackground: 'rgba(210, 151, 99, 0.2)',
 };
-export const toriDark: ToriDark = {
+export const toriDark: ColorTypes = {
   primary20: '#D29763',
   primary40: '#CB7428',
   primary60: '#A35F23',
@@ -81,7 +75,7 @@ export const toriDark: ToriDark = {
   diaryBackground: 'rgba(10, 20, 46, 0.4)',
 };
 
-export const gomiLight: GomiLight = {
+export const gomiLight: ColorTypes = {
   primary20: '#4FDC55',
   primary40: '#41BA46',
   primary60: '#338C37',
@@ -94,7 +88,7 @@ export const gomiLight: GomiLight = {
   diaryBackground: 'rgba(79, 220, 85, 0.2)',
 };
 
-export const gomiDark: GomiDark = {
+export const gomiDark: ColorTypes = {
   primary20: '#4FDC55',
   primary40: '#41BA46',
   primary60: '#338C37',
@@ -106,5 +100,3 @@ export const gomiDark: GomiDark = {
   color: '#ffffff',
   diaryBackground: 'rgba(10, 20, 46, 0.4)',
 };
-
-export type ColorTheme = typeof haruLight;

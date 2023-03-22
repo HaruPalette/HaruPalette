@@ -19,20 +19,16 @@ const profileSlice = createSlice({
   name: 'profile',
   initialState,
   reducers: {
-    setImage(state, action) {
-      state.image = action.payload;
-    },
-    setChrName(state, action) {
-      state.chrName = action.payload;
-    },
-    setChrPK(state, action) {
-      state.chrPK = action.payload;
+    loginSuccess(state, action) {
+      state.image = action.payload.image;
+      state.chrName = action.payload.chrName;
+      state.chrPK = action.payload.chrPK;
     },
   },
 });
 
 // 액션 생성함수
-export const { setImage, setChrName, setChrPK } = profileSlice.actions;
+export const { loginSuccess } = profileSlice.actions;
 export const selectProfile = (state: RootState) => state.profile;
 // 리듀서
 export default profileSlice.reducer;

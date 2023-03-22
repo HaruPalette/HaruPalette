@@ -1,16 +1,15 @@
-import Image from 'next/image';
-import Link from 'next/link';
 import styled from '@emotion/styled';
 
 import LoginButton from '../button/LoginButton';
 import DarkModeButton from '../button/DarkModeButton';
 import Logo from './Logo';
 import NavList from '../nav/NavList';
-import getTheme from '../../hooks/themeHook';
-import { ColorTheme } from '../../styles/theme';
+import useTheme from '../../hooks/useTheme';
+import { ColorTypes } from '@emotion/react';
 
 function Header() {
-  const theme = getTheme();
+  const theme = useTheme();
+
   return (
     <HaruHeader theme={theme}>
       <HeaderContainer>
@@ -30,7 +29,7 @@ function Header() {
 
 export default Header;
 
-const HaruHeader = styled.header<{ theme?: ColorTheme }>`
+const HaruHeader = styled.header<{ theme: ColorTypes }>`
   width: 100vw;
   position: fixed;
   top: 0;

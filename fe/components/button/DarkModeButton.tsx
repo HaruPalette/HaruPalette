@@ -1,17 +1,16 @@
+import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import getTheme from '../../hooks/themeHook';
+import useTheme from '../../hooks/useTheme';
 import { selectTheme, setTheme } from '../../store/modules/theme';
-import { ColorTheme } from '../../styles/theme';
+import { common } from '../../styles/theme';
 
 function DarkModeButton() {
-  // 현재 다크모드 여부
   const isDark = useAppSelector(selectTheme);
   const dispatch = useAppDispatch();
-  // 캐릭터 + 다크모드 여부를 파악해 theme 반환받기
-  const theme = getTheme();
-  // 다크모드 변경
+  const theme = useTheme();
+
   const handleChangeTheme = () => {
     dispatch(setTheme(!isDark));
   };
@@ -27,10 +26,10 @@ function DarkModeButton() {
 
 export default DarkModeButton;
 
-const ThemeButton = styled.button<{ theme?: ColorTheme }>`
+const ThemeButton = styled.button<{ theme: ColorTypes }>`
   cursor: pointer;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: ${common.fontSize.fs40};
+  height: ${common.fontSize.fs40};
   border-radius: 50%;
   background: ${props => props.theme.background};
 `;

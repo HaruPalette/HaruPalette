@@ -1,23 +1,18 @@
+import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { WEATHER_LIST } from '../../constants/weather';
+import useTheme from '../../hooks/useTheme';
 import useWeather from '../../hooks/useWeather';
 
 function WeatherButton() {
+  const theme = useTheme();
   const newWeather = useWeather();
   const [curWeather, setcurWeather] = useState(newWeather);
 
-  const weatherList = {
-    Clear: 'vercel.svg',
-    Clouds: 'vercel.svg',
-    Rain: 'vercel.svg',
-    Snow: 'vercel.svg',
-  };
-
   const handleCurWeather = (weather: string) => {
-    console.log(newWeather);
     setcurWeather(weather);
-    console.log(curWeather);
   };
 
   useEffect(() => {
@@ -25,20 +20,18 @@ function WeatherButton() {
   }, [newWeather]);
 
   return (
-    <WeatherContainer>
-      {Object.entries(weatherList).map((weather, idx) =>
+    <WeatherContainer theme={theme}>
+      {Object.entries(WEATHER_LIST).map((weather, idx) =>
         curWeather === weather[0] ? (
           <>
             <CurWeatherIcon key={idx}>
-              <Image src={weather[1]} width={40} height={40} alt={weather[0]} />
-              <div>{weather[0]}</div>
+              <Image src={weather[1]} width={32} height={32} alt={weather[0]} />
             </CurWeatherIcon>
           </>
         ) : (
           <>
             <WeatherIcon key={idx} onClick={() => handleCurWeather(weather[0])}>
-              <Image src={weather[1]} width={40} height={40} alt={weather[0]} />
-              <div>{weather[0]}</div>
+              <Image src={weather[1]} width={32} height={32} alt={weather[0]} />
             </WeatherIcon>
           </>
         ),
@@ -49,18 +42,26 @@ function WeatherButton() {
 
 export default WeatherButton;
 
-const WeatherContainer = styled.div`
+const WeatherContainer = styled.div<{ theme: ColorTypes }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  width: 20rem;
-  height: 5rem;
+  width: 17rem;
+  height: 3rem;
 
-  padding: 0 1rem;
+  border: 1px solid ${props => props.theme.border};
+  border-radius: 3rem;
+  background: ${props => props.theme.background};
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
 
-  border: 1px solid '#000';
-  border-radius: 50%;
+  position: absolute;
+  top: 7rem;
+  right: 17rem;
+
+  @media all and (max-width: 960px) {
+    right: calc(50vw - 8.5rem);
+  }
 `;
 
 const CurWeatherIcon = styled.button`
@@ -69,11 +70,9 @@ const CurWeatherIcon = styled.button`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
   padding: 0;
   border: 0;
-
-  background-color: #ff0099;
+  margin: 0.5rem 1rem;
 `;
 
 const WeatherIcon = styled.button`
@@ -82,9 +81,8 @@ const WeatherIcon = styled.button`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
   padding: 0;
   border: 0;
-
-  background-color: #e8bfdc;
+  margin: 0.5rem 1rem;
+  opacity: 0.2;
 `;

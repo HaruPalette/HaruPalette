@@ -1,16 +1,16 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useAppSelector } from '../../hooks/reduxHook';
+import { selectProfile } from '../../store/modules/profile';
+import { common } from '../../styles/theme';
 
 function Logo() {
+  const chr = useAppSelector(selectProfile);
+  const logo = `assets/img/${chr.chrName}/logo.svg`;
   return (
     <HaruLogo href={'/'}>
-      <Image
-        src={'next.svg'}
-        width={100}
-        height={100}
-        alt={'Next Logo'}
-      ></Image>
+      <Image src={logo} width={100} height={100} alt={'Logo'}></Image>
     </HaruLogo>
   );
 }
@@ -18,7 +18,7 @@ function Logo() {
 export default Logo;
 
 const HaruLogo = styled(Link)`
-  font-size: 3rem;
+  font-size: ${common.fontSize.fs48};
   font-weight: bold;
-  margin-right: 32px;
+  margin-right: ${common.fontSize.fs32};
 `;
