@@ -1,28 +1,15 @@
+import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import { NAV_LIST } from '../../constants/nav';
 import useTheme from '../../hooks/useTheme';
-import { ColorTheme } from '../../styles/theme';
+import { common } from '../../styles/theme';
 
 function NavList() {
-  const navList = [
-    {
-      title: '일기 작성',
-      link: '/create',
-    },
-    {
-      title: '달력 보기',
-      link: '/diary',
-    },
-    {
-      title: '상점 가기',
-      link: '/',
-    },
-  ];
-  // 현재 테마 가져오기
   const theme = useTheme();
   return (
     <HaruNav>
-      {navList.map((item, idx) => (
+      {NAV_LIST.map((item, idx) => (
         <NavItem key={idx} href={item.link} theme={theme}>
           {item.title}
         </NavItem>
@@ -37,9 +24,9 @@ const HaruNav = styled.nav`
   display: flex;
 `;
 
-const NavItem = styled(Link)<{ theme?: ColorTheme }>`
+const NavItem = styled(Link)<{ theme: ColorTypes }>`
   color: ${props => props.theme.color};
   text-decoration: none;
   width: 5rem;
-  margin-left: 1.5rem;
+  margin-left: ${common.fontSize.fs24};
 `;

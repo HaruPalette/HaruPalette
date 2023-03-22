@@ -1,10 +1,10 @@
-import { CommonTypes } from '@emotion/react';
+import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import useTheme from '../../hooks/useTheme';
-import theme from '../../store/modules/theme';
-import { ColorTheme, common } from '../../styles/theme';
+import { common } from '../../styles/theme';
 
 function ScrollToTopButton() {
+  const theme = useTheme();
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -13,10 +13,8 @@ function ScrollToTopButton() {
     });
   };
 
-  const theme = useTheme();
-
   return (
-    <TopButton onClick={handleScrollToTop} common={common} theme={theme}>
+    <TopButton onClick={handleScrollToTop} theme={theme}>
       <i className="fas fa-arrow-up"></i>
     </TopButton>
   );
@@ -24,7 +22,7 @@ function ScrollToTopButton() {
 
 export default ScrollToTopButton;
 
-const TopButton = styled.button<{ common: CommonTypes; theme: ColorTheme }>`
+const TopButton = styled.button<{ theme: ColorTypes }>`
   position: absolute;
   right: ${common.fontSize.fs40};
   bottom: ${common.fontSize.fs40};
