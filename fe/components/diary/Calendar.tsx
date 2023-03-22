@@ -53,7 +53,10 @@ function Calendar() {
 const Container = styled.div`
   width: 35.5rem;
   height: 26rem;
-  /* background: black; */
+
+  @media all and (max-width: 480px) {
+    transform: scale(0.75);
+  }
 `;
 
 const OtherDate = styled.button<{ theme: ColorTypes }>`
