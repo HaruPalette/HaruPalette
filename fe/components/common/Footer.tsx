@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import Logo from './Logo';
 import Icon from './Icon';
 import useTheme from '../../hooks/useTheme';
-import { ColorTheme } from '../../styles/theme';
+import { common } from '../../styles/theme';
+import { ColorTypes } from '@emotion/react';
 
 function Footer() {
   const theme = useTheme();
@@ -18,7 +19,7 @@ function Footer() {
 
 export default Footer;
 
-const HaruFooter = styled.footer<{ theme?: ColorTheme }>`
+const HaruFooter = styled.footer<{ theme: ColorTypes }>`
   width: 100vw;
   position: fixed;
   left: 0;
@@ -33,7 +34,7 @@ const FooterContainer = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 160px;
+  padding: 0 10rem;
 
-  font-size: 1rem;
+  font-size: ${common.fontSize.fs16};
 `;
