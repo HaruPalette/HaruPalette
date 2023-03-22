@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.palette.config.security.JwtUtil;
 import com.ssafy.palette.domain.dto.DetailDiaryDto;
@@ -20,7 +21,6 @@ import com.ssafy.palette.service.DiaryService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Controller
@@ -33,10 +33,14 @@ public class DiaryController {
 	private final JwtUtil jwtUtil;
 
 	@PostMapping(value="/stt", produces = "application/json; charset=utf8")
-	public ResponseEntity<?> speechToText(@RequestBody MultipartFile file) throws Exception {
+	public ResponseEntity<?> speechToText(@RequestHeader HttpHeaders header, @RequestBody MultipartFile file) throws Exception {
 		// stt 결과
-		String message = diaryService.file2Bytes(file);
-		log.info(message);
+		//String message = diaryService.file2Bytes(file);
+		//log.info(message);
+
+		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
+		String userId = jwtUtil.getUid(token);
+		diaryService.addRedisList(file, userId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
