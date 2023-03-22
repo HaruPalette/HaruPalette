@@ -46,7 +46,6 @@ public class UserController {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
 
-		//System.out.println(userId);
 		ProfileDto profileDto = userService.sendProfile(userId);
 		return new ResponseEntity<ProfileDto>(profileDto, HttpStatus.OK);
 	}

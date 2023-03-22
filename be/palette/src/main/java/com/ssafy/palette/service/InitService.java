@@ -5,9 +5,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.palette.domain.entity.Answer;
 import com.ssafy.palette.domain.entity.Challenge;
 import com.ssafy.palette.domain.entity.Friend;
 import com.ssafy.palette.domain.entity.User;
+import com.ssafy.palette.repository.AnswerRepository;
 import com.ssafy.palette.repository.ChallengeRepository;
 import com.ssafy.palette.repository.FriendRepository;
 import com.ssafy.palette.repository.UserRepository;
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class InitService {
 
 	private final UserRepository userRepository;
+	private final AnswerRepository answerRepository;
 	private final FriendRepository friendRepository;
 	private final ChallengeRepository challengeRepository;
 	private final RedisTemplate<String, String> redisTemplate;
@@ -117,11 +120,21 @@ public class InitService {
 
 		Long size = operations.opsForList().size("hi");
 
+		/*
 		for (int i = 0; i < size; i++) {
 			System.out.println(operations.opsForList().leftPop("hi"));
-		}
+		}*/
 
 		operations.opsForList().rightPush("hi", "안녕");
-		System.out.println(operations.opsForList().range("hi", 0, -1));
+		//System.out.println(operations.opsForList().range("hi", 0, -1));
+	}
+
+	public void tempAnswer()
+	{
+		Answer answer = Answer.builder()
+			.contents("수고했어 오늘도")
+			.build();
+
+		answerRepository.save(answer);
 	}
 }
