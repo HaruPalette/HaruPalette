@@ -3,9 +3,6 @@ package com.ssafy.palette.controller;
 import javax.transaction.Transactional;
 
 import org.springframework.http.HttpHeaders;
-import com.ssafy.palette.PaletteAIGrpc;
-import io.grpc.ManagedChannel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -36,7 +33,7 @@ public class DiaryController {
 	private final JwtUtil jwtUtil;
 
 	@PostMapping(value="/stt", produces = "application/json; charset=utf8")
-	public ResponseEntity<?> speechToText(MultipartFile file) throws Exception {
+	public ResponseEntity<?> speechToText(@RequestBody MultipartFile file) throws Exception {
 		// stt 결과
 		String message = diaryService.file2Bytes(file);
 		log.info(message);
