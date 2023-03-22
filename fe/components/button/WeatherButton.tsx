@@ -25,13 +25,23 @@ function WeatherButton() {
         curWeather === weather[0] ? (
           <>
             <CurWeatherIcon key={idx}>
-              <Image src={weather[1]} width={32} height={32} alt={weather[0]} />
+              <WeatherImage
+                src={weather[1]}
+                width={32}
+                height={32}
+                alt={weather[0]}
+              />
             </CurWeatherIcon>
           </>
         ) : (
           <>
             <WeatherIcon key={idx} onClick={() => handleCurWeather(weather[0])}>
-              <Image src={weather[1]} width={32} height={32} alt={weather[0]} />
+              <WeatherImage
+                src={weather[1]}
+                width={32}
+                height={32}
+                alt={weather[0]}
+              />
             </WeatherIcon>
           </>
         ),
@@ -62,6 +72,12 @@ const WeatherContainer = styled.div<{ theme: ColorTypes }>`
   @media all and (max-width: 960px) {
     right: calc(50vw - 8.5rem);
   }
+  @media all and (max-width: 480px) {
+    width: 14rem;
+    height: 2rem;
+    top: 2rem;
+    right: 2rem;
+  }
 `;
 
 const CurWeatherIcon = styled.button`
@@ -85,4 +101,14 @@ const WeatherIcon = styled.button`
   border: 0;
   margin: 0.5rem 1rem;
   opacity: 0.2;
+`;
+
+const WeatherImage = styled(Image)`
+  width: 2rem;
+  height: 2rem;
+
+  @media all and (max-width: 480px) {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 `;
