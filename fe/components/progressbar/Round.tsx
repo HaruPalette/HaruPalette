@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { keyframes, css } from '@emotion/react';
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useAppSelector } from '../../hooks/reduxHook';
-import getTheme from '../../hooks/themeHook';
+import useTheme from '../../hooks/useTheme';
 import { selectProfile } from '../../store/modules/profile';
 import { ColorTheme } from '../../styles/theme';
 import dynamic from 'next/dynamic';
@@ -14,16 +14,16 @@ function Round() {
   // 색상 값
   const primary: string = 'primary20';
   // 현재 테마 가져오기
-  const theme = getTheme();
+  const theme = useTheme();
   // 현재 선택된 캐릭터 가져오기
   const chr = useAppSelector(selectProfile);
   // 일기장 이미지 가져오기
   const diary = `assets/img/${chr.chrName}/${primary}_diary.svg`;
   // 과제 내용 및 현황
   const content = '일기 3번 작성하기';
-  const AnimatedNumbers = dynamic(() => import('react-animated-numbers'), {
-    ssr: false,
-  });
+  //   const AnimatedNumbers = dynamic(() => import('react-animated-numbers'), {
+  //     ssr: false,
+  //   });
   return (
     <Container>
       <ProgressWrap>

@@ -1,6 +1,6 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import getTheme from '../../hooks/themeHook';
+import useTheme from '../../hooks/useTheme';
 import { ColorTheme } from '../../styles/theme';
 
 function Horizontal() {
@@ -9,7 +9,7 @@ function Horizontal() {
   // 감정 : % 단위로 받음
   // 즉, 퍼센트 값을 props로 전달받아야 함 !!!
   const percent = Math.floor((4 / 7) * 100);
-  const theme = getTheme();
+  const theme = useTheme();
   return (
     <ProgressWrap theme={theme}>
       <ProgressBar theme={theme} percent={percent} />
