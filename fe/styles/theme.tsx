@@ -1,4 +1,5 @@
 import {
+  CommonTypes,
   HaruLight,
   HaruDark,
   ToriLight,
@@ -7,7 +8,7 @@ import {
   GomiDark,
 } from '@emotion/react';
 
-export const common = {
+export const common: CommonTypes = {
   colors: {
     secondary: '#888888',
     inheritBlack: '#000000',
