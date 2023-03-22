@@ -20,6 +20,7 @@ interface FontSize {
   fs20: string;
   fs16: string;
   fs12: string;
+  fs8: string;
 }
 
 declare module '@emotion/react' {
@@ -27,67 +28,7 @@ declare module '@emotion/react' {
     colors: Colors;
     fontSize: FontSize;
   }
-  export interface HaruLight {
-    primary20: string;
-    primary40: string;
-    primary60: string;
-    primary80: string;
-    main: string;
-    sub: string;
-    background: string;
-    border: string;
-    color: string;
-    diaryBackground: string;
-  }
-  export interface HaruDark {
-    primary20: string;
-    primary40: string;
-    primary60: string;
-    primary80: string;
-    main: string;
-    sub: string;
-    background: string;
-    border: string;
-    color: string;
-    diaryBackground: string;
-  }
-  export interface ToriLight {
-    primary20: string;
-    primary40: string;
-    primary60: string;
-    primary80: string;
-    main: string;
-    sub: string;
-    background: string;
-    border: string;
-    color: string;
-    diaryBackground: string;
-  }
-  export interface ToriDark {
-    primary20: string;
-    primary40: string;
-    primary60: string;
-    primary80: string;
-    main: string;
-    sub: string;
-    background: string;
-    border: string;
-    color: string;
-    diaryBackground: string;
-  }
-  export interface GomiLight {
-    primary20: string;
-    primary40: string;
-    primary60: string;
-    primary80: string;
-    main: string;
-    sub: string;
-    background: string;
-    border: string;
-    color: string;
-    diaryBackground: string;
-  }
-  export interface GomiDark {
+  export interface ColorTypes {
     primary20: string;
     primary40: string;
     primary60: string;
