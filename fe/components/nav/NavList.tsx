@@ -15,7 +15,7 @@ function NavList() {
     },
     {
       title: '상점 가기',
-      link: '/',
+      link: '/shop',
     },
   ];
   // 현재 테마 가져오기
