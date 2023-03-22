@@ -1,13 +1,17 @@
 package com.ssafy.palette.service;
 
-import java.util.List;
-
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import com.google.protobuf.ByteString;
 import com.ssafy.palette.PaletteAIGrpc;
-import com.ssafy.palette.PaletteProto;
+import com.ssafy.palette.*;
 import com.ssafy.palette.domain.entity.Emotion;
+import io.grpc.ManagedChannel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +28,7 @@ import com.ssafy.palette.repository.UserRepository;
 import com.ssafy.palette.repository.EmotionRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional
@@ -35,8 +40,14 @@ public class DiaryService {
 	private final AnswerRepository answerRepository;
 	private final FriendRepository friendRepository;
 	private final EmotionRepository emotionRepository;
-	public void writeDiary(DiaryDto diaryDto, String userId, PaletteAIGrpc.PaletteAIBlockingStub paletteAIStub)
-	{
+
+	private PaletteAIGrpc.PaletteAIBlockingStub paletteAIStub;
+	@Autowired
+	public void setPaletteAIStub(ManagedChannel managedChannel) {
+		this.paletteAIStub = PaletteAIGrpc.newBlockingStub(managedChannel);
+	}
+
+	public void writeDiary(DiaryDto diaryDto, String userId) {
 		Answer answer = answerRepository.findById(1L).get();
 		User user = userRepository.findById(userId).get();
 		Friend friend = friendRepository.findById(diaryDto.getFriendId()).get();
@@ -51,7 +62,7 @@ public class DiaryService {
 			.status("V")
 			.answer(answer)
 			.build();
-		textToEmotion(diary.getContents(), user, diary, paletteAIStub);
+		textToEmotion(diary.getContents(), user, diary);
 		diaryRepository.save(diary);
 	}
 
@@ -68,9 +79,9 @@ public class DiaryService {
 		return detailDiaryDto;
 	}
 
-	public void textToEmotion(String text, User user, Diary diary, PaletteAIGrpc.PaletteAIBlockingStub paletteAIStub) {
-		PaletteProto.TextRequest request = PaletteProto.TextRequest.newBuilder().setText(text).build();
-		PaletteProto.EmotionResponse response = paletteAIStub.textToEmotion(request);
+	public void textToEmotion(String text, User user, Diary diary) {
+		TextRequest request = TextRequest.newBuilder().setText(text).build();
+		EmotionResponse response = paletteAIStub.textToEmotion(request);
 		System.out.println(response);
 		Emotion emotion = Emotion.builder()
 			.neutral((int)(response.getNeutral() * 100))
@@ -84,5 +95,23 @@ public class DiaryService {
 			.diary(diary)
 			.build();
 		emotionRepository.save(emotion);
+	}
+
+	public String file2Bytes(MultipartFile file) throws IOException {
+		BufferedInputStream in = new BufferedInputStream(file.getInputStream());
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+		int read;
+		byte[] buff = new byte[2048];
+		while ((read = in.read(buff)) > 0) {
+			out.write(buff, 0, read);
+		}
+		out.flush();
+		byte [] fileBytes = out.toByteArray();
+		AudioRequest request = AudioRequest.newBuilder().setAudio(ByteString.copyFrom(fileBytes)).build();
+		TextResponse response = paletteAIStub.speechToText(request);
+		in.close();
+		out.close();
+		return response.getPrediction();
 	}
 }
