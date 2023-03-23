@@ -1,14 +1,15 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import useTheme from '../../hooks/useTheme';
-import { ColorTheme } from '../../styles/theme';
+import { ColorTypes } from '@emotion/react';
 
-function Horizontal() {
+function Horizontal(props: { percent: number }) {
+  const { percent } = props;
   // 주간이면 props로 n/7 * 100
   // 월간이면 props로 n/일수 * 100
   // 감정 : % 단위로 받음
   // 즉, 퍼센트 값을 props로 전달받아야 함 !!!
-  const percent = Math.floor((4 / 7) * 100);
+  // const percent = Math.floor((4 / 7) * 100);
   const theme = useTheme();
   return (
     <ProgressWrap theme={theme}>
@@ -28,7 +29,7 @@ const animation = (percent: number) => keyframes`
 `;
 
 // 진행바 배경
-const ProgressWrap = styled.div<{ theme?: ColorTheme }>`
+const ProgressWrap = styled.div<{ theme?: ColorTypes }>`
   width: 100%;
   height: 1rem;
   background: ${props => props.theme.background};
@@ -37,7 +38,7 @@ const ProgressWrap = styled.div<{ theme?: ColorTheme }>`
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
 `;
 // 진행바
-const ProgressBar = styled.div<{ theme: ColorTheme; percent: number }>`
+const ProgressBar = styled.div<{ theme: ColorTypes; percent: number }>`
   width: ${props => props.percent}%;
   height: 1rem;
   border-radius: 1rem;
