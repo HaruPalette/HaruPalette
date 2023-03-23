@@ -8,7 +8,8 @@ import useTheme from '../../hooks/useTheme';
 import { ColorTypes } from '@emotion/react';
 import MobileNavList from '../nav/MobileNavList';
 import useScreenY from '../../hooks/useScreenY';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import HamburgerButton from '../button/HamburgerButton';
 
 function Header() {
   const theme = useTheme();
@@ -20,7 +21,7 @@ function Header() {
   return (
     <HaruHeader theme={theme} screenY={screenY}>
       <HeaderContainer>
-        <MobileNavList />
+        <HamburgerButton />
         <LeftContainer>
           <Logo />
           <NavList />
@@ -31,6 +32,7 @@ function Header() {
           <LoginButton />
         </RightContainer>
       </HeaderContainer>
+      <MobileNavList />
     </HaruHeader>
   );
 }
