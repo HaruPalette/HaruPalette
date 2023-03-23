@@ -10,21 +10,25 @@ import useTheme from '../../hooks/useTheme';
 import { ColorTypes } from '@emotion/react';
 import { common } from '../../styles/theme';
 
-function Calendar() {
+function Calendar(props: { year: number; month: number }) {
+  const { year, month } = props;
   const theme = useTheme();
   // 이전 달 마지막 날짜
-  let prevDate: number = usePrevDate();
-  // 이전 달 마지막 요일 (일: 0 - 토 : 7)
-  const prevDay: number = usePrevDay();
+  let prevDate: number = usePrevDate(year, month);
+  // 이전 달 마지막 요일 (일: 0 - 토 : 6)
+  const prevDay: number = usePrevDay(year, month);
   // 이번 달 마지막 날짜
-  const nowDate: number = useNowDate();
+  const nowDate: number = useNowDate(year, month);
   // 이번 달 마지막 요일
-  const nowDay: number = useNowDay();
+  const nowDay: number = useNowDay(year, month);
   // 이전 달 날짜 배열
   let monthDate = [];
-  for (let i = 0; i <= prevDay; i++) {
-    monthDate.unshift({ type: 'prev', data: prevDate });
-    prevDate--;
+  console.log(prevDay);
+  if (prevDay < 6) {
+    for (let i = 0; i <= prevDay; i++) {
+      monthDate.unshift({ type: 'prev', data: prevDate });
+      prevDate--;
+    }
   }
   // 이번 달 날짜 배열
   for (let i = 1; i <= nowDate; i++) {

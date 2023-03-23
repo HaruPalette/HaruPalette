@@ -1,13 +1,13 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useNowDate } from '../../hooks/useDate';
+import { useDate, useNowDate } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 import Horizontal from '../progressbar/Horizontal';
 
 function Challenge() {
   const theme = useTheme();
-  const nowDate: number = useNowDate();
+  const nowDate: number = useNowDate(useDate().year, useDate().month);
   return (
     <>
       <ChallengeStyles>
