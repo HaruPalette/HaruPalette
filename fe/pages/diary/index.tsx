@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import CreateButton from '../../components/button/CreateButton';
 import Header from '../../components/common/Header';
+import Select from '../../components/common/Select';
 import Calendar from '../../components/diary/Calendar';
 import Challenge from '../../components/diary/Challenge';
 import Palette from '../../components/diary/Palette';
@@ -10,9 +12,11 @@ import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 
 function Diary() {
-  const year = useDate().year;
-  const month = useDate().month;
+  const nowYear = useDate().year;
+  const nowMonth = useDate().month;
   const theme = useTheme();
+  const [year, setYear] = useState(nowYear);
+  const [month, setMonth] = useState(nowMonth);
   return (
     <>
       <Header />
@@ -20,9 +24,15 @@ function Diary() {
         <Title theme={theme}>
           {year}년 {month}월
         </Title>
+        <Select
+          setYear={setYear}
+          year={year}
+          setMonth={setMonth}
+          month={month}
+        />
         <Container>
           <Section>
-            <Calendar />
+            <Calendar year={year} month={month} />
             <Palette />
           </Section>
           <Section>
@@ -50,6 +60,11 @@ const Title = styled.div<{ theme: ColorTypes }>`
   font-weight: bold;
   text-align: center;
   margin: ${common.fontSize.fs24};
+
+  @media all and (max-width: 480px) {
+    font-size: 1.5rem;
+    margin-left: 12rem;
+  }
 `;
 
 const Container = styled.div`
