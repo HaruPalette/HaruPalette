@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.protobuf.ByteString;
 import com.ssafy.palette.PaletteAIGrpc;
-import com.ssafy.palette.PaletteProto;
+import com.ssafy.palette.*;
 import com.ssafy.palette.domain.dto.DetailDiaryDto;
 import com.ssafy.palette.domain.dto.DiaryDto;
 import com.ssafy.palette.domain.entity.Answer;
@@ -87,8 +87,8 @@ public class DiaryService {
 	}
 
 	public void textToEmotion(String text, User user, Diary diary) {
-		PaletteProto.TextRequest request = PaletteProto.TextRequest.newBuilder().setText(text).build();
-		PaletteProto.EmotionResponse response = paletteAIStub.textToEmotion(request);
+		TextRequest request = TextRequest.newBuilder().setText(text).build();
+		EmotionResponse response = paletteAIStub.textToEmotion(request);
 		System.out.println(response);
 		Emotion emotion = Emotion.builder()
 			.neutral((int)(response.getNeutral() * 100))
@@ -115,8 +115,8 @@ public class DiaryService {
 		}
 		out.flush();
 		byte [] fileBytes = out.toByteArray();
-		PaletteProto.AudioRequest request = PaletteProto.AudioRequest.newBuilder().setAudio(ByteString.copyFrom(fileBytes)).build();
-		PaletteProto.TextResponse response = paletteAIStub.speechToText(request);
+		AudioRequest request = AudioRequest.newBuilder().setAudio(ByteString.copyFrom(fileBytes)).build();
+		TextResponse response = paletteAIStub.speechToText(request);
 		in.close();
 		out.close();
 		return response.getPrediction();
