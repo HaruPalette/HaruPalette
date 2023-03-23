@@ -20,8 +20,6 @@ export default function Document() {
 
         {/* 카카오 SDK import */}
         <script src="https://developers.kakao.com/sdk/js/kakao.min.js" />
-
-        <title>Haru Palette</title>
       </Head>
       <body>
         <Main />
