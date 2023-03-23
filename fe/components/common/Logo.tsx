@@ -10,7 +10,7 @@ function Logo() {
   const logo = `assets/img/${chr.chrName}/logo.svg`;
   return (
     <HaruLogo href={'/'}>
-      <Image src={logo} width={100} height={100} alt={'Logo'} priority></Image>
+      <Image src={logo} width={100} height={88} alt={'Logo'} priority></Image>
     </HaruLogo>
   );
 }
@@ -18,7 +18,10 @@ function Logo() {
 export default Logo;
 
 const HaruLogo = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   font-size: ${common.fontSize.fs48};
   font-weight: bold;
-  margin-right: ${common.fontSize.fs32};
 `;
