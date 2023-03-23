@@ -23,27 +23,27 @@ function WeatherButton() {
     <WeatherContainer theme={theme}>
       {Object.entries(WEATHER_LIST).map((weather, idx) =>
         curWeather === weather[0] ? (
-          <>
-            <CurWeatherIcon key={idx}>
-              <WeatherImage
-                src={weather[1]}
-                width={32}
-                height={32}
-                alt={weather[0]}
-              />
-            </CurWeatherIcon>
-          </>
+          <CurWeatherIcon type="button" key={idx}>
+            <WeatherImage
+              src={weather[1]}
+              width={32}
+              height={32}
+              alt={weather[0]}
+            />
+          </CurWeatherIcon>
         ) : (
-          <>
-            <WeatherIcon key={idx} onClick={() => handleCurWeather(weather[0])}>
-              <WeatherImage
-                src={weather[1]}
-                width={32}
-                height={32}
-                alt={weather[0]}
-              />
-            </WeatherIcon>
-          </>
+          <WeatherIcon
+            type="button"
+            key={idx}
+            onClick={() => handleCurWeather(weather[0])}
+          >
+            <WeatherImage
+              src={weather[1]}
+              width={32}
+              height={32}
+              alt={weather[0]}
+            />
+          </WeatherIcon>
         ),
       )}
     </WeatherContainer>
