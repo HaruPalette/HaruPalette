@@ -17,3 +17,10 @@ export interface WeatherList {
   Rain: string;
   Snow: string;
 }
+export interface ButtonData {
+  fs: number;
+  width: number;
+  height: number;
+  context: string;
+  image: string;
+}

@@ -31,6 +31,7 @@ const useWeather = () => {
 
           if (curWeather === 'Clear') {
           } else if (
+            curWeather === 'Rain' ||
             curWeather === 'Drizzle' ||
             curWeather === 'Thunderstorm'
           ) {
