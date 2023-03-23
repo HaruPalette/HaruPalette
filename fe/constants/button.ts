@@ -13,7 +13,7 @@ export const TALK_BUTTON: ButtonData = {
   height: 3,
   context: '대화하기',
   fs: 1.5,
-  image: '',
+  image: `assets/img/common/mic.svg`,
 };
 
 export const STOP_BUTTON: ButtonData = {
