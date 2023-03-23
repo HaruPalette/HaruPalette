@@ -1,5 +1,11 @@
 import styled from '@emotion/styled';
-import { useDate } from '../../hooks/useDate';
+import {
+  useDate,
+  useNowDate,
+  useNowDay,
+  usePrevDate,
+  usePrevDay,
+} from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import { ColorTypes } from '@emotion/react';
 import { common } from '../../styles/theme';
@@ -7,14 +13,13 @@ import { common } from '../../styles/theme';
 function Calendar() {
   const theme = useTheme();
   // 이전 달 마지막 날짜
-  let prevDate = new Date(useDate().year, useDate().month - 1, 0).getDate();
+  let prevDate: number = usePrevDate();
   // 이전 달 마지막 요일 (일: 0 - 토 : 7)
-  const prevDay = new Date(useDate().year, useDate().month - 1, 0).getDay();
+  const prevDay: number = usePrevDay();
   // 이번 달 마지막 날짜
-  const nowDate = new Date(useDate().year, useDate().month, 0).getDate();
+  const nowDate: number = useNowDate();
   // 이번 달 마지막 요일
-  const nowDay = new Date(useDate().year, useDate().month, 0).getDay();
-  console.log(prevDay);
+  const nowDay: number = useNowDay();
   // 이전 달 날짜 배열
   let monthDate = [];
   for (let i = 0; i <= prevDay; i++) {
@@ -51,8 +56,9 @@ function Calendar() {
 }
 
 const Container = styled.div`
-  width: 35.5rem;
-  height: 26rem;
+  width: 100%;
+  min-height: 26rem;
+  text-align: center;
 
   @media all and (max-width: 480px) {
     transform: scale(0.75);
@@ -76,7 +82,7 @@ const NowDate = styled.button<{ theme: ColorTypes }>`
   font-size: ${common.fontSize.fs24};
   text-align: center;
   border-radius: 4rem;
-  background: ${props => props.theme.primary20};
+  /* background: ${props => props.theme.primary20}; */
 `;
 
 export default Calendar;
