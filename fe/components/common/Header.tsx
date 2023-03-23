@@ -8,24 +8,23 @@ import useTheme from '../../hooks/useTheme';
 import { ColorTypes } from '@emotion/react';
 import MobileNavList from '../nav/MobileNavList';
 import useScreenY from '../../hooks/useScreenY';
-import { useEffect } from 'react';
 import HamburgerButton from '../button/HamburgerButton';
 
 function Header() {
   const theme = useTheme();
   const screenY = useScreenY();
 
-  useEffect(() => {
-    console.log(screenY);
-  }, [screenY]);
   return (
     <HaruHeader theme={theme} screenY={screenY}>
       <HeaderContainer>
-        <HamburgerButton />
         <LeftContainer>
+          <HamburgerButton />
+        </LeftContainer>
+
+        <CenterContainer>
           <Logo />
           <NavList />
-        </LeftContainer>
+        </CenterContainer>
 
         <RightContainer>
           <DarkModeButton />
@@ -46,7 +45,7 @@ const HaruHeader = styled.header<{ theme: ColorTypes; screenY: number }>`
   top: 0;
   left: 0;
   background: ${props =>
-    props.screenY === 0 ? `rgda(0,0,0,0)` : props.theme.background};
+    props.screenY === 0 ? `rgba(0, 0, 0, 0)` : props.theme.background};
   color: ${props => props.theme.color};
 `;
 
@@ -62,6 +61,17 @@ const HeaderContainer = styled.div`
 `;
 
 const LeftContainer = styled.div`
+  display: none;
+  @media screen and (max-width: 500px) {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 6rem;
+    height: 88px;
+  }
+`;
+
+const CenterContainer = styled.div`
   height: 88px;
 
   display: flex;
