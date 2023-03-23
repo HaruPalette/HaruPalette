@@ -69,6 +69,7 @@ const WeatherContainer = styled.div<{ theme: ColorTypes }>`
   top: 7rem;
   right: 17rem;
 
+  z-index: 1;
   @media all and (max-width: 960px) {
     right: calc(50vw - 8.5rem);
   }

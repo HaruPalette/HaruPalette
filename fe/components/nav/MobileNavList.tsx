@@ -2,31 +2,55 @@ import { ColorTypes, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { NAV_LIST } from '../../constants/nav';
-import { useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
-import { selectMenu } from '../../store/modules/menu';
-import theme from '../../store/modules/theme';
+import { changeLinkSuccess, selectMenu } from '../../store/modules/menu';
 import { common } from '../../styles/theme';
-import HamburgerButton from '../button/HamburgerButton';
+
+interface Menu {
+  isActive: boolean;
+  link: string;
+}
 
 function MobileNavList() {
-  const isActive = useAppSelector(selectMenu);
-  const theme = useTheme();
+  const menu: Menu = useAppSelector(selectMenu);
+  const theme: ColorTypes = useTheme();
+  const dispatch = useAppDispatch();
+  const handleChangeLink = (link: string) => {
+    dispatch(changeLinkSuccess(link));
+  };
 
+  console.log(menu.link);
   return (
-    <HaruNav isActive={isActive}>
-      {NAV_LIST.map((item, idx) => (
-        <NavItem key={idx} href={item.link} theme={theme}>
-          {item.title}
-        </NavItem>
-      ))}
+    <HaruNav menu={menu}>
+      {NAV_LIST.map((item, idx) =>
+        menu.link === item.link ? (
+          <CurNavItem
+            key={idx}
+            href={item.link}
+            theme={theme}
+            onClick={() => handleChangeLink(item.link)}
+          >
+            {item.title}
+          </CurNavItem>
+        ) : (
+          <NavItem
+            key={idx}
+            href={item.link}
+            theme={theme}
+            onClick={() => handleChangeLink(item.link)}
+          >
+            {item.title}
+          </NavItem>
+        ),
+      )}
     </HaruNav>
   );
 }
 
 export default MobileNavList;
 
-const HaruNav = styled.nav<{ isActive: boolean }>`
+const HaruNav = styled.nav<{ menu: Menu }>`
   display: none;
 
   @media screen and (max-width: 500px) {
@@ -38,15 +62,28 @@ const HaruNav = styled.nav<{ isActive: boolean }>`
   transition: 0.4s ease-in-out;
 
   ${props =>
-    !props.isActive &&
+    !props.menu.isActive &&
     css`
       transform: translate(-500px);
     `}
 `;
 
-const NavItem = styled(Link)<{ theme: ColorTypes }>`
-  color: ${props => props.theme.color};
-  text-decoration: none;
+const CurNavItem = styled(Link)<{ theme: ColorTypes }>`
+  color: ${props => props.theme.main};
   width: 5rem;
   margin-left: ${common.fontSize.fs24};
+
+  &:hover {
+    color: ${props => props.theme.main};
+  }
+`;
+
+const NavItem = styled(Link)<{ theme: ColorTypes }>`
+  color: ${props => props.theme.color};
+  width: 5rem;
+  margin-left: ${common.fontSize.fs24};
+
+  &:hover {
+    color: ${props => props.theme.main};
+  }
 `;

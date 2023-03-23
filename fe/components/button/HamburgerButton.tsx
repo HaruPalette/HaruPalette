@@ -5,7 +5,7 @@ import useTheme from '../../hooks/useTheme';
 import { menuOpenSuccess, selectMenu } from '../../store/modules/menu';
 
 function HamburgerButton() {
-  const isActive = useAppSelector(selectMenu);
+  const isActive = useAppSelector(selectMenu).isActive;
   const dispatch = useAppDispatch();
   const theme = useTheme();
 
@@ -66,42 +66,42 @@ const Hamburger = styled.button<{ isActive: boolean; theme: ColorTypes }>`
     transition: 0.25s ease-in-out;
   }
 
-  span:nth-child(1) {
+  span:nth-of-type(1) {
     top: -0.5rem;
   }
 
-  span:nth-child(2),
-  span:nth-child(3) {
+  span:nth-of-type(2),
+  span:nth-of-type(3) {
     top: 0;
   }
 
-  span:nth-child(4) {
+  span:nth-of-type(4) {
     top: 0.5rem;
   }
 
   ${props =>
     props.isActive &&
     css`
-      span:nth-child(1) {
+      span:nth-of-type(1) {
         top: -0.5rem;
         width: 0%;
         left: 50%;
       }
-      span:nth-child(2) {
+      span:nth-of-type(2) {
         -webkit-transform: rotate(45deg);
         -moz-transform: rotate(45deg);
         -o-transform: rotate(45deg);
         transform: rotate(45deg);
       }
 
-      span:nth-child(3) {
+      span:nth-of-type(3) {
         -webkit-transform: rotate(-45deg);
         -moz-transform: rotate(-45deg);
         -o-transform: rotate(-45deg);
         transform: rotate(-45deg);
       }
 
-      span:nth-child(4) {
+      span:nth-of-type(4) {
         top: 0.5rem;
         width: 0%;
         left: 50%;

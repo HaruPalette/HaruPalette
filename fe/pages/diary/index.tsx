@@ -38,7 +38,7 @@ function Diary() {
 const DirayStyles = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
   height: calc(100vh - 5.5rem);
-  margin-top: 5.5rem;
+  padding-top: 5.5rem;
   display: flex;
   flex-direction: column;
   background: ${props => props.theme.background};
