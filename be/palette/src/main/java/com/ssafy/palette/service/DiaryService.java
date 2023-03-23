@@ -4,32 +4,35 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.protobuf.ByteString;
 import com.ssafy.palette.PaletteAIGrpc;
-import com.ssafy.palette.*;
-import com.ssafy.palette.domain.entity.Emotion;
-import io.grpc.ManagedChannel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import com.ssafy.palette.PaletteProto;
 import com.ssafy.palette.domain.dto.DetailDiaryDto;
 import com.ssafy.palette.domain.dto.DiaryDto;
 import com.ssafy.palette.domain.entity.Answer;
 import com.ssafy.palette.domain.entity.Diary;
+import com.ssafy.palette.domain.entity.Emotion;
 import com.ssafy.palette.domain.entity.Friend;
 import com.ssafy.palette.domain.entity.User;
 import com.ssafy.palette.repository.AnswerRepository;
 import com.ssafy.palette.repository.DiaryRepository;
+import com.ssafy.palette.repository.EmotionRepository;
 import com.ssafy.palette.repository.FriendRepository;
 import com.ssafy.palette.repository.UserRepository;
-import com.ssafy.palette.repository.EmotionRepository;
 
+import io.grpc.ManagedChannel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -40,6 +43,7 @@ public class DiaryService {
 	private final AnswerRepository answerRepository;
 	private final FriendRepository friendRepository;
 	private final EmotionRepository emotionRepository;
+	private final RedisTemplate<String, String> redisTemplate;
 
 	private PaletteAIGrpc.PaletteAIBlockingStub paletteAIStub;
 	@Autowired
@@ -51,17 +55,19 @@ public class DiaryService {
 		Answer answer = answerRepository.findById(1L).get();
 		User user = userRepository.findById(userId).get();
 		Friend friend = friendRepository.findById(diaryDto.getFriendId()).get();
-		LocalDate date = LocalDate.parse(diaryDto.getDate(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+
 		Diary diary = Diary.builder()
 			.stickerCode(diaryDto.getStickerCode())
 			.weather(diaryDto.getWeather())
 			.contents(diaryDto.getContents())
-			.registrationDate(date)
+			.registrationDate(LocalDate.now())
 			.user(user)
 			.friend(friend)
 			.status("V")
 			.answer(answer)
 			.build();
+		
+		// 감정값 저장
 		textToEmotion(diary.getContents(), user, diary);
 		diaryRepository.save(diary);
 	}
@@ -72,7 +78,8 @@ public class DiaryService {
 
 		// set detail diary
 		Diary diary = diaryRepository.findById(diaryId).get();
-		DetailDiaryDto detailDiaryDto = DetailDiaryDto.toEntity(diary);
+		Emotion emotion = emotionRepository.findByDiary(diary).get();
+		DetailDiaryDto detailDiaryDto = DetailDiaryDto.toEntity(diary, emotion);
 		// 파일 테이블에서 이미지 셋팅
 		detailDiaryDto.setImage("abcd");
 
@@ -80,8 +87,8 @@ public class DiaryService {
 	}
 
 	public void textToEmotion(String text, User user, Diary diary) {
-		TextRequest request = TextRequest.newBuilder().setText(text).build();
-		EmotionResponse response = paletteAIStub.textToEmotion(request);
+		PaletteProto.TextRequest request = PaletteProto.TextRequest.newBuilder().setText(text).build();
+		PaletteProto.EmotionResponse response = paletteAIStub.textToEmotion(request);
 		System.out.println(response);
 		Emotion emotion = Emotion.builder()
 			.neutral((int)(response.getNeutral() * 100))
@@ -108,10 +115,20 @@ public class DiaryService {
 		}
 		out.flush();
 		byte [] fileBytes = out.toByteArray();
-		AudioRequest request = AudioRequest.newBuilder().setAudio(ByteString.copyFrom(fileBytes)).build();
-		TextResponse response = paletteAIStub.speechToText(request);
+		PaletteProto.AudioRequest request = PaletteProto.AudioRequest.newBuilder().setAudio(ByteString.copyFrom(fileBytes)).build();
+		PaletteProto.TextResponse response = paletteAIStub.speechToText(request);
 		in.close();
 		out.close();
 		return response.getPrediction();
+	}
+
+	public void addRedisList(MultipartFile file, String userId) throws IOException {
+
+		// 음성 파일 넘겨 string 반환받기
+		String str = file2Bytes(file);
+		// redis에 list로 저장
+		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
+		operations.opsForList().rightPush(userId, str);
+		log.info(operations.opsForList().range(userId, 0, -1).toString());
 	}
 }
