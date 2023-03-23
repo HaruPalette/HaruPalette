@@ -1,0 +1,20 @@
+# 도커 이미지의 base로 사용할 이미지
+FROM python:3.9.16
+
+# 작업 디렉토리를 /app으로 설정
+WORKDIR /app
+
+# 로컬의 requirements.txt를 복사
+COPY ./requirements.txt /app/requirements.txt
+
+# 라이브러리 설치
+RUN pip install -r requirements.txt
+
+# 로컬의 모든 파일을 복사
+COPY . /app
+
+# 컨테이너 내부에서 50051번 포트를 사용
+EXPOSE 50051
+
+# 컨테이너 실행 시 실행할 명령어
+ENTRYPOINT ["python", "palette_ai_server.py"]
