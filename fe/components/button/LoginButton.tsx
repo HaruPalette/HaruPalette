@@ -13,7 +13,7 @@ function LoginButton() {
   };
 
   return (
-    <KakaoLogInButton onClick={loginKakao}>
+    <KakaoLogInButton type="button" onClick={loginKakao}>
       <Image
         src={'assets/img/common/kakao.svg'}
         width={24}
@@ -34,9 +34,9 @@ const KakaoLogInButton = styled.button`
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 0.5rem;
+  padding: 0 1rem;
 
-  width: 6rem;
+  width: 5rem;
   height: 2.5rem;
 
   border-radius: ${common.fontSize.fs8};

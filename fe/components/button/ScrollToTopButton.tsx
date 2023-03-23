@@ -1,9 +1,11 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
+import useScreenY from '../../hooks/useScreenY';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 
 function ScrollToTopButton() {
+  const screenY = useScreenY();
   const theme = useTheme();
   const handleScrollToTop = () => {
     window.scrollTo({
@@ -14,7 +16,12 @@ function ScrollToTopButton() {
   };
 
   return (
-    <TopButton onClick={handleScrollToTop} theme={theme}>
+    <TopButton
+      type="button"
+      onClick={handleScrollToTop}
+      theme={theme}
+      screenY={screenY}
+    >
       <i className="fas fa-arrow-up"></i>
     </TopButton>
   );
@@ -22,12 +29,12 @@ function ScrollToTopButton() {
 
 export default ScrollToTopButton;
 
-const TopButton = styled.button<{ theme: ColorTypes }>`
+const TopButton = styled.button<{ theme: ColorTypes; screenY: number }>`
   position: absolute;
   right: ${common.fontSize.fs40};
-  bottom: ${common.fontSize.fs40};
+  bottom: 124px;
 
-  display: flex;
+  display: ${props => (props.screenY >= 900 ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
 
@@ -41,4 +48,8 @@ const TopButton = styled.button<{ theme: ColorTypes }>`
 
   cursor: pointer;
   z-index: 1;
+
+  &:hover {
+    background-color: ${props => props.theme.primary40};
+  }
 `;
