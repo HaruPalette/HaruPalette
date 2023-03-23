@@ -1,8 +1,17 @@
 package com.ssafy.palette.domain.entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
 public class UserFriend {
 
     // 기본키
@@ -23,5 +32,9 @@ public class UserFriend {
 
     // 구매 일시
     @Column
-    private String purchaseDate;
+    private LocalDate purchaseDate;
+
+    public UserFriend() {
+
+    }
 }

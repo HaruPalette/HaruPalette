@@ -1,7 +1,16 @@
+buildscript {
+	ext {
+		protobufVersion = '3.21.7'
+		protobufPluginVersion = '0.9.1'
+		grpcVersion = '1.51.3'
+	}
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.9'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'com.google.protobuf' version "${protobufPluginVersion}"
 }
 
 group = 'com.ssafy'
@@ -26,13 +35,52 @@ dependencies {
 	//implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.jetbrains:annotations:23.0.0'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	//testImplementation 'org.springframework.security:spring-security-test'
+
+	implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+	implementation "io.grpc:grpc-stub:${grpcVersion}"
+	implementation "io.grpc:grpc-netty:${grpcVersion}"
+	implementation "io.grpc:grpc-okhttp:${grpcVersion}"
+	implementation 'com.googlecode.protobuf-java-format:protobuf-java-format:1.4'
 }
+
+
+sourceSets {
+	main {
+		java {
+			srcDirs 'build/generated/source/proto/main/grpc'
+			srcDirs 'build/generated/source/proto/main/java'
+		}
+		proto {
+			srcDirs '../proto'
+		}
+	}
+}
+
+protobuf {
+	protoc {
+		artifact = "com.google.protobuf:protoc:${protobufVersion}"
+	}
+	plugins {
+		grpc {
+			artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+		}
+	}
+	generateProtoTasks {
+		all()*.plugins {
+			grpc {}
+		}
+	}
+}
+
 
 tasks.named('test') {
 	useJUnitPlatform()

@@ -1,5 +1,7 @@
 package com.ssafy.palette.service;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -7,8 +9,9 @@ import com.ssafy.palette.domain.dto.LoginDto;
 import com.ssafy.palette.domain.dto.ProfileDto;
 import com.ssafy.palette.domain.entity.Friend;
 import com.ssafy.palette.domain.entity.User;
-import com.ssafy.palette.repository.DiaryRepository;
+import com.ssafy.palette.domain.entity.UserFriend;
 import com.ssafy.palette.repository.FriendRepository;
+import com.ssafy.palette.repository.UserFriendRepository;
 import com.ssafy.palette.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -19,8 +22,9 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
 	private final UserRepository userRepository;
-	private final DiaryRepository diaryRepository;
 	private final FriendRepository friendRepository;
+	private final UserFriendRepository userFriendRepository;
+
 	public void signup(LoginDto loginDto)
 	{
 		Friend friend = friendRepository.findById(1L).get();
@@ -31,15 +35,23 @@ public class UserService {
 			.friend(friend)
 			.build();
 
+		UserFriend userFriend = UserFriend.builder()
+			.friend(friend)
+			.user(user)
+			.purchaseDate(LocalDate.now())
+			.build();
+
 		userRepository.save(user);
+		userFriendRepository.save(userFriend);
 	}
 
-	public ProfileDto profile(String userId) {
+	public ProfileDto sendProfile(String userId) {
 
-		Friend friend = userRepository.findFriendById(userId).get();
-		String image = userRepository.findImageById(userId).get();
+		User user = userRepository.findById(userId).get();
+		Friend friend = user.getFriend();
+		//String image = userRepository.findImageById(userId).get();
 		ProfileDto profileDto = ProfileDto.builder()
-			.image(image)
+			.image(user.getImage())
 			.friendEname(friend.getEname())
 			.friendId(friend.getId())
 			.build();
