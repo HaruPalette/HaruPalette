@@ -1,26 +1,51 @@
+import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-
-interface ButtonData {
-  width: string;
-  height: string;
-
-  context: string;
-}
+import Image from 'next/image';
+import useTheme from '../../hooks/useTheme';
+import { common } from '../../styles/theme';
+import { ButtonData } from '../../types/commonTypes';
 
 function HaruButton(props: { buttonData: ButtonData }) {
   const buttonData = props.buttonData;
+  const theme = useTheme();
   return (
-    <CustomButton buttonData={buttonData}>{buttonData.context}</CustomButton>
+    <CustomButton type="button" theme={theme} buttonData={buttonData}>
+      <Image
+        src={buttonData.image}
+        width={buttonData.width}
+        height={buttonData.height}
+        alt={buttonData.context}
+      ></Image>
+      {buttonData.context}
+    </CustomButton>
   );
 }
 
 export default HaruButton;
 
-const CustomButton = styled.button<{ buttonData: ButtonData }>`
-  width: ${props => props.buttonData.width};
-  height: ${props => props.buttonData.height};
+const CustomButton = styled.button<{
+  theme: ColorTypes;
+  buttonData: ButtonData;
+}>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  border-radius: 50%;
+  width: ${props => props.buttonData.width}rem;
+  height: ${props => props.buttonData.height}rem;
 
-  font-size: 1em;
+  border-radius: ${props => props.buttonData.height / 2}rem;
+  border: 2px solid ${props => props.theme.primary20};
+
+  font-size: ${props => props.buttonData.fs}rem;
+  font-weight: 600;
+
+  padding: 0 1rem;
+  background-color: ${props => props.theme.background};
+
+  &:hover {
+    border: 2px solid ${props => props.theme.primary60};
+    background-color: ${props => props.theme.primary40};
+    color: ${common.colors.inheritWhite};
+  }
 `;
