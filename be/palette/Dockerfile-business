@@ -1,9 +1,6 @@
 # 도커 이미지의 base로 사용할 이미지
 FROM openjdk:11-jdk-slim
 
-# 작업 디렉토리를 /app으로 설정
-WORKDIR /app
-
 # 로컬에 있는 jar 파일을 컨테이너 내부의 app.jar로 복사
 COPY build/libs/palette-0.0.1-SNAPSHOT.jar app.jar
 
