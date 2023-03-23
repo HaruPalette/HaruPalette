@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option java_package = "com.ssafy.palette";
+option java_outer_classname = "PaletteProto";
+option java_multiple_files = true;
+
+package palette_ai;
+
+// 서비스 이름
+service PaletteAI {
+  // 서비스 내의 메소드 이름
+  // 위스퍼를 통한 STT
+  rpc SpeechToText (AudioRequest) returns (TextResponse) {}
+  // RoBERTa를 통한 감정 분석
+  rpc TextToEmotion (TextRequest) returns (EmotionResponse) {}
+}
+// request 형식
+message AudioRequest {
+  bytes audio = 1;
+}
+
+message TextRequest {
+  string text = 1;
+}
+// response 형식
+message TextResponse {
+  string prediction = 1;
+}
+
+message EmotionResponse {
+  float neutral = 1;
+  float happy = 2;
+  float surprise = 3;
+  float anger = 4;
+  float anxiety = 5;
+  float sadness = 6;
+  float disgust = 7;
+}
