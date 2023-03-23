@@ -21,13 +21,13 @@ const menuSlice = createSlice({
     },
 
     changeLinkSuccess(state, actions) {
-      state.link = actions.payload.link;
+      state.link = actions.payload;
     },
   },
 });
 
 // 액션 생성함수
 export const { menuOpenSuccess, changeLinkSuccess } = menuSlice.actions;
-export const selectMenu = (state: RootState) => state.menu.isActive;
+export const selectMenu = (state: RootState) => state.menu;
 // 리듀서
 export default menuSlice.reducer;
