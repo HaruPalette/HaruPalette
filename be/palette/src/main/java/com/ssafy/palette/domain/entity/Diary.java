@@ -40,13 +40,13 @@ public class Diary  {
     private String weather;
 
     // 감정값
-    @Column
-    private int feelingValue;
+//    @Column
+//    private int feelingValue;
 
     // 상태 (기본값 V:보기, D:삭제)
     @Column
     //@ColumnDefault("V")
-    private String status = "V";
+    private String status;
 
     // 등록 일시
     @Column

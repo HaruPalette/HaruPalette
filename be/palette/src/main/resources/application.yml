@@ -1,6 +1,7 @@
 server:
   port: 8080
 
+
 spring:
   # MySQL
   datasource:
@@ -8,6 +9,10 @@ spring:
     url: jdbc:mysql://localhost:3306/palette?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
     username: palette
     password: 'haru0220'
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 
   # JPA Properties
   jpa:
@@ -19,3 +24,13 @@ spring:
       ddl-auto: create
       use-new-id-generator-mappings: false
     open-in-view: false
+
+  # Redis
+  redis:
+    host: localhost
+    port: 6379
+    password: 'haru0220'
+
+  # application-auth
+  profiles:
+    include: auth
