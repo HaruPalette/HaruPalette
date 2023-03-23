@@ -1,10 +1,10 @@
-import { Inter } from 'next/font/google';
-
 import Header from '../components/common/Header';
 import Footer from '../components/common/Footer';
 import ScrollToTopButton from '../components/button/ScrollToTopButton';
 import Ball from '../components/animation/Ball';
 import useTheme from '../hooks/useTheme';
+import styled from '@emotion/styled';
+import { ColorTypes } from '@emotion/react';
 
 // const inter = Inter({ subsets: ['latin'] });
 
@@ -19,11 +19,17 @@ export default function Home() {
   };
 
   return (
-    <>
+    <HomePage theme={theme}>
       <Header />
       <Ball ballData={BALL_DATA}></Ball>
       <ScrollToTopButton></ScrollToTopButton>
       <Footer />
-    </>
+    </HomePage>
   );
 }
+
+const HomePage = styled.div<{ theme: ColorTypes }>`
+  width: 100vw;
+  height: 100vh;
+  background-color: ${props => props.theme.background};
+`;
