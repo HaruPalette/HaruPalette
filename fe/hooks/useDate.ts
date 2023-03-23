@@ -7,3 +7,19 @@ export function useDate() {
 
   return { year, month, date, day };
 }
+
+export function usePrevDate() {
+  return new Date(useDate().year, useDate().month - 1, 0).getDate();
+}
+
+export function usePrevDay() {
+  return new Date(useDate().year, useDate().month - 1, 0).getDay();
+}
+
+export function useNowDate() {
+  return new Date(useDate().year, useDate().month, 0).getDate();
+}
+
+export function useNowDay() {
+  return new Date(useDate().year, useDate().month, 0).getDay();
+}
