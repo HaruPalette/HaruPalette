@@ -1,18 +1,17 @@
 import styled from '@emotion/styled';
 import Header from '../../components/common/Header';
-import Model from '../../components/common/ModelYeoJi';
-// import Model from '../../components/common/ModelChangGyoem';
+import Model from '../../components/common/Model';
 function Shop() {
   return (
-    <ShopTopDiv>
+    <ShopDiv>
+      <Header />
       <Model />
-    </ShopTopDiv>
+    </ShopDiv>
   );
 }
 export default Shop;
-const ShopTopDiv = styled.div`
+const ShopDiv = styled.div`
   position: absolute;
-  width: 1000px;
-  height: 400px;
-  // top: 50px;
+  width: 100%;
+  height: 100%;
 `;

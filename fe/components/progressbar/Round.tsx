@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import { selectProfile } from '../../store/modules/profile';
-import { ColorTheme } from '../../styles/theme';
+import { ColorTypes } from '@emotion/react';
 import dynamic from 'next/dynamic';
 
 function Round() {
@@ -86,7 +86,7 @@ const ProgressBar1 = styled.circle`
   stroke: white;
 `;
 const ProgressBar2 = styled.circle<{
-  theme: ColorTheme;
+  theme: ColorTypes;
   percent: number;
   primary: string;
 }>`
