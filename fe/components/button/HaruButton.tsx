@@ -42,10 +42,11 @@ const CustomButton = styled.button<{
 
   padding: 0 1rem;
   background-color: ${props => props.theme.background};
+  color: ${props => props.theme.color};
 
   &:hover {
-    border: 2px solid ${props => props.theme.primary60};
-    background-color: ${props => props.theme.primary40};
+    border: 2px solid ${props => props.theme.border};
+    background-color: ${props => props.theme.primary80};
     color: ${common.colors.inheritWhite};
   }
 `;
