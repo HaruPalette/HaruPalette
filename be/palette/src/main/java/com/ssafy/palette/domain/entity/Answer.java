@@ -5,7 +5,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Answer {
 
     // 기본키
@@ -13,6 +22,10 @@ public class Answer {
     @Column(name = "answer_id")
     @GeneratedValue//(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    // 감정 타입 (neutral, happy, surprise, anger, anxiety, sadness, disqust)
+    @Column
+    private String type;
 
     // 내용
     @Column(columnDefinition = "TEXT")
