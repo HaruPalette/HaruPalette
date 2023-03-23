@@ -3,6 +3,7 @@ package com.ssafy.palette.domain.dto;
 import java.time.LocalDate;
 
 import com.ssafy.palette.domain.entity.Diary;
+import com.ssafy.palette.domain.entity.Emotion;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,15 @@ public class DetailDiaryDto {
 	private String image;
 	private String stickerCode;
 
-	public static DetailDiaryDto toEntity(Diary diary)
+	private int neutral;
+	private int happy;
+	private int surprise;
+	private int anger;
+	private int anxiety;
+	private int sadness;
+	private int disgust;
+
+	public static DetailDiaryDto toEntity(Diary diary, Emotion emotion)
 	{
 		return DetailDiaryDto.builder()
 			.diaryId(diary.getId())
@@ -34,6 +43,13 @@ public class DetailDiaryDto {
 			.friendId(diary.getFriend().getId())
 			.answer(diary.getAnswer().getContents())
 			.stickerCode(diary.getStickerCode())
+			.neutral(emotion.getNeutral())
+			.happy(emotion.getHappy())
+			.surprise(emotion.getSurprise())
+			.anger(emotion.getAnger())
+			.anxiety(emotion.getAnxiety())
+			.sadness(emotion.getSadness())
+			.disgust(emotion.getDisgust())
 			.build();
 	}
 
