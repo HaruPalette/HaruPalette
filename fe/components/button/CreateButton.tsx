@@ -1,6 +1,7 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import useTheme from '../../hooks/useTheme';
 import { selectProfile } from '../../store/modules/profile';
@@ -11,10 +12,12 @@ function CreateButton() {
   const chr = useSelector(selectProfile);
   const icon = `assets/img/${chr.chrName}/2d.svg`;
   return (
-    <ButtonStyles type="button" theme={theme}>
-      <div>일기 쓰러 갈래 ?&nbsp;&nbsp;</div>
-      <Image src={icon} width={72} height={60} alt="2d" />
-    </ButtonStyles>
+    <Link href={'/create'}>
+      <ButtonStyles type="button" theme={theme}>
+        일기 쓰러 갈래 ?&nbsp;&nbsp;
+        <Image src={icon} width={72} height={60} alt="2d" />
+      </ButtonStyles>
+    </Link>
   );
 }
 
