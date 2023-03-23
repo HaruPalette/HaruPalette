@@ -9,11 +9,15 @@ export function useDate() {
 }
 
 export function usePrevDate() {
-  return new Date(useDate().year, useDate().month - 1, 0).getDate();
+  return useDate().month === 1
+    ? new Date(useDate().year - 1, 12, 0).getDate()
+    : new Date(useDate().year, useDate().month - 1, 0).getDate();
 }
 
 export function usePrevDay() {
-  return new Date(useDate().year, useDate().month - 1, 0).getDay();
+  return useDate().month === 1
+    ? new Date(useDate().year - 1, 12, 0).getDay()
+    : new Date(useDate().year, useDate().month - 1, 0).getDay();
 }
 
 export function useNowDate() {
