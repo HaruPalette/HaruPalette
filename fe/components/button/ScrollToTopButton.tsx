@@ -27,6 +27,10 @@ const TopButton = styled.button<{ theme: ColorTypes }>`
   right: ${common.fontSize.fs40};
   bottom: ${common.fontSize.fs40};
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   width: ${common.fontSize.fs48};
   height: ${common.fontSize.fs48};
 
