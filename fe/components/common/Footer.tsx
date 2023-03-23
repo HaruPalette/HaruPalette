@@ -11,7 +11,8 @@ function Footer() {
     <HaruFooter theme={theme}>
       <FooterContainer>
         <Logo />
-        <Icon />© 2020 Lift Media. All rights reserved.
+        <Icon />
+        <CopyRight>© 2023 Haru Palette. All rights reserved.</CopyRight>
       </FooterContainer>
     </HaruFooter>
   );
@@ -36,5 +37,15 @@ const FooterContainer = styled.div`
 
   padding: 0 10rem;
 
-  font-size: ${common.fontSize.fs16};
+  @media all and (max-width: 960px) {
+    padding: 0 1rem;
+  }
+`;
+
+const CopyRight = styled.p`
+  font-size: 1vw;
+
+  @media screen and (max-width: 960px) {
+    width: 14rem;
+  }
 `;
