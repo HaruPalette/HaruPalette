@@ -22,6 +22,10 @@ export default NavList;
 
 const HaruNav = styled.nav`
   display: flex;
+
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `;
 
 const NavItem = styled(Link)<{ theme: ColorTypes }>`
