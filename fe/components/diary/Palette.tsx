@@ -33,7 +33,7 @@ function Palette() {
 export default Palette;
 
 const Container = styled.div`
-  width: 36.5rem;
+  width: 100%;
   height: 4.75rem;
 
   @media all and (max-width: 480px) {
