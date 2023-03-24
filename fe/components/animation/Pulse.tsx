@@ -24,7 +24,6 @@ const pulse = keyframes`
 `;
 
 const Container = styled.div`
-  z-index: -1;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
