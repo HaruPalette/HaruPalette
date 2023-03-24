@@ -11,7 +11,7 @@ import { useDate } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 import Jelly from '../../components/animation/Jelly';
-import { ballDate } from '../../constants/ball';
+import { useBall } from '../../hooks/useBall';
 
 function Diary() {
   const nowYear = useDate().year;
@@ -22,7 +22,7 @@ function Diary() {
 
   return (
     <>
-      {ballDate.map(item => {
+      {useBall().map(item => {
         return <Jelly ballData={item} />;
       })}
       <Header />
