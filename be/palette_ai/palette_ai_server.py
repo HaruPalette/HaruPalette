@@ -8,7 +8,6 @@ import torchaudio
 from transformers import pipeline
 import os
 
-device = "cuda:0" if torch.cuda.is_available() else "cpu"
 # 모델 로드
 # whisper 모델
 whisperPipe = pipeline(
@@ -17,11 +16,10 @@ whisperPipe = pipeline(
     chunk_length_s=30,
     device="cpu",
 )
-
 # RoBERTa fine-tuned 모델
 bertClassifier = pipeline(
     "text-classification",
-    "nlp04/korean_sentiment_analysis_dataset3",
+    model="nlp04/korean_sentiment_analysis_dataset3",
     device="cpu",
     top_k=None,
 )
@@ -80,17 +78,20 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
 # 서버 실행
 def serve():
     # 병렬 처리
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=None))
     palette_ai_pb2_grpc.add_PaletteAIServicer_to_server(PaletteAI(), server)
     # 포트번호
     port = '50051'
     server.add_insecure_port('[::]:' + port)
     server.start()
-    print("Server started, listening on " + port)
+    logger.info("Server started, listening on " + port)
     server.wait_for_termination()
 
 
 if __name__ == '__main__':
     # 로그 설정
-    logging.basicConfig()
+    logger = logging.getLogger('grpc')
+    logger.setLevel(logging.DEBUG)
+    stream_handler = logging.StreamHandler()
+    logger.addHandler(stream_handler)
     serve()
