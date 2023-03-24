@@ -25,4 +25,17 @@ function useTheme() {
   return haruLight;
 }
 
+export function prevTheme(ename: string) {
+  const isDark = useAppSelector(selectTheme);
+  if (ename === 'haru') {
+    return isDark ? haruDark : haruLight;
+  } else if (ename === 'tori') {
+    return isDark ? toriDark : toriLight;
+  } else if (ename === 'gomi') {
+    return isDark ? gomiDark : gomiLight;
+  }
+
+  return haruLight;
+}
+
 export default useTheme;
