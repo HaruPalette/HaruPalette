@@ -60,8 +60,6 @@ public class DiaryService {
 
 	public void writeDiary(DiaryDto diaryDto, String userId) {
 
-
-		//Answer answer = answerRepository.findById(1L).get();
 		User user = userRepository.findById(userId).get();
 		Friend friend = friendRepository.findById(diaryDto.getFriendId()).get();
 
@@ -73,7 +71,6 @@ public class DiaryService {
 			.user(user)
 			.friend(friend)
 			.status("V")
-			//.answer(answer)
 			.build();
 		diaryRepository.save(diary);
 
@@ -165,5 +162,18 @@ public class DiaryService {
 		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
 		operations.opsForList().rightPush(userId, str);
 		log.info(operations.opsForList().range(userId, 0, -1).toString());
+	}
+
+	public String sendScript(int order, String userId)
+	{
+		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
+		String str = operations.opsForList().index(userId+String.valueOf(LocalDate.now()), order);
+
+		return str;
+	}
+
+	public void deleteScript(String userId)
+	{
+		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
 	}
 }
