@@ -22,6 +22,8 @@ const style = () => css`
     border: 0;
     vertical-align: baseline;
     font-family: 'GmarketSansMedium';
+
+    transition: 0.4s ease-in-out;
   }
 
   button {

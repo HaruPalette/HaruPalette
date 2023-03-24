@@ -38,24 +38,23 @@ function Select(props: {
           {year}년
         </SelectButton>
         <OptionList theme={theme} click={openYear}>
-          {openYear &&
-            yearArr.map(item => {
-              return (
-                <OptionButton
-                  theme={theme}
-                  click={year === item ? true : false}
-                  year={true}
-                  key={item}
-                  type="button"
-                  onClick={() => {
-                    setYear(item);
-                    setOpenYear(false);
-                  }}
-                >
-                  {item}
-                </OptionButton>
-              );
-            })}
+          {yearArr.map(item => {
+            return (
+              <OptionButton
+                theme={theme}
+                click={year === item ? true : false}
+                year={true}
+                key={item}
+                type="button"
+                onClick={() => {
+                  setYear(item);
+                  setOpenYear(false);
+                }}
+              >
+                {item}
+              </OptionButton>
+            );
+          })}
         </OptionList>
       </div>
       <div>
@@ -71,24 +70,23 @@ function Select(props: {
           {month}월
         </SelectButton>
         <OptionList theme={theme} click={openMonth}>
-          {openMonth &&
-            monthArr.map(item => {
-              return (
-                <OptionButton
-                  theme={theme}
-                  click={month === item ? true : false}
-                  year={false}
-                  key={item}
-                  type="button"
-                  onClick={() => {
-                    setMonth(item);
-                    setOpenMonth(false);
-                  }}
-                >
-                  {item}
-                </OptionButton>
-              );
-            })}
+          {monthArr.map(item => {
+            return (
+              <OptionButton
+                theme={theme}
+                click={month === item ? true : false}
+                year={false}
+                key={item}
+                type="button"
+                onClick={() => {
+                  setMonth(item);
+                  setOpenMonth(false);
+                }}
+              >
+                {item}
+              </OptionButton>
+            );
+          })}
         </OptionList>
       </div>
     </Container>
@@ -98,19 +96,16 @@ function Select(props: {
 export default Select;
 
 const Container = styled.div`
-  margin: 1rem 10rem;
+  margin: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   width: 15rem;
   height: 2rem;
-  z-index: 9;
+  z-index: 1;
 
-  @media all and (max-width: 960px) {
-    margin: auto;
-  }
-  @media all and (max-width: 480px) {
-    margin-left: 11rem;
+  @media screen and (max-width: 500px) {
+    transform: scale(0.75);
   }
 `;
 
@@ -141,7 +136,6 @@ const OptionButton = styled.button<{
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: 9;
   background: ${props => props.theme.background};
   color: ${props => (props.click ? props.theme.main : common.colors.secondary)};
 `;
@@ -151,7 +145,7 @@ const OptionList = styled.div<{
   click: boolean;
 }>`
   margin-top: 0.5rem;
-  max-height: 10rem;
+  max-height: ${props => (props.click ? 8 : 0)}rem;
   overflow-y: overlay;
   border: ${props => (props.click ? '1px' : '0px')} solid
     ${props => (props.click ? props.theme.main : common.colors.disable)};

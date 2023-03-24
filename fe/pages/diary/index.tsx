@@ -22,24 +22,24 @@ function Diary() {
 
   return (
     <>
+      <Header />
       <JellyList>
         {useBall().map(item => {
           return <Jelly ballData={item} />;
         })}
       </JellyList>
-      <Header />
       <DirayPage theme={theme}>
         <Title theme={theme}>
           {year}년 {month}월
         </Title>
-        <Select
-          setYear={setYear}
-          year={year}
-          setMonth={setMonth}
-          month={month}
-        />
         <Container>
           <Section>
+            <Select
+              setYear={setYear}
+              year={year}
+              setMonth={setMonth}
+              month={month}
+            />
             <Calendar year={year} month={month} />
             <Palette />
           </Section>
@@ -54,17 +54,16 @@ function Diary() {
 }
 
 const DirayPage = styled.div<{ theme: ColorTypes }>`
-  width: 100vw;
-  height: calc(100vh - 5.5rem);
-  padding-top: 5.5rem;
+  padding-top: 5rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
   background: ${props => props.theme.background};
 `;
 
 const JellyList = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   position: absolute;
   top: 0;
@@ -72,35 +71,42 @@ const JellyList = styled.div`
 `;
 
 const Title = styled.div<{ theme: ColorTypes }>`
-  font-size: ${common.fontSize.fs40};
+  font-size: clamp(24px, 5vw, 40px);
   color: ${props => props.theme.main};
   font-weight: bold;
   text-align: center;
   margin: ${common.fontSize.fs24};
-  z-index: 9;
+  z-index: 1;
 
-  @media all and (max-width: 480px) {
-    font-size: 1.5rem;
-    margin-left: 12rem;
+  @media all and (max-width: 500px) {
+    margin-top: 1rem;
+    margin-bottom: 0;
   }
 `;
 
 export default Diary;
 
 const Container = styled.div`
+  width: calc(100vw - 320px);
   display: flex;
   flex-direction: row;
-  margin: 0 10rem;
-  transform: scale(1);
   justify-content: space-between;
 
   @media all and (max-width: 1450px) {
-    margin: auto;
-    justify-content: center;
+    margin: 0;
+    width: calc(100vw - 32px);
+    justify-content: space-between;
     align-items: center;
   }
   @media all and (max-width: 1150px) {
-    margin: auto;
+    margin: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media screen and (max-width: 500px) {
+    margin: 0;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -113,4 +119,10 @@ const Section = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  position: relative;
+
+  @media screen and (max-width: 500px) {
+    margin-bottom: 5rem;
+  }
 `;
