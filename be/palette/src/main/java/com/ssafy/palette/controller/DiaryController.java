@@ -32,12 +32,20 @@ public class DiaryController {
 	private final DiaryService diaryService;
 	private final JwtUtil jwtUtil;
 
+	// 상세 조회
+	@GetMapping()
+	public ResponseEntity<?> detailDiary(@RequestHeader HttpHeaders header, @RequestParam("diaryId") Long diaryId) {
+
+		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
+		String userId = jwtUtil.getUid(token);
+
+		DetailDiaryDto detailDiaryDto = diaryService.detailDiary(diaryId, userId);
+		return new ResponseEntity<DetailDiaryDto>(detailDiaryDto, HttpStatus.OK);
+	}
+
+	// stt
 	@PostMapping(value="/stt", produces = "application/json; charset=utf8")
 	public ResponseEntity<?> speechToText(@RequestHeader HttpHeaders header, @RequestBody MultipartFile file) throws Exception {
-		// stt 결과
-		//String message = diaryService.file2Bytes(file);
-		//log.info(message);
-
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
 		diaryService.addRedisList(file, userId);
@@ -53,14 +61,14 @@ public class DiaryController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	// 상세 조회
-	@GetMapping()
-	public ResponseEntity<?> detailDiary(@RequestHeader HttpHeaders header, @RequestParam("diaryId") Long diaryId) {
+	// 수정 조회
+	@GetMapping("/script")
+	public ResponseEntity<?> scriptDiary(@RequestHeader HttpHeaders header, @RequestParam("order") int order) {
 
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
 
-		DetailDiaryDto detailDiaryDto = diaryService.detailDiary(diaryId, userId);
-		return new ResponseEntity<DetailDiaryDto>(detailDiaryDto, HttpStatus.OK);
+		String str = diaryService.sendScript(order, userId);
+		return new ResponseEntity<String>(str, HttpStatus.OK);
 	}
 }
