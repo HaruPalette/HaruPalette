@@ -96,6 +96,7 @@ const Container = styled.div`
   justify-content: space-around;
   width: 13rem;
   height: 2rem;
+  z-index: 9;
 
   @media all and (max-width: 960px) {
     margin: auto;

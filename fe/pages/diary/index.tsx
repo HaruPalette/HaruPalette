@@ -10,6 +10,8 @@ import Palette from '../../components/diary/Palette';
 import { useDate } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
+import Jelly from '../../components/animation/Jelly';
+import { ballDate } from '../../constants/ball';
 
 function Diary() {
   const nowYear = useDate().year;
@@ -17,8 +19,12 @@ function Diary() {
   const theme = useTheme();
   const [year, setYear] = useState(nowYear);
   const [month, setMonth] = useState(nowMonth);
+
   return (
     <>
+      {ballDate.map(item => {
+        return <Jelly ballData={item} />;
+      })}
       <Header />
       <DirayPage theme={theme}>
         <Title theme={theme}>
@@ -60,6 +66,7 @@ const Title = styled.div<{ theme: ColorTypes }>`
   font-weight: bold;
   text-align: center;
   margin: ${common.fontSize.fs24};
+  z-index: 9;
 
   @media all and (max-width: 480px) {
     font-size: 1.5rem;
