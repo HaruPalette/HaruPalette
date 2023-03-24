@@ -3,7 +3,7 @@ export interface DiaryData {
   date: string;
   contents: string;
   weather: string;
-  friendId: number;
+  ename: string;
   answer: string;
   image: string;
   stickerCode: string;
