@@ -4,7 +4,15 @@ const useScreenY = () => {
   const [screenY, setScreenY] = useState<number>(0);
 
   useEffect(() => {
-    setScreenY(window.screenY);
+    const handleScroll = () => {
+      setScreenY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return screenY;

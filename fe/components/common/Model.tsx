@@ -30,7 +30,7 @@ function Model() {
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setPixelRatio(window.devicePixelRatio);
       // renderer.setSize(sizes.width, sizes.height - 120);
-      renderer.setSize(sizes.width, sizes.height - 120 - 98);
+      renderer.setSize(sizes.width, sizes.height - 222 - 150);
       _renderer = renderer;
 
       let scene = new THREE.Scene();
@@ -41,11 +41,17 @@ function Model() {
         width = window.innerWidth;
         height = window.innerHeight;
 
-        _camera.aspect = width / height; // canvas비율을 카메라에 적용
         _camera.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
-        _renderer.setSize(width, height, false);
+
+        height = sizes.height - 222 - 150;
+        _camera.aspect = width / height; // canvas비율을 카메라에 적용
+
+        _renderer.setSize(width, height, true);
+        // _renderer.setSize(sizes.width, sizes.height - 120 - 98);
+        controls.reset();
       };
       window.addEventListener('resize', onWindowResize, false);
+      // window.addEventListener('mousedown·mouseup', onWindowReset, false);
       // window.onresize = resize.bind(customdiv);
       // resize();
 
@@ -78,6 +84,14 @@ function Model() {
       let height = customdiv ? customdiv.clientHeight : 0;
       const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100);
       const controls = new OrbitControls(camera, customdiv);
+      controls.saveState();
+      controls.minDistance = 2.2;
+      controls.maxDistance = 2.2;
+      controls.minPolarAngle = 1.5; // 윗각도 제한
+      controls.maxPolarAngle = 1.5; // 아래각도 제한(MATH.PI/2의 경우 바닥까지만 보여줌)
+      controls.enableDamping = true;
+      controls.enableZoom = false;
+      controls.screenSpacePanning = false;
       camera.position.x = 0;
       camera.position.y = 0.35;
       camera.position.z = 2.2;
@@ -95,7 +109,7 @@ function Model() {
 
       // 캐릭터 설정
       const glftLoader = new GLTFLoader();
-      glftLoader.load('assets/img/common/gomi_finish.gltf', el => {
+      glftLoader.load('assets/img/gomi/gomi_finish.gltf', el => {
         el.scene.position.x = 0.15;
         el.scene.position.y = 0;
         el.scene.position.z = 1;
@@ -133,7 +147,7 @@ function Model() {
         animate();
       });
       const glftLoaderSub = new GLTFLoader();
-      glftLoaderSub.load('assets/img/common/bamboo.gltf', ele => {
+      glftLoaderSub.load('assets/img/gomi/bamboo.gltf', ele => {
         ele.scene.position.x = -1.1;
         ele.scene.position.y = 0.4;
         ele.scene.position.z = 0.4;
@@ -156,7 +170,7 @@ export default Model;
 const CustomDiv = styled.div`
   position: absolute;
   /* padding: 0 160px; */
-  top: 60px;
+  top: 88px;
   left: 0px;
   /* scale: 0.8; */
   width: 100%;

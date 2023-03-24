@@ -3,17 +3,17 @@ export interface DiaryData {
   date: string;
   contents: string;
   weather: string;
-  friendId: number;
-  answerId: string;
+  ename: string;
+  answer: string;
   image: string;
   stickerCode: string;
-}
-
-export interface UseGetDiariesResult {
-  isLoading: boolean;
-  diaryData: DiaryData | undefined;
-  isError: boolean;
-  errorMessage: string | undefined;
+  neutral: number;
+  happy: number;
+  surprise: number;
+  anger: number;
+  disgust: number;
+  anxiety: number;
+  sadness: number;
 }
 
 export interface STTData {
@@ -35,4 +35,18 @@ export interface STTResponse {
 
 export interface ScriptResponse {
   scriptData: ScriptData;
+}
+
+export interface UseGetDiariesResult {
+  isLoading: boolean;
+  diaryData: DiaryData | undefined;
+  isError: boolean;
+  errorMessage: string | undefined;
+}
+
+export interface UseGetScriptResult {
+  isLoading: boolean;
+  scriptData: ScriptData | undefined;
+  isError: boolean;
+  errorMessage: string | undefined;
 }

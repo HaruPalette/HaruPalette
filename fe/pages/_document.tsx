@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {
   return (
-    <Html lang="en">
+    <Html lang="ko">
       <Head>
         <meta name="description" content="음성으로 기록하는 일기장 서비스" />
         {/* Facebook, Kakao Open Graph 설정 */}
@@ -20,8 +20,6 @@ export default function Document() {
 
         {/* 카카오 SDK import */}
         <script src="https://developers.kakao.com/sdk/js/kakao.min.js" />
-
-        <title>Haru Palette</title>
       </Head>
       <body>
         <Main />
