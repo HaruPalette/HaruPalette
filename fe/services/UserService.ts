@@ -8,12 +8,8 @@ class UserService {
     return response;
   }
 
-  public static async getRemind(date: string) {
-    const response = await axiosInstance.get(REMIND, {
-      params: {
-        date: date,
-      },
-    });
+  public static async getRemind() {
+    const response = await axiosInstance.get(REMIND);
 
     return response;
   }
