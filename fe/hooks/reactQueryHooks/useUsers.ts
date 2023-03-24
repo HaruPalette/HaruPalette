@@ -14,7 +14,7 @@ const useGetUsers = () => {
     keepPreviousData: true,
   });
 
-  const userData = data?.data.userData;
+  const userData = data?.data?.userData;
   const errorMessage = error?.response?.data?.message || '';
 
   return {
@@ -26,8 +26,7 @@ const useGetUsers = () => {
 };
 
 const useGetRemind = () => {
-  const date: string = new Date().toLocaleDateString();
-  const queryFunction = () => UserService.getRemind(date);
+  const queryFunction = () => UserService.getRemind();
   const { isLoading, data, isError, error } = useQuery<
     AxiosResponse<RemindResponse>,
     AxiosError<ErrorResponse>
