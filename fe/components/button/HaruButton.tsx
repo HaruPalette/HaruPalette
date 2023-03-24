@@ -34,6 +34,9 @@ const CustomButton = styled.button<{
   align-items: center;
   justify-content: space-between;
 
+  position: absolute;
+  bottom: 5rem;
+
   z-index: 1;
 
   width: ${props => props.buttonData.width}rem;
@@ -51,7 +54,7 @@ const CustomButton = styled.button<{
 
   &:hover {
     border: 2px solid ${props => props.theme.border};
-    background-color: ${props => props.theme.primary80};
+    background-color: ${props => props.theme.primary40};
     color: ${common.colors.inheritWhite};
   }
 `;
