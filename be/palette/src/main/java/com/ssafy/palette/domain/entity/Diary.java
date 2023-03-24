@@ -39,10 +39,6 @@ public class Diary  {
     @Column
     private String weather;
 
-    // 감정값
-//    @Column
-//    private int feelingValue;
-
     // 상태 (기본값 V:보기, D:삭제)
     @Column
     //@ColumnDefault("V")
@@ -67,5 +63,11 @@ public class Diary  {
     private Friend friend;
 
     public Diary() {
+    }
+
+    // setter //
+    public void setAnswer(Answer answer)
+    {
+        this.answer = answer;
     }
 }
