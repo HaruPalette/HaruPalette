@@ -15,9 +15,11 @@ function Create() {
 
   return (
     <CreatePage theme={theme}>
-      <HomeButton></HomeButton>
-      <WeatherButton></WeatherButton>
       <Pulse />
+      <CreateHeader>
+        <HomeButton></HomeButton>
+        <WeatherButton></WeatherButton>
+      </CreateHeader>
       <CreatePageContainer>
         <Model />
         <HaruButton buttonData={TALK_BUTTON} />
@@ -40,4 +42,17 @@ const CreatePageContainer = styled.div`
   justify-content: center;
 
   padding: 0 10rem;
+`;
+
+const CreateHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  position: absolute;
+  top: 2rem;
+
+  width: calc(100vw - 32px);
+  padding: 0 1rem;
+
+  z-index: 1;
 `;

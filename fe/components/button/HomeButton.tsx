@@ -39,13 +39,7 @@ const HomeImageHover = keyframes`
 
 `;
 
-const HaruHomeButton = styled.button`
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
-
-  z-index: 1;
-`;
+const HaruHomeButton = styled.button``;
 
 const HomeImage = styled(Image)`
   width: 3.5rem;
