@@ -20,7 +20,7 @@ function Diary() {
   return (
     <>
       <Header />
-      <DirayStyles theme={theme}>
+      <DirayPage theme={theme}>
         <Title theme={theme}>
           {year}년 {month}월
         </Title>
@@ -40,12 +40,12 @@ function Diary() {
             <CreateButton />
           </Section>
         </Container>
-      </DirayStyles>
+      </DirayPage>
     </>
   );
 }
 
-const DirayStyles = styled.div<{ theme: ColorTypes }>`
+const DirayPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
   height: calc(100vh - 5.5rem);
   padding-top: 5.5rem;
@@ -66,6 +66,8 @@ const Title = styled.div<{ theme: ColorTypes }>`
     margin-left: 12rem;
   }
 `;
+
+export default Diary;
 
 const Container = styled.div`
   display: flex;
@@ -94,4 +96,3 @@ const Section = styled.div`
   justify-content: center;
   align-items: center;
 `;
-export default Diary;
