@@ -22,9 +22,11 @@ function Diary() {
 
   return (
     <>
-      {useBall().map(item => {
-        return <Jelly ballData={item} />;
-      })}
+      <JellyList>
+        {useBall().map(item => {
+          return <Jelly ballData={item} />;
+        })}
+      </JellyList>
       <Header />
       <DirayPage theme={theme}>
         <Title theme={theme}>
@@ -58,6 +60,15 @@ const DirayPage = styled.div<{ theme: ColorTypes }>`
   display: flex;
   flex-direction: column;
   background: ${props => props.theme.background};
+`;
+
+const JellyList = styled.div`
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 const Title = styled.div<{ theme: ColorTypes }>`

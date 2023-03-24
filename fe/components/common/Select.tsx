@@ -29,6 +29,7 @@ function Select(props: {
         <SelectButton
           theme={theme}
           click={openYear}
+          year={true}
           type="button"
           onClick={() => {
             setOpenYear(!openYear);
@@ -36,28 +37,32 @@ function Select(props: {
         >
           {year}년
         </SelectButton>
-        {openYear &&
-          yearArr.map(item => {
-            return (
-              <OptionButton
-                theme={theme}
-                click={year === item ? true : false}
-                key={item}
-                type="button"
-                onClick={() => {
-                  setYear(item);
-                  setOpenYear(false);
-                }}
-              >
-                {item}년
-              </OptionButton>
-            );
-          })}
+        <OptionList theme={theme} click={openYear}>
+          {openYear &&
+            yearArr.map(item => {
+              return (
+                <OptionButton
+                  theme={theme}
+                  click={year === item ? true : false}
+                  year={true}
+                  key={item}
+                  type="button"
+                  onClick={() => {
+                    setYear(item);
+                    setOpenYear(false);
+                  }}
+                >
+                  {item}
+                </OptionButton>
+              );
+            })}
+        </OptionList>
       </div>
       <div>
         <SelectButton
           theme={theme}
           click={openMonth}
+          year={false}
           type="button"
           onClick={() => {
             setOpenMonth(!openMonth);
@@ -65,23 +70,26 @@ function Select(props: {
         >
           {month}월
         </SelectButton>
-        {openMonth &&
-          monthArr.map(item => {
-            return (
-              <OptionButton
-                theme={theme}
-                click={month === item ? true : false}
-                key={item}
-                type="button"
-                onClick={() => {
-                  setMonth(item);
-                  setOpenMonth(false);
-                }}
-              >
-                {item}월
-              </OptionButton>
-            );
-          })}
+        <OptionList theme={theme} click={openMonth}>
+          {openMonth &&
+            monthArr.map(item => {
+              return (
+                <OptionButton
+                  theme={theme}
+                  click={month === item ? true : false}
+                  year={false}
+                  key={item}
+                  type="button"
+                  onClick={() => {
+                    setMonth(item);
+                    setOpenMonth(false);
+                  }}
+                >
+                  {item}
+                </OptionButton>
+              );
+            })}
+        </OptionList>
       </div>
     </Container>
   );
@@ -94,7 +102,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  width: 13rem;
+  width: 15rem;
   height: 2rem;
   z-index: 9;
 
@@ -106,8 +114,14 @@ const Container = styled.div`
   }
 `;
 
-const SelectButton = styled.button<{ theme: ColorTypes; click: boolean }>`
+const SelectButton = styled.button<{
+  theme: ColorTypes;
+  click: boolean;
+  year: boolean;
+}>`
+  width: ${props => (props.year ? '5rem' : '3rem')};
   padding: 0.5rem 1.2rem;
+  text-align: center;
   border: 1px solid
     ${props => (props.click ? props.theme.main : common.colors.disable)};
   border-radius: 1rem;
@@ -116,12 +130,43 @@ const SelectButton = styled.button<{ theme: ColorTypes; click: boolean }>`
   color: ${props => (props.click ? props.theme.main : common.colors.secondary)};
 `;
 
-const OptionButton = styled.button<{ theme: ColorTypes; click: boolean }>`
+const OptionButton = styled.button<{
+  theme: ColorTypes;
+  click: boolean;
+  year: boolean;
+}>`
+  width: ${props => (props.year ? '5rem' : '3rem')};
+  padding: 0.5rem 1.2rem;
+  font-size: ${common.fontSize.fs20};
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 9;
   background: ${props => props.theme.background};
   color: ${props => (props.click ? props.theme.main : common.colors.secondary)};
-  padding: 0.5rem 1.2rem;
+`;
+
+const OptionList = styled.div<{
+  theme: ColorTypes;
+  click: boolean;
+}>`
+  margin-top: 0.5rem;
+  max-height: 10rem;
+  overflow-y: overlay;
+  border: ${props => (props.click ? '1px' : '0px')} solid
+    ${props => (props.click ? props.theme.main : common.colors.disable)};
+  border-radius: 1rem;
+  background: ${props => props.theme.background};
+
+  ::-webkit-scrollbar {
+    width: 1.5rem; /* 스크롤바의 너비 */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    height: 10%; /* 스크롤바의 길이 */
+    background: ${props => props.theme.primary20}; /* 스크롤바의 색상 */
+    background-clip: padding-box;
+    border: 0.5rem solid transparent;
+    border-radius: 2rem;
+  }
 `;
