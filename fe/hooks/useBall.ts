@@ -1,9 +1,9 @@
-import useTheme from '../hooks/useTheme';
+import useTheme from './useTheme';
 import { BallData } from '../types/commonTypes';
 
-export function useBall() {
+function useBall() {
   const theme = useTheme();
-  let ballData: BallData[] = [];
+  const ballData: BallData[] = [];
   ballData.push({
     width: '25rem',
     height: '25rem',
@@ -46,3 +46,5 @@ export function useBall() {
   });
   return ballData;
 }
+
+export default useBall;

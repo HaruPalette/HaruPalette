@@ -22,7 +22,8 @@
       1,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
-    "no-else-return": "off"
+    "no-else-return": "off",
+    "no-plusplus": "off"
   },
   "settings": {
     "react": {
