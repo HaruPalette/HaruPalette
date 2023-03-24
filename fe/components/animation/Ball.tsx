@@ -86,6 +86,8 @@ const BallCanvas = styled.canvas<{
   border-radius: 50%;
   background: ${props => props.ballData.color};
 
+  transition: 0s ease-in-out;
+
   &:hover {
     animation: ${ballScale} 2s ease-in-out infinite;
   }
