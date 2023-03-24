@@ -64,8 +64,9 @@ const Container = styled.div`
   min-height: 26rem;
   text-align: center;
 
-  @media all and (max-width: 480px) {
+  @media screen and (max-width: 500px) {
     transform: scale(0.75);
+    margin-top: -2rem;
   }
 `;
 
