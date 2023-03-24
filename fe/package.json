@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "prettier pages components --write && eslint pages components --fix"
+    "start": "next start"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -41,21 +40,8 @@
     "@typescript-eslint/parser": "^5.55.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.2.0",
     "prettier": "2.8.4",
     "redux-devtools-extension": "^2.13.9",
     "three": "^0.150.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ]
   }
 }
