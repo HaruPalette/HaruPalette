@@ -1,7 +1,5 @@
 package com.ssafy.palette.domain.dto;
 
-import java.time.LocalDate;
-
 import com.ssafy.palette.domain.entity.Diary;
 import com.ssafy.palette.domain.entity.Emotion;
 
@@ -17,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class DetailDiaryDto {
 
 	private Long diaryId;
-	private LocalDate date;
+	private String date;
 	private String contents;
 	private String weather;
 	private long friendId;
@@ -37,7 +35,7 @@ public class DetailDiaryDto {
 	{
 		return DetailDiaryDto.builder()
 			.diaryId(diary.getId())
-			.date(diary.getRegistrationDate())
+			.date(String.valueOf(diary.getRegistrationDate()))
 			.contents(diary.getContents())
 			.weather(diary.getWeather())
 			.friendId(diary.getFriend().getId())
