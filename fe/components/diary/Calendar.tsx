@@ -44,13 +44,13 @@ function Calendar(props: { year: number; month: number }) {
       {monthDate.map((item, idx) => {
         if (item.type !== 'now')
           return (
-            <OtherDate key={idx} theme={theme}>
+            <OtherDate type="button" key={idx} theme={theme}>
               {item.data}
             </OtherDate>
           );
         else
           return (
-            <NowDate key={idx} theme={theme}>
+            <NowDate type="button" key={idx} theme={theme}>
               {item.data}
             </NowDate>
           );
