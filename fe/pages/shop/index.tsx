@@ -1,17 +1,23 @@
+import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Header from '../../components/common/Header';
 import Model from '../../components/common/Model';
+import useTheme from '../../hooks/useTheme';
 function Shop() {
+  const theme = useTheme();
   return (
-    <ShopDiv>
+    <ShopPage theme={theme}>
       <Header />
       <Model />
-    </ShopDiv>
+    </ShopPage>
   );
 }
+
 export default Shop;
-const ShopDiv = styled.div`
+
+const ShopPage = styled.div<{ theme: ColorTypes }>`
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  background-color: ${props => props.theme.background};
 `;
