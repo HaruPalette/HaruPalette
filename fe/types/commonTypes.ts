@@ -24,3 +24,14 @@ export interface ButtonData {
   context: string;
   image: string;
 }
+
+export interface BallData {
+  top: string;
+  left: string;
+  width: string;
+  height: string;
+  color: string;
+  opacity: number;
+  delay: number;
+  start: number;
+}
