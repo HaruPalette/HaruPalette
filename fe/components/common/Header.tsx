@@ -9,43 +9,55 @@ import { ColorTypes } from '@emotion/react';
 import MobileNavList from '../nav/MobileNavList';
 import useScreenY from '../../hooks/useScreenY';
 import HamburgerButton from '../button/HamburgerButton';
+import { useAppSelector } from '../../hooks/reduxHook';
+import { selectMenu } from '../../store/modules/menu';
 
 function Header() {
   const theme = useTheme();
   const screenY = useScreenY();
+  const isActive = useAppSelector(selectMenu).isActive;
 
   return (
-    <HaruHeader theme={theme} screenY={screenY}>
-      <HeaderContainer>
-        <LeftContainer>
-          <HamburgerButton />
-        </LeftContainer>
+    <>
+      <HaruHeader theme={theme} screenY={screenY} isActive={isActive}>
+        <HeaderContainer>
+          <LeftContainer>
+            <HamburgerButton />
+          </LeftContainer>
 
-        <CenterContainer>
-          <Logo />
-          <NavList />
-        </CenterContainer>
+          <CenterContainer>
+            <Logo />
+            <NavList />
+          </CenterContainer>
 
-        <RightContainer>
-          <DarkModeButton />
-          <LoginButton />
-        </RightContainer>
-      </HeaderContainer>
+          <RightContainer>
+            <DarkModeButton />
+            <LoginButton />
+          </RightContainer>
+        </HeaderContainer>
+      </HaruHeader>
+
       <MobileNavList />
-    </HaruHeader>
+    </>
   );
 }
 
 export default Header;
 
-const HaruHeader = styled.header<{ theme: ColorTypes; screenY: number }>`
+const HaruHeader = styled.header<{
+  theme: ColorTypes;
+  screenY: number;
+  isActive: boolean;
+}>`
   width: 100vw;
-  z-index: 1;
+  z-index: 10;
   position: fixed;
   top: 0;
   left: 0;
   background: ${props =>
-    props.screenY === 0 ? `rgba(0, 0, 0, 0)` : props.theme.background};
+    props.screenY === 0 && !props.isActive
+      ? `rgba(0, 0, 0, 0)`
+      : props.theme.background};
   color: ${props => props.theme.color};
 `;
 
