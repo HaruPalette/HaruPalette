@@ -42,3 +42,8 @@ export interface BallData {
   delay: number;
   start: number;
 }
+
+export interface TalkData {
+  idx: number;
+  script: string[];
+}
