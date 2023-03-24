@@ -31,7 +31,6 @@ function Model() {
       renderer.setPixelRatio(window.devicePixelRatio);
       // renderer.setSize(sizes.width, sizes.height - 120);
       renderer.setSize(sizes.width, sizes.height - 222 - 150);
-      console.log(sizes.width);
       _renderer = renderer;
 
       let scene = new THREE.Scene();
@@ -42,7 +41,6 @@ function Model() {
         width = window.innerWidth;
         height = window.innerHeight;
 
-        console.log(width, height);
         _camera.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
 
         height = sizes.height - 222 - 150;

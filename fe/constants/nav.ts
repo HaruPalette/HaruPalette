@@ -1,4 +1,4 @@
-import { NavList } from '../types/commonTypes';
+import { NavList, ShopNavList } from '../types/commonTypes';
 
 export const NAV_LIST: NavList = [
   {
@@ -12,5 +12,19 @@ export const NAV_LIST: NavList = [
   {
     title: '상점 가기',
     link: '/shop',
+  },
+];
+export const SHOP_NAV_LIST: ShopNavList = [
+  {
+    title: '도전과제',
+    index: 0,
+  },
+  {
+    title: '포인트 내역',
+    index: 1,
+  },
+  {
+    title: '캐릭터 구매',
+    index: 2,
   },
 ];

@@ -9,7 +9,14 @@ interface NavItem {
   link: string;
 }
 
+interface ShopNavItem {
+  title: string;
+  index: number;
+}
+
 export type NavList = NavItem[];
+
+export type ShopNavList = ShopNavItem[];
 
 export interface WeatherList {
   Clear: string;
