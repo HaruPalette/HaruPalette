@@ -4,7 +4,11 @@ import Link from 'next/link';
 import { NAV_LIST } from '../../constants/nav';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
-import { changeLinkSuccess, selectMenu } from '../../store/modules/menu';
+import {
+  changeLinkSuccess,
+  menuOpenSuccess,
+  selectMenu,
+} from '../../store/modules/menu';
 import { common } from '../../styles/theme';
 
 interface Menu {
@@ -16,13 +20,15 @@ function MobileNavList() {
   const menu: Menu = useAppSelector(selectMenu);
   const theme: ColorTypes = useTheme();
   const dispatch = useAppDispatch();
+
   const handleChangeLink = (link: string) => {
     dispatch(changeLinkSuccess(link));
+    dispatch(menuOpenSuccess());
   };
 
   console.log(menu.link);
   return (
-    <HaruNav menu={menu}>
+    <HaruNav menu={menu} theme={theme}>
       {NAV_LIST.map((item, idx) =>
         menu.link === item.link ? (
           <CurNavItem
@@ -50,12 +56,9 @@ function MobileNavList() {
 
 export default MobileNavList;
 
-const HaruNav = styled.nav<{ menu: Menu }>`
+const HaruNav = styled.nav<{ menu: Menu; theme: ColorTypes }>`
   display: none;
 
-  @media screen and (max-width: 500px) {
-    display: flex;
-  }
   -webkit-transition: 0.4s ease-in-out;
   -moz-transition: 0.4s ease-in-out;
   -o-transition: 0.4s ease-in-out;
@@ -64,13 +67,29 @@ const HaruNav = styled.nav<{ menu: Menu }>`
   ${props =>
     !props.menu.isActive &&
     css`
-      transform: translate(-500px);
+      transform: translateY(-500px);
     `}
+
+  @media screen and (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    position: fixed;
+    top: 5.5rem;
+
+    z-index: 1;
+
+    background: ${props =>
+      !props.menu.isActive ? `rgba(0, 0, 0, 0)` : props.theme.background};
+    color: ${props => props.theme.color};
+  }
 `;
 
 const CurNavItem = styled(Link)<{ theme: ColorTypes }>`
   color: ${props => props.theme.main};
-  width: 5rem;
+  height: 3rem;
   margin-left: ${common.fontSize.fs24};
 
   &:hover {
@@ -80,7 +99,7 @@ const CurNavItem = styled(Link)<{ theme: ColorTypes }>`
 
 const NavItem = styled(Link)<{ theme: ColorTypes }>`
   color: ${common.colors.secondary};
-  width: 5rem;
+  height: 3rem;
   margin-left: ${common.fontSize.fs24};
 
   &:hover {
