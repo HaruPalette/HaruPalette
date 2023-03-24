@@ -6,6 +6,7 @@ import logging
 import torch
 import torchaudio
 from transformers import pipeline
+import os
 
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
 # 모델 로드
@@ -56,6 +57,7 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
                 "max_new_tokens": 65535
              }
         )['text']
+        os.remove(audio_path)
         return palette_ai_pb2.TextResponse(prediction=prediction)
 
     def TextToEmotion(self, request, context):

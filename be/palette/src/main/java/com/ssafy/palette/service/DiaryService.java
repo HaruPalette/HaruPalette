@@ -4,6 +4,10 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisOperations;
@@ -13,8 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.protobuf.ByteString;
+import com.ssafy.palette.AudioRequest;
+import com.ssafy.palette.EmotionResponse;
 import com.ssafy.palette.PaletteAIGrpc;
-import com.ssafy.palette.*;
+import com.ssafy.palette.TextRequest;
+import com.ssafy.palette.TextResponse;
 import com.ssafy.palette.domain.dto.DetailDiaryDto;
 import com.ssafy.palette.domain.dto.DiaryDto;
 import com.ssafy.palette.domain.entity.Answer;
@@ -52,7 +59,9 @@ public class DiaryService {
 	}
 
 	public void writeDiary(DiaryDto diaryDto, String userId) {
-		Answer answer = answerRepository.findById(1L).get();
+
+
+		//Answer answer = answerRepository.findById(1L).get();
 		User user = userRepository.findById(userId).get();
 		Friend friend = friendRepository.findById(diaryDto.getFriendId()).get();
 
@@ -64,12 +73,12 @@ public class DiaryService {
 			.user(user)
 			.friend(friend)
 			.status("V")
-			.answer(answer)
+			//.answer(answer)
 			.build();
-		
+		diaryRepository.save(diary);
+
 		// 감정값 저장
 		textToEmotion(diary.getContents(), user, diary);
-		diaryRepository.save(diary);
 	}
 
 	public DetailDiaryDto detailDiary(Long diaryId, String userId) {
@@ -89,7 +98,10 @@ public class DiaryService {
 	public void textToEmotion(String text, User user, Diary diary) {
 		TextRequest request = TextRequest.newBuilder().setText(text).build();
 		EmotionResponse response = paletteAIStub.textToEmotion(request);
-		System.out.println(response);
+
+		// 위로의 말 set
+		setAnswer(response, diary);
+
 		Emotion emotion = Emotion.builder()
 			.neutral((int)(response.getNeutral() * 100))
 			.happy((int)(response.getHappy() * 100))
@@ -102,6 +114,29 @@ public class DiaryService {
 			.diary(diary)
 			.build();
 		emotionRepository.save(emotion);
+	}
+
+	public void setAnswer(EmotionResponse response, Diary diary) {
+
+		String[] emotionNames = {"neutral", "happy", "surprise", "anger", "anxiety", "sadness", "disqust"};
+
+		ArrayList<Integer> emotions = new ArrayList<>();
+		emotions.add((int)(response.getNeutral() * 100));
+		emotions.add((int)(response.getHappy() * 100));
+		emotions.add((int)(response.getSurprise() * 100));
+		emotions.add((int)(response.getAnger() * 100));
+		emotions.add((int)(response.getAnxiety() * 100));
+		emotions.add((int)(response.getSadness() * 100));
+		emotions.add((int)(response.getDisgust() * 100));
+
+		int maxidx = emotions.indexOf(Collections.max(emotions));
+		Random random = new Random();
+
+		List<Answer> answers = answerRepository.findByType(emotionNames[maxidx]);
+		int randomIndex = random.nextInt(answers.size());
+		Answer answer = answers.get(randomIndex);
+
+		diary.setAnswer(answer);
 	}
 
 	public String file2Bytes(MultipartFile file) throws IOException {
