@@ -44,13 +44,13 @@ function Calendar(props: { year: number; month: number }) {
       {monthDate.map((item, idx) => {
         if (item.type !== 'now')
           return (
-            <OtherDate key={idx} theme={theme}>
+            <OtherDate type="button" key={idx} theme={theme}>
               {item.data}
             </OtherDate>
           );
         else
           return (
-            <NowDate key={idx} theme={theme}>
+            <NowDate type="button" key={idx} theme={theme}>
               {item.data}
             </NowDate>
           );
@@ -64,8 +64,9 @@ const Container = styled.div`
   min-height: 26rem;
   text-align: center;
 
-  @media all and (max-width: 480px) {
+  @media screen and (max-width: 500px) {
     transform: scale(0.75);
+    margin-top: -2rem;
   }
 `;
 

@@ -17,7 +17,7 @@ function Palette() {
             height={40}
             alt="soso"
           />
-          <Text>행복한 일기라면 색이 더 짙게 나타납니다.</Text>
+          <Text theme={theme}>행복한 일기라면 색이 더 짙게 나타납니다.</Text>
           <Image
             src="assets/img/common/smile.svg"
             width={40}
@@ -36,8 +36,9 @@ const Container = styled.div`
   width: 100%;
   height: 4.75rem;
 
-  @media all and (max-width: 480px) {
+  @media screen and (max-width: 500px) {
     transform: scale(0.75);
+    margin-top: -2rem;
   }
 `;
 
@@ -59,7 +60,7 @@ const Content = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-const Text = styled.div`
-  color: #9899a1;
+const Text = styled.div<{ theme: ColorTypes }>`
+  color: ${props => props.theme.color};
   font-size: ${common.fontSize.fs20};
 `;

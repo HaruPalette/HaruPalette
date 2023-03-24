@@ -8,6 +8,14 @@ export const CHOOSE_BUTTON: ButtonData = {
   image: '',
 };
 
+export const START_BUTTON: ButtonData = {
+  width: 10,
+  height: 3,
+  fs: 0,
+  context: '시작하기',
+  image: '',
+};
+
 export const TALK_BUTTON: ButtonData = {
   width: 10,
   height: 3,

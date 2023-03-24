@@ -59,18 +59,18 @@ const CurNavItem = styled(Link)<{ theme: ColorTypes }>`
   margin-left: ${common.fontSize.fs24};
 
   &:hover {
-    color: ${props => props.theme.main};
+    color: ${props => props.theme.primary40};
   }
 `;
 
 const NavItem = styled(Link)<{ theme: ColorTypes }>`
   text-align: center;
 
-  color: ${props => props.theme.color};
+  color: ${common.colors.secondary};
   width: 5rem;
   margin-left: ${common.fontSize.fs24};
 
   &:hover {
-    color: ${props => props.theme.main};
+    color: ${props => props.theme.primary40};
   }
 `;

@@ -12,7 +12,9 @@ function Footer() {
       <FooterContainer>
         <Logo />
         <Icon />
-        <CopyRight>© 2023 Haru Palette. All rights reserved.</CopyRight>
+        <CopyRight theme={theme}>
+          © 2023 Haru Palette. All rights reserved.
+        </CopyRight>
       </FooterContainer>
     </HaruFooter>
   );
@@ -42,9 +44,9 @@ const FooterContainer = styled.div`
   }
 `;
 
-const CopyRight = styled.p`
+const CopyRight = styled.p<{ theme: ColorTypes }>`
   font-size: 1vw;
-
+  color: ${props => props.theme.color};
   @media screen and (max-width: 960px) {
     width: 14rem;
   }

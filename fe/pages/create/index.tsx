@@ -1,5 +1,6 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useState } from 'react';
 import Pulse from '../../components/animation/Pulse';
 import HaruButton from '../../components/button/HaruButton';
 import HomeButton from '../../components/button/HomeButton';
@@ -9,7 +10,9 @@ import { TALK_BUTTON } from '../../constants/button';
 import useTheme from '../../hooks/useTheme';
 
 function Create() {
+  const [step, setStep] = useState<number>(0);
   const theme = useTheme();
+
   return (
     <CreatePage theme={theme}>
       <HomeButton></HomeButton>
