@@ -41,7 +41,8 @@ const ButtonStyles = styled.button<{ theme: ColorTypes }>`
 
   transform: scale(1);
 
-  @media all and (max-width: 480px) {
+  @media screen and (max-width: 500px) {
     transform: scale(0.75);
+    margin-top: -2rem;
   }
 `;
