@@ -5,14 +5,20 @@ import { useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import { selectProfile } from '../../store/modules/profile';
 import { ColorTypes } from '@emotion/react';
-import dynamic from 'next/dynamic';
-
-function Round() {
+export interface DiaryProps {
+  index: number;
+  currCnt: number;
+  AllCnt: number;
+  desc: string;
+  color: string;
+}
+function Round(props: { data: DiaryProps }) {
+  const { currCnt, AllCnt, desc, color } = props.data;
   // props : 과제 완료 현황(percent), 색상 값(20, 40, 60, 80), 과제 내용
   // 과제 완료 현황
-  const percent = Math.floor(33);
+  const percent = Math.floor((currCnt / AllCnt) * 100);
   // 색상 값
-  const primary: string = 'primary20';
+  const primary: string = color;
   // 현재 테마 가져오기
   const theme = useTheme();
   // 현재 선택된 캐릭터 가져오기
@@ -20,7 +26,7 @@ function Round() {
   // 일기장 이미지 가져오기
   const diary = `assets/img/${chr.chrName}/${primary}_diary.svg`;
   // 과제 내용 및 현황
-  const content = '일기 3번 작성하기';
+  const content = desc;
   //   const AnimatedNumbers = dynamic(() => import('react-animated-numbers'), {
   //     ssr: false,
   //   });
@@ -41,7 +47,9 @@ function Round() {
       <Challenge>
         <div>{content}</div>
 
-        <Percent>1/3</Percent>
+        <Percent>
+          {currCnt}/{AllCnt}
+        </Percent>
       </Challenge>
     </Container>
   );

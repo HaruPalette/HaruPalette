@@ -27,7 +27,10 @@ function DarkModeButton() {
 export default DarkModeButton;
 
 const ThemeButton = styled.button<{ theme: ColorTypes }>`
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   width: ${common.fontSize.fs40};
   height: ${common.fontSize.fs40};
   border-radius: 50%;

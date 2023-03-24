@@ -1,4 +1,4 @@
-import { DIARIES } from '../constants/api';
+import { DIARIES, SCRIPT } from '../constants/api';
 import { axiosInstance } from '../utils/axios';
 
 class DiariesService {
@@ -25,6 +25,17 @@ class DiariesService {
     const response = await axiosInstance.patch(DIARIES, {
       params: { diaryId: diaryId },
     });
+
+    return response;
+  }
+
+  /** 수정 조회 */
+  public static async getScript(order: number) {
+    const response = await axiosInstance.get(SCRIPT, {
+      params: { order: order },
+    });
+
+    return response;
   }
 }
 
