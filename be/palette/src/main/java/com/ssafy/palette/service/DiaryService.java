@@ -157,7 +157,7 @@ public class DiaryService {
 	public void addRedisList(MultipartFile file, String userId) throws IOException {
 
 		// 음성 파일 넘겨 string 반환받기
-		String str = file2Bytes(file);
+		String str = file2Bytes(file)+"\n\n";
 		// redis에 list로 저장
 		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
 		operations.opsForList().rightPush(userId, str);
@@ -167,7 +167,7 @@ public class DiaryService {
 	public String sendScript(int order, String userId)
 	{
 		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
-		String str = operations.opsForList().index(userId+String.valueOf(LocalDate.now()), order);
+		String str = operations.opsForList().index(userId, order);
 
 		return str;
 	}
@@ -175,5 +175,6 @@ public class DiaryService {
 	public void deleteScript(String userId)
 	{
 		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
+		operations.delete(userId);
 	}
 }
