@@ -2,13 +2,6 @@ import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { BallData } from '../../types/commonTypes';
 
-function Jelly(props: { ballData: BallData }) {
-  const { ballData } = props;
-  return <JellyStyles ball={ballData} />;
-}
-
-export default Jelly;
-
 const jelly = keyframes`
     0% { transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
   3.4% { transform: matrix3d(1.316, 0, 0, 0, 0, 1.407, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
@@ -51,3 +44,10 @@ const JellyStyles = styled.div<{ ball: BallData }>`
   animation: ${jelly} ${props => props.ball.delay}s ease-in-out
     ${props => props.ball.start}s both;
 `;
+
+function Jelly(props: { ballData: BallData }) {
+  const { ballData } = props;
+  return <JellyStyles ball={ballData} />;
+}
+
+export default Jelly;
