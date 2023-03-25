@@ -38,3 +38,4 @@ out/
 
 ### security ###
 application-auth.yml
+application-s3.yml
