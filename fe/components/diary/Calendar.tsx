@@ -28,7 +28,7 @@ function Calendar(props: { year: number; month: number }) {
   // 이번 달 마지막 요일
   const nowDay: number = useNowDay(year, month);
   // 이전 달 날짜 배열
-  let monthDate: DateItem[] = [];
+  const monthDate: DateItem[] = [];
   console.log(prevDay);
   if (prevDay < 6) {
     for (let i = 0; i <= prevDay; i++) {
@@ -59,17 +59,16 @@ function Calendar(props: { year: number; month: number }) {
               {item.data}
             </OtherDate>
           );
-        else
-          return (
-            <NowDate
-              type="button"
-              key={idx}
-              theme={theme}
-              onClick={() => (window.location.href = `/detail/${item.data}`)}
-            >
-              {item.data}
-            </NowDate>
-          );
+        return (
+          <NowDate
+            type="button"
+            key={idx}
+            theme={theme}
+            onClick={() => (window.location.href = `/detail/${item.data}`)}
+          >
+            {item.data}
+          </NowDate>
+        );
       })}
     </Container>
   );
