@@ -83,6 +83,7 @@ const Container = styled.div`
   @media screen and (max-width: 500px) {
     transform: scale(0.75);
     margin-top: -2rem;
+    min-height: 16rem;
   }
 `;
 
@@ -93,6 +94,10 @@ const OtherDate = styled.button<{ theme: ColorTypes }>`
   color: #b1abab;
   font-size: ${common.fontSize.fs24};
   text-align: center;
+  @media screen and (max-width: 500px) {
+    width: 10vw;
+    height: 10vw;
+  }
 `;
 
 const NowDate = styled.button<{ theme: ColorTypes }>`
@@ -104,6 +109,11 @@ const NowDate = styled.button<{ theme: ColorTypes }>`
   text-align: center;
   border-radius: 4rem;
   /* background: ${props => props.theme.primary20}; */
+
+  @media screen and (max-width: 500px) {
+    width: 10vw;
+    height: 10vw;
+  }
 `;
 
 export default Calendar;
