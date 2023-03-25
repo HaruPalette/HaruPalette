@@ -11,6 +11,9 @@ const nextConfig = {
     emotion: true,
   },
   reactStrictMode: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;
