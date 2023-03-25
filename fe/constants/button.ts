@@ -8,12 +8,20 @@ export const CHOOSE_BUTTON: ButtonData = {
   image: '',
 };
 
+export const START_BUTTON: ButtonData = {
+  width: 10,
+  height: 3,
+  fs: 0,
+  context: '시작하기',
+  image: '',
+};
+
 export const TALK_BUTTON: ButtonData = {
   width: 10,
   height: 3,
   context: '대화하기',
   fs: 1.5,
-  image: '',
+  image: `assets/img/common/mic.svg`,
 };
 
 export const STOP_BUTTON: ButtonData = {

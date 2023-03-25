@@ -20,7 +20,7 @@ function LoginButton() {
         height={24}
         alt="kakao"
       />
-      로그인
+      <LogInText>로그인</LogInText>
     </KakaoLogInButton>
   );
 }
@@ -28,8 +28,6 @@ function LoginButton() {
 export default LoginButton;
 
 const KakaoLogInButton = styled.button`
-  cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,4 +43,20 @@ const KakaoLogInButton = styled.button`
   font-weight: bold;
 
   color: black;
+
+  @media screen and (max-width: 500px) {
+    justify-content: center;
+
+    width: 2.5rem;
+    height: 2.5rem;
+
+    padding: 0;
+    border-radius: 50%;
+  }
+`;
+
+const LogInText = styled.p`
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `;

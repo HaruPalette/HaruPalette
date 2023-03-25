@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import store from '../store';
 import GlobalStyle from '../styles/globals';
+import Head from 'next/head';
 
 declare global {
   interface Window {
@@ -20,9 +21,14 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, []);
   return (
-    <Provider store={store}>
-      <GlobalStyle />
-      <Component {...pageProps} />
-    </Provider>
+    <>
+      <Head>
+        <title>Haru Palette</title>
+      </Head>
+      <Provider store={store}>
+        <GlobalStyle />
+        <Component {...pageProps} />
+      </Provider>
+    </>
   );
 }
