@@ -26,7 +26,6 @@ function MobileNavList() {
     dispatch(menuOpenSuccess());
   };
 
-  console.log(menu.link);
   return (
     <HaruNav menu={menu} theme={theme}>
       {NAV_LIST.map((item, idx) =>
@@ -79,7 +78,7 @@ const HaruNav = styled.nav<{ menu: Menu; theme: ColorTypes }>`
     position: fixed;
     top: 5.5rem;
 
-    z-index: 1;
+    z-index: 9;
 
     background: ${props =>
       !props.menu.isActive ? `rgba(0, 0, 0, 0)` : props.theme.background};

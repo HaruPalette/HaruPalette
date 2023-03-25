@@ -11,7 +11,7 @@ import { useDate } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 import Jelly from '../../components/animation/Jelly';
-import { useBall } from '../../hooks/useBall';
+import useBall from '../../hooks/useBall';
 
 function Diary() {
   const nowYear = useDate().year;
@@ -54,6 +54,8 @@ function Diary() {
 }
 
 const DirayPage = styled.div<{ theme: ColorTypes }>`
+  width: 100%;
+  height: 100%;
   padding-top: 5rem;
   display: flex;
   flex-direction: column;
@@ -124,5 +126,6 @@ const Section = styled.div`
 
   @media screen and (max-width: 500px) {
     margin-bottom: 5rem;
+    width: 100vw;
   }
 `;

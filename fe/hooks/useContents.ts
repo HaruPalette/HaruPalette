@@ -1,6 +1,6 @@
 export function useContents(contents: string) {
   const arr: string[] = contents.split(' ');
-  let contentList = [];
+  const contentList = [];
   let temp = [];
   let count = 0;
   for (let i = 0; i < arr.length; i++) {
