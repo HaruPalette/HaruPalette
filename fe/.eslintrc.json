@@ -23,7 +23,9 @@
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
     "no-else-return": "off",
-    "no-plusplus": "off"
+    "no-plusplus": "off",
+    "react/no-this-in-sfc": "off",
+    "no-param-reassign": "off"
   },
   "settings": {
     "react": {

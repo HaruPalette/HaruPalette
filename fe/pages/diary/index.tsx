@@ -11,7 +11,7 @@ import { useDate } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 import Jelly from '../../components/animation/Jelly';
-import { useBall } from '../../hooks/useBall';
+import useBall from '../../hooks/useBall';
 
 function Diary() {
   const nowYear = useDate().year;

@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useCallback } from 'react';
+import { BallReturn } from '../types/movingBallTypes';
 
 const useAnimationFrame = (
   callback: () => void,
