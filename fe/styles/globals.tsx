@@ -15,16 +15,32 @@ const style = () => css`
     font-weight: normal;
     font-style: normal;
   }
+
   * {
     margin: 0;
     padding: 0;
     border: 0;
     vertical-align: baseline;
     font-family: 'GmarketSansMedium';
+
+    transition: 0.4s ease-in-out;
   }
 
   button {
+    cursor: pointer !important;
     all: unset;
+  }
+
+  body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
+
+  h1 {
+    font-family: 'yg-jalnan';
+  }
+
+  a {
+    text-decoration: none;
   }
 `;
 

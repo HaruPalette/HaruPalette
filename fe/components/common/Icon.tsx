@@ -40,9 +40,10 @@ function Icon() {
 
 export default Icon;
 
-const IconList = styled.div`
+const IconList = styled.ul`
   list-style: none;
-  width: 20rem;
+  width: calc(50% - 20vw);
+
   display: flex;
   align-items: center;
   justify-content: space-between;

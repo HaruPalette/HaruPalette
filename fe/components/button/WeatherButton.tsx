@@ -65,10 +65,7 @@ const WeatherContainer = styled.div<{ theme: ColorTypes }>`
   background: ${props => props.theme.background};
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
 
-  position: absolute;
-  top: 7rem;
-  right: 17rem;
-
+  z-index: 1;
   @media all and (max-width: 960px) {
     right: calc(50vw - 8.5rem);
   }

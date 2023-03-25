@@ -10,43 +10,63 @@ import useTheme from '../../hooks/useTheme';
 import { ColorTypes } from '@emotion/react';
 import { common } from '../../styles/theme';
 
-function Calendar() {
+interface DateItem {
+  type: string;
+  data: number;
+  diaryId: number | null;
+}
+
+function Calendar(props: { year: number; month: number }) {
+  const { year, month } = props;
   const theme = useTheme();
   // 이전 달 마지막 날짜
-  let prevDate: number = usePrevDate();
-  // 이전 달 마지막 요일 (일: 0 - 토 : 7)
-  const prevDay: number = usePrevDay();
+  let prevDate: number = usePrevDate(year, month);
+  // 이전 달 마지막 요일 (일: 0 - 토 : 6)
+  const prevDay: number = usePrevDay(year, month);
   // 이번 달 마지막 날짜
-  const nowDate: number = useNowDate();
+  const nowDate: number = useNowDate(year, month);
   // 이번 달 마지막 요일
-  const nowDay: number = useNowDay();
+  const nowDay: number = useNowDay(year, month);
   // 이전 달 날짜 배열
-  let monthDate = [];
-  for (let i = 0; i <= prevDay; i++) {
-    monthDate.unshift({ type: 'prev', data: prevDate });
-    prevDate--;
+  let monthDate: DateItem[] = [];
+  console.log(prevDay);
+  if (prevDay < 6) {
+    for (let i = 0; i <= prevDay; i++) {
+      // 객체 추가할 때 일기 객체도 추가 !
+      monthDate.unshift({
+        type: 'prev',
+        data: prevDate,
+        diaryId: 2,
+      });
+      prevDate--;
+    }
   }
   // 이번 달 날짜 배열
   for (let i = 1; i <= nowDate; i++) {
     // 여기서 추가할 때 감정 %도 속성으로 추가해서 props로 css에서 받아서 색상 적용
-    monthDate.push({ type: 'now', data: i });
+    monthDate.push({ type: 'now', data: i, diaryId: null });
   }
   // 다음 달 날짜 배열
   for (let i = 1; i < 7 - nowDay; i++) {
-    monthDate.push({ type: 'next', data: i });
+    monthDate.push({ type: 'next', data: i, diaryId: null });
   }
   return (
     <Container>
       {monthDate.map((item, idx) => {
         if (item.type !== 'now')
           return (
-            <OtherDate key={idx} theme={theme}>
+            <OtherDate type="button" key={idx} theme={theme}>
               {item.data}
             </OtherDate>
           );
         else
           return (
-            <NowDate key={idx} theme={theme}>
+            <NowDate
+              type="button"
+              key={idx}
+              theme={theme}
+              onClick={() => (window.location.href = `/detail/${item.data}`)}
+            >
               {item.data}
             </NowDate>
           );
@@ -60,8 +80,10 @@ const Container = styled.div`
   min-height: 26rem;
   text-align: center;
 
-  @media all and (max-width: 480px) {
+  @media screen and (max-width: 500px) {
     transform: scale(0.75);
+    margin-top: -2rem;
+    min-height: 16rem;
   }
 `;
 
@@ -72,6 +94,10 @@ const OtherDate = styled.button<{ theme: ColorTypes }>`
   color: #b1abab;
   font-size: ${common.fontSize.fs24};
   text-align: center;
+  @media screen and (max-width: 500px) {
+    width: 10vw;
+    height: 10vw;
+  }
 `;
 
 const NowDate = styled.button<{ theme: ColorTypes }>`
@@ -83,6 +109,11 @@ const NowDate = styled.button<{ theme: ColorTypes }>`
   text-align: center;
   border-radius: 4rem;
   /* background: ${props => props.theme.primary20}; */
+
+  @media screen and (max-width: 500px) {
+    width: 10vw;
+    height: 10vw;
+  }
 `;
 
 export default Calendar;

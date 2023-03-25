@@ -9,7 +9,14 @@ interface NavItem {
   link: string;
 }
 
+interface ShopNavItem {
+  title: string;
+  index: number;
+}
+
 export type NavList = NavItem[];
+
+export type ShopNavList = ShopNavItem[];
 
 export interface WeatherList {
   Clear: string;
@@ -23,4 +30,20 @@ export interface ButtonData {
   height: number;
   context: string;
   image: string;
+}
+
+export interface BallData {
+  top: string;
+  left: string;
+  width: string;
+  height: string;
+  color: string;
+  opacity: number;
+  delay: number;
+  start: number;
+}
+
+export interface TalkData {
+  idx: number;
+  script: string[];
 }
