@@ -126,5 +126,6 @@ const Section = styled.div`
 
   @media screen and (max-width: 500px) {
     margin-bottom: 5rem;
+    width: 100vw;
   }
 `;
