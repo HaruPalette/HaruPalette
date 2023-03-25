@@ -7,6 +7,9 @@
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
     "prettier/prettier": ["error"],
@@ -19,8 +22,10 @@
       1,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
-    // allow prop-types
-    "react/jsx-props-no-spreading": "off"
+    "no-else-return": "off",
+    "no-plusplus": "off",
+    "react/no-this-in-sfc": "off",
+    "no-param-reassign": "off"
   },
   "settings": {
     "react": {
