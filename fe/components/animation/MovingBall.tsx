@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { BallReturn } from '../../types/movingBallTypes';
 
-import useCanvas from '../../hooks/useCanvas';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
 
 function MovingBall() {
@@ -252,14 +251,18 @@ function MovingBall() {
     loop(ballRef.current, ctx);
   };
 
+  const resizeHandler = () => {
+    resizeScreen(ballRef.current);
+  };
+
   useAnimationFrame(draw, 0);
 
   useEffect(() => {
     const ball = Ball('red');
     init(ball);
     ballRef.current = ball;
-    // window.addEventListener('resize', mouseMoveHandler);
-    // return () => window.removeEventListener('resize', mouseMoveHandler);
+    window.addEventListener('resize', resizeHandler);
+    return () => window.removeEventListener('resize', resizeHandler);
   }, []);
 
   return (
