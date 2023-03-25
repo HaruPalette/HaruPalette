@@ -19,9 +19,9 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
-    #generate-ddl: true
+    generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
       use-new-id-generator-mappings: false
     open-in-view: false
 
@@ -31,6 +31,8 @@ spring:
     port: 6379
     password: 'haru0220'
 
-  # application-auth
+  # application-auth, s3
   profiles:
-    include: auth
+    include:
+    - auth
+    - s3

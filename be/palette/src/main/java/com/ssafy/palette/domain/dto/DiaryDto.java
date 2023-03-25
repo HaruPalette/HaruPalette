@@ -12,5 +12,6 @@ public class DiaryDto {
 	String weather;
 	String contents;
 	String date;
+	String image;
 	Long friendId;
 }
