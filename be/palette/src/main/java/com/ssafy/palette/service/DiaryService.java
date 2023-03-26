@@ -71,6 +71,14 @@ public class DiaryService {
 
 		// 날짜 계산
 		LocalDate date = todayDate();
+
+		// 오늘 처음 쓰는 일기인지 체크
+		// 포인트, 도전 과제 체크
+		if(isFirst(userId, date))
+		{
+			//earnPoint();
+		}
+
 		Diary diary = Diary.builder()
 			.stickerCode(diaryDto.getStickerCode())
 			.weather(diaryDto.getWeather())
@@ -216,5 +224,11 @@ public class DiaryService {
 	{
 		Diary diary = diaryRepository.findById(diaryId).get();
 		diary.setStatus("D");
+	}
+
+	public boolean isFirst(String userId, LocalDate date)
+	{
+		boolean first = false;
+		return first;
 	}
 }
