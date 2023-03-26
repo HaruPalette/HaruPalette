@@ -17,6 +17,8 @@ export const REMIND: string = USERS + '/remind';
 export const DIARIES: string = V1 + '/diaries';
 // STT
 export const STT: string = DIARIES + '/stt';
+// 이미지 조회
+export const IMAGE: string = DIARIES + '/image';
 // 수정 조회
 export const SCRIPT: string = DIARIES + '/script';
 
