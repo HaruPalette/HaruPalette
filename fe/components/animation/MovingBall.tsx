@@ -1,9 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import { BallReturn } from '../../types/movingBallTypes';
-
 import useAnimationFrame from '../../hooks/useAnimationFrame';
+import styled from '@emotion/styled';
+import { BallData } from '../../types/commonTypes';
 
-function MovingBall() {
+function MovingBall(props: { ballData: BallData }) {
+  const { top, left, width, height, color } = props.ballData;
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const Ball = (color: string) => {
@@ -39,7 +41,7 @@ function MovingBall() {
     };
   };
 
-  const ballRef = useRef<BallReturn>(Ball('red'));
+  const ballRef = useRef<BallReturn>(Ball(color));
 
   const resizeScreen = (ball: BallReturn) => {
     ball.wo = canvasRef.current?.width || 0;
@@ -258,7 +260,7 @@ function MovingBall() {
   useAnimationFrame(draw, 0);
 
   useEffect(() => {
-    const ball = Ball('red');
+    const ball = Ball(color);
     init(ball);
     ballRef.current = ball;
     window.addEventListener('resize', resizeHandler);
@@ -266,9 +268,9 @@ function MovingBall() {
   }, []);
 
   return (
-    <canvas
-      width={500}
-      height={500}
+    <SangukIsGod
+      width={width}
+      height={height}
       ref={canvasRef}
       onMouseMove={mouseMoveHandler}
     />
@@ -276,3 +278,7 @@ function MovingBall() {
 }
 
 export default MovingBall;
+
+const SangukIsGod = styled.canvas`
+  position: relative;
+`;

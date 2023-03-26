@@ -1,4 +1,5 @@
-import { DIARIES, SCRIPT } from '../constants/api';
+import { DIARIES, IMAGE, SCRIPT } from '../constants/api';
+import { DiaryData } from '../types/diariesTypes';
 import { axiosInstance } from '../utils/axios';
 
 class DiariesService {
@@ -12,10 +13,8 @@ class DiariesService {
   }
 
   /** 일기 작성 */
-  public static async postDiaries(params: object) {
-    const response = await axiosInstance.post(DIARIES, {
-      params,
-    });
+  public static async postDiaries(diaryData: object) {
+    const response = await axiosInstance.post(DIARIES, diaryData);
 
     return response;
   }
@@ -25,6 +24,13 @@ class DiariesService {
     const response = await axiosInstance.patch(DIARIES, {
       params: { diaryId: diaryId },
     });
+
+    return response;
+  }
+
+  /** 이미지 조회 */
+  public static async getImage() {
+    const response = await axiosInstance.get(IMAGE);
 
     return response;
   }
