@@ -1,10 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { DiaryData } from '../../types/diariesTypes';
 import Diary from '../../components/diary/Diary';
 import KakaoShareButton from '../../components/button/KakaoShareButton';
 import SaveImageButton from '../../components/button/SaveImageButton';
+import styled from '@emotion/styled';
+import Header from '../../components/common/Header';
 
 function Detail() {
+  const [save, setSave] = useState(false);
+  const [share, setShare] = useState(false);
+
   // axios로 받아올 일기 상세조회
   const diary: DiaryData = {
     diaryId: 1,
@@ -32,11 +37,41 @@ function Detail() {
   }, []);
   return (
     <>
-      <Diary diary={diary} type={'view'} />
-      <SaveImageButton />
-      <KakaoShareButton />
+      <Header />
+      <Container>
+        <Diary
+          diary={diary}
+          type={'view'}
+          save={save}
+          share={share}
+          setSave={setSave}
+          setShare={setShare}
+        />
+        <ButtonList>
+          <SaveImageButton setSave={setSave} />
+          <KakaoShareButton setShare={setShare} />
+        </ButtonList>
+      </Container>
     </>
   );
 }
+
+const Container = styled.div`
+  width: 100vw;
+  height: calc(100vh - 5rem);
+  padding: 5rem 10rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+`;
+
+const ButtonList = styled.div`
+  height: 8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 export default Detail;
