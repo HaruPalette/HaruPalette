@@ -17,11 +17,12 @@ const menuSlice = createSlice({
   initialState,
   reducers: {
     menuOpenSuccess(state) {
-      state.isActive = !state.isActive;
+      state.isActive = true;
     },
 
     changeLinkSuccess(state, actions) {
       state.link = actions.payload;
+      state.isActive = false;
     },
   },
 });
