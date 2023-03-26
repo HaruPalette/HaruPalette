@@ -43,6 +43,7 @@ export default Icon;
 const IconList = styled.ul`
   list-style: none;
   width: calc(50% - 20vw);
+  min-width: 120px;
 
   display: flex;
   align-items: center;

@@ -16,6 +16,10 @@ export interface DiaryData {
   sadness: number;
 }
 
+export interface ImageData {
+  image: string;
+}
+
 export interface STTData {
   contents: string;
 }
@@ -29,24 +33,14 @@ export interface DiariesResponse {
   diaryData: DiaryData;
 }
 
+export interface ImageResponse {
+  imageData: ImageData;
+}
+
 export interface STTResponse {
   sttData: STTData;
 }
 
 export interface ScriptResponse {
   scriptData: ScriptData;
-}
-
-export interface UseGetDiariesResult {
-  isLoading: boolean;
-  diaryData: DiaryData | undefined;
-  isError: boolean;
-  errorMessage: string | undefined;
-}
-
-export interface UseGetScriptResult {
-  isLoading: boolean;
-  scriptData: ScriptData | undefined;
-  isError: boolean;
-  errorMessage: string | undefined;
 }

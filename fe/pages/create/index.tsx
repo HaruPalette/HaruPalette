@@ -1,6 +1,6 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Pulse from '../../components/animation/Pulse';
 import ScriptTalk from '../../components/animation/ScriptTalk';
 import HaruButton from '../../components/button/HaruButton';
@@ -8,11 +8,21 @@ import HomeButton from '../../components/button/HomeButton';
 import WeatherButton from '../../components/button/WeatherButton';
 import Model from '../../components/common/Model';
 import { TALK_BUTTON } from '../../constants/button';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
+import {
+  resetScriptIndexSuccess,
+  selectScript,
+} from '../../store/modules/script';
 
 function Create() {
-  const [step, setStep] = useState<number>(0);
   const theme = useTheme();
+  const curSrciptIndex = useAppSelector(selectScript).curScriptIndex;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetScriptIndexSuccess());
+  }, []);
 
   return (
     <CreatePage theme={theme}>

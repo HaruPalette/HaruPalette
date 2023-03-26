@@ -4,11 +4,7 @@ import Link from 'next/link';
 import { NAV_LIST } from '../../constants/nav';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
-import {
-  changeLinkSuccess,
-  menuOpenSuccess,
-  selectMenu,
-} from '../../store/modules/menu';
+import { changeLinkSuccess, selectMenu } from '../../store/modules/menu';
 import { common } from '../../styles/theme';
 
 interface Menu {
@@ -23,7 +19,6 @@ function MobileNavList() {
 
   const handleChangeLink = (link: string) => {
     dispatch(changeLinkSuccess(link));
-    dispatch(menuOpenSuccess());
   };
 
   return (

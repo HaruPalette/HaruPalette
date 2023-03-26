@@ -13,7 +13,8 @@ function Footer() {
         <Logo />
         <Icon />
         <CopyRight theme={theme}>
-          © 2023 Haru Palette. All rights reserved.
+          <span>© 2023 Haru Palette. </span>
+          <span>All rights reserved.</span>
         </CopyRight>
       </FooterContainer>
     </HaruFooter>
@@ -45,9 +46,20 @@ const FooterContainer = styled.div`
 `;
 
 const CopyRight = styled.p<{ theme: ColorTypes }>`
-  font-size: 1vw;
+  font-size: 12px;
   color: ${props => props.theme.color};
   @media screen and (max-width: 960px) {
+    font-size: 1vw;
     width: 14rem;
+  }
+  @media screen and (max-width: 500px) {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    width: 30vw;
+    span:nth-of-type(2) {
+      display: none;
+    }
   }
 `;
