@@ -12,12 +12,12 @@ import { common } from '../../styles/theme';
 const ButtonsDiv = styled.div`
   position: absolute;
   display: flex;
-  text-align: right;
-  width: 20.25rem;
+  text-align: left;
+  width: 14rem;
   height: 1.875rem;
   left: 0px;
   padding: 0 10rem;
-  top: 27.06rem;
+  top: 24.25rem;
   line-height: 1.875rem;
 `;
 
@@ -25,19 +25,17 @@ const CurrButton = styled.button<{ theme: ColorTypes }>`
   width: 7.5rem;
   height: 1.875rem;
   font-weight: bold;
-  /* color: #8e6cd4; */
   color: ${props => props.theme.main};
-  margin-left: ${common.fontSize.fs24};
+  margin-right: ${common.fontSize.fs24};
   text-decoration: underline;
   text-underline-offset: 7px;
-  /* text-decoration-style: */
   text-decoration-thickness: 3px;
 `;
 const Button = styled.button<{ theme: ColorTypes }>`
   width: 7.5rem;
   height: 1.875rem;
   color: ${props => props.theme.color};
-  margin-left: ${common.fontSize.fs24};
+  margin-right: ${common.fontSize.fs24};
   &:hover {
     color: ${props => props.theme.main};
   }
@@ -45,8 +43,9 @@ const Button = styled.button<{ theme: ColorTypes }>`
 
 const ContentDiv = styled.div<{ theme: ColorTypes }>`
   position: absolute;
-  top: 500px;
-  padding: 0 160px;
+  top: 28rem;
+  width: 100vw;
+  display: flex;
   color: ${props => props.theme.color};
 `;
 

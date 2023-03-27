@@ -27,7 +27,7 @@ const SelectButton = styled.button<{
   width: ${props => (props.year ? '5rem' : '3rem')};
   padding: 0.5rem 1.2rem;
   text-align: center;
-  border: 1px solid
+  border: 2px solid
     ${props => (props.click ? props.theme.main : common.colors.disable)};
   border-radius: 1rem;
   background: ${props => props.theme.background};

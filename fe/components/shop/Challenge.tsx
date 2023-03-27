@@ -7,8 +7,8 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 1224px;
-  height: 240px;
+  width: 80vw;
+  padding: 0 160px;
 `;
 
 const dummy: DiaryProps[] = [
@@ -41,15 +41,16 @@ const dummy: DiaryProps[] = [
     color: 'primary80',
   },
 ];
+
 function Challenge() {
-  return (
-    <Container>
-      <Round data={dummy[0]} />
-      <Round data={dummy[1]} />
-      <Round data={dummy[2]} />
-      <Round data={dummy[3]} />
-    </Container>
-  );
+  const renderRound = () => {
+    const renderRoundArr = dummy.map((el: DiaryProps, index: number) => {
+      return <Round key={index} data={el} />;
+    });
+    return renderRoundArr;
+  };
+
+  return <Container>{renderRound()}</Container>;
 }
 
 export default Challenge;
