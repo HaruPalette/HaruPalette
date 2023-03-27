@@ -10,7 +10,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.stream.Collectors;
 
+import com.ssafy.palette.domain.dto.CalenderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -66,44 +68,6 @@ public class DiaryService {
         this.paletteAIStub = PaletteAIGrpc.newBlockingStub(managedChannel);
     }
 
-    public void writeDiary(MultipartFile file, DiaryDto diaryDto, String userId) throws IOException {
-        User user = userRepository.findById(userId).get();
-        Friend friend = friendRepository.findById(diaryDto.getFriendId()).get();
-
-        // 날짜 계산
-        LocalDate date = todayDate();
-
-        // 오늘 처음 쓰는 일기인지 체크
-        // 포인트, 도전 과제 체크
-        if (isFirst(userId, date)) {
-            //earnPoint();
-        }
-
-        Diary diary = Diary.builder()
-                .stickerCode(diaryDto.getStickerCode())
-                .weather(diaryDto.getWeather())
-                .contents(diaryDto.getContents())
-                .registrationDate(date)
-                .user(user)
-                .friend(friend)
-                .status("V")
-                .build();
-        diaryRepository.save(diary);
-
-        if (file == null) {
-            File image = File.builder()
-                    .path(diaryDto.getImage())
-                    .diary(diary)
-                    .build();
-            fileRepository.save(image);
-        } else {
-            s3Service.uploadImg(diary.getId(), file, date);
-        }
-
-        // 감정값 저장
-        textToEmotion(diary.getContents(), user, diary);
-    }
-
     public DetailDiaryDto detailDiary(Long diaryId, String userId) throws Exception {
 
         // userId validation
@@ -142,6 +106,58 @@ public class DiaryService {
                 .diary(diary)
                 .build();
         emotionRepository.save(emotion);
+    }
+
+    public void writeDiary(MultipartFile file, DiaryDto diaryDto, String userId) throws IOException {
+        User user = userRepository.findById(userId).get();
+        Friend friend = friendRepository.findById(diaryDto.getFriendId()).get();
+
+        // 날짜 계산
+        LocalDate date = todayDate();
+
+        // 오늘 처음 쓰는 일기인지 체크
+        // 포인트, 도전 과제 체크
+        if (isFirst(userId, date)) {
+            //earnPoint();
+        }
+
+        Diary diary = Diary.builder()
+                .stickerCode(diaryDto.getStickerCode())
+                .weather(diaryDto.getWeather())
+                .contents(diaryDto.getContents())
+                .registrationDate(date)
+                .user(user)
+                .friend(friend)
+                .status("V")
+                .build();
+        diaryRepository.save(diary);
+
+        if (file == null) {
+            File image = File.builder()
+                    .path(diaryDto.getImage())
+                    .diary(diary)
+                    .build();
+            fileRepository.save(image);
+        } else {
+            s3Service.uploadImg(diary.getId(), file, date);
+        }
+
+        // 감정값 저장
+        textToEmotion(diary.getContents(), user, diary);
+    }
+
+    public List<CalenderDto> getCalendar(String userId, String date) {
+        log.info("userId : " + userId);
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + userId));
+        LocalDate start = LocalDate.parse(date + "-01");
+        LocalDate end = start.plusMonths(1).minusDays(1);
+        List<Diary> diaries = diaryRepository.findByUserAndRegistrationDateBetween(user, start, end);
+        List<CalenderDto> calenderDto = new ArrayList<>();
+        for (Diary diary : diaries) {
+            Emotion emotion = emotionRepository.findByDiary(diary).get();
+            calenderDto.add(CalenderDto.toEntity(diary, emotion));
+        }
+        return calenderDto;
     }
 
     public void setAnswer(EmotionResponse response, Diary diary) {
