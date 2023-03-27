@@ -37,6 +37,14 @@ public class User {
     @JoinColumn(name = "friend_id")
     private Friend friend;
 
+    // 주간 챌린지 달성 횟수
+    @Column
+    private int weekCnt;
+
+    // 월간 챌린지 달성 횟수
+    @Column
+    private int monthCnt;
+
     public User() {
     }
 }
