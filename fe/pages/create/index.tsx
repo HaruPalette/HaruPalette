@@ -15,6 +15,35 @@ import {
   selectScript,
 } from '../../store/modules/script';
 
+
+const CreatePage = styled.div<{ theme: ColorTypes }>`
+  width: 100vw;
+  height: 100vh;
+  background-color: ${props => props.theme.background};
+`;
+
+
+const CreatePageContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  padding: 0 10rem;
+`;
+
+const CreateHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  position: absolute;
+  top: 2rem;
+
+  width: calc(100vw - 32px);
+  padding: 0 1rem;
+
+  z-index: 1;
+`;
+
 function Create() {
   const theme = useTheme();
   const curSrciptIndex = useAppSelector(selectScript).curScriptIndex;
@@ -43,29 +72,4 @@ function Create() {
 
 export default Create;
 
-const CreatePage = styled.div<{ theme: ColorTypes }>`
-  width: 100vw;
-  height: 100vh;
-  background-color: ${props => props.theme.background};
-`;
 
-const CreatePageContainer = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-
-  padding: 0 10rem;
-`;
-
-const CreateHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-
-  position: absolute;
-  top: 2rem;
-
-  width: calc(100vw - 32px);
-  padding: 0 1rem;
-
-  z-index: 1;
-`;

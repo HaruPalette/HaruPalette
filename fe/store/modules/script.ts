@@ -27,7 +27,8 @@ const scriptSlice = createSlice({
     },
     /** 대화하기 버튼을 통해 녹음 시작 */
     startRecodingSuccess(state) {
-      state.isRecoding = true;
+      const temp = state;
+      temp.isRecoding = true;
     },
     /** 일시정지 버튼을 통해 녹음을 일시 정지 */
     pauseRecodeingSuccess(state) {

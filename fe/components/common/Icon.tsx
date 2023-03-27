@@ -1,7 +1,22 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useAppSelector } from '../../hooks/reduxHook';
 import { selectTheme } from '../../store/modules/theme';
+
+const IconList = styled.ul`
+  list-style: none;
+  width: calc(50% - 20vw);
+  min-width: 120px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const IconItem = styled.li`
+  cursor: pointer;
+`;
 
 function Icon() {
   const isDark = useAppSelector(selectTheme);
@@ -27,11 +42,11 @@ function Icon() {
   };
   return (
     <IconList>
-      {Object.entries(iconItem).map((item, idx) => (
-        <IconItem key={idx}>
-          <a href={item[1].url} target="_blank">
+      {Object.entries(iconItem).map(item => (
+        <IconItem key={item[0]}>
+          <Link href={item[1].url} target="_blank">
             <Image src={item[1].icon} width={40} height={40} alt={item[0]} />
-          </a>
+          </Link>
         </IconItem>
       ))}
     </IconList>
@@ -39,17 +54,3 @@ function Icon() {
 }
 
 export default Icon;
-
-const IconList = styled.ul`
-  list-style: none;
-  width: calc(50% - 20vw);
-  min-width: 120px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const IconItem = styled.li`
-  cursor: pointer;
-`;

@@ -1,4 +1,4 @@
-export const sticker: string[] = [
+const STICKER: string[] = [
   'default',
   'love',
   'sad',
@@ -20,3 +20,5 @@ export const sticker: string[] = [
   'yarn',
   'play',
 ];
+
+export default STICKER;
