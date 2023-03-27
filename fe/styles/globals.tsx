@@ -22,6 +22,7 @@ const style = () => css`
     border: 0;
     vertical-align: baseline;
     font-family: 'GmarketSansMedium';
+    box-sizing: border-box;
 
     transition: 0.4s ease-in-out;
   }

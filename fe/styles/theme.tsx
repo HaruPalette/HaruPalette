@@ -47,7 +47,7 @@ export const haruDark: ColorTypes = {
   background: '#0A142E',
   border: '#ffffff',
   color: '#ffffff',
-  diaryBackground: 'rgba(10, 20, 46, 0.4)',
+  diaryBackground: 'rgba(255,166,214,0.2)',
 };
 
 export const toriLight: ColorTypes = {
@@ -72,7 +72,7 @@ export const toriDark: ColorTypes = {
   background: '#0A142E',
   border: '#ffffff',
   color: '#ffffff',
-  diaryBackground: 'rgba(10, 20, 46, 0.4)',
+  diaryBackground: 'rgba(210, 151, 99, 0.2)',
 };
 
 export const gomiLight: ColorTypes = {
@@ -98,5 +98,5 @@ export const gomiDark: ColorTypes = {
   background: '#0A142E',
   border: '#ffffff',
   color: '#ffffff',
-  diaryBackground: 'rgba(10, 20, 46, 0.4)',
+  diaryBackground: 'rgba(79, 220, 85, 0.2)',
 };
