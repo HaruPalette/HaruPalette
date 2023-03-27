@@ -7,8 +7,8 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 1224px;
-  height: 240px;
+  width: 80vw;
+  padding: 0 160px;
 `;
 
 const dummy: DiaryProps[] = [

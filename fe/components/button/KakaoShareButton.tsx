@@ -29,13 +29,8 @@ function KakaoShareButton(props: {
   const { setShare } = props;
   const theme = useTheme();
   return (
-<<<<<<< HEAD
-    <ShareButton type="button">
-      <Image
-=======
     <ShareButton type="button" theme={theme} onClick={() => setShare(true)}>
       <ShareImg
->>>>>>> a150853849cff3baf26a3565478f8ee0a211592c
         src="/assets/img/common/share.svg"
         width={40}
         height={40}

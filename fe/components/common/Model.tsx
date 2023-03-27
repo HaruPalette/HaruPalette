@@ -40,35 +40,13 @@ function Model() {
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setPixelRatio(window.devicePixelRatio);
       // renderer.setSize(sizes.width, sizes.height - 120);
-<<<<<<< HEAD
       renderer.setSize(sizes.width, sizes.height - 222 - 200 - 32);
-      _renderer = renderer;
-=======
-      renderer.setSize(sizes.width, sizes.height - 222 - 150);
       rendererPrev = renderer;
->>>>>>> a150853849cff3baf26a3565478f8ee0a211592c
 
       const scene = new THREE.Scene();
       scene.background = null;
       scenePrev = scene;
 
-<<<<<<< HEAD
-      const onWindowResize = function (): void {
-        width = window.innerWidth;
-        height = window.innerHeight;
-
-        _camera.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
-
-        height = sizes.height - 222 - 200 - 32;
-        _camera.aspect = width / height; // canvas비율을 카메라에 적용
-
-        _renderer.setSize(width, height, true);
-        // _renderer.setSize(sizes.width, sizes.height - 120 - 98);
-        controls.reset();
-      };
-      window.addEventListener('resize', onWindowResize, false);
-=======
->>>>>>> a150853849cff3baf26a3565478f8ee0a211592c
       // window.addEventListener('mousedown·mouseup', onWindowReset, false);
       // window.onresize = resize.bind(customdiv);
       // resize();
