@@ -10,11 +10,13 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
 @Entity
 @Getter
 @Builder
+@Data
 @AllArgsConstructor
 @Table(name = "USER")
 public class User {
@@ -36,6 +38,14 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "friend_id")
     private Friend friend;
+
+    // 주간 챌린지 달성 횟수
+    @Column
+    private int weekCnt;
+
+    // 월간 챌린지 달성 횟수
+    @Column
+    private int monthCnt;
 
     public User() {
     }
