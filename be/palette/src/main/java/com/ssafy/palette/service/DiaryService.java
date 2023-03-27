@@ -154,6 +154,7 @@ public class DiaryService {
         List<Diary> diaries = diaryRepository.findByUserAndRegistrationDateBetween(user, start, end);
         List<CalenderDto> calenderDto = new ArrayList<>();
         for (Diary diary : diaries) {
+            if (diary.getStatus().equals("D")) continue;
             Emotion emotion = emotionRepository.findByDiary(diary).get();
             calenderDto.add(CalenderDto.toEntity(diary, emotion));
         }
