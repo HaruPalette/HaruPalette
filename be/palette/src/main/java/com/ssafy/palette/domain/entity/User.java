@@ -10,13 +10,11 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 @Entity
 @Getter
 @Builder
-@Data
 @AllArgsConstructor
 @Table(name = "USER")
 public class User {
@@ -49,4 +47,9 @@ public class User {
 
     public User() {
     }
+
+    // setter //
+    public void setPoint(int point) {this.point = point; }
+    public void setWeekCnt(int weekCnt){ this.weekCnt = weekCnt; }
+    public void setMonthCnt(int monthCnt){ this.monthCnt = monthCnt; }
 }
