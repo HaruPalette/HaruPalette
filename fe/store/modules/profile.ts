@@ -20,9 +20,10 @@ const profileSlice = createSlice({
   initialState,
   reducers: {
     loginSuccess(state, action) {
-      state.image = action.payload.image;
-      state.chrName = action.payload.chrName;
-      state.chrPK = action.payload.chrPK;
+      const temp = state;
+      temp.image = action.payload.image;
+      temp.chrName = action.payload.chrName;
+      temp.chrPK = action.payload.chrPK;
     },
   },
 });

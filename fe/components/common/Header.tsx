@@ -1,48 +1,15 @@
 import styled from '@emotion/styled';
-
+import { ColorTypes } from '@emotion/react';
 import LoginButton from '../button/LoginButton';
 import DarkModeButton from '../button/DarkModeButton';
 import Logo from './Logo';
 import NavList from '../nav/NavList';
 import useTheme from '../../hooks/useTheme';
-import { ColorTypes } from '@emotion/react';
 import MobileNavList from '../nav/MobileNavList';
 import useScreenY from '../../hooks/useScreenY';
 import HamburgerButton from '../button/HamburgerButton';
 import { useAppSelector } from '../../hooks/reduxHook';
 import { selectMenu } from '../../store/modules/menu';
-
-function Header() {
-  const theme = useTheme();
-  const screenY = useScreenY();
-  const isActive = useAppSelector(selectMenu).isActive;
-
-  return (
-    <>
-      <HaruHeader theme={theme} screenY={screenY} isActive={isActive}>
-        <HeaderContainer>
-          <LeftContainer>
-            <HamburgerButton />
-          </LeftContainer>
-
-          <CenterContainer>
-            <Logo />
-            <NavList />
-          </CenterContainer>
-
-          <RightContainer>
-            <DarkModeButton />
-            <LoginButton />
-          </RightContainer>
-        </HeaderContainer>
-      </HaruHeader>
-
-      <MobileNavList />
-    </>
-  );
-}
-
-export default Header;
 
 const HaruHeader = styled.header<{
   theme: ColorTypes;
@@ -108,3 +75,35 @@ const RightContainer = styled.div`
     width: 6rem;
   }
 `;
+
+function Header() {
+  const theme = useTheme();
+  const screenY = useScreenY();
+  const active = useAppSelector(selectMenu).isActive;
+
+  return (
+    <>
+      <HaruHeader theme={theme} screenY={screenY} isActive={active}>
+        <HeaderContainer>
+          <LeftContainer>
+            <HamburgerButton />
+          </LeftContainer>
+
+          <CenterContainer>
+            <Logo />
+            <NavList />
+          </CenterContainer>
+
+          <RightContainer>
+            <DarkModeButton />
+            <LoginButton />
+          </RightContainer>
+        </HeaderContainer>
+      </HaruHeader>
+
+      <MobileNavList />
+    </>
+  );
+}
+
+export default Header;

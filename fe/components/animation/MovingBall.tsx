@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
+import styled from '@emotion/styled';
 import { BallReturn } from '../../types/movingBallTypes';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
-import styled from '@emotion/styled';
 import { BallData } from '../../types/commonTypes';
 
 function MovingBall(props: { ballData: BallData }) {

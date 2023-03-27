@@ -14,12 +14,23 @@ function useTheme() {
   const isDark = useAppSelector(selectTheme);
   const profile = useAppSelector(selectProfile);
 
-  if (profile.chrName === 'haru') {
-    return isDark ? haruDark : haruLight;
-  } else if (profile.chrName === 'tori') {
-    return isDark ? toriDark : toriLight;
-  } else if (profile.chrName === 'gomi') {
-    return isDark ? gomiDark : gomiLight;
+  if (profile.chrName === 'haru' && isDark) {
+    return haruDark;
+  }
+  if (profile.chrName === 'haru' && !isDark) {
+    return haruLight;
+  }
+  if (profile.chrName === 'tori' && isDark) {
+    return toriDark;
+  }
+  if (profile.chrName === 'tori' && !isDark) {
+    return toriLight;
+  }
+  if (profile.chrName === 'gomi' && isDark) {
+    return gomiDark;
+  }
+  if (profile.chrName === 'gomi' && !isDark) {
+    return gomiLight;
   }
 
   return haruLight;
@@ -27,12 +38,23 @@ function useTheme() {
 
 export function prevTheme(ename: string) {
   const isDark = useAppSelector(selectTheme);
-  if (ename === 'haru') {
-    return isDark ? haruDark : haruLight;
-  } else if (ename === 'tori') {
-    return isDark ? toriDark : toriLight;
-  } else if (ename === 'gomi') {
-    return isDark ? gomiDark : gomiLight;
+  if (ename === 'haru' && isDark) {
+    return haruDark;
+  }
+  if (ename === 'haru' && !isDark) {
+    return haruLight;
+  }
+  if (ename === 'tori' && isDark) {
+    return toriDark;
+  }
+  if (ename === 'tori' && !isDark) {
+    return toriLight;
+  }
+  if (ename === 'gomi' && isDark) {
+    return gomiDark;
+  }
+  if (ename === 'gomi' && !isDark) {
+    return gomiLight;
   }
 
   return haruLight;

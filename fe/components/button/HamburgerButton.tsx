@@ -4,32 +4,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import { menuOpenSuccess, selectMenu } from '../../store/modules/menu';
 
-function HamburgerButton() {
-  const isActive = useAppSelector(selectMenu).isActive;
-  const dispatch = useAppDispatch();
-  const theme = useTheme();
-
-  const handleOpenHamburger = () => {
-    dispatch(menuOpenSuccess());
-  };
-
-  return (
-    <Hamburger
-      type="button"
-      onClick={handleOpenHamburger}
-      isActive={isActive}
-      theme={theme}
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </Hamburger>
-  );
-}
-
-export default HamburgerButton;
-
 const Hamburger = styled.button<{ isActive: boolean; theme: ColorTypes }>`
   display: none;
 
@@ -108,3 +82,29 @@ const Hamburger = styled.button<{ isActive: boolean; theme: ColorTypes }>`
       }
     `}
 `;
+
+function HamburgerButton() {
+  const active = useAppSelector(selectMenu).isActive;
+  const dispatch = useAppDispatch();
+  const theme = useTheme();
+
+  const handleOpenHamburger = () => {
+    dispatch(menuOpenSuccess());
+  };
+
+  return (
+    <Hamburger
+      type="button"
+      onClick={handleOpenHamburger}
+      isActive={active}
+      theme={theme}
+    >
+      <span />
+      <span />
+      <span />
+      <span />
+    </Hamburger>
+  );
+}
+
+export default HamburgerButton;

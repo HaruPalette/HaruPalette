@@ -2,31 +2,6 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import { common } from '../../styles/theme';
 
-function LoginButton() {
-  const loginKakao = () => {
-    window.Kakao.Auth.authorize({
-      redirectUri: process.env.NEXT_PUBLIC_KAKAO_REDIRECTURI,
-    });
-    window.location.href = process.env.NEXT_PUBLIC_LOGIN_REDIRECTURI
-      ? process.env.NEXT_PUBLIC_LOGIN_REDIRECTURI
-      : '/';
-  };
-
-  return (
-    <KakaoLogInButton type="button" onClick={loginKakao}>
-      <Image
-        src={'assets/img/common/kakao.svg'}
-        width={24}
-        height={24}
-        alt="kakao"
-      />
-      <LogInText>로그인</LogInText>
-    </KakaoLogInButton>
-  );
-}
-
-export default LoginButton;
-
 const KakaoLogInButton = styled.button`
   display: flex;
   align-items: center;
@@ -60,3 +35,28 @@ const LogInText = styled.p`
     display: none;
   }
 `;
+
+function LoginButton() {
+  const loginKakao = () => {
+    window.Kakao.Auth.authorize({
+      redirectUri: process.env.NEXT_PUBLIC_KAKAO_REDIRECTURI,
+    });
+    window.location.href = process.env.NEXT_PUBLIC_LOGIN_REDIRECTURI
+      ? process.env.NEXT_PUBLIC_LOGIN_REDIRECTURI
+      : '/';
+  };
+
+  return (
+    <KakaoLogInButton type="button" onClick={loginKakao}>
+      <Image
+        src="assets/img/common/kakao.svg"
+        width={24}
+        height={24}
+        alt="kakao"
+      />
+      <LogInText>로그인</LogInText>
+    </KakaoLogInButton>
+  );
+}
+
+export default LoginButton;

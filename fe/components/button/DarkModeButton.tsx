@@ -6,6 +6,17 @@ import useTheme from '../../hooks/useTheme';
 import { selectTheme, setTheme } from '../../store/modules/theme';
 import { common } from '../../styles/theme';
 
+const ThemeButton = styled.button<{ theme: ColorTypes }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: ${common.fontSize.fs40};
+  height: ${common.fontSize.fs40};
+  border-radius: 50%;
+  background: ${props => props.theme.background};
+`;
+
 function DarkModeButton() {
   const isDark = useAppSelector(selectTheme);
   const dispatch = useAppDispatch();
@@ -25,14 +36,3 @@ function DarkModeButton() {
 }
 
 export default DarkModeButton;
-
-const ThemeButton = styled.button<{ theme: ColorTypes }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: ${common.fontSize.fs40};
-  height: ${common.fontSize.fs40};
-  border-radius: 50%;
-  background: ${props => props.theme.background};
-`;

@@ -2,55 +2,9 @@ import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { WEATHER_LIST } from '../../constants/weather';
+import WEATHER_LIST from '../../constants/weather';
 import useTheme from '../../hooks/useTheme';
 import useWeather from '../../hooks/useWeather';
-
-function WeatherButton() {
-  const theme = useTheme();
-  const newWeather = useWeather();
-  const [curWeather, setcurWeather] = useState(newWeather);
-
-  const handleCurWeather = (weather: string) => {
-    setcurWeather(weather);
-  };
-
-  useEffect(() => {
-    setcurWeather(newWeather);
-  }, [newWeather]);
-
-  return (
-    <WeatherContainer theme={theme}>
-      {Object.entries(WEATHER_LIST).map((weather, idx) =>
-        curWeather === weather[0] ? (
-          <CurWeatherIcon type="button" key={idx}>
-            <WeatherImage
-              src={weather[1]}
-              width={32}
-              height={32}
-              alt={weather[0]}
-            />
-          </CurWeatherIcon>
-        ) : (
-          <WeatherIcon
-            type="button"
-            key={idx}
-            onClick={() => handleCurWeather(weather[0])}
-          >
-            <WeatherImage
-              src={weather[1]}
-              width={32}
-              height={32}
-              alt={weather[0]}
-            />
-          </WeatherIcon>
-        ),
-      )}
-    </WeatherContainer>
-  );
-}
-
-export default WeatherButton;
 
 const WeatherContainer = styled.div<{ theme: ColorTypes }>`
   display: flex;
@@ -109,3 +63,49 @@ const WeatherImage = styled(Image)`
     height: 1.5rem;
   }
 `;
+
+function WeatherButton() {
+  const theme = useTheme();
+  const newWeather = useWeather();
+  const [curWeather, setcurWeather] = useState(newWeather);
+
+  const handleCurWeather = (weather: string) => {
+    setcurWeather(weather);
+  };
+
+  useEffect(() => {
+    setcurWeather(newWeather);
+  }, [newWeather]);
+
+  return (
+    <WeatherContainer theme={theme}>
+      {Object.entries(WEATHER_LIST).map(weather =>
+        curWeather === weather[0] ? (
+          <CurWeatherIcon type="button" key={weather[0]}>
+            <WeatherImage
+              src={weather[1]}
+              width={32}
+              height={32}
+              alt={weather[0]}
+            />
+          </CurWeatherIcon>
+        ) : (
+          <WeatherIcon
+            type="button"
+            key={weather[0]}
+            onClick={() => handleCurWeather(weather[0])}
+          >
+            <WeatherImage
+              src={weather[1]}
+              width={32}
+              height={32}
+              alt={weather[0]}
+            />
+          </WeatherIcon>
+        ),
+      )}
+    </WeatherContainer>
+  );
+}
+
+export default WeatherButton;

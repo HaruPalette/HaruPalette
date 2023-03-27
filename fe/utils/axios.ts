@@ -28,7 +28,7 @@ const reissueAccessToken = async () => {
 
 const createAxiosInstance = (): AxiosInstance => {
   const baseURL = BASE_URL;
-  const accessToken: string | undefined = Cookies.get(ACCESS_TOKEN);
+  let accessToken: string | undefined = Cookies.get(ACCESS_TOKEN);
   const headers = accessToken
     ? { Authorization: `Bearer ${accessToken}` }
     : undefined;
@@ -60,15 +60,16 @@ const createAxiosInstance = (): AxiosInstance => {
     },
 
     async (error: AxiosError) => {
+      const temp = error;
       // response error
-      if (error.response) {
+      if (temp.response) {
         try {
-          const accessToken = await reissueAccessToken();
+          accessToken = await reissueAccessToken();
 
           // 재발급  받은 access token을 header에 추가
-          error.response.config.headers.Authorization = `Bearer ${accessToken}`;
+          temp.response.config.headers.Authorization = `Bearer ${accessToken}`;
           // 재시도
-          const response = await axios.request(error.response.config);
+          const response = await axios.request(temp.response.config);
           return response;
         } catch (err) {
           console.log('토큰이 만료되어 로그아웃 처리');
@@ -83,3 +84,4 @@ const createAxiosInstance = (): AxiosInstance => {
 };
 
 export const axiosInstance = createAxiosInstance();
+export default createAxiosInstance;

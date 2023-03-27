@@ -7,42 +7,6 @@ import useTheme from '../../hooks/useTheme';
 import { changeLinkSuccess, selectMenu } from '../../store/modules/menu';
 import { common } from '../../styles/theme';
 
-function NavList() {
-  const theme = useTheme();
-  const menu = useAppSelector(selectMenu);
-  const dispatch = useAppDispatch();
-  const handleChangeLink = (link: string) => {
-    dispatch(changeLinkSuccess(link));
-  };
-  return (
-    <HaruNav>
-      {NAV_LIST.map((item, idx) =>
-        menu.link === item.link ? (
-          <CurNavItem
-            key={idx}
-            href={item.link}
-            theme={theme}
-            onClick={() => handleChangeLink(item.link)}
-          >
-            {item.title}
-          </CurNavItem>
-        ) : (
-          <NavItem
-            key={idx}
-            href={item.link}
-            theme={theme}
-            onClick={() => handleChangeLink(item.link)}
-          >
-            {item.title}
-          </NavItem>
-        ),
-      )}
-    </HaruNav>
-  );
-}
-
-export default NavList;
-
 const HaruNav = styled.nav`
   display: flex;
 
@@ -74,3 +38,39 @@ const NavItem = styled(Link)<{ theme: ColorTypes }>`
     color: ${props => props.theme.primary40};
   }
 `;
+
+function NavList() {
+  const theme = useTheme();
+  const menu = useAppSelector(selectMenu);
+  const dispatch = useAppDispatch();
+  const handleChangeLink = (link: string) => {
+    dispatch(changeLinkSuccess(link));
+  };
+  return (
+    <HaruNav>
+      {NAV_LIST.map(item =>
+        menu.link === item.link ? (
+          <CurNavItem
+            key={item.title}
+            href={item.link}
+            theme={theme}
+            onClick={() => handleChangeLink(item.link)}
+          >
+            {item.title}
+          </CurNavItem>
+        ) : (
+          <NavItem
+            key={item.title}
+            href={item.link}
+            theme={theme}
+            onClick={() => handleChangeLink(item.link)}
+          >
+            {item.title}
+          </NavItem>
+        ),
+      )}
+    </HaruNav>
+  );
+}
+
+export default NavList;
