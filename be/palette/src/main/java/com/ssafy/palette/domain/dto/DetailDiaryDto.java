@@ -18,7 +18,7 @@ public class DetailDiaryDto {
 	private String date;
 	private String contents;
 	private String weather;
-	private long friendId;
+	private String friendEname;
 	private String answer;
 	private String image;
 	private String stickerCode;
@@ -38,7 +38,7 @@ public class DetailDiaryDto {
 			.date(String.valueOf(diary.getRegistrationDate()))
 			.contents(diary.getContents())
 			.weather(diary.getWeather())
-			.friendId(diary.getFriend().getId())
+			.friendEname(diary.getFriend().getEname())
 			.answer(diary.getAnswer().getContents())
 			.stickerCode(diary.getStickerCode())
 			.neutral(emotion.getNeutral())

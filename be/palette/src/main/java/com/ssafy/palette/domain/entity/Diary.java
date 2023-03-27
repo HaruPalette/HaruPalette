@@ -70,4 +70,5 @@ public class Diary  {
     {
         this.answer = answer;
     }
+    public void setStatus(String status) { this.status = status; }
 }

@@ -37,6 +37,19 @@ public class User {
     @JoinColumn(name = "friend_id")
     private Friend friend;
 
+    // 주간 챌린지 달성 횟수
+    @Column
+    private int weekCnt;
+
+    // 월간 챌린지 달성 횟수
+    @Column
+    private int monthCnt;
+
     public User() {
     }
+
+    // setter //
+    public void setPoint(int point) {this.point = point; }
+    public void setWeekCnt(int weekCnt){ this.weekCnt = weekCnt; }
+    public void setMonthCnt(int monthCnt){ this.monthCnt = monthCnt; }
 }
