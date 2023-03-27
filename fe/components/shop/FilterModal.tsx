@@ -8,6 +8,7 @@ import { useDate } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import { selectTheme } from '../../store/modules/theme';
 import Select from '../common/Select';
+import { common } from '../../styles/theme';
 import {
   selectShop,
   setFilterCategory,
@@ -107,11 +108,9 @@ const Container = styled.div<{ theme: ColorTypes }>`
   position: absolute;
   width: 300px;
   height: 220px;
-  margin-top: -170px;
   display: flex;
   border-radius: 16px;
   color: ${props => props.theme.color};
-  border: 2px solid ${props => props.theme.color};
   background-color: ${props => props.theme.background};
   text-align: center;
   align-items: center;
@@ -131,10 +130,10 @@ const CloseBtn = styled(Image)`
 const MainBar = styled.div<{ theme: ColorTypes }>`
   position: absolute;
   width: 260px;
-  height: 2px;
+  height: 1px;
   left: 20px;
   top: 48px;
-  background-color: ${props => props.theme.color};
+  background-color: ${common.colors.disable};
 `;
 
 const MainText = styled.div<{ theme: ColorTypes }>`
@@ -152,6 +151,7 @@ const GetText = styled.div<{ theme: ColorTypes }>`
   left: 30px;
   top: 80px;
   line-height: 22px;
+  color: ${common.colors.secondary};
 `;
 
 const CategoryText = styled.div<{ theme: ColorTypes }>`
@@ -161,6 +161,7 @@ const CategoryText = styled.div<{ theme: ColorTypes }>`
   left: 30px;
   top: 130px;
   line-height: 22px;
+  color: ${common.colors.secondary};
 `;
 
 const CategoryButtons = styled.div<{ theme: ColorTypes }>`
@@ -189,8 +190,8 @@ const CategoryButton = styled.div<{ theme: ColorTypes }>`
   height: 22px;
   line-height: 24px;
   border-radius: 8px;
-  border: 2px solid gray;
-  color: gray;
+  border: 2px solid ${common.colors.secondary};
+  color: ${common.colors.secondary};
   cursor: pointer;
   font-size: 14px;
 `;
@@ -198,14 +199,15 @@ const CategoryButton = styled.div<{ theme: ColorTypes }>`
 const CategoryConfirmBtn = styled.div<{ theme: ColorTypes }>`
   position: absolute;
   width: 260px;
-  height: 22px;
+  height: 24px;
   left: 20px;
   bottom: 20px;
-  line-height: 24px;
+  line-height: 26px;
   border-radius: 8px;
-  border: 2px solid ${props => props.theme.color};
   cursor: pointer;
   font-size: 14px;
+  background-color: ${props => props.theme.main};
+  color: ${props => props.theme.background};
 `;
 
 const SelectDiv = styled.div<{ theme: ColorTypes }>`

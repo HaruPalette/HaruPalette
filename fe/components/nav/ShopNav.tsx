@@ -12,8 +12,7 @@ import { common } from '../../styles/theme';
 const ButtonsDiv = styled.div`
   position: absolute;
   display: flex;
-  text-align: left;
-  width: 14rem;
+  width: 20rem;
   height: 1.875rem;
   left: 0px;
   padding: 0 10rem;
@@ -25,8 +24,9 @@ const CurrButton = styled.button<{ theme: ColorTypes }>`
   width: 7.5rem;
   height: 1.875rem;
   font-weight: bold;
+  font-size: 20px;
+  text-align: center;
   color: ${props => props.theme.main};
-  margin-right: ${common.fontSize.fs24};
   text-decoration: underline;
   text-underline-offset: 7px;
   text-decoration-thickness: 3px;
@@ -34,8 +34,10 @@ const CurrButton = styled.button<{ theme: ColorTypes }>`
 const Button = styled.button<{ theme: ColorTypes }>`
   width: 7.5rem;
   height: 1.875rem;
+  text-align: center;
+  font-size: 20px;
+
   color: ${props => props.theme.color};
-  margin-right: ${common.fontSize.fs24};
   &:hover {
     color: ${props => props.theme.main};
   }
