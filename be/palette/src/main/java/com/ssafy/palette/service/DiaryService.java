@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import com.ssafy.palette.domain.dto.CalenderDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,45 +69,6 @@ public class DiaryService {
         this.paletteAIStub = PaletteAIGrpc.newBlockingStub(managedChannel);
     }
 
-    public void writeDiary(MultipartFile file, DiaryDto diaryDto, String userId) throws IOException {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
-        Friend friend = friendRepository.findById(diaryDto.getFriendId()).get();
-
-        // 날짜 계산
-        LocalDate date = todayDate();
-
-        // 오늘 처음 쓰는 일기인지 체크
-        // 포인트, 도전 과제 체크
-        if (isFirst(userId, date)) {
-            userService.plusCnt(userId);
-            pointService.earnPoint(userId, 5);
-        }
-
-        Diary diary = Diary.builder()
-                .stickerCode(diaryDto.getStickerCode())
-                .weather(diaryDto.getWeather())
-                .contents(diaryDto.getContents())
-                .registrationDate(date)
-                .user(user)
-                .friend(friend)
-                .status("V")
-                .build();
-        diaryRepository.save(diary);
-
-        if (file == null) {
-            File image = File.builder()
-                    .path(diaryDto.getImage())
-                    .diary(diary)
-                    .build();
-            fileRepository.save(image);
-        } else {
-            s3Service.uploadImg(diary.getId(), file, date);
-        }
-
-        // 감정값 저장
-        textToEmotion(diary.getContents(), user, diary);
-    }
-
     public DetailDiaryDto detailDiary(Long diaryId, String userId) throws Exception {
         // userId validation
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
@@ -149,7 +109,7 @@ public class DiaryService {
     }
 
     public void writeDiary(MultipartFile file, DiaryDto diaryDto, String userId) throws IOException {
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
         Friend friend = friendRepository.findById(diaryDto.getFriendId()).get();
 
         // 날짜 계산
@@ -158,7 +118,8 @@ public class DiaryService {
         // 오늘 처음 쓰는 일기인지 체크
         // 포인트, 도전 과제 체크
         if (isFirst(userId, date)) {
-            //earnPoint();
+            userService.plusCnt(userId);
+            pointService.earnPoint(userId, 5);
         }
 
         Diary diary = Diary.builder()
