@@ -3,11 +3,11 @@ import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import Pulse from '../../components/animation/Pulse';
 import ScriptTalk from '../../components/animation/ScriptTalk';
-import HaruButton from '../../components/button/HaruButton';
 import HomeButton from '../../components/button/HomeButton';
 import WeatherButton from '../../components/button/WeatherButton';
 import Model from '../../components/common/Model';
-import { TALK_BUTTON } from '../../constants/button';
+import RecodeBar from '../../components/create/RecodeBar';
+import TalkButton from '../../components/create/TalkButton';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import {
@@ -15,11 +15,13 @@ import {
   selectScript,
 } from '../../store/modules/script';
 
+
 const CreatePage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
   height: 100vh;
   background-color: ${props => props.theme.background};
 `;
+
 
 const CreatePageContainer = styled.div`
   display: flex;
@@ -45,6 +47,7 @@ const CreateHeader = styled.div`
 function Create() {
   const theme = useTheme();
   const curSrciptIndex = useAppSelector(selectScript).curScriptIndex;
+  const isRecode = useAppSelector(selectScript).isRecoding;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -55,16 +58,18 @@ function Create() {
     <CreatePage theme={theme}>
       <Pulse />
       <CreateHeader>
-        <HomeButton />
-        <WeatherButton />
+        <HomeButton></HomeButton>
+        <WeatherButton></WeatherButton>
       </CreateHeader>
       <CreatePageContainer>
         <ScriptTalk />
         <Model />
-        <HaruButton buttonData={TALK_BUTTON} />
+        {isRecode ? <RecodeBar /> : <TalkButton />}
       </CreatePageContainer>
     </CreatePage>
   );
 }
 
 export default Create;
+
+
