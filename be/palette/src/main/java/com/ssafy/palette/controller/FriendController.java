@@ -2,6 +2,8 @@ package com.ssafy.palette.controller;
 
 import javax.transaction.Transactional;
 
+import com.ssafy.palette.domain.dto.FriendListDto;
+import com.ssafy.palette.service.FriendService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +23,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/friend")
+@RequestMapping("/api/v1/friends")
 @Transactional
 public class FriendController {
 
+	private final FriendService friendService;
 	private final JwtUtil jwtUtil;
 
 	// 캐릭터 조회
@@ -33,8 +36,9 @@ public class FriendController {
 
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
+		FriendListDto friendListDto = friendService.getFriendList(userId);
 
-		return new ResponseEntity<>( HttpStatus.OK);
+		return new ResponseEntity<>(friendListDto, HttpStatus.OK);
 	}
 
 	// 캐릭터 선택
