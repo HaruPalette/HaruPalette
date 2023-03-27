@@ -8,7 +8,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 80vw;
-  padding: 0 160px;
 `;
 
 const dummy: DiaryProps[] = [

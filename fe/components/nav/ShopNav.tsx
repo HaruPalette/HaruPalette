@@ -12,7 +12,6 @@ import { common } from '../../styles/theme';
 const ButtonsDiv = styled.div`
   position: absolute;
   display: flex;
-  width: 20rem;
   height: 1.875rem;
   left: 0px;
   padding: 0 10rem;
@@ -46,7 +45,6 @@ const Button = styled.button<{ theme: ColorTypes }>`
 const ContentDiv = styled.div<{ theme: ColorTypes }>`
   position: absolute;
   top: 28rem;
-  width: 100vw;
   display: flex;
   color: ${props => props.theme.color};
 `;
