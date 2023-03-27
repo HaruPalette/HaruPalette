@@ -18,13 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ChallengeService {
 
-    ChallengeRepository challengeRepository;
-    UserRepository userRepository;
+    private final ChallengeRepository challengeRepository;
+    private final UserRepository userRepository;
 
     public ChallengeListDto getChallenge(String userId) {
-        log.info("userId : {}", userId);
-        User user = userRepository.findById(userId).get();
-        log.info("user : {}", user);
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
         List<ChallengeListDto.ChallengeDto> challengeList = challengeRepository.findAll()
                 .stream()
                 .map(challenge -> ChallengeListDto.ChallengeDto.builder()
@@ -33,7 +31,6 @@ public class ChallengeService {
                         .point(challenge.getPoint())
                         .build())
                 .collect(Collectors.toList());
-        log.info("challengeList : {}", challengeList);
 
         ChallengeListDto challengeListDto = ChallengeListDto.builder()
                 .weekCnt(user.getWeekCnt())

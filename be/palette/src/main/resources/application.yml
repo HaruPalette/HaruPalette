@@ -22,7 +22,7 @@ spring:
     show-sql: true
     generate-ddl: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
       use-new-id-generator-mappings: false
     open-in-view: false
 
