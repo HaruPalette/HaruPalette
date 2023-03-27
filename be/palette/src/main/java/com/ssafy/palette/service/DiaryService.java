@@ -4,9 +4,11 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +24,19 @@ import com.ssafy.palette.EmotionResponse;
 import com.ssafy.palette.PaletteAIGrpc;
 import com.ssafy.palette.TextRequest;
 import com.ssafy.palette.TextResponse;
+import com.ssafy.palette.domain.dto.CalenderDto;
 import com.ssafy.palette.domain.dto.DetailDiaryDto;
 import com.ssafy.palette.domain.dto.DiaryDto;
 import com.ssafy.palette.domain.entity.Answer;
 import com.ssafy.palette.domain.entity.Diary;
 import com.ssafy.palette.domain.entity.Emotion;
+import com.ssafy.palette.domain.entity.File;
 import com.ssafy.palette.domain.entity.Friend;
 import com.ssafy.palette.domain.entity.User;
 import com.ssafy.palette.repository.AnswerRepository;
 import com.ssafy.palette.repository.DiaryRepository;
 import com.ssafy.palette.repository.EmotionRepository;
+import com.ssafy.palette.repository.FileRepository;
 import com.ssafy.palette.repository.FriendRepository;
 import com.ssafy.palette.repository.UserRepository;
 
@@ -45,6 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class DiaryService {
 
+	private final FileRepository fileRepository;
 	private final UserRepository userRepository;
 	private final DiaryRepository diaryRepository;
 	private final AnswerRepository answerRepository;
@@ -52,45 +58,34 @@ public class DiaryService {
 	private final EmotionRepository emotionRepository;
 	private final RedisTemplate<String, String> redisTemplate;
 
+	private final S3Service s3Service;
+	private final UserService userService;
+	private final PointService pointService;
+
 	private PaletteAIGrpc.PaletteAIBlockingStub paletteAIStub;
+
 	@Autowired
 	public void setPaletteAIStub(ManagedChannel managedChannel) {
 		this.paletteAIStub = PaletteAIGrpc.newBlockingStub(managedChannel);
 	}
 
-	public void writeDiary(DiaryDto diaryDto, String userId) {
-
-
-		//Answer answer = answerRepository.findById(1L).get();
-		User user = userRepository.findById(userId).get();
-		Friend friend = friendRepository.findById(diaryDto.getFriendId()).get();
-
-		Diary diary = Diary.builder()
-			.stickerCode(diaryDto.getStickerCode())
-			.weather(diaryDto.getWeather())
-			.contents(diaryDto.getContents())
-			.registrationDate(LocalDate.now())
-			.user(user)
-			.friend(friend)
-			.status("V")
-			//.answer(answer)
-			.build();
-		diaryRepository.save(diary);
-
-		// 감정값 저장
-		textToEmotion(diary.getContents(), user, diary);
-	}
-
-	public DetailDiaryDto detailDiary(Long diaryId, String userId) {
-
+	@SuppressWarnings("checkstyle:NeedBraces")
+	public DetailDiaryDto detailDiary(Long diaryId, String userId) throws Exception {
 		// userId validation
+		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+		Diary diary = diaryRepository.findById(diaryId).get();
+
+		// diary 상태 조회
+		System.out.println(diary.getStatus());
+		if (Objects.equals(diary.getStatus(), "D")) {
+			throw new Exception("해당 다이어리는 없습니다.");
+		}
 
 		// set detail diary
-		Diary diary = diaryRepository.findById(diaryId).get();
 		Emotion emotion = emotionRepository.findByDiary(diary).get();
 		DetailDiaryDto detailDiaryDto = DetailDiaryDto.toEntity(diary, emotion);
 		// 파일 테이블에서 이미지 셋팅
-		detailDiaryDto.setImage("abcd");
+		detailDiaryDto.setImage(fileRepository.findByDiary_Id(diaryId).get().getPath());
 
 		return detailDiaryDto;
 	}
@@ -116,8 +111,63 @@ public class DiaryService {
 		emotionRepository.save(emotion);
 	}
 
-	public void setAnswer(EmotionResponse response, Diary diary) {
+	public void writeDiary(MultipartFile file, DiaryDto diaryDto, String userId) throws IOException {
+		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+		Friend friend = friendRepository.findById(diaryDto.getFriendId()).get();
 
+		// 날짜 계산
+		LocalDate date = todayDate();
+
+		// 오늘 처음 쓰는 일기인지 체크
+		// 포인트, 도전 과제 체크
+		if (isFirst(userId, date)) {
+			userService.plusCnt(userId);
+			pointService.earnPoint(userId, 5);
+		}
+
+		Diary diary = Diary.builder()
+			.stickerCode(diaryDto.getStickerCode())
+			.weather(diaryDto.getWeather())
+			.contents(diaryDto.getContents())
+			.registrationDate(date)
+			.user(user)
+			.friend(friend)
+			.status("V")
+			.build();
+		diaryRepository.save(diary);
+
+		if (file == null) {
+			File image = File.builder()
+				.path(diaryDto.getImage())
+				.diary(diary)
+				.build();
+			fileRepository.save(image);
+		} else {
+			s3Service.uploadImg(diary.getId(), file, date);
+		}
+
+		// 감정값 저장
+		textToEmotion(diary.getContents(), user, diary);
+	}
+
+	public List<CalenderDto> getCalendar(String userId, String date) {
+		log.info("userId : " + userId);
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + userId));
+		LocalDate start = LocalDate.parse(date + "-01");
+		LocalDate end = start.plusMonths(1).minusDays(1);
+		List<Diary> diaries = diaryRepository.findByUserAndRegistrationDateBetween(user, start, end);
+		List<CalenderDto> calenderDto = new ArrayList<>();
+		for (Diary diary : diaries) {
+			if (diary.getStatus().equals("D"))
+				continue;
+			Emotion emotion = emotionRepository.findByDiary(diary).get();
+			calenderDto.add(CalenderDto.toEntity(diary, emotion));
+		}
+		return calenderDto;
+	}
+
+	public void setAnswer(EmotionResponse response, Diary diary) {
 		String[] emotionNames = {"neutral", "happy", "surprise", "anger", "anxiety", "sadness", "disqust"};
 
 		ArrayList<Integer> emotions = new ArrayList<>();
@@ -149,7 +199,7 @@ public class DiaryService {
 			out.write(buff, 0, read);
 		}
 		out.flush();
-		byte [] fileBytes = out.toByteArray();
+		byte[] fileBytes = out.toByteArray();
 		AudioRequest request = AudioRequest.newBuilder().setAudio(ByteString.copyFrom(fileBytes)).build();
 		TextResponse response = paletteAIStub.speechToText(request);
 		in.close();
@@ -158,12 +208,44 @@ public class DiaryService {
 	}
 
 	public void addRedisList(MultipartFile file, String userId) throws IOException {
-
 		// 음성 파일 넘겨 string 반환받기
-		String str = file2Bytes(file);
+		String str = file2Bytes(file) + "\n\n";
 		// redis에 list로 저장
 		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
 		operations.opsForList().rightPush(userId, str);
 		log.info(operations.opsForList().range(userId, 0, -1).toString());
+	}
+
+	public String sendScript(int order, String userId) {
+		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
+		String str = operations.opsForList().index(userId, order);
+
+		return str;
+	}
+
+	public void deleteScript(String userId) {
+		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
+		operations.delete(userId);
+	}
+
+	public LocalDate todayDate() {
+		LocalDateTime time = LocalDateTime.now();
+		LocalDate date = LocalDate.now();
+		if (time.getHour() < 4) {
+			date = LocalDate.from(time.minusDays(1));
+		}
+		return date;
+	}
+
+	public void deleteDiary(Long diaryId) {
+		Diary diary = diaryRepository.findById(diaryId).get();
+		diary.setStatus("D");
+	}
+
+	public boolean isFirst(String userId, LocalDate date) {
+		List<Diary> diaries = diaryRepository.findByUser_IdAndRegistrationDate(userId, date);
+		if (diaries.size() > 0)
+			return false;
+		return true;
 	}
 }
