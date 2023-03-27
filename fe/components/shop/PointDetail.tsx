@@ -120,9 +120,7 @@ export default PointDetail;
 const Container = styled.div`
   display: flex;
   width: 80vw;
-  /* height: 300px; */
   bottom: 0px;
-  padding: 0 160px;
   justify-content: space-between;
   align-items: center;
 `;
