@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 
 public class ImageService {
-
 	String defaultPath = "https://haru-palette.s3.ap-northeast-2.amazonaws.com/default/";
 	ArrayList<String> defaultImages =new ArrayList<>(List.of("castell.jpg"));
 	Random rand;
