@@ -58,6 +58,8 @@ public class DiaryService {
     private final RedisTemplate<String, String> redisTemplate;
 
     private final S3Service s3Service;
+    private final UserService userService;
+    private final PointService pointService;
 
     private PaletteAIGrpc.PaletteAIBlockingStub paletteAIStub;
 
@@ -67,7 +69,7 @@ public class DiaryService {
     }
 
     public void writeDiary(MultipartFile file, DiaryDto diaryDto, String userId) throws IOException {
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
         Friend friend = friendRepository.findById(diaryDto.getFriendId()).get();
 
         // 날짜 계산
@@ -76,7 +78,8 @@ public class DiaryService {
         // 오늘 처음 쓰는 일기인지 체크
         // 포인트, 도전 과제 체크
         if (isFirst(userId, date)) {
-            //earnPoint();
+            userService.plusCnt(userId);
+            pointService.earnPoint(userId, 5);
         }
 
         Diary diary = Diary.builder()
@@ -105,9 +108,8 @@ public class DiaryService {
     }
 
     public DetailDiaryDto detailDiary(Long diaryId, String userId) throws Exception {
-
         // userId validation
-
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
         Diary diary = diaryRepository.findById(diaryId).get();
 
         // diary 상태 조회
@@ -145,7 +147,6 @@ public class DiaryService {
     }
 
     public void setAnswer(EmotionResponse response, Diary diary) {
-
         String[] emotionNames = {"neutral", "happy", "surprise", "anger", "anxiety", "sadness", "disqust"};
 
         ArrayList<Integer> emotions = new ArrayList<>();
@@ -186,7 +187,6 @@ public class DiaryService {
     }
 
     public void addRedisList(MultipartFile file, String userId) throws IOException {
-
         // 음성 파일 넘겨 string 반환받기
         String str = file2Bytes(file) + "\n\n";
         // redis에 list로 저장
@@ -222,7 +222,8 @@ public class DiaryService {
     }
 
     public boolean isFirst(String userId, LocalDate date) {
-        boolean first = false;
-        return first;
+        List<Diary> diaries = diaryRepository.findByUser_IdAndRegistrationDate(userId, date);
+        if(diaries.size()>0) return false;
+        return true;
     }
 }

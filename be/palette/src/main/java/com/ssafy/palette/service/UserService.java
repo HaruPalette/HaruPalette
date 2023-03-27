@@ -48,8 +48,7 @@ public class UserService {
 	}
 
 	public ProfileDto sendProfile(String userId) {
-
-		User user = userRepository.findById(userId).get();
+		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 		Friend friend = user.getFriend();
 		//String image = userRepository.findImageById(userId).get();
 		ProfileDto profileDto = ProfileDto.builder()
@@ -59,5 +58,11 @@ public class UserService {
 			.build();
 
 		return profileDto;
+	}
+
+	public void plusCnt(String userId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+		user.setWeekCnt(user.getWeekCnt()+1);
+		user.setMonthCnt(user.getMonthCnt()+1);
 	}
 }
