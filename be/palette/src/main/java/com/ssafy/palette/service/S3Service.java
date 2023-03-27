@@ -2,7 +2,6 @@ package com.ssafy.palette.service;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,10 +11,8 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ListObjectsV2Result;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.ssafy.palette.domain.entity.File;
 import com.ssafy.palette.repository.DiaryRepository;
 import com.ssafy.palette.repository.FileRepository;
@@ -30,7 +27,8 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    private final String imgLink = "https://haru-palette.s3.ap-northeast-2.amazonaws.com/diary";
+    private final String imgLink = "https://haru-palette.s3.ap-northeast-2.amazonaws.com/diary/";
+    private final String path = "diary/";
     private final AmazonS3 amazonS3;
 
     private final FileRepository fileRepository;
@@ -68,7 +66,7 @@ public class S3Service {
 
             // 이미지 추가
             // Set File name here
-            amazonS3.putObject(new PutObjectRequest(bucket, date + sb.toString(), multipartFile.getInputStream(), metadata)
+            amazonS3.putObject(new PutObjectRequest(bucket, "diary/" + date + sb.toString(), multipartFile.getInputStream(), metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
 
             imgSet = imgLink + date + sb.toString();
@@ -85,12 +83,12 @@ public class S3Service {
         }
 
         //object 정보 가져오기
-        ListObjectsV2Result listObjectsV2Result = amazonS3.listObjectsV2(bucket);
+/*        ListObjectsV2Result listObjectsV2Result = amazonS3.listObjectsV2(bucket);
         List<S3ObjectSummary> objectSummaries = listObjectsV2Result.getObjectSummaries();
 
         for (S3ObjectSummary object : objectSummaries) {
             log.info("object = " + object.toString());
-        }
+        }*/
         return imgSet;
     }
 
