@@ -8,12 +8,16 @@ import useTheme from '../../hooks/useTheme';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectShop, setCompIdx } from '../../store/modules/shop';
 import MainPoint from '../../components/shop/MainPoint';
+import FilterModal from '../../components/shop/FilterModal';
 
 const ShopPage = styled.div<{ theme: ColorTypes }>`
   position: absolute;
   width: 100vw;
   height: 100vh;
   background-color: ${props => props.theme.background};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const DiaryStyles = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -45,6 +49,7 @@ function Shop() {
   }, []);
   return (
     <ShopPage theme={theme}>
+      {openFilterModal ? <FilterModal /> : ''}
       {openFilterModal ? <BlurBg /> : ''}
       <DiaryStyles theme={theme}>
         <Header />

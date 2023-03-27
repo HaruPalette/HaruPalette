@@ -4,11 +4,10 @@ import { ColorTypes } from '@emotion/react';
 import useTheme from '../../hooks/useTheme';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectTheme } from '../../store/modules/theme';
-import { useDate } from '../../hooks/useDate';
 import { selectShop, setOpenFilterModal } from '../../store/modules/shop';
-import { useState } from 'react';
-import FilterModal from './FilterModal';
 import { SHOP_FILTER_CATORIGY_LIST } from '../../constants/nav';
+import { common } from '../../styles/theme';
+
 interface IDummy {
   imgSrc: string;
   title: string;
@@ -73,6 +72,7 @@ function PointDetail() {
           <DummyTitle theme={theme}>{el.title}</DummyTitle>
           {el.addPoint > 0 ? (
             <DummyAddPointPlus>
+              +
               {el.addPoint > 1000
                 ? Math.floor(el.addPoint / 1000) + ',' + (el.addPoint % 1000)
                 : el.addPoint + ' '}
@@ -96,43 +96,57 @@ function PointDetail() {
 
   return (
     <Container>
-      {openFilterModal ? <FilterModal /> : ''}
-      <FilterDiv
-        theme={theme}
-        onClick={() => {
-          dispatch(setOpenFilterModal(!openFilterModal));
-        }}
-      >
-        <FilterTitle theme={theme}>
-          {filterYear}.{filterMonth < 10 ? '0' + filterMonth : filterMonth}
-          {' ' + SHOP_FILTER_CATORIGY_LIST[currFilterCategoryIdx].title}
-        </FilterTitle>
-        <FilterIcon src={img} width={16} height={16} alt="FilterIcon" />
-      </FilterDiv>
+      <LeftContainer>
+        <FilterDiv
+          theme={theme}
+          onClick={() => {
+            dispatch(setOpenFilterModal(!openFilterModal));
+          }}
+        >
+          <FilterTitle theme={theme}>
+            {filterYear}.{filterMonth < 10 ? '0' + filterMonth : filterMonth}
+            {' ' + SHOP_FILTER_CATORIGY_LIST[currFilterCategoryIdx].title}
+          </FilterTitle>
+          <FilterIcon src={img} width={16} height={16} alt="FilterIcon" />
+        </FilterDiv>
+      </LeftContainer>
       <MiddleContainer theme={theme}>{renderRound()}</MiddleContainer>
+      <RightContainer />
     </Container>
   );
 }
 
 export default PointDetail;
 const Container = styled.div`
-  position: relative;
   display: flex;
   width: 80vw;
+  /* height: 300px; */
+  bottom: 0px;
   padding: 0 160px;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
 `;
-
+const LeftContainer = styled.div`
+  width: 320px;
+  height: 290px;
+  /* border: 3px solid black; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const RightContainer = styled.div`
+  width: 320px;
+  height: 290px;
+  /* border: 3px solid red; */
+`;
 const FilterDiv = styled.div<{ theme: ColorTypes }>`
   position: absolute;
   width: 200px;
   height: 48px;
   display: flex;
   border-radius: 16px;
-  left: 155px;
-  top: 100px;
   color: black;
-  border: 2px solid ${props => props.theme.color};
+  border: 2px solid ${common.colors.disable};
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -159,7 +173,7 @@ const FilterIcon = styled(Image)`
 `;
 
 const MiddleContainer = styled.div<{ theme: ColorTypes }>`
-  position: absolute;
+  position: relative;
   width: 350px;
   height: 290px;
   display: flex;
@@ -210,10 +224,10 @@ const DummyTitle = styled.span<{ theme: ColorTypes }>`
 `;
 const DummyAddPointPlus = styled.span`
   position: absolute;
-  width: 50px;
+  width: 100px;
   height: 18px;
   right: 20px;
-  color: #d40404;
+  color: ${common.colors.error};
   margin: 10px auto;
   font-size: 16px;
   line-height: 0px;
@@ -222,10 +236,10 @@ const DummyAddPointPlus = styled.span`
 `;
 const DummyAddPointMinus = styled.span`
   position: absolute;
-  width: 50px;
+  width: 100px;
   height: 18px;
   right: 20px;
-  color: #0005a4;
+  color: #6e6bff;
   margin: 10px auto;
   font-size: 16px;
   line-height: 0px;
