@@ -69,6 +69,7 @@ public class DiaryService {
 		this.paletteAIStub = PaletteAIGrpc.newBlockingStub(managedChannel);
 	}
 
+	@SuppressWarnings("checkstyle:NeedBraces")
 	public DetailDiaryDto detailDiary(Long diaryId, String userId) throws Exception {
 		// userId validation
 		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
@@ -76,8 +77,9 @@ public class DiaryService {
 
 		// diary 상태 조회
 		System.out.println(diary.getStatus());
-		if (Objects.equals(diary.getStatus(), "D"))
+		if (Objects.equals(diary.getStatus(), "D")) {
 			throw new Exception("해당 다이어리는 없습니다.");
+		}
 
 		// set detail diary
 		Emotion emotion = emotionRepository.findByDiary(diary).get();
