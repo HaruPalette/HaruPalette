@@ -1,6 +1,6 @@
 export function useContents(contents: string) {
   const arr: string[] = contents.split(' ');
-  let contentList = [];
+  const contentList = [];
   let temp = [];
   let count = 0;
   for (let i = 0; i < arr.length; i++) {
@@ -11,7 +11,7 @@ export function useContents(contents: string) {
       contentList.push(temp.join(' '));
       temp = [];
       count = 0;
-      i--;
+      i -= 1;
     }
   }
   if (temp) contentList.push(temp.join(' '));

@@ -7,22 +7,6 @@ import useTheme from '../../hooks/useTheme';
 import { selectProfile } from '../../store/modules/profile';
 import { common } from '../../styles/theme';
 
-function CreateButton() {
-  const theme = useTheme();
-  const chr = useSelector(selectProfile);
-  const icon = `assets/img/${chr.chrName}/2d.svg`;
-  return (
-    <Link href={'/create'}>
-      <ButtonStyles type="button" theme={theme}>
-        일기 쓰러 갈래 ?&nbsp;&nbsp;
-        <Image src={icon} width={72} height={60} alt="2d" />
-      </ButtonStyles>
-    </Link>
-  );
-}
-
-export default CreateButton;
-
 const ButtonStyles = styled.button<{ theme: ColorTypes }>`
   width: 26rem;
   height: 5.5rem;
@@ -46,3 +30,19 @@ const ButtonStyles = styled.button<{ theme: ColorTypes }>`
     margin-top: -2rem;
   }
 `;
+
+function CreateButton() {
+  const theme = useTheme();
+  const chr = useSelector(selectProfile);
+  const icon = `assets/img/${chr.chrName}/2d.svg`;
+  return (
+    <Link href="/create">
+      <ButtonStyles type="button" theme={theme}>
+        일기 쓰러 갈래 ?&nbsp;&nbsp;
+        <Image src={icon} width={72} height={60} alt="2d" />
+      </ButtonStyles>
+    </Link>
+  );
+}
+
+export default CreateButton;

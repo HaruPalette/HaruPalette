@@ -1,32 +1,19 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import Pulse from '../../components/animation/Pulse';
+import ScriptTalk from '../../components/animation/ScriptTalk';
 import HaruButton from '../../components/button/HaruButton';
 import HomeButton from '../../components/button/HomeButton';
 import WeatherButton from '../../components/button/WeatherButton';
 import Model from '../../components/common/Model';
 import { TALK_BUTTON } from '../../constants/button';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
-
-function Create() {
-  const [step, setStep] = useState<number>(0);
-  const theme = useTheme();
-
-  return (
-    <CreatePage theme={theme}>
-      <HomeButton></HomeButton>
-      <WeatherButton></WeatherButton>
-      <Pulse />
-      <CreatePageContainer>
-        <Model />
-        <HaruButton buttonData={TALK_BUTTON} />
-      </CreatePageContainer>
-    </CreatePage>
-  );
-}
-
-export default Create;
+import {
+  resetScriptIndexSuccess,
+  selectScript,
+} from '../../store/modules/script';
 
 const CreatePage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -41,3 +28,43 @@ const CreatePageContainer = styled.div`
 
   padding: 0 10rem;
 `;
+
+const CreateHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  position: absolute;
+  top: 2rem;
+
+  width: calc(100vw - 32px);
+  padding: 0 1rem;
+
+  z-index: 1;
+`;
+
+function Create() {
+  const theme = useTheme();
+  const curSrciptIndex = useAppSelector(selectScript).curScriptIndex;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetScriptIndexSuccess());
+  }, []);
+
+  return (
+    <CreatePage theme={theme}>
+      <Pulse />
+      <CreateHeader>
+        <HomeButton />
+        <WeatherButton />
+      </CreateHeader>
+      <CreatePageContainer>
+        <ScriptTalk />
+        <Model />
+        <HaruButton buttonData={TALK_BUTTON} />
+      </CreatePageContainer>
+    </CreatePage>
+  );
+}
+
+export default Create;

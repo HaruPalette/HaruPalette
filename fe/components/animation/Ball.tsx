@@ -16,6 +16,40 @@ interface MousePosition {
   distFromCenter: number;
 }
 
+const ballScale = keyframes`
+      0% {
+        transform: scale(1);
+      }
+    
+      50% {
+        transform: scale(1.5);
+      }
+    
+      100% {
+        transform: scale(1);
+      }
+    `;
+
+const BallCanvas = styled.canvas<{
+  ballData: BallData;
+  mousePosition: MousePosition;
+}>`
+  position: absolute;
+  will-change: auto;
+
+  top: ${props => props.ballData.top - 50 * props.mousePosition.y}px;
+  left: ${props => props.ballData.left - 50 * props.mousePosition.x}px;
+
+  border-radius: 50%;
+  background: ${props => props.ballData.color};
+
+  transition: 0s ease-in-out;
+
+  &:hover {
+    animation: ${ballScale} 2s ease-in-out infinite;
+  }
+`;
+
 function Ball(props: { ballData: BallData }) {
   const ballData = props.ballData;
   const ballRef = useRef<HTMLCanvasElement>(null);
@@ -53,42 +87,8 @@ function Ball(props: { ballData: BallData }) {
       width={ballData.width}
       height={ballData.height}
       ref={ballRef}
-    ></BallCanvas>
+    />
   );
 }
 
 export default Ball;
-
-const ballScale = keyframes`
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.5);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-`;
-
-const BallCanvas = styled.canvas<{
-  ballData: BallData;
-  mousePosition: MousePosition;
-}>`
-  position: absolute;
-  will-change: auto;
-
-  top: ${props => props.ballData.top - 50 * props.mousePosition.y}px;
-  left: ${props => props.ballData.left - 50 * props.mousePosition.x}px;
-
-  border-radius: 50%;
-  background: ${props => props.ballData.color};
-
-  transition: 0s ease-in-out;
-
-  &:hover {
-    animation: ${ballScale} 2s ease-in-out infinite;
-  }
-`;

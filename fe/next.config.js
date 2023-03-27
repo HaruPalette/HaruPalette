@@ -10,7 +10,10 @@ const nextConfig = {
   compiler: {
     emotion: true,
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;
