@@ -1,0 +1,12 @@
+# s3
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIATLQASX6H26OXFBXH
+      secretKey: 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
+    s3:
+      bucket: haru-palette
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
