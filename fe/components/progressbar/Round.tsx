@@ -94,11 +94,13 @@ const Challenge = styled.div`
   left: 0;
   transform: scale(0.75);
   text-align: center;
+  color: black;
 `;
 
 const Percent = styled.div`
   font-size: 3rem;
   font-weight: bold;
+  color: black;
 `;
 function Round(props: { data: DiaryProps }) {
   const { data } = props;

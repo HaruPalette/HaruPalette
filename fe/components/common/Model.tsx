@@ -40,7 +40,7 @@ function Model() {
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setPixelRatio(window.devicePixelRatio);
       // renderer.setSize(sizes.width, sizes.height - 120);
-      renderer.setSize(sizes.width, sizes.height - 222 - 150);
+      renderer.setSize(sizes.width, sizes.height - 222 - 200 - 32);
       rendererPrev = renderer;
 
       const scene = new THREE.Scene();
