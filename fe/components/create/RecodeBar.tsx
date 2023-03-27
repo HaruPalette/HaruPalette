@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import { selectScript } from '../../store/modules/script';
-import { common } from '../../styles/theme';
+import AudioRecorder from '../../types/recodeTypes';
 import RecodeProgressBar from './RecodeProgresssBar';
 import SaveButton from './SaveButton';
 import StopButton from './StopButton';
@@ -59,35 +59,22 @@ const MusicDurationTime = styled.h4<{ theme: ColorTypes }>`
   opacity: 1;
 `;
 
-function RecodeBar() {
+function RecodeBar(props: { audioRecorder: AudioRecorder }) {
+  const { audioRecorder } = props;
   const theme = useTheme();
   const [second, setSecond] = useState<number>(0);
+  const [minute, setMinute] = useState<number>(0);
   const isPause = useAppSelector(selectScript).isPausing;
 
-  let recordedChunks = [];
-  let mediaRecorder;
-
-  const startRecording = () => {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then(function (stream) {
-        mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.start();
-        mediaRecorder.addEventListener('dataavailable', function (event) {
-          recordedChunks.push(event.data);
-        });
-      });
-  };
-
   useEffect(() => {
-    if (second < 180 && !isPause) {
+    if (second < 60 && !isPause) {
       setTimeout(() => {
         setSecond(second + 0.1);
       }, 100);
-    }
-
-    if (second === 0) {
-      startRecording();
+    } else if (second >= 60 && !isPause) {
+      setSecond(0);
+      setMinute(1);
+      audioRecorder.stopRecording();
     }
   }, [second, isPause]);
 
@@ -97,14 +84,20 @@ function RecodeBar() {
       <MusicProgress>
         <MusicProgressTime>
           <MusicCurrentTime theme={theme}>
-            {Math.floor(second)}
+            {Math.floor(minute).toString().padStart(2, '0')}:
+            {Math.floor(second).toString().padStart(2, '0')}
           </MusicCurrentTime>
-          <MusicDurationTime theme={theme}>180</MusicDurationTime>
+          {second > 50 ? (
+            <h5>{60 - Math.floor(second)} 초 후 자동으로 대화가 종료됩니다.</h5>
+          ) : (
+            <div />
+          )}
+          <MusicDurationTime theme={theme}>01:00</MusicDurationTime>
         </MusicProgressTime>
       </MusicProgress>
       <ButtonContainer>
-        <StopButton />
-        <SaveButton />
+        <StopButton audioRecorder={audioRecorder} />
+        <SaveButton audioRecorder={audioRecorder} />
       </ButtonContainer>
     </RecodeContainer>
   );

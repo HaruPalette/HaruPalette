@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import useTheme from '../../hooks/useTheme';
 import { ColorTypes } from '@emotion/react';
+import useTheme from '../../hooks/useTheme';
 
 const ProgressWrap = styled.div<{ theme: ColorTypes }>`
   width: 100%;
@@ -12,7 +12,7 @@ const ProgressWrap = styled.div<{ theme: ColorTypes }>`
 `;
 
 const ProgressBar = styled.div<{ theme: ColorTypes; second: number }>`
-  width: ${props => props.second}%;
+  width: ${props => (props.second * 10) / 6}%;
   height: 0.25rem;
   border-radius: 1rem;
   background: ${props => props.theme.primary20};
