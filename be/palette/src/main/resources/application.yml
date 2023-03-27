@@ -6,7 +6,8 @@ spring:
   # MySQL
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://j8b303.p.ssafy.io:3306/palette?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+#    url: jdbc:mysql://j8b303.p.ssafy.io:3306/palette?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/palette?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
     username: palette
     password: 'haru0220'
   servlet:
@@ -19,7 +20,7 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
-    #generate-ddl: true
+    generate-ddl: true
     hibernate:
       ddl-auto: create
       use-new-id-generator-mappings: false
@@ -31,6 +32,8 @@ spring:
     port: 6379
     password: 'haru0220'
 
-  # application-auth
+  # application-auth, s3
   profiles:
-    include: auth
+    include:
+    - auth
+    - s3

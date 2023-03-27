@@ -4,9 +4,11 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +29,13 @@ import com.ssafy.palette.domain.dto.DiaryDto;
 import com.ssafy.palette.domain.entity.Answer;
 import com.ssafy.palette.domain.entity.Diary;
 import com.ssafy.palette.domain.entity.Emotion;
+import com.ssafy.palette.domain.entity.File;
 import com.ssafy.palette.domain.entity.Friend;
 import com.ssafy.palette.domain.entity.User;
 import com.ssafy.palette.repository.AnswerRepository;
 import com.ssafy.palette.repository.DiaryRepository;
 import com.ssafy.palette.repository.EmotionRepository;
+import com.ssafy.palette.repository.FileRepository;
 import com.ssafy.palette.repository.FriendRepository;
 import com.ssafy.palette.repository.UserRepository;
 
@@ -45,125 +49,180 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class DiaryService {
 
-	private final UserRepository userRepository;
-	private final DiaryRepository diaryRepository;
-	private final AnswerRepository answerRepository;
-	private final FriendRepository friendRepository;
-	private final EmotionRepository emotionRepository;
-	private final RedisTemplate<String, String> redisTemplate;
+    private final FileRepository fileRepository;
+    private final UserRepository userRepository;
+    private final DiaryRepository diaryRepository;
+    private final AnswerRepository answerRepository;
+    private final FriendRepository friendRepository;
+    private final EmotionRepository emotionRepository;
+    private final RedisTemplate<String, String> redisTemplate;
 
-	private PaletteAIGrpc.PaletteAIBlockingStub paletteAIStub;
-	@Autowired
-	public void setPaletteAIStub(ManagedChannel managedChannel) {
-		this.paletteAIStub = PaletteAIGrpc.newBlockingStub(managedChannel);
-	}
+    private final S3Service s3Service;
 
-	public void writeDiary(DiaryDto diaryDto, String userId) {
+    private PaletteAIGrpc.PaletteAIBlockingStub paletteAIStub;
 
+    @Autowired
+    public void setPaletteAIStub(ManagedChannel managedChannel) {
+        this.paletteAIStub = PaletteAIGrpc.newBlockingStub(managedChannel);
+    }
 
-		//Answer answer = answerRepository.findById(1L).get();
-		User user = userRepository.findById(userId).get();
-		Friend friend = friendRepository.findById(diaryDto.getFriendId()).get();
+    public void writeDiary(MultipartFile file, DiaryDto diaryDto, String userId) throws IOException {
+        User user = userRepository.findById(userId).get();
+        Friend friend = friendRepository.findById(diaryDto.getFriendId()).get();
 
-		Diary diary = Diary.builder()
-			.stickerCode(diaryDto.getStickerCode())
-			.weather(diaryDto.getWeather())
-			.contents(diaryDto.getContents())
-			.registrationDate(LocalDate.now())
-			.user(user)
-			.friend(friend)
-			.status("V")
-			//.answer(answer)
-			.build();
-		diaryRepository.save(diary);
+        // 날짜 계산
+        LocalDate date = todayDate();
 
-		// 감정값 저장
-		textToEmotion(diary.getContents(), user, diary);
-	}
+        // 오늘 처음 쓰는 일기인지 체크
+        // 포인트, 도전 과제 체크
+        if (isFirst(userId, date)) {
+            //earnPoint();
+        }
 
-	public DetailDiaryDto detailDiary(Long diaryId, String userId) {
+        Diary diary = Diary.builder()
+                .stickerCode(diaryDto.getStickerCode())
+                .weather(diaryDto.getWeather())
+                .contents(diaryDto.getContents())
+                .registrationDate(date)
+                .user(user)
+                .friend(friend)
+                .status("V")
+                .build();
+        diaryRepository.save(diary);
 
-		// userId validation
+        if (file == null) {
+            File image = File.builder()
+                    .path(diaryDto.getImage())
+                    .diary(diary)
+                    .build();
+            fileRepository.save(image);
+        } else {
+            s3Service.uploadImg(diary.getId(), file, date);
+        }
 
-		// set detail diary
-		Diary diary = diaryRepository.findById(diaryId).get();
-		Emotion emotion = emotionRepository.findByDiary(diary).get();
-		DetailDiaryDto detailDiaryDto = DetailDiaryDto.toEntity(diary, emotion);
-		// 파일 테이블에서 이미지 셋팅
-		detailDiaryDto.setImage("abcd");
+        // 감정값 저장
+        textToEmotion(diary.getContents(), user, diary);
+    }
 
-		return detailDiaryDto;
-	}
+    public DetailDiaryDto detailDiary(Long diaryId, String userId) throws Exception {
 
-	public void textToEmotion(String text, User user, Diary diary) {
-		TextRequest request = TextRequest.newBuilder().setText(text).build();
-		EmotionResponse response = paletteAIStub.textToEmotion(request);
+        // userId validation
 
-		// 위로의 말 set
-		setAnswer(response, diary);
+        Diary diary = diaryRepository.findById(diaryId).get();
 
-		Emotion emotion = Emotion.builder()
-			.neutral((int)(response.getNeutral() * 100))
-			.happy((int)(response.getHappy() * 100))
-			.surprise((int)(response.getSurprise() * 100))
-			.anger((int)(response.getAnger() * 100))
-			.anxiety((int)(response.getAnxiety() * 100))
-			.sadness((int)(response.getSadness() * 100))
-			.disgust((int)(response.getDisgust() * 100))
-			.user(user)
-			.diary(diary)
-			.build();
-		emotionRepository.save(emotion);
-	}
+        // diary 상태 조회
+        System.out.println(diary.getStatus());
+        if (Objects.equals(diary.getStatus(), "D")) throw new Exception("해당 다이어리는 없습니다.");
 
-	public void setAnswer(EmotionResponse response, Diary diary) {
+        // set detail diary
+        Emotion emotion = emotionRepository.findByDiary(diary).get();
+        DetailDiaryDto detailDiaryDto = DetailDiaryDto.toEntity(diary, emotion);
+        // 파일 테이블에서 이미지 셋팅
+        detailDiaryDto.setImage(fileRepository.findByDiary_Id(diaryId).get().getPath());
 
-		String[] emotionNames = {"neutral", "happy", "surprise", "anger", "anxiety", "sadness", "disqust"};
+        return detailDiaryDto;
+    }
 
-		ArrayList<Integer> emotions = new ArrayList<>();
-		emotions.add((int)(response.getNeutral() * 100));
-		emotions.add((int)(response.getHappy() * 100));
-		emotions.add((int)(response.getSurprise() * 100));
-		emotions.add((int)(response.getAnger() * 100));
-		emotions.add((int)(response.getAnxiety() * 100));
-		emotions.add((int)(response.getSadness() * 100));
-		emotions.add((int)(response.getDisgust() * 100));
+    public void textToEmotion(String text, User user, Diary diary) {
+        TextRequest request = TextRequest.newBuilder().setText(text).build();
+        EmotionResponse response = paletteAIStub.textToEmotion(request);
 
-		int maxidx = emotions.indexOf(Collections.max(emotions));
-		Random random = new Random();
+        // 위로의 말 set
+        setAnswer(response, diary);
 
-		List<Answer> answers = answerRepository.findByType(emotionNames[maxidx]);
-		int randomIndex = random.nextInt(answers.size());
-		Answer answer = answers.get(randomIndex);
+        Emotion emotion = Emotion.builder()
+                .neutral((int) (response.getNeutral() * 100))
+                .happy((int) (response.getHappy() * 100))
+                .surprise((int) (response.getSurprise() * 100))
+                .anger((int) (response.getAnger() * 100))
+                .anxiety((int) (response.getAnxiety() * 100))
+                .sadness((int) (response.getSadness() * 100))
+                .disgust((int) (response.getDisgust() * 100))
+                .user(user)
+                .diary(diary)
+                .build();
+        emotionRepository.save(emotion);
+    }
 
-		diary.setAnswer(answer);
-	}
+    public void setAnswer(EmotionResponse response, Diary diary) {
 
-	public String file2Bytes(MultipartFile file) throws IOException {
-		BufferedInputStream in = new BufferedInputStream(file.getInputStream());
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
+        String[] emotionNames = {"neutral", "happy", "surprise", "anger", "anxiety", "sadness", "disqust"};
 
-		int read;
-		byte[] buff = new byte[2048];
-		while ((read = in.read(buff)) > 0) {
-			out.write(buff, 0, read);
-		}
-		out.flush();
-		byte [] fileBytes = out.toByteArray();
-		AudioRequest request = AudioRequest.newBuilder().setAudio(ByteString.copyFrom(fileBytes)).build();
-		TextResponse response = paletteAIStub.speechToText(request);
-		in.close();
-		out.close();
-		return response.getPrediction();
-	}
+        ArrayList<Integer> emotions = new ArrayList<>();
+        emotions.add((int) (response.getNeutral() * 100));
+        emotions.add((int) (response.getHappy() * 100));
+        emotions.add((int) (response.getSurprise() * 100));
+        emotions.add((int) (response.getAnger() * 100));
+        emotions.add((int) (response.getAnxiety() * 100));
+        emotions.add((int) (response.getSadness() * 100));
+        emotions.add((int) (response.getDisgust() * 100));
 
-	public void addRedisList(MultipartFile file, String userId) throws IOException {
+        int maxidx = emotions.indexOf(Collections.max(emotions));
+        Random random = new Random();
 
-		// 음성 파일 넘겨 string 반환받기
-		String str = file2Bytes(file);
-		// redis에 list로 저장
-		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
-		operations.opsForList().rightPush(userId, str);
-		log.info(operations.opsForList().range(userId, 0, -1).toString());
-	}
+        List<Answer> answers = answerRepository.findByType(emotionNames[maxidx]);
+        int randomIndex = random.nextInt(answers.size());
+        Answer answer = answers.get(randomIndex);
+
+        diary.setAnswer(answer);
+    }
+
+    public String file2Bytes(MultipartFile file) throws IOException {
+        BufferedInputStream in = new BufferedInputStream(file.getInputStream());
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        int read;
+        byte[] buff = new byte[2048];
+        while ((read = in.read(buff)) > 0) {
+            out.write(buff, 0, read);
+        }
+        out.flush();
+        byte[] fileBytes = out.toByteArray();
+        AudioRequest request = AudioRequest.newBuilder().setAudio(ByteString.copyFrom(fileBytes)).build();
+        TextResponse response = paletteAIStub.speechToText(request);
+        in.close();
+        out.close();
+        return response.getPrediction();
+    }
+
+    public void addRedisList(MultipartFile file, String userId) throws IOException {
+
+        // 음성 파일 넘겨 string 반환받기
+        String str = file2Bytes(file) + "\n\n";
+        // redis에 list로 저장
+        RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
+        operations.opsForList().rightPush(userId, str);
+        log.info(operations.opsForList().range(userId, 0, -1).toString());
+    }
+
+    public String sendScript(int order, String userId) {
+        RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
+        String str = operations.opsForList().index(userId, order);
+
+        return str;
+    }
+
+    public void deleteScript(String userId) {
+        RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
+        operations.delete(userId);
+    }
+
+    public LocalDate todayDate() {
+        LocalDateTime time = LocalDateTime.now();
+        LocalDate date = LocalDate.now();
+        if (time.getHour() < 4) {
+            date = LocalDate.from(time.minusDays(1));
+        }
+        return date;
+    }
+
+    public void deleteDiary(Long diaryId) {
+        Diary diary = diaryRepository.findById(diaryId).get();
+        diary.setStatus("D");
+    }
+
+    public boolean isFirst(String userId, LocalDate date) {
+        boolean first = false;
+        return first;
+    }
 }
