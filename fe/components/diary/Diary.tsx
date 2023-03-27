@@ -8,14 +8,101 @@ import { useDay } from '../../hooks/useDate';
 import { prevTheme } from '../../hooks/useTheme';
 import { DiaryData } from '../../types/diariesTypes';
 import { useAnswer, useContents } from '../../hooks/useContents';
+import { common } from '../../styles/theme';
 
 const DetailStyles = styled.div<{ theme: ColorTypes }>`
-  width: 38rem;
-  height: 50rem;
-  background: ${props => props.theme.main};
+  width: 30rem;
+  min-height: 40rem;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(3px);
+  background: ${props => props.theme.background};
+  padding: 1rem;
+  position: relative;
+  border-radius: 1.5rem;
+
+  transform: scale(1);
+
+  @media all and (max-width: 500px) {
+    transform: scale(0.65);
+    margin-top: -150px;
+  }
 `;
-const Title = styled.div``;
-const Content = styled.div``;
+
+const DiaryLine = styled.div<{ theme: ColorTypes }>`
+  width: 28rem;
+  min-height: 36rem;
+  border: 1px solid ${props => props.theme.main};
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Title = styled.div<{ theme: ColorTypes }>`
+  margin-left: 4rem;
+  font-size: ${common.fontSize.fs16};
+  font-weight: bold;
+  color: ${props => props.theme.main};
+`;
+
+const ContentList = styled.div<{ theme: ColorTypes }>`
+  width: 25rem;
+  color: ${props => props.theme.main};
+  font-size: ${common.fontSize.fs16};
+  /* font-weight: bold; */
+  margin: 1rem auto;
+`;
+
+const ContentItem = styled.div<{ theme: ColorTypes }>`
+  border-bottom: 1px solid ${props => props.theme.main};
+  margin-bottom: 0.5rem;
+`;
+
+const AnswerList = styled.div<{ theme: ColorTypes }>`
+  width: 25rem;
+  text-align: center;
+  color: ${props => props.theme.main};
+  font-size: ${common.fontSize.fs16};
+  /* font-weight: bold; */
+  margin: 1rem auto;
+  padding: 0.5rem 0;
+  background: ${props => props.theme.diaryBackground};
+  border-radius: 25rem;
+`;
+
+const CreateButton = styled.button<{ theme: ColorTypes }>`
+  width: 29rem;
+  height: 2.8rem;
+  background: ${props => props.theme.primary60};
+  color: ${common.colors.inheritWhite};
+  border-radius: 0.5rem;
+  font-size: ${common.fontSize.fs20};
+  font-weight: bold;
+  text-align: center;
+`;
+
+const DiaryImage = styled(Image)`
+  width: 18.75rem;
+  height: 18.75rem;
+  border-radius: 1rem;
+  margin: 1rem auto;
+`;
+
+const ChrSticker = styled(Image)`
+  margin: auto;
+`;
+
+const WeatherSticker = styled(Image)`
+  position: absolute;
+  top: 0.46%;
+  left: 60%;
+`;
+
+const UserSticker = styled(Image)`
+  position: absolute;
+  top: 30%;
+  left: 10%;
+`;
 
 function Diary(props: {
   diary: DiaryData;
@@ -31,9 +118,9 @@ function Diary(props: {
   const title = useDay(diary.date);
 
   // 스티커 경로
-  const chrSticker = `assets/img/${diary.ename}/2d.svg`;
-  const weatherSticker = `assets/img/sticker/${diary.weather}.svg`;
-  const userSticker = `assets/img/sticker/${diary.stickerCode}.svg`;
+  const chrSticker = `/assets/img/${diary.ename}/2d.svg`;
+  const weatherSticker = `/assets/img/sticker/${diary.weather}.svg`;
+  const userSticker = `/assets/img/sticker/${diary.stickerCode}.svg`;
 
   // 내용 & 위로의 말 자연스러운 줄바꿈
   const contentList = useContents(diary.contents);
@@ -69,18 +156,36 @@ function Diary(props: {
   }, [share]);
   return (
     <DetailStyles ref={diaryRef} theme={theme}>
-      <Title>{title}</Title>
-      <Image src={diary.image} width={374} height={374} alt="img" />
-      <Content>
-        {contentList.map(item => {
-          return <div>{item}</div>;
-        })}
-      </Content>
-      {type === 'view' && <button type="button">일기장 완성</button>}
-      {type === 'modify' &&
-        answerList.map(item => {
-          return <div>{item}</div>;
-        })}
+      <DiaryLine theme={theme}>
+        <Title theme={theme}>{title}</Title>
+        <DiaryImage src={diary.image} width={300} height={300} alt="img" />
+        <ContentList theme={theme}>
+          {contentList.map(item => {
+            return <ContentItem theme={theme}>{item}</ContentItem>;
+          })}
+        </ContentList>
+        {type === 'modify' && (
+          <CreateButton type="button" theme={theme}>
+            일기장 완성
+          </CreateButton>
+        )}
+        {type === 'view' && (
+          <ChrSticker src={chrSticker} width={95} height={79} alt="chr" />
+        )}
+        <AnswerList theme={theme}>
+          {type === 'view' &&
+            answerList.map(item => {
+              return <div>{item}</div>;
+            })}
+        </AnswerList>
+        <WeatherSticker
+          src={weatherSticker}
+          width={183}
+          height={183}
+          alt="weather"
+        />
+        <UserSticker src={userSticker} width={72} height={72} alt="sticker" />
+      </DiaryLine>
     </DetailStyles>
   );
 }
