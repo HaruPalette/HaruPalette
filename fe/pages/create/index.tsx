@@ -1,6 +1,6 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Pulse from '../../components/animation/Pulse';
 import ScriptTalk from '../../components/animation/ScriptTalk';
 import HaruButton from '../../components/button/HaruButton';
@@ -14,33 +14,6 @@ import {
   resetScriptIndexSuccess,
   selectScript,
 } from '../../store/modules/script';
-
-function Create() {
-  const theme = useTheme();
-  const curSrciptIndex = useAppSelector(selectScript).curScriptIndex;
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(resetScriptIndexSuccess());
-  }, []);
-
-  return (
-    <CreatePage theme={theme}>
-      <Pulse />
-      <CreateHeader>
-        <HomeButton></HomeButton>
-        <WeatherButton></WeatherButton>
-      </CreateHeader>
-      <CreatePageContainer>
-        <ScriptTalk />
-        <Model />
-        <HaruButton buttonData={TALK_BUTTON} />
-      </CreatePageContainer>
-    </CreatePage>
-  );
-}
-
-export default Create;
 
 const CreatePage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -68,3 +41,30 @@ const CreateHeader = styled.div`
 
   z-index: 1;
 `;
+
+function Create() {
+  const theme = useTheme();
+  const curSrciptIndex = useAppSelector(selectScript).curScriptIndex;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetScriptIndexSuccess());
+  }, []);
+
+  return (
+    <CreatePage theme={theme}>
+      <Pulse />
+      <CreateHeader>
+        <HomeButton />
+        <WeatherButton />
+      </CreateHeader>
+      <CreatePageContainer>
+        <ScriptTalk />
+        <Model />
+        <HaruButton buttonData={TALK_BUTTON} />
+      </CreatePageContainer>
+    </CreatePage>
+  );
+}
+
+export default Create;

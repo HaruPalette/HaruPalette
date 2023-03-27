@@ -5,96 +5,6 @@ import { useDate } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 
-function Select(props: {
-  setYear: Dispatch<SetStateAction<number>>;
-  year: number;
-  setMonth: Dispatch<SetStateAction<number>>;
-  month: number;
-}) {
-  const { setYear, year, setMonth, month } = props;
-  const [openYear, setOpenYear] = useState(false);
-  const [openMonth, setOpenMonth] = useState(false);
-  let yearArr: number[] = [];
-  let monthArr: number[] = [];
-  for (let i = 2020; i <= useDate().year; i++) {
-    yearArr.push(i);
-  }
-  for (let i = 1; i <= 12; i++) {
-    monthArr.push(i);
-  }
-  const theme = useTheme();
-  return (
-    <Container>
-      <div>
-        <SelectButton
-          theme={theme}
-          click={openYear}
-          year={true}
-          type="button"
-          onClick={() => {
-            setOpenYear(!openYear);
-          }}
-        >
-          {year}년
-        </SelectButton>
-        <OptionList theme={theme} click={openYear}>
-          {yearArr.map(item => {
-            return (
-              <OptionButton
-                theme={theme}
-                click={year === item ? true : false}
-                year={true}
-                key={item}
-                type="button"
-                onClick={() => {
-                  setYear(item);
-                  setOpenYear(false);
-                }}
-              >
-                {item}
-              </OptionButton>
-            );
-          })}
-        </OptionList>
-      </div>
-      <div>
-        <SelectButton
-          theme={theme}
-          click={openMonth}
-          year={false}
-          type="button"
-          onClick={() => {
-            setOpenMonth(!openMonth);
-          }}
-        >
-          {month}월
-        </SelectButton>
-        <OptionList theme={theme} click={openMonth}>
-          {monthArr.map(item => {
-            return (
-              <OptionButton
-                theme={theme}
-                click={month === item ? true : false}
-                year={false}
-                key={item}
-                type="button"
-                onClick={() => {
-                  setMonth(item);
-                  setOpenMonth(false);
-                }}
-              >
-                {item}
-              </OptionButton>
-            );
-          })}
-        </OptionList>
-      </div>
-    </Container>
-  );
-}
-
-export default Select;
-
 const Container = styled.div`
   margin: 1rem;
   display: flex;
@@ -164,3 +74,93 @@ const OptionList = styled.div<{
     border-radius: 2rem;
   }
 `;
+
+function Select(props: {
+  setYear: Dispatch<SetStateAction<number>>;
+  year: number;
+  setMonth: Dispatch<SetStateAction<number>>;
+  month: number;
+}) {
+  const { setYear, year, setMonth, month } = props;
+  const [openYear, setOpenYear] = useState(false);
+  const [openMonth, setOpenMonth] = useState(false);
+  const yearArr: number[] = [];
+  const monthArr: number[] = [];
+  for (let i = 2020; i <= useDate().year; i++) {
+    yearArr.push(i);
+  }
+  for (let i = 1; i <= 12; i++) {
+    monthArr.push(i);
+  }
+  const theme = useTheme();
+  return (
+    <Container>
+      <div>
+        <SelectButton
+          theme={theme}
+          click={openYear}
+          year
+          type="button"
+          onClick={() => {
+            setOpenYear(!openYear);
+          }}
+        >
+          {year}년
+        </SelectButton>
+        <OptionList theme={theme} click={openYear}>
+          {yearArr.map(item => {
+            return (
+              <OptionButton
+                theme={theme}
+                click={year === item}
+                year
+                key={item}
+                type="button"
+                onClick={() => {
+                  setYear(item);
+                  setOpenYear(false);
+                }}
+              >
+                {item}
+              </OptionButton>
+            );
+          })}
+        </OptionList>
+      </div>
+      <div>
+        <SelectButton
+          theme={theme}
+          click={openMonth}
+          year={false}
+          type="button"
+          onClick={() => {
+            setOpenMonth(!openMonth);
+          }}
+        >
+          {month}월
+        </SelectButton>
+        <OptionList theme={theme} click={openMonth}>
+          {monthArr.map(item => {
+            return (
+              <OptionButton
+                theme={theme}
+                click={month === item}
+                year={false}
+                key={item}
+                type="button"
+                onClick={() => {
+                  setMonth(item);
+                  setOpenMonth(false);
+                }}
+              >
+                {item}
+              </OptionButton>
+            );
+          })}
+        </OptionList>
+      </div>
+    </Container>
+  );
+}
+
+export default Select;

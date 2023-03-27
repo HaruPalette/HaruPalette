@@ -1,30 +1,9 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
-import { selectProfile } from '../../store/modules/profile';
 import { common } from '../../styles/theme';
 import { ButtonData } from '../../types/commonTypes';
-
-function HaruButton(props: { buttonData: ButtonData }) {
-  const buttonData = props.buttonData;
-  const theme = useTheme();
-
-  return (
-    <CustomButton type="button" theme={theme} buttonData={buttonData}>
-      <Image
-        src={buttonData.image}
-        width={32}
-        height={32}
-        alt={buttonData.context}
-      ></Image>
-      {buttonData.context}
-    </CustomButton>
-  );
-}
-
-export default HaruButton;
 
 const CustomButton = styled.button<{
   theme: ColorTypes;
@@ -58,3 +37,22 @@ const CustomButton = styled.button<{
     color: ${common.colors.inheritWhite};
   }
 `;
+
+function HaruButton(props: { buttonData: ButtonData }) {
+  const { buttonData } = props;
+  const theme = useTheme();
+
+  return (
+    <CustomButton type="button" theme={theme} buttonData={buttonData}>
+      <Image
+        src={buttonData.image}
+        width={32}
+        height={32}
+        alt={buttonData.context}
+      />
+      {buttonData.context}
+    </CustomButton>
+  );
+}
+
+export default HaruButton;

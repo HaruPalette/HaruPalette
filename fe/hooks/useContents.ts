@@ -11,7 +11,7 @@ export function useContents(contents: string) {
       contentList.push(temp.join(' '));
       temp = [];
       count = 0;
-      i--;
+      i -= 1;
     }
   }
   if (temp) contentList.push(temp.join(' '));

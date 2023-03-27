@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
+import Head from 'next/head';
 import store from '../store';
 import GlobalStyle from '../styles/globals';
-import Head from 'next/head';
 
 declare global {
   interface Window {

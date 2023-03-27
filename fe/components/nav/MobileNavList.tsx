@@ -12,44 +12,6 @@ interface Menu {
   link: string;
 }
 
-function MobileNavList() {
-  const menu: Menu = useAppSelector(selectMenu);
-  const theme: ColorTypes = useTheme();
-  const dispatch = useAppDispatch();
-
-  const handleChangeLink = (link: string) => {
-    dispatch(changeLinkSuccess(link));
-  };
-
-  return (
-    <HaruNav menu={menu} theme={theme}>
-      {NAV_LIST.map((item, idx) =>
-        menu.link === item.link ? (
-          <CurNavItem
-            key={idx}
-            href={item.link}
-            theme={theme}
-            onClick={() => handleChangeLink(item.link)}
-          >
-            {item.title}
-          </CurNavItem>
-        ) : (
-          <NavItem
-            key={idx}
-            href={item.link}
-            theme={theme}
-            onClick={() => handleChangeLink(item.link)}
-          >
-            {item.title}
-          </NavItem>
-        ),
-      )}
-    </HaruNav>
-  );
-}
-
-export default MobileNavList;
-
 const HaruNav = styled.nav<{ menu: Menu; theme: ColorTypes }>`
   display: none;
 
@@ -100,3 +62,41 @@ const NavItem = styled(Link)<{ theme: ColorTypes }>`
     color: ${props => props.theme.primary40};
   }
 `;
+
+function MobileNavList() {
+  const menu: Menu = useAppSelector(selectMenu);
+  const theme: ColorTypes = useTheme();
+  const dispatch = useAppDispatch();
+
+  const handleChangeLink = (link: string) => {
+    dispatch(changeLinkSuccess(link));
+  };
+
+  return (
+    <HaruNav menu={menu} theme={theme}>
+      {NAV_LIST.map(item =>
+        menu.link === item.link ? (
+          <CurNavItem
+            key={item.title}
+            href={item.link}
+            theme={theme}
+            onClick={() => handleChangeLink(item.link)}
+          >
+            {item.title}
+          </CurNavItem>
+        ) : (
+          <NavItem
+            key={item.title}
+            href={item.link}
+            theme={theme}
+            onClick={() => handleChangeLink(item.link)}
+          >
+            {item.title}
+          </NavItem>
+        ),
+      )}
+    </HaruNav>
+  );
+}
+
+export default MobileNavList;

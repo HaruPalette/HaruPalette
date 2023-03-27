@@ -9,7 +9,6 @@ import {
   ScriptResponse,
 } from '../../types/diariesTypes';
 import { ErrorResponse } from '../../types/commonTypes';
-import { useAppDispatch } from '../reduxHook';
 
 /** 일기 상세 조회 */
 const useGetDiaries = (diaryId: number) => {
@@ -63,7 +62,7 @@ const useGetImage = () => {
   };
 };
 
-/** 일기 수정 조회 (order: 스크립트 순서)*/
+/** 일기 수정 조회 (order: 스크립트 순서) */
 const useGetScript = (order: number) => {
   const queryFunction = () => DiariesService.getScript(order);
   const { isLoading, data, isError, error } = useQuery<

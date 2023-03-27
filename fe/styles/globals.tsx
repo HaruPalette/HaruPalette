@@ -44,8 +44,8 @@ const style = () => css`
   }
 `;
 
-const GlobalStyle = () => {
+function GlobalStyle() {
   return <Global styles={style} />;
-};
+}
 
 export default GlobalStyle;

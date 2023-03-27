@@ -1,10 +1,28 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import styled from '@emotion/styled';
 import { DiaryData } from '../../types/diariesTypes';
 import Diary from '../../components/diary/Diary';
 import KakaoShareButton from '../../components/button/KakaoShareButton';
 import SaveImageButton from '../../components/button/SaveImageButton';
-import styled from '@emotion/styled';
 import Header from '../../components/common/Header';
+
+const Container = styled.div`
+  width: 100vw;
+  height: calc(100vh - 5rem);
+  padding: 5rem 10rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+`;
+
+const ButtonList = styled.div`
+  height: 8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 function Detail() {
   const [save, setSave] = useState(false);
@@ -41,7 +59,7 @@ function Detail() {
       <Container>
         <Diary
           diary={diary}
-          type={'view'}
+          type="view"
           save={save}
           share={share}
           setSave={setSave}
@@ -55,23 +73,5 @@ function Detail() {
     </>
   );
 }
-
-const Container = styled.div`
-  width: 100vw;
-  height: calc(100vh - 5rem);
-  padding: 5rem 10rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-`;
-
-const ButtonList = styled.div`
-  height: 8rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-`;
 
 export default Detail;
