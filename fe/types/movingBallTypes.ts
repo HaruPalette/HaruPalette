@@ -26,4 +26,14 @@ export interface BallReturn {
   y0: number[];
   vx: number[];
   vy: number[];
+  // canvas: HTMLCanvasElement;
+  // ctx: CanvasRenderingContext2D;
+  resizeScreen: () => void;
+  init: () => void;
+  distance: (x1: number, y1: number, x2: number, y2: number) => number;
+  nodeTransfer: () => void;
+  nodeMove: () => void;
+  nodeDraw: (ctx: CanvasRenderingContext2D) => void;
+  loop: (ctx: CanvasRenderingContext2D) => void;
+  action: (ctx: CanvasRenderingContext2D) => void;
 }

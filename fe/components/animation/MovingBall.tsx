@@ -1,14 +1,23 @@
 import React, { useRef, useEffect } from 'react';
+import styled from '@emotion/styled';
 import { BallReturn } from '../../types/movingBallTypes';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
-import styled from '@emotion/styled';
-import { BallData } from '../../types/commonTypes';
 
-function MovingBall(props: { ballData: BallData }) {
-  const { top, left, width, height, color } = props.ballData;
+const SangukIsGod = styled.canvas`
+  position: relative;
+`;
+
+function MovingBall() {
+  // const { top, left, width, height, color } = props.ballData;
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const Ball = (color: string) => {
+  const Ball = (
+    color: string,
+    sX: number,
+    sY: number,
+    width: number,
+    height: number,
+  ) => {
     return {
       color,
       nNodes: 140,
@@ -16,8 +25,8 @@ function MovingBall(props: { ballData: BallData }) {
       propagationSpeed: 0.2,
       resistance: 0.9,
 
-      wo: 0,
-      ho: 0,
+      wo: width,
+      ho: height,
       lastColor: undefined as number | undefined,
       dxNode: 0,
       mouse: {
@@ -38,210 +47,221 @@ function MovingBall(props: { ballData: BallData }) {
       y0: [] as number[],
       vx: [] as number[],
       vy: [] as number[],
+
+      resizeScreen() {
+        this.dxNode = this.wo / this.nNodes;
+
+        for (let i = 0; i <= this.nNodes; i++) {
+          this.x[i] = this.dxNode * i;
+          this.y[i] = this.ho / 2;
+
+          this.x0[i] = this.x[i];
+          this.y0[i] = this.y[i];
+        }
+      },
+
+      init() {
+        this.resizeScreen();
+        for (let i = 0; i <= this.nNodes; i++) {
+          // 찌리릿
+          this.vx[i] = 5 * Math.random() - 2.5;
+          this.vy[i] = 5 * Math.random() - 2.5;
+
+          this.vx[i] = 0;
+          this.vy[i] = 0;
+        }
+      },
+
+      distance(x: number, y: number, x0: number, y0: number) {
+        const nx = x - x0;
+        const ny = y - y0;
+        return Math.sqrt(nx * nx + ny * ny);
+      },
+
+      nodeTransfer() {
+        let dvx = 0;
+        let dvy = 0;
+        for (let i = 0; i <= this.nNodes; i++) {
+          if (i === 0) {
+            dvx = this.x[i + 1] + this.x[this.nNodes] - 2 * this.x[i];
+            dvy = this.y[i + 1] + this.y[this.nNodes] - 2 * this.y[i];
+          } else if (i === this.nNodes) {
+            dvx = this.x[i - 1] + this.x[0] - 2 * this.x[i];
+            dvy = this.y[i - 1] + this.y[0] - 2 * this.y[i];
+          } else {
+            dvx = this.x[i + 1] + this.x[i - 1] - 2 * this.x[i];
+            dvy = this.y[i + 1] + this.y[i - 1] - 2 * this.y[i];
+          }
+
+          dvx *= this.propagationSpeed;
+          dvy *= this.propagationSpeed;
+
+          this.vx[i] = (this.vx[i] + dvx) * this.resistance;
+          this.vy[i] = (this.vy[i] + dvy) * this.resistance;
+        }
+      },
+
+      nodeMove() {
+        for (let i = 0; i <= this.nNodes; i++) {
+          this.y[i] += this.vy[i];
+          this.vy[i] += (this.y0[i] - this.y[i]) / 100;
+
+          if (i !== 0 && i !== this.nNodes) {
+            this.x[i] += this.vx[i];
+            this.vx[i] += (this.x0[i] - this.x[i]) / 100;
+          } else {
+            this.vx[i] = 0;
+          }
+        }
+      },
+
+      nodeDraw(ctx: CanvasRenderingContext2D) {
+        ctx.clearRect(0, 0, this.wo, this.ho);
+        ctx.beginPath();
+        ctx.fillStyle = this.color;
+
+        const step = (2 * Math.PI) / this.nNodes;
+        const w = sX + this.wo / 2;
+        const h = sY + this.ho / 2;
+        let r = 100;
+        let i = 0;
+
+        for (let theta = 0; theta < 2 * Math.PI; theta += step) {
+          i = theta / step;
+          r = (this.y[i] / h) * (h / 1.5);
+
+          const x = w + r * Math.cos(theta);
+          const y = h - r * Math.sin(theta);
+
+          ctx.lineTo(x, y);
+        }
+
+        ctx.fill();
+        ctx.closePath();
+      },
+
+      loop(ctx: CanvasRenderingContext2D) {
+        if (this.mouse.xo === undefined || this.mouse.yo === undefined) {
+          this.mouse.xo = this.mouseX;
+          this.mouse.yo = this.mouseY;
+        }
+
+        const dx = this.mouseX - this.mouse.xo;
+        const dy = this.mouseY - this.mouse.yo;
+        const dist = this.distance(
+          sX + this.wo / 2,
+          sY + this.ho / 2,
+          this.mouseX,
+          this.mouseY,
+        );
+
+        if (this.mouseRadius !== dist) {
+          this.direction = 1;
+          if (this.mouseRadius > dist) {
+            this.direction = -1;
+          }
+          this.mouseRadius = dist;
+        }
+
+        this.velocity *= this.direction;
+
+        this.mouse.x = Math.max(
+          Math.min(dx, this.mouse.limit),
+          -this.mouse.limit,
+        );
+        this.mouse.y = Math.max(
+          Math.min(this.velocity, this.mouse.limit),
+          -this.mouse.limit,
+        );
+
+        this.velocity = Math.sqrt(dx * dx + dy * dy) * 1.5;
+
+        this.nodeTransfer();
+        this.nodeMove();
+
+        this.mouse.xo = this.mouseX;
+        this.mouse.yo = this.mouseY;
+      },
+
+      action(ctx: CanvasRenderingContext2D) {
+        const c = ctx.getImageData(this.mouseX, this.mouseY, 1, 1).data;
+        if (!c) return;
+        // if (
+        //   this.mouseX - w > width / 2 + 10 ||
+        //   this.mouseY - h > height / 2 + 10
+        // )
+        //   return;
+        const newColor = c[0];
+        if (this.lastColor === undefined) {
+          this.lastColor = newColor;
+          return;
+        }
+
+        if (this.lastColor !== newColor) {
+          let i = 0;
+          let closeNode = Math.round(this.mouseX / this.dxNode);
+          let dist = 0;
+          const w = sX + this.wo / 2;
+          const h = sY + this.ho / 2;
+          const step = (2 * Math.PI) / this.nNodes;
+
+          let r = 100;
+
+          const angleRadius = Math.atan2(
+            sY + this.ho / 2 - this.mouseY,
+            sX + this.wo / 2 - this.mouseX,
+          );
+          const x1 = w - r * Math.cos(angleRadius);
+          const y1 = h - r * Math.sin(angleRadius);
+          let theta;
+          for (theta = 0; theta < 2 * Math.PI; theta += step) {
+            i = theta / step;
+            r = (this.y[i] / h) * (h / 1.5);
+
+            const x2 = w - r * Math.cos(theta);
+            const y2 = h + r * Math.sin(theta);
+
+            const newDist = this.distance(x1, y1, x2, y2);
+            if (dist < newDist) {
+              dist = newDist;
+              closeNode = i;
+            }
+          }
+
+          const yStrong = Math.ceil(Math.abs(this.mouse.y) / 7);
+          if (yStrong === 0) return;
+
+          for (i = 0; i <= this.nNodes; i++) {
+            const nodeDist = Math.abs(closeNode - i);
+
+            theta =
+              Math.max((yStrong - nodeDist) / yStrong, 0) * Math.PI -
+              Math.PI / 2;
+            const yRange = (Math.sin(theta) + 1) / 2;
+
+            const dv = this.transferSpeed * this.mouse.y * yRange;
+
+            this.vx[i] += dv * (this.mouse.x / this.mouse.y) * 0.5;
+            this.vy[i] += dv;
+          }
+        }
+        this.lastColor = newColor;
+      },
     };
   };
 
-  const ballRef = useRef<BallReturn>(Ball(color));
-
-  const resizeScreen = (ball: BallReturn) => {
-    ball.wo = canvasRef.current?.width || 0;
-    ball.ho = canvasRef.current?.height || 0;
-    ball.dxNode = ball.wo / ball.nNodes;
-
-    for (let i = 0; i <= ball.nNodes; i++) {
-      ball.x[i] = ball.dxNode * i;
-      ball.x0[i] = ball.dxNode * i;
-    }
-  };
-
-  const init = (ball: BallReturn) => {
-    resizeScreen(ball);
-    for (let i = 0; i <= ball.nNodes; i++) {
-      ball.x[i] = ball.dxNode * i;
-      ball.y[i] = ball.ho / 2;
-
-      ball.x0[i] = ball.x[i];
-      ball.y0[i] = ball.y[i];
-
-      ball.vx[i] = 5 * Math.random() - 2.5;
-      ball.vy[i] = 5 * Math.random() - 2.5;
-      // ball.vx[i] = 0;
-      // ball.vy[i] = 0;
-    }
-    ballRef.current = ball;
-  };
-
-  const distance = (x: number, y: number, x0: number, y0: number) => {
-    x -= x0;
-    y -= y0;
-    return Math.sqrt(x * x + y * y);
-  };
-
-  const nodeTransfer = (ball: BallReturn) => {
-    let dvx = 0;
-    let dvy = 0;
-    for (let i = 0; i <= ball.nNodes; i++) {
-      if (i === 0) {
-        dvx = ball.x[i + 1] + ball.x[ball.nNodes] - 2 * ball.x[i];
-        dvy = ball.y[i + 1] + ball.y[ball.nNodes] - 2 * ball.y[i];
-      } else if (i === ball.nNodes) {
-        dvx = ball.x[i - 1] + ball.x[0] - 2 * ball.x[i];
-        dvy = ball.y[i - 1] + ball.y[0] - 2 * ball.y[i];
-      } else {
-        dvx = ball.x[i + 1] + ball.x[i - 1] - 2 * ball.x[i];
-        dvy = ball.y[i + 1] + ball.y[i - 1] - 2 * ball.y[i];
-      }
-
-      dvx *= ball.propagationSpeed;
-      dvy *= ball.propagationSpeed;
-
-      ball.vx[i] = (ball.vx[i] + dvx) * ball.resistance;
-      ball.vy[i] = (ball.vy[i] + dvy) * ball.resistance;
-    }
-  };
-
-  const nodeMove = (ball: BallReturn) => {
-    for (let i = 0; i <= ball.nNodes; i++) {
-      ball.y[i] += ball.vy[i];
-      ball.vy[i] += (ball.y0[i] - ball.y[i]) / 100;
-
-      if (i !== 0 && i !== ball.nNodes) {
-        ball.x[i] += ball.vx[i];
-        ball.vx[i] += (ball.x0[i] - ball.x[i]) / 100;
-      } else {
-        ball.vx[i] = 0;
-      }
-    }
-  };
-
-  const nodeDraw = (ball: BallReturn, ctx: CanvasRenderingContext2D) => {
-    ctx.clearRect(0, 0, ball.wo, ball.ho);
-    ctx.beginPath();
-    ctx.fillStyle = ball.color;
-
-    const step = (2 * Math.PI) / ball.nNodes;
-    const w = ball.wo / 2;
-    const h = ball.ho / 2;
-    let r = 100;
-    let i = 0;
-
-    for (let theta = 0; theta < 2 * Math.PI; theta += step) {
-      i = theta / step;
-      r = (ball.y[i] / h) * (h / 1.5);
-
-      const x = w + r * Math.cos(theta);
-      const y = h - r * Math.sin(theta);
-
-      ctx.lineTo(x, y);
-    }
-
-    ctx.fill();
-    ctx.closePath();
-  };
-
-  const loop = (ball: BallReturn, ctx: CanvasRenderingContext2D) => {
-    if (ball.mouse.xo === undefined || ball.mouse.yo === undefined) {
-      ball.mouse.xo = ball.mouseX;
-      ball.mouse.yo = ball.mouseY;
-    }
-
-    const dx = ball.mouseX - ball.mouse.xo;
-    const dy = ball.mouseY - ball.mouse.yo;
-    const dist = distance(ball.wo / 2, ball.ho / 2, ball.mouseX, ball.mouseY);
-
-    if (ball.mouseRadius !== dist) {
-      ball.direction = 1;
-      if (ball.mouseRadius > dist) {
-        ball.direction = -1;
-      }
-      ball.mouseRadius = dist;
-    }
-
-    ball.velocity *= ball.direction;
-
-    ball.mouse.x = Math.max(Math.min(dx, ball.mouse.limit), -ball.mouse.limit);
-    ball.mouse.y = Math.max(
-      Math.min(ball.velocity, ball.mouse.limit),
-      -ball.mouse.limit,
-    );
-
-    ball.velocity = Math.sqrt(dx * dx + dy * dy) * 1.5;
-
-    nodeTransfer(ball);
-    nodeMove(ball);
-    nodeDraw(ball, ctx);
-
-    ball.mouse.xo = ball.mouseX;
-    ball.mouse.yo = ball.mouseY;
-  };
-
-  const action = (ball: BallReturn, ctx: CanvasRenderingContext2D) => {
-    const c = ctx.getImageData(ball.mouseX, ball.mouseY, 1, 1).data;
-    if (!c) return;
-    const newColor = c[0];
-    if (ball.lastColor === undefined) {
-      ball.lastColor = newColor;
-      return;
-    }
-
-    if (ball.lastColor !== newColor) {
-      let i = 0;
-      let closeNode = Math.round(ball.mouseX / ball.dxNode);
-      let dist = 0;
-
-      const step = (2 * Math.PI) / ball.nNodes;
-      const w = ball.wo / 2;
-      const h = ball.ho / 2;
-      let r = 100;
-
-      const angleRadius = Math.atan2(
-        ball.ho / 2 - ball.mouseY,
-        ball.wo / 2 - ball.mouseX,
-      );
-      const x1 = w - r * Math.cos(angleRadius);
-      const y1 = h - r * Math.sin(angleRadius);
-      let theta;
-      for (theta = 0; theta < 2 * Math.PI; theta += step) {
-        i = theta / step;
-        r = (ball.y[i] / h) * (h / 1.5);
-
-        const x2 = w - r * Math.cos(theta);
-        const y2 = h + r * Math.sin(theta);
-
-        const newDist = distance(x1, y1, x2, y2);
-        if (dist < newDist) {
-          dist = newDist;
-          closeNode = i;
-        }
-      }
-
-      const yStrong = Math.ceil(Math.abs(ball.mouse.y) / 7);
-      if (yStrong === 0) return;
-
-      for (i = 0; i <= ball.nNodes; i++) {
-        const nodeDist = Math.abs(closeNode - i);
-
-        theta =
-          Math.max((yStrong - nodeDist) / yStrong, 0) * Math.PI - Math.PI / 2;
-        const yRange = (Math.sin(theta) + 1) / 2;
-
-        const dv = ball.transferSpeed * ball.mouse.y * yRange;
-
-        ball.vx[i] += dv * (ball.mouse.x / ball.mouse.y) * 0.5;
-        ball.vy[i] += dv;
-      }
-    }
-    ball.lastColor = newColor;
-  };
+  const ballRef = useRef<BallReturn[]>([]);
 
   const mouseMoveHandler = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    ballRef.current.mouseX = e.clientX;
-    ballRef.current.mouseY = e.clientY;
-    action(ballRef.current, ctx);
+    for (let i = 0; i < ballRef.current.length; i++) {
+      ballRef.current[i].mouseX = e.clientX;
+      ballRef.current[i].mouseY = e.clientY;
+      ballRef.current[i].action(ctx);
+    }
   };
 
   const draw = () => {
@@ -250,27 +270,40 @@ function MovingBall(props: { ballData: BallData }) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    loop(ballRef.current, ctx);
+    for (let i = 0; i < ballRef.current.length; i++) {
+      ballRef.current[i].loop(ctx);
+      ballRef.current[i].nodeDraw(ctx);
+    }
   };
 
   const resizeHandler = () => {
-    resizeScreen(ballRef.current);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    for (let i = 0; i < ballRef.current.length; i++) {
+      ballRef.current[i].resizeScreen();
+    }
   };
 
   useAnimationFrame(draw, 0);
 
+  const colors = ['', 'red', 'blue', 'green'];
+
   useEffect(() => {
-    const ball = Ball(color);
-    init(ball);
-    ballRef.current = ball;
+    for (let i = 1; i <= 3; i++) {
+      const ball = Ball(colors[i], i * 250, 250, 200, 200);
+      ball.init();
+      ballRef.current.push(ball);
+    }
     window.addEventListener('resize', resizeHandler);
     return () => window.removeEventListener('resize', resizeHandler);
   }, []);
 
   return (
     <SangukIsGod
-      width={width}
-      height={height}
+      width={1000}
+      height={500}
       ref={canvasRef}
       onMouseMove={mouseMoveHandler}
     />
@@ -278,7 +311,3 @@ function MovingBall(props: { ballData: BallData }) {
 }
 
 export default MovingBall;
-
-const SangukIsGod = styled.canvas`
-  position: relative;
-`;
