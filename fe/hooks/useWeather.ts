@@ -1,4 +1,3 @@
-import { env } from 'process';
 import { useState, useEffect } from 'react';
 
 type Position = {
@@ -30,6 +29,7 @@ const useWeather = () => {
           let curWeather = data.weather[0].main;
 
           if (curWeather === 'Clear') {
+            curWeather = 'Clear';
           } else if (
             curWeather === 'Rain' ||
             curWeather === 'Drizzle' ||
@@ -37,6 +37,7 @@ const useWeather = () => {
           ) {
             curWeather = 'Rain';
           } else if (curWeather === 'Snow') {
+            curWeather = 'Snow';
           } else {
             curWeather = 'Clouds';
           }

@@ -16,7 +16,8 @@ const shopSlice = createSlice({
   initialState,
   reducers: {
     setCompIdx(state, action) {
-      state.currCompIdx = action.payload;
+      const temp = state;
+      temp.currCompIdx = action.payload;
     },
   },
 });

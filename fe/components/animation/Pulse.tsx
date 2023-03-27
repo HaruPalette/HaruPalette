@@ -1,17 +1,6 @@
-import { ColorTypes, css, keyframes } from '@emotion/react';
+import { ColorTypes, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import useTheme from '../../hooks/useTheme';
-
-function Pulse() {
-  const theme = useTheme();
-  return (
-    <Container>
-      <Circle1 theme={theme} />
-      <Circle2 theme={theme} />
-      <Circle3 theme={theme} />
-    </Container>
-  );
-}
 
 const transform = keyframes`
     0%,
@@ -126,5 +115,16 @@ const Circle3 = styled.div<{ theme: ColorTypes }>`
     left: calc(50% - 250px);
   }
 `;
+
+function Pulse() {
+  const theme = useTheme();
+  return (
+    <Container>
+      <Circle1 theme={theme} />
+      <Circle2 theme={theme} />
+      <Circle3 theme={theme} />
+    </Container>
+  );
+}
 
 export default Pulse;

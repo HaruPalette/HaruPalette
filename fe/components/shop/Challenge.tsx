@@ -2,6 +2,15 @@ import styled from '@emotion/styled';
 import Round, { DiaryProps } from '../progressbar/Round';
 import { useNowDate, useDate } from '../../hooks/useDate';
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 1224px;
+  height: 240px;
+`;
+
 const dummy: DiaryProps[] = [
   {
     index: 0,
@@ -44,12 +53,3 @@ function Challenge() {
 }
 
 export default Challenge;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 1224px;
-  height: 240px;
-`;

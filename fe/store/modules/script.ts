@@ -19,16 +19,19 @@ const scriptSlice = createSlice({
   reducers: {
     /** 일기 작성 페이지에 처음 진입 시 script index 초기화 */
     resetScriptIndexSuccess(state) {
-      state.curScriptIndex = 0;
+      const temp = state;
+      temp.curScriptIndex = 0;
     },
     /** 대화하기 버튼을 통해 녹음 시작 */
     startRecodingSuccess(state) {
-      state.isRecoding = true;
+      const temp = state;
+      temp.isRecoding = true;
     },
     /** 녹음을  */
     recodingSuccess(state) {
-      state.isRecoding = false;
-      state.curScriptIndex++;
+      const temp = state;
+      temp.isRecoding = false;
+      temp.curScriptIndex += 1;
     },
   },
 });

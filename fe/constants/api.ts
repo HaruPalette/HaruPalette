@@ -5,29 +5,29 @@ export const BASE_URL: string =
     : 'https://harupalette.com/api';
 
 // API 엔드 포인트
-export const V1: string = '/api/v1';
-export const V2: string = '/api/v2';
+export const V1 = '/api/v1';
+export const V2 = '/api/v2';
 
 // 정보 조회
-export const USERS: string = V1 + '/users';
+export const USERS = `${V1} + '/users'`;
 // 리마인드
-export const REMIND: string = USERS + '/remind';
+export const REMIND = `${USERS} + '/remind'`;
 
 // 상세조회
-export const DIARIES: string = V1 + '/diaries';
+export const DIARIES = `${V1} + '/diaries'`;
 // STT
-export const STT: string = DIARIES + '/stt';
+export const STT = `${DIARIES} + '/stt'`;
 // 이미지 조회
-export const IMAGE: string = DIARIES + '/image';
+export const IMAGE = `${DIARIES} + '/image'`;
 // 수정 조회
-export const SCRIPT: string = DIARIES + '/script';
+export const SCRIPT = `${DIARIES} + '/script'`;
 
 // 달력 목록
-export const CALENDARS: string = V1 + '/calendars';
+export const CALENDARS = `${V1} + '/calendars'`;
 
 // 도전과제 조회
-export const CHALLENGE: string = V1 + '/challenge';
+export const CHALLENGE = `${V1} + '/challenge'`;
 // 캐릭터 조회
-export const FRIEND: string = V1 + '/friend';
+export const FRIEND = `${V1} + '/friend'`;
 // 포인트 내역 조회
-export const POINTS: string = V1 + '/points';
+export const POINTS = `${V1} + '/points'`;

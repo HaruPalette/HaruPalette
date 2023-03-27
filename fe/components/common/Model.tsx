@@ -3,17 +3,27 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+
+const CustomDiv = styled.div`
+  position: absolute;
+  /* padding: 0 160px; */
+  top: 88px;
+  left: 0px;
+  /* scale: 0.8; */
+  width: 100%;
+`;
+
 function Model() {
   const refDiv = useRef<HTMLDivElement>(null);
-  let _renderer: any;
-  let _camera: any;
-  let _scene: any;
+  let rendererPrev: any;
+  let cameraPrev: any;
+  let scenePrev: any;
 
   useEffect(() => {
     const group = new THREE.Group();
     const { current: customdiv } = refDiv;
 
-    if (customdiv && !_renderer) {
+    if (customdiv && !rendererPrev) {
       const sizes = {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -31,26 +41,12 @@ function Model() {
       renderer.setPixelRatio(window.devicePixelRatio);
       // renderer.setSize(sizes.width, sizes.height - 120);
       renderer.setSize(sizes.width, sizes.height - 222 - 150);
-      _renderer = renderer;
+      rendererPrev = renderer;
 
-      let scene = new THREE.Scene();
+      const scene = new THREE.Scene();
       scene.background = null;
-      _scene = scene;
+      scenePrev = scene;
 
-      const onWindowResize = function (): void {
-        width = window.innerWidth;
-        height = window.innerHeight;
-
-        _camera.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
-
-        height = sizes.height - 222 - 150;
-        _camera.aspect = width / height; // canvas비율을 카메라에 적용
-
-        _renderer.setSize(width, height, true);
-        // _renderer.setSize(sizes.width, sizes.height - 120 - 98);
-        controls.reset();
-      };
-      window.addEventListener('resize', onWindowResize, false);
       // window.addEventListener('mousedown·mouseup', onWindowReset, false);
       // window.onresize = resize.bind(customdiv);
       // resize();
@@ -96,7 +92,23 @@ function Model() {
       camera.position.y = 0.35;
       camera.position.z = 2.2;
       controls.update();
-      _camera = camera;
+      cameraPrev = camera;
+
+      const onWindowResize = function (): void {
+        width = window.innerWidth;
+        height = window.innerHeight;
+
+        cameraPrev.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
+
+        height = sizes.height - 222 - 150;
+        cameraPrev.aspect = width / height; // canvas비율을 카메라에 적용
+
+        rendererPrev.setSize(width, height, true);
+        // _renderer.setSize(sizes.width, sizes.height - 120 - 98);
+        controls.reset();
+      };
+
+      window.addEventListener('resize', onWindowResize, false);
 
       // 빛 설정
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
@@ -110,30 +122,32 @@ function Model() {
       // 캐릭터 설정
       const glftLoader = new GLTFLoader();
       glftLoader.load('assets/img/gomi/gomi_finish.gltf', el => {
-        el.scene.position.x = 0.15;
-        el.scene.position.y = 0;
-        el.scene.position.z = 1;
+        const temp = el;
+        temp.scene.position.x = 0.15;
+        temp.scene.position.y = 0;
+        temp.scene.position.z = 1;
         // 옆면: -0.7 정면: -0.4
-        el.scene.rotation.y = -0.9;
-        el.scene.rotation.x = 0.3;
+        temp.scene.rotation.y = -0.9;
+        temp.scene.rotation.x = 0.3;
 
         // scene.add(el.scene);
         group.add(el.scene);
 
         // 부모 요소에는 castShadow가 true이지만 자식요소의 그림자옵션 false -> true로 변경
         el.scene.traverse(function (child) {
-          if (child instanceof THREE.Mesh) {
-            child.castShadow = true;
+          const temp2 = child;
+          if (temp2 instanceof THREE.Mesh) {
+            temp2.castShadow = true;
           }
         });
 
         let step = 0;
 
         const animate = () => {
-          if (el) {
+          if (temp) {
             step += 0.02;
-            el.scene.scale.set(0.5, 0.5, 0.5);
-            el.scene.position.y = 0.5 * Math.abs(Math.sin(step));
+            temp.scene.scale.set(0.5, 0.5, 0.5);
+            temp.scene.position.y = 0.5 * Math.abs(Math.sin(step));
             // el.scene.position.y = Math.sin(elapsedTime * .5) * .1 - 0.1
             sphereShadow.material.opacity =
               (1 - Math.abs(el.scene.position.y)) * 0.5;
@@ -142,36 +156,28 @@ function Model() {
           requestAnimationFrame(animate);
           controls.update();
 
-          _renderer.render(_scene, _camera);
+          rendererPrev.render(scenePrev, cameraPrev);
         };
         animate();
       });
       const glftLoaderSub = new GLTFLoader();
       glftLoaderSub.load('assets/img/gomi/bamboo.gltf', ele => {
-        ele.scene.position.x = -1.1;
-        ele.scene.position.y = 0.4;
-        ele.scene.position.z = 0.4;
-        ele.scene.rotation.y = 2;
-        ele.scene.rotation.x = 0.3;
+        const temp3 = ele;
+        temp3.scene.position.x = -1.1;
+        temp3.scene.position.y = 0.4;
+        temp3.scene.position.z = 0.4;
+        temp3.scene.rotation.y = 2;
+        temp3.scene.rotation.x = 0.3;
         group.add(ele.scene);
 
         // scene.add(el.scene);
         ele.scene.scale.set(0.1, 0.1, 0.1);
       });
 
-      _scene.add(group);
+      scenePrev.add(group);
     }
   }, [refDiv]);
 
   return <CustomDiv ref={refDiv} />;
 }
 export default Model;
-
-const CustomDiv = styled.div`
-  position: absolute;
-  /* padding: 0 160px; */
-  top: 88px;
-  left: 0px;
-  /* scale: 0.8; */
-  width: 100%;
-`;
