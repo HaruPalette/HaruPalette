@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
-function ShopBuyingBuddy() {
-  return <>ShopBuyingBuddy 컴포넌트</>;
+function BuyingBuddy() {
+  return <>BuyingBuddy 컴포넌트</>;
 }
 
-export default ShopBuyingBuddy;
+export default BuyingBuddy;

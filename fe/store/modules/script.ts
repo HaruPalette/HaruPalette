@@ -4,12 +4,14 @@ import { RootState } from '..';
 // state type
 export interface ScriptSlice {
   isRecoding: boolean;
+  isPausing: boolean;
   curScriptIndex: number;
 }
 
 // 초기 상태 정의
 const initialState = {
   isRecoding: false,
+  isPausing: false,
   curScriptIndex: 0,
 };
 
@@ -19,19 +21,28 @@ const scriptSlice = createSlice({
   reducers: {
     /** 일기 작성 페이지에 처음 진입 시 script index 초기화 */
     resetScriptIndexSuccess(state) {
-      const temp = state;
-      temp.curScriptIndex = 0;
+      state.isRecoding = false;
+      state.isPausing = false;
+      state.curScriptIndex = 0;
     },
     /** 대화하기 버튼을 통해 녹음 시작 */
     startRecodingSuccess(state) {
       const temp = state;
       temp.isRecoding = true;
     },
-    /** 녹음을  */
+    /** 일시정지 버튼을 통해 녹음을 일시 정지 */
+    pauseRecodeingSuccess(state) {
+      state.isPausing = true;
+    },
+    /** 재생 버튼을 통해 녹음을 다시 재생 */
+    restartRecodingSuccess(state) {
+      state.isPausing = false;
+    },
+    /** 대화 파일 저장 */
     recodingSuccess(state) {
-      const temp = state;
-      temp.isRecoding = false;
-      temp.curScriptIndex += 1;
+      state.isRecoding = false;
+      state.isPausing = false;
+      state.curScriptIndex = state.curScriptIndex + 1;
     },
   },
 });
@@ -40,6 +51,8 @@ const scriptSlice = createSlice({
 export const {
   resetScriptIndexSuccess,
   startRecodingSuccess,
+  pauseRecodeingSuccess,
+  restartRecodingSuccess,
   recodingSuccess,
 } = scriptSlice.actions;
 export const selectScript = (state: RootState) => state.script;

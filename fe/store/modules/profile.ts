@@ -25,6 +25,11 @@ const profileSlice = createSlice({
       temp.chrName = action.payload.chrName;
       temp.chrPK = action.payload.chrPK;
     },
+    logoutSuccess(state) {
+      state.image = '';
+      state.chrName = 'haru';
+      state.chrPK = 1;
+    },
   },
 });
 
