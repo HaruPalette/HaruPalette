@@ -1,9 +1,11 @@
 package com.ssafy.palette.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.ssafy.palette.domain.dto.CalenderDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -101,5 +103,13 @@ public class DiaryController {
 
 		diaryService.deleteDiary(diaryId);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@GetMapping("/calendars")
+	public ResponseEntity<?> getCalendar(@RequestHeader HttpHeaders header, @RequestParam String date) {
+		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
+		String userId = jwtUtil.getUid(token);
+		List<CalenderDto> calenderListDto = diaryService.getCalendar(userId, date);
+		return new ResponseEntity<>(calenderListDto, HttpStatus.OK);
 	}
 }
