@@ -5,7 +5,7 @@ function SaveImageButton() {
   return (
     <SaveButton type="button">
       <Image
-        src="assets/img/common/save.svg"
+        src="/assets/img/common/save.svg"
         width={40}
         height={40}
         alt="share"

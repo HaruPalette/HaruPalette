@@ -30,7 +30,7 @@ function Model() {
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setPixelRatio(window.devicePixelRatio);
       // renderer.setSize(sizes.width, sizes.height - 120);
-      renderer.setSize(sizes.width, sizes.height - 222 - 150);
+      renderer.setSize(sizes.width, sizes.height - 222 - 200 - 32);
       _renderer = renderer;
 
       let scene = new THREE.Scene();
@@ -43,7 +43,7 @@ function Model() {
 
         _camera.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
 
-        height = sizes.height - 222 - 150;
+        height = sizes.height - 222 - 200 - 32;
         _camera.aspect = width / height; // canvas비율을 카메라에 적용
 
         _renderer.setSize(width, height, true);

@@ -5,7 +5,7 @@ function KakaoShareButton() {
   return (
     <ShareButton type="button">
       <Image
-        src="assets/img/common/share.svg"
+        src="/assets/img/common/share.svg"
         width={40}
         height={40}
         alt="share"
