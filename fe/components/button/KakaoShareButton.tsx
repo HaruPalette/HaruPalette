@@ -9,6 +9,8 @@ const ShareButton = styled.button<{ theme: ColorTypes }>`
   width: 20rem;
   height: 3.5rem;
   border-radius: 3.5rem;
+  color: ${props => props.theme.color};
+  background: ${props => props.theme.background};
   font-weight: ${common.fontSize.fs20};
   font-weight: bold;
   display: flex;

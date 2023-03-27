@@ -46,7 +46,7 @@ const OptionButton = styled.button<{
   display: flex;
   flex-direction: column;
   position: relative;
-  background: ${props => props.theme.background};
+  /* background: ${props => props.theme.background}; */
   color: ${props => (props.click ? props.theme.main : common.colors.secondary)};
 `;
 
@@ -57,7 +57,7 @@ const OptionList = styled.div<{
   margin-top: 0.5rem;
   max-height: ${props => (props.click ? 8 : 0)}rem;
   overflow-y: overlay;
-  border: ${props => (props.click ? '1px' : '0px')} solid
+  border: ${props => (props.click ? '2px' : '0px')} solid
     ${props => (props.click ? props.theme.main : common.colors.disable)};
   border-radius: 1rem;
   background: ${props => props.theme.background};

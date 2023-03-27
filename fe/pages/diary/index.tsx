@@ -10,8 +10,7 @@ import Palette from '../../components/diary/Palette';
 import { useDate } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
-import Jelly from '../../components/animation/Jelly';
-import useBall from '../../hooks/useBall';
+import JellyList from '../../components/common/JellyList';
 
 const DirayPage = styled.div<{ theme: ColorTypes }>`
   width: 100%;
@@ -21,15 +20,6 @@ const DirayPage = styled.div<{ theme: ColorTypes }>`
   flex-direction: column;
   align-items: center;
   background: ${props => props.theme.background};
-`;
-
-const JellyList = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
 `;
 
 const Title = styled.div<{ theme: ColorTypes }>`
@@ -98,11 +88,7 @@ function Diary() {
   return (
     <>
       <Header />
-      <JellyList>
-        {useBall().map(item => {
-          return <Jelly ballData={item} />;
-        })}
-      </JellyList>
+      <JellyList />
       <DirayPage theme={theme}>
         <Title theme={theme}>
           {year}년 {month}월

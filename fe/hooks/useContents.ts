@@ -4,7 +4,7 @@ export function useContents(contents: string) {
   let temp = [];
   let count = 0;
   for (let i = 0; i < arr.length; i++) {
-    if (count + arr[i].length <= 25) {
+    if (count + arr[i].length <= 23) {
       temp.push(arr[i]);
       count += arr[i].length;
     } else {

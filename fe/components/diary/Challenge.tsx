@@ -29,6 +29,7 @@ const CountStyles = styled.div<{ theme: ColorTypes }>`
   flex-direction: row;
   justify-content: space-between;
   margin: 1rem 0;
+  transition: all 0s;
 `;
 
 function Challenge() {
