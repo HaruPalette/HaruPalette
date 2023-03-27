@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/media-has-caption */
+/* eslint-disable react/no-array-index-key */
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
@@ -9,19 +11,18 @@ import Model from '../../components/common/Model';
 import RecodeBar from '../../components/create/RecodeBar';
 import TalkButton from '../../components/create/TalkButton';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import useAudioRecorder from '../../hooks/useAudioRecorder';
 import useTheme from '../../hooks/useTheme';
 import {
   resetScriptIndexSuccess,
   selectScript,
 } from '../../store/modules/script';
 
-
 const CreatePage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
   height: 100vh;
   background-color: ${props => props.theme.background};
 `;
-
 
 const CreatePageContainer = styled.div`
   display: flex;
@@ -44,11 +45,21 @@ const CreateHeader = styled.div`
   z-index: 1;
 `;
 
+const TestRecode = styled.ul`
+  position: absolute;
+  top: 80vh;
+  left: 50%;
+  transform: translateX(-50%);
+  list-style: none;
+`;
+
 function Create() {
   const theme = useTheme();
-  const curSrciptIndex = useAppSelector(selectScript).curScriptIndex;
+  // const curSrciptIndex = useAppSelector(selectScript).curScriptIndex;
   const isRecode = useAppSelector(selectScript).isRecoding;
   const dispatch = useAppDispatch();
+
+  const audioRecorder = useAudioRecorder();
 
   useEffect(() => {
     dispatch(resetScriptIndexSuccess());
@@ -58,18 +69,27 @@ function Create() {
     <CreatePage theme={theme}>
       <Pulse />
       <CreateHeader>
-        <HomeButton></HomeButton>
-        <WeatherButton></WeatherButton>
+        <HomeButton />
+        <WeatherButton />
       </CreateHeader>
       <CreatePageContainer>
         <ScriptTalk />
         <Model />
-        {isRecode ? <RecodeBar /> : <TalkButton />}
+        {isRecode ? (
+          <RecodeBar audioRecorder={audioRecorder} />
+        ) : (
+          <TalkButton audioRecorder={audioRecorder} />
+        )}
+        <TestRecode>
+          {audioRecorder.recordedChunks.map((chunk, index) => (
+            <li key={index}>
+              <audio controls src={URL.createObjectURL(chunk)} />
+            </li>
+          ))}
+        </TestRecode>
       </CreatePageContainer>
     </CreatePage>
   );
 }
 
 export default Create;
-
-

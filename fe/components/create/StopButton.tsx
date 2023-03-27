@@ -1,6 +1,5 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
@@ -8,9 +7,9 @@ import {
   pauseRecodeingSuccess,
   restartRecodingSuccess,
   selectScript,
-  startRecodingSuccess,
 } from '../../store/modules/script';
 import { common } from '../../styles/theme';
+import AudioRecorder from '../../types/recodeTypes';
 
 const CustomButton = styled.button<{ theme: ColorTypes }>`
   display: flex;
@@ -41,27 +40,30 @@ const CustomButton = styled.button<{ theme: ColorTypes }>`
   }
 `;
 
-function StopButton() {
+function StopButton(props: { audioRecorder: AudioRecorder }) {
+  const { audioRecorder } = props;
   const isPause = useAppSelector(selectScript).isPausing;
   const theme = useTheme();
   const dispatch = useDispatch();
 
   const handlePause = () => {
     dispatch(pauseRecodeingSuccess());
+    audioRecorder.pauseRecording();
   };
 
   const handleRecode = () => {
     dispatch(restartRecodingSuccess());
+    audioRecorder.resumeRecording();
   };
 
   return isPause ? (
     <CustomButton type="button" theme={theme} onClick={handleRecode}>
-      <i className="fas fa-play"></i>
+      <i className="fas fa-play" />
       <h5>이어하기</h5>
     </CustomButton>
   ) : (
     <CustomButton type="button" theme={theme} onClick={handlePause}>
-      <i className="fas fa-pause"></i>
+      <i className="fas fa-pause" />
       <h5>일시정지</h5>
     </CustomButton>
   );
