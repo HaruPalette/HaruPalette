@@ -32,6 +32,8 @@ public class UserService {
 			.id(loginDto.getUserId())
 			.image(loginDto.getImage())
 			.point(0)
+			.weekCnt(0)
+			.monthCnt(0)
 			.friend(friend)
 			.build();
 
