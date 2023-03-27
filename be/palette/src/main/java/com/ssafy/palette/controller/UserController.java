@@ -2,6 +2,8 @@ package com.ssafy.palette.controller;
 
 import javax.transaction.Transactional;
 
+import com.ssafy.palette.domain.dto.ChallengeListDto;
+import com.ssafy.palette.service.ChallengeService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 
 	private final UserService userService;
+	private final ChallengeService challengeService;
 	private final JwtUtil jwtUtil;
 
 	// 첫 로그인 -> 회원가입
@@ -57,7 +60,9 @@ public class UserController {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
 
-		return new ResponseEntity<>( HttpStatus.OK);
+		ChallengeListDto challengeListDto = challengeService.getChallenge(userId);
+
+		return new ResponseEntity<>(challengeListDto, HttpStatus.OK);
 	}
 
 	// 포인트 내역 조회
