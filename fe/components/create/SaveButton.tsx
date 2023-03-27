@@ -1,13 +1,10 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import useTheme from '../../hooks/useTheme';
-import {
-  recodingSuccess,
-  startRecodingSuccess,
-} from '../../store/modules/script';
+import { recodingSuccess } from '../../store/modules/script';
 import { common } from '../../styles/theme';
+import AudioRecorder from '../../types/recodeTypes';
 
 const CustomButton = styled.button<{ theme: ColorTypes }>`
   display: flex;
@@ -39,17 +36,19 @@ const CustomButton = styled.button<{ theme: ColorTypes }>`
   }
 `;
 
-function SaveButton() {
+function SaveButton(props: { audioRecorder: AudioRecorder }) {
+  const { audioRecorder } = props;
   const theme = useTheme();
   const dispatch = useDispatch();
 
   const handleRecode = () => {
     dispatch(recodingSuccess());
+    audioRecorder.stopRecording();
   };
 
   return (
     <CustomButton type="button" theme={theme} onClick={handleRecode}>
-      <i className="fas fa-stop"></i>
+      <i className="fas fa-stop" />
       <h5>대화종료</h5>
     </CustomButton>
   );

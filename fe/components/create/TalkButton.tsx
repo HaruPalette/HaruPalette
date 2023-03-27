@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import useTheme from '../../hooks/useTheme';
 import { startRecodingSuccess } from '../../store/modules/script';
 import { common } from '../../styles/theme';
+import AudioRecorder from '../../types/recodeTypes';
 
 const CustomButton = styled.button<{ theme: ColorTypes }>`
   display: flex;
@@ -36,12 +37,14 @@ const CustomButton = styled.button<{ theme: ColorTypes }>`
   }
 `;
 
-function TalkButton() {
+function TalkButton(props: { audioRecorder: AudioRecorder }) {
+  const { audioRecorder } = props;
   const theme = useTheme();
   const dispatch = useDispatch();
 
   const handleRecode = () => {
     dispatch(startRecodingSuccess());
+    audioRecorder.startRecording();
   };
 
   return (
@@ -51,7 +54,7 @@ function TalkButton() {
         width={32}
         height={32}
         alt="mic"
-      ></Image>
+      />
       <h4>대화하기</h4>
     </CustomButton>
   );
