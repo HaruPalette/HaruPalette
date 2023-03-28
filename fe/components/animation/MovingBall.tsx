@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { BallReturn } from '../../types/movingBallTypes';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
@@ -8,7 +8,6 @@ const SangukIsGod = styled.canvas`
 `;
 
 function MovingBall() {
-  // const { top, left, width, height, color } = props.ballData;
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const Ball = (
@@ -27,7 +26,7 @@ function MovingBall() {
 
       wo: width,
       ho: height,
-      lastColor: undefined as number | undefined,
+      lastColor: undefined as string | undefined,
       dxNode: 0,
       mouse: {
         x: 0,
@@ -64,8 +63,8 @@ function MovingBall() {
         this.resizeScreen();
         for (let i = 0; i <= this.nNodes; i++) {
           // 찌리릿
-          this.vx[i] = 5 * Math.random() - 2.5;
-          this.vy[i] = 5 * Math.random() - 2.5;
+          // this.vx[i] = 5 * Math.random() - 2.5;
+          // this.vy[i] = 5 * Math.random() - 2.5;
 
           this.vx[i] = 0;
           this.vy[i] = 0;
@@ -116,7 +115,7 @@ function MovingBall() {
       },
 
       nodeDraw(ctx: CanvasRenderingContext2D) {
-        ctx.clearRect(0, 0, this.wo, this.ho);
+        // ctx.clearRect(0, 0, this.wo, this.ho);
         ctx.beginPath();
         ctx.fillStyle = this.color;
 
@@ -178,6 +177,7 @@ function MovingBall() {
 
         this.nodeTransfer();
         this.nodeMove();
+        this.nodeDraw(ctx);
 
         this.mouse.xo = this.mouseX;
         this.mouse.yo = this.mouseY;
@@ -185,24 +185,14 @@ function MovingBall() {
 
       action(ctx: CanvasRenderingContext2D) {
         const c = ctx.getImageData(this.mouseX, this.mouseY, 1, 1).data;
-        if (!c) return;
-        // if (
-        //   this.mouseX - w > width / 2 + 10 ||
-        //   this.mouseY - h > height / 2 + 10
-        // )
-        //   return;
-        const newColor = c[0];
-        if (this.lastColor === undefined) {
-          this.lastColor = newColor;
-          return;
-        }
-
+        const newColor = `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+        if (newColor !== color && this.lastColor !== color) return;
         if (this.lastColor !== newColor) {
           let i = 0;
           let closeNode = Math.round(this.mouseX / this.dxNode);
-          let dist = 0;
           const w = sX + this.wo / 2;
           const h = sY + this.ho / 2;
+          let dist = 0;
           const step = (2 * Math.PI) / this.nNodes;
 
           let r = 100;
@@ -272,7 +262,6 @@ function MovingBall() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < ballRef.current.length; i++) {
       ballRef.current[i].loop(ctx);
-      ballRef.current[i].nodeDraw(ctx);
     }
   };
 
@@ -288,11 +277,21 @@ function MovingBall() {
 
   useAnimationFrame(draw, 0);
 
-  const colors = ['', 'red', 'blue', 'green'];
+  const colors = [
+    '',
+    'rgb(250, 121, 169)',
+    'rgb(33, 50, 140)',
+    'rgb(160, 228, 18)',
+    'rgb(255, 215, 166)',
+  ];
 
   useEffect(() => {
-    for (let i = 1; i <= 3; i++) {
-      const ball = Ball(colors[i], i * 250, 250, 200, 200);
+    resizeHandler();
+    for (let i = 1; i < colors.length; i++) {
+      // 이거 입맛에 맞춰서 바꿔주면 됨
+      // Ball ( rgb 값, 시작 x, 시작 y, width, height)
+      // rgb 값 띄어쓰기 주의 시작 x y 가 왼쪽위임
+      const ball = Ball(colors[i], i * 250, 250, 500, 500);
       ball.init();
       ballRef.current.push(ball);
     }
