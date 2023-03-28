@@ -126,9 +126,7 @@ public class DiaryService {
 			Challenge challenge = challengeRepository.getReferenceById(5L);
 			userService.plusCnt(userId);
 			pointService.earnPoint(userId, challenge.getPoint());
-			pointService.addHistory(userId, challenge.getPoint(), challenge.getContents(),
-				date.atTime(LocalTime.now()));
-			System.out.println(date.atTime(LocalTime.now()));
+			pointService.addChallengeHistory(userId, 5L, date.atTime(LocalTime.now()));
 		}
 
 		Diary diary = Diary.builder()

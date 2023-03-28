@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.palette.domain.entity.Point;
 import com.ssafy.palette.domain.entity.User;
+import com.ssafy.palette.repository.ChallengeRepository;
 import com.ssafy.palette.repository.PointRepository;
 import com.ssafy.palette.repository.UserRepository;
 
@@ -20,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PointService {
 	private final UserRepository userRepository;
 	private final PointRepository pointRepository;
+	private final ChallengeRepository challengeRepository;
 
 	public void earnPoint(String userId, int val) {
 		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
@@ -31,11 +33,11 @@ public class PointService {
 		user.setPoint(user.getPoint() - val);
 	}
 
-	public void addHistory(String useId, int val, String category, LocalDateTime date) {
+	public void addChallengeHistory(String useId, Long challengeId, LocalDateTime date) {
 		Point point = Point.builder()
 			.user(userRepository.findById(useId).get())
-			.point(val)
-			.category(category)
+			.point(challengeRepository.getReferenceById(challengeId).getPoint())
+			.category(challengeRepository.getReferenceById(challengeId).getContents())
 			.date(date)
 			.build();
 		pointRepository.save(point);
