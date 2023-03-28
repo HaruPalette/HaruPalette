@@ -3,8 +3,10 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import WEATHER_LIST from '../../constants/weather';
+import { useAppDispatch } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import useWeather from '../../hooks/useWeather';
+import { changeWeatherSuccess } from '../../store/modules/weather';
 
 const WeatherContainer = styled.div<{ theme: ColorTypes }>`
   display: flex;
@@ -52,6 +54,10 @@ const WeatherIcon = styled.button`
   border: 0;
   margin: 0.5rem 1rem;
   opacity: 0.2;
+  will-change: all;
+  :hover {
+    opacity: 0.4;
+  }
 `;
 
 const WeatherImage = styled(Image)`
@@ -68,9 +74,11 @@ function WeatherButton() {
   const theme = useTheme();
   const newWeather = useWeather();
   const [curWeather, setcurWeather] = useState(newWeather);
+  const dispatch = useAppDispatch();
 
   const handleCurWeather = (weather: string) => {
     setcurWeather(weather);
+    dispatch(changeWeatherSuccess(weather));
   };
 
   useEffect(() => {
