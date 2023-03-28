@@ -45,12 +45,25 @@ const Title = styled.div<{ theme: ColorTypes }>`
   color: ${props => props.theme.main};
 `;
 
-const ContentList = styled.div<{ theme: ColorTypes }>`
+const ContentList = styled.div<{ theme: ColorTypes; type: string }>`
   width: 25rem;
+  height: ${props => (props.type === 'modify' ? '10rem' : 'auto')};
+  overflow-y: ${props => (props.type === 'modify' ? 'scroll' : 'auto')};
   color: ${props => props.theme.main};
   font-size: ${common.fontSize.fs16};
-  /* font-weight: bold; */
-  margin: 1rem auto;
+  margin: 1rem 0 1rem 1rem;
+
+  ::-webkit-scrollbar {
+    width: 1.5rem; /* 스크롤바의 너비 */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    height: 10%; /* 스크롤바의 길이 */
+    background: ${props => props.theme.primary20}; /* 스크롤바의 색상 */
+    background-clip: padding-box;
+    border: 0.5rem solid transparent;
+    border-radius: 2rem;
+  }
 `;
 
 const ContentItem = styled.div<{ theme: ColorTypes }>`
@@ -58,20 +71,19 @@ const ContentItem = styled.div<{ theme: ColorTypes }>`
   margin-bottom: 0.5rem;
 `;
 
-const AnswerList = styled.div<{ theme: ColorTypes }>`
+const AnswerList = styled.div<{ theme: ColorTypes; type: string }>`
   width: 25rem;
   text-align: center;
   color: ${props => props.theme.main};
   font-size: ${common.fontSize.fs16};
-  /* font-weight: bold; */
-  margin: 1rem auto;
-  padding: 0.5rem 0;
+  margin: ${props => (props.type === 'view' ? '1rem auto' : '0')};
+  padding: ${props => (props.type === 'view' ? '0.5rem 0' : '0')};
   background: ${props => props.theme.diaryBackground};
   border-radius: 25rem;
 `;
 
 const CreateButton = styled.button<{ theme: ColorTypes }>`
-  width: 29rem;
+  width: 25rem;
   height: 2.8rem;
   background: ${props => props.theme.primary60};
   color: ${common.colors.inheritWhite};
@@ -79,6 +91,7 @@ const CreateButton = styled.button<{ theme: ColorTypes }>`
   font-size: ${common.fontSize.fs20};
   font-weight: bold;
   text-align: center;
+  margin: auto;
 `;
 
 const DiaryImage = styled(Image)`
@@ -94,14 +107,14 @@ const ChrSticker = styled(Image)`
 
 const WeatherSticker = styled(Image)`
   position: absolute;
-  top: 0.46%;
-  left: 60%;
+  top: 10px;
+  left: 300px;
 `;
 
 const UserSticker = styled(Image)`
   position: absolute;
-  top: 30%;
-  left: 10%;
+  top: 250px;
+  left: 40px;
 `;
 
 function Diary(props: {
@@ -109,8 +122,8 @@ function Diary(props: {
   type: string;
   save: boolean;
   share: boolean;
-  setSave: Dispatch<SetStateAction<boolean>>;
-  setShare: Dispatch<SetStateAction<boolean>>;
+  setSave: Dispatch<SetStateAction<boolean>> | null;
+  setShare: Dispatch<SetStateAction<boolean>> | null;
 }) {
   // 일기 상세조회 정보, 수정("modify") || 디테일("view")
   const { diary, type, save, share, setSave, setShare } = props;
@@ -133,7 +146,7 @@ function Diary(props: {
       domtoimage.toBlob(diaryRef.current).then((blob: any) => {
         saveAs(blob, 'diary.png');
       });
-      setSave(false);
+      if (setSave) setSave(false);
     }
   }, [save]);
   // 일기 이미지로 저장 후 카카오톡 공유
@@ -152,14 +165,14 @@ function Diary(props: {
         },
       });
     }
-    setShare(false);
+    if (setShare) setShare(false);
   }, [share]);
   return (
     <DetailStyles ref={diaryRef} theme={theme}>
       <DiaryLine theme={theme}>
         <Title theme={theme}>{title}</Title>
         <DiaryImage src={diary.image} width={300} height={300} alt="img" />
-        <ContentList theme={theme}>
+        <ContentList theme={theme} type={type}>
           {contentList.map(item => {
             return (
               <ContentItem theme={theme} key={item}>
@@ -176,7 +189,7 @@ function Diary(props: {
         {type === 'view' && (
           <ChrSticker src={chrSticker} width={95} height={79} alt="chr" />
         )}
-        <AnswerList theme={theme}>
+        <AnswerList theme={theme} type={type}>
           {type === 'view' &&
             answerList.map(item => {
               return <div key={item}>{item}</div>;
@@ -188,7 +201,9 @@ function Diary(props: {
           height={183}
           alt="weather"
         />
-        <UserSticker src={userSticker} width={72} height={72} alt="sticker" />
+        {diary.stickerCode !== 'ampty' && (
+          <UserSticker src={userSticker} width={72} height={72} alt="sticker" />
+        )}
       </DiaryLine>
     </DetailStyles>
   );
