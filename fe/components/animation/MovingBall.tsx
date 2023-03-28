@@ -278,20 +278,21 @@ function MovingBall() {
   useAnimationFrame(draw, 0);
 
   const colors = [
-    '',
-    'rgb(250, 121, 169)',
-    'rgb(33, 50, 140)',
-    'rgb(160, 228, 18)',
-    'rgb(255, 215, 166)',
+    { color: '', x: 0, y: 0, l: 0 },
+    { color: 'rgb(255, 215, 166)', x: 400, y: 0, l: 2000 },
+    { color: 'rgb(250, 121, 169)', x: 800, y: -700, l: 1600 },
+    { color: 'rgb(33, 50, 140)', x: -400, y: 200, l: 1200 },
+    { color: 'rgb(160, 228, 18)', x: -200, y: -300, l: 800 },
   ];
 
   useEffect(() => {
     resizeHandler();
     for (let i = 1; i < colors.length; i++) {
+      const { color, x, y, l } = colors[i];
       // 이거 입맛에 맞춰서 바꿔주면 됨
       // Ball ( rgb 값, 시작 x, 시작 y, width, height)
       // rgb 값 띄어쓰기 주의 시작 x y 가 왼쪽위임
-      const ball = Ball(colors[i], i * 250, 250, 500, 500);
+      const ball = Ball(color, x, y, l, l);
       ball.init();
       ballRef.current.push(ball);
     }
@@ -299,14 +300,7 @@ function MovingBall() {
     return () => window.removeEventListener('resize', resizeHandler);
   }, []);
 
-  return (
-    <SangukIsGod
-      width={1000}
-      height={500}
-      ref={canvasRef}
-      onMouseMove={mouseMoveHandler}
-    />
-  );
+  return <SangukIsGod ref={canvasRef} onMouseMove={mouseMoveHandler} />;
 }
 
 export default MovingBall;
