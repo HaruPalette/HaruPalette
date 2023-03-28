@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ssafy.palette.config.security.JwtUtil;
 import com.ssafy.palette.domain.dto.FriendListDto;
+import com.ssafy.palette.domain.dto.UserFriendDto;
 import com.ssafy.palette.service.FriendService;
 
 import lombok.RequiredArgsConstructor;
@@ -53,10 +55,13 @@ public class FriendController {
 
 	// 캐릭터 구매
 	@PostMapping()
-	public ResponseEntity<?> makeFriend(@RequestHeader HttpHeaders header) {
+	public ResponseEntity<?> makeFriend(@RequestHeader HttpHeaders header,
+		@RequestBody UserFriendDto userFriendDto) throws
+		Exception {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
-		
+
+		friendService.makeFriend(userId, userFriendDto.getFriendId());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
