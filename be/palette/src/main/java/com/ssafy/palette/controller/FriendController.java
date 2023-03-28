@@ -35,17 +35,19 @@ public class FriendController {
 	public ResponseEntity<?> getFriend(@RequestHeader HttpHeaders header) {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
-		FriendListDto friendListDto = friendService.getFriendList(userId);
 
+		FriendListDto friendListDto = friendService.getFriendList(userId);
 		return new ResponseEntity<>(friendListDto, HttpStatus.OK);
 	}
 
 	// 캐릭터 선택
 	@PatchMapping("/{friendId}")
-	public ResponseEntity<?> chooseFriend(@RequestHeader HttpHeaders header, @PathVariable Long friendId) {
+	public ResponseEntity<?> chooseFriend(@RequestHeader HttpHeaders header, @PathVariable Long friendId) throws
+		Exception {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
 
+		friendService.chooseFriend(userId, friendId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -54,7 +56,7 @@ public class FriendController {
 	public ResponseEntity<?> makeFriend(@RequestHeader HttpHeaders header) {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
-
+		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
