@@ -2,13 +2,12 @@ package com.ssafy.palette.domain.dto;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
@@ -16,13 +15,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class ChallengeListDto {
 
-    @NotNull
     private Integer weekCnt;
-    @NotNull
     private Integer monthCnt;
-    @NotNull
     private Integer currentPoint;
-    @NotNull
     List<@Valid ChallengeDto> challengeList;
 
     @Getter
@@ -30,11 +25,8 @@ public class ChallengeListDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ChallengeDto {
-        @NotNull
         private Long challengeId;
-        @NotNull
         private String contents;
-        @NotNull
         private Integer point;
     }
 }
