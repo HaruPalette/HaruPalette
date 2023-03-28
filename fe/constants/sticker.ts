@@ -1,5 +1,5 @@
 const STICKER: string[] = [
-  'default',
+  'ampty',
   'love',
   'sad',
   'smile',
