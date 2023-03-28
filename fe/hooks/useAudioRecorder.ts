@@ -1,16 +1,16 @@
 import { WaveFile } from 'wavefile';
 import { useState } from 'react';
 
-const encodeWAV = (chunks: Blob[]): Blob => {
-  const waveFile = new WaveFile();
-  waveFile.fromScratch(1, 16000, '16', []);
-  chunks.forEach(chunk => {
-    waveFile.addData(chunk.arrayBuffer());
-  });
-  console.log(waveFile);
+// const encodeWAV = (chunks: Blob[]): Blob => {
+//   const waveFile = new WaveFile();
+//   waveFile.fromScratch(1, 16000, '16', []);
+//   chunks.forEach(chunk => {
+//     waveFile.addData(chunk.arrayBuffer());
+//   });
+//   console.log(waveFile);
 
-  return new Blob([waveFile.toBuffer()]);
-};
+//   return new Blob([waveFile.toBuffer()]);
+// };
 
 const useAudioRecorder = () => {
   const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
@@ -36,8 +36,8 @@ const useAudioRecorder = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
       setIsRecording(false);
-      const chunksWAV = encodeWAV(recordedChunks);
-      setRecordedChunksWAV(prevChunks => [...prevChunks, chunksWAV]);
+      // const chunksWAV = encodeWAV(recordedChunks);
+      // setRecordedChunksWAV(prevChunks => [...prevChunks, chunksWAV]);
     }
   };
 
