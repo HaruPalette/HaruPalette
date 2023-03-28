@@ -11,14 +11,13 @@ import JellyList from '../../components/common/JellyList';
 
 const DetailPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
-  min-height: 100vh;
+  height: auto;
   background: ${props => props.theme.background};
 `;
 
 const Container = styled.div`
   width: 100vw;
-  min-height: 100vh;
-  /* min-height: calc(100vh - 5.5rem); */
+  height: auto;
   padding-top: 5.5rem;
   display: flex;
   flex-direction: row;
@@ -88,8 +87,8 @@ function Detail() {
   }, []);
   return (
     <DetailPage theme={theme}>
-      <Header />
       <JellyList />
+      <Header />
       <Container>
         <Diary
           diary={diary}
