@@ -1,6 +1,11 @@
 import { TalkData } from '../types/commonTypes';
 
-const SCRIPT: TalkData[] = [
+export const MAIN_SCRIPT: TalkData = {
+  idx: 0,
+  script: ['안녕하세요', '음성으로 기록하는 일기', '하루팔레트입니다.'],
+};
+
+export const SCRIPT: TalkData[] = [
   {
     idx: 0,
     script: ['안녕, 오늘 일기를 써볼까 ?'],
@@ -21,5 +26,3 @@ const SCRIPT: TalkData[] = [
     ],
   },
 ];
-
-export default SCRIPT;

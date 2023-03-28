@@ -6,9 +6,7 @@ import useTheme from '../../hooks/useTheme';
 
 const HaruFooter = styled.footer<{ theme: ColorTypes }>`
   width: 100vw;
-  position: fixed;
-  left: 0;
-  bottom: 0;
+  position: relative;
   background: ${props => props.theme.background};
   color: ${props => props.theme.color};
 `;
