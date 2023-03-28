@@ -1,45 +1,62 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import SCRIPT from '../constants/script';
+import { useAppSelector } from './reduxHook';
+import { selectScript } from '../store/modules/script';
 
-const useScript = (scripts: string[]) => {
+const useScript = () => {
   const [text, setText] = useState<string>('');
   const [index, setIndex] = useState<number>(0);
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+  const scriptIndex = useAppSelector(selectScript).curScriptIndex;
+  let scripts = SCRIPT[scriptIndex].script;
 
-  const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+  const start = () => {
+    scripts = SCRIPT[scriptIndex].script;
+    setText('');
+    setIndex(0);
+    setIsTyping(true);
+  };
 
-  const typing = async () => {
+  useEffect(() => {
+    if (!isTyping) return;
     const script = scripts[index];
-    for (let i = 1; i <= script.length; i++) {
-      await wait(100);
+    const typingInterval = setInterval(() => {
+      setText(prev => {
+        if (prev.length === script.length - 1) {
+          clearInterval(typingInterval);
+          setTimeout(() => {
+            setIsTyping(false);
+            return prev;
+          }, 800);
+        }
+        return prev + script[prev.length];
+      });
+    }, 100);
+  }, [isTyping]);
 
-      const nextText = script.slice(0, i);
-      console.log(nextText);
-      setText(nextText);
-    }
+  useEffect(() => {
+    if (isTyping) return;
+    if (index === scripts.length - 1) return;
+    const removeInterval = setInterval(() => {
+      setText(prev => {
+        if (prev.length === 0) {
+          clearInterval(removeInterval);
+          setIsTyping(true);
+          setIndex(prevIdx => {
+            return prevIdx === scripts.length - 1 ? prevIdx : prevIdx + 1;
+          });
+          return prev;
+        }
+        return prev.slice(0, prev.length - 1);
+      });
+    }, 100);
+  }, [isTyping]);
 
-    await wait(800);
+  useEffect(() => {
+    start();
+  }, [scriptIndex]);
 
-    if (index + 1 !== scripts.length) {
-      remove();
-    }
-  };
-
-  const remove = async () => {
-    const script = scripts[index].split('');
-
-    while (script.length) {
-      await wait(100);
-      script.pop();
-      setText(prevText => prevText.slice(0, prevText.length - 1));
-    }
-    // 다음 순서의 글자로 지정, 타이핑 함수 다시 실행
-    setIndex(prevIndex =>
-      prevIndex === scripts.length - 1 ? 0 : prevIndex + 1,
-    );
-
-    typing();
-  };
-
-  return { text, typing, remove };
+  return { text, start };
 };
 
 export default useScript;
