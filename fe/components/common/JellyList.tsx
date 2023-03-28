@@ -27,7 +27,7 @@ function JellyList() {
   return (
     <JellyListStyles>
       {useBall().map(item => {
-        return <Jelly ballData={item} />;
+        return <Jelly ballData={item} key={item.left} />;
       })}
     </JellyListStyles>
   );

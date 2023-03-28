@@ -29,16 +29,20 @@ const shopSlice = createSlice({
       temp.currCompIdx = action.payload;
     },
     setFilterCategory(state, action) {
-      state.currFilterCategoryIdx = action.payload;
+      const temp = state;
+      temp.currFilterCategoryIdx = action.payload;
     },
     setFilterYear(state, action) {
-      state.filterYear = action.payload;
+      const temp = state;
+      temp.filterYear = action.payload;
     },
     setFilterMonth(state, action) {
-      state.filterMonth = action.payload;
+      const temp = state;
+      temp.filterMonth = action.payload;
     },
     setOpenFilterModal(state, action) {
-      state.openFilterModal = action.payload;
+      const temp = state;
+      temp.openFilterModal = action.payload;
     },
   },
 });

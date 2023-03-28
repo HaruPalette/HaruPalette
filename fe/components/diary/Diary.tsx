@@ -161,7 +161,11 @@ function Diary(props: {
         <DiaryImage src={diary.image} width={300} height={300} alt="img" />
         <ContentList theme={theme}>
           {contentList.map(item => {
-            return <ContentItem theme={theme}>{item}</ContentItem>;
+            return (
+              <ContentItem theme={theme} key={item}>
+                {item}
+              </ContentItem>
+            );
           })}
         </ContentList>
         {type === 'modify' && (
@@ -175,7 +179,7 @@ function Diary(props: {
         <AnswerList theme={theme}>
           {type === 'view' &&
             answerList.map(item => {
-              return <div>{item}</div>;
+              return <div key={item}>{item}</div>;
             })}
         </AnswerList>
         <WeatherSticker

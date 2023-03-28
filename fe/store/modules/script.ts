@@ -21,9 +21,10 @@ const scriptSlice = createSlice({
   reducers: {
     /** 일기 작성 페이지에 처음 진입 시 script index 초기화 */
     resetScriptIndexSuccess(state) {
-      state.isRecoding = false;
-      state.isPausing = false;
-      state.curScriptIndex = 0;
+      const temp = state;
+      temp.isRecoding = false;
+      temp.isPausing = false;
+      temp.curScriptIndex = 0;
     },
     /** 대화하기 버튼을 통해 녹음 시작 */
     startRecodingSuccess(state) {
@@ -32,17 +33,20 @@ const scriptSlice = createSlice({
     },
     /** 일시정지 버튼을 통해 녹음을 일시 정지 */
     pauseRecodeingSuccess(state) {
-      state.isPausing = true;
+      const temp = state;
+      temp.isPausing = true;
     },
     /** 재생 버튼을 통해 녹음을 다시 재생 */
     restartRecodingSuccess(state) {
-      state.isPausing = false;
+      const temp = state;
+      temp.isPausing = false;
     },
     /** 대화 파일 저장 */
     recodingSuccess(state) {
-      state.isRecoding = false;
-      state.isPausing = false;
-      state.curScriptIndex = state.curScriptIndex + 1;
+      const temp = state;
+      temp.isRecoding = false;
+      temp.isPausing = false;
+      temp.curScriptIndex = state.curScriptIndex + 1;
     },
   },
 });
