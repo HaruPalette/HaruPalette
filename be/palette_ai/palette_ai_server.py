@@ -12,14 +12,14 @@ import os
 # whisper 모델
 whisperPipe = pipeline(
     "automatic-speech-recognition",
-    model="openai/whisper-medium",
+    model="models/whisper-medium",
     chunk_length_s=30,
     device="cpu",
 )
 # RoBERTa fine-tuned 모델
 bertClassifier = pipeline(
     "text-classification",
-    model="nlp04/korean_sentiment_analysis_dataset3",
+    model="models/roberta-fine-tuned",
     device="cpu",
     top_k=None,
 )
