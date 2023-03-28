@@ -9,38 +9,24 @@ import Challenge from '../../components/diary/Challenge';
 import Palette from '../../components/diary/Palette';
 import { useDate } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
-import { common } from '../../styles/theme';
 import JellyList from '../../components/common/JellyList';
 
 const DirayPage = styled.div<{ theme: ColorTypes }>`
-  width: 100%;
-  height: 100%;
-  padding-top: 5rem;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background: ${props => props.theme.background};
 `;
 
-const Title = styled.div<{ theme: ColorTypes }>`
-  font-size: clamp(24px, 5vw, 40px);
-  color: ${props => props.theme.main};
-  font-weight: bold;
-  text-align: center;
-  margin: ${common.fontSize.fs24};
-  z-index: 1;
-
-  @media all and (max-width: 500px) {
-    margin-top: 1rem;
-    margin-bottom: 0;
-  }
-`;
-
 const Container = styled.div`
   width: calc(100vw - 320px);
+  height: 100vh;
+  padding-top: 5.5rem;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
 
   @media all and (max-width: 1450px) {
     margin: 0;
@@ -50,6 +36,7 @@ const Container = styled.div`
   }
   @media all and (max-width: 1150px) {
     margin: 0;
+    padding-top: 25rem;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -57,6 +44,41 @@ const Container = styled.div`
 
   @media screen and (max-width: 500px) {
     margin: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
+const Title = styled.div<{ theme: ColorTypes }>`
+  font-size: clamp(24px, 5vw, 40px);
+  color: ${props => props.theme.main};
+  font-weight: bold;
+  text-align: center;
+  z-index: 1;
+
+  @media all and (max-width: 500px) {
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+`;
+
+const SectionContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @media all and (max-width: 1450px) {
+    justify-content: center;
+    align-items: center;
+  }
+  @media all and (max-width: 1150px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media screen and (max-width: 500px) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -72,6 +94,9 @@ const Section = styled.div`
 
   position: relative;
 
+  @media screen and (max-width: 1150px) {
+    margin-bottom: 5rem;
+  }
   @media screen and (max-width: 500px) {
     margin-bottom: 5rem;
     width: 100vw;
@@ -86,14 +111,14 @@ function Diary() {
   const [month, setMonth] = useState(nowMonth);
 
   return (
-    <>
+    <DirayPage theme={theme}>
       <Header />
       <JellyList />
-      <DirayPage theme={theme}>
+      <Container>
         <Title theme={theme}>
           {year}년 {month}월
         </Title>
-        <Container>
+        <SectionContainer>
           <Section>
             <Select
               setYear={setYear}
@@ -108,9 +133,9 @@ function Diary() {
             <Challenge />
             <CreateButton />
           </Section>
-        </Container>
-      </DirayPage>
-    </>
+        </SectionContainer>
+      </Container>
+    </DirayPage>
   );
 }
 
