@@ -3,12 +3,15 @@ import { ColorTypes } from '@emotion/react';
 import Header from '../components/common/Header';
 import Footer from '../components/common/Footer';
 import ScrollToTopButton from '../components/button/ScrollToTopButton';
-// import Ball from '../components/animation/Ball';
 import useTheme from '../hooks/useTheme';
 import MovingBall from '../components/animation/MovingBall';
 // import { BallData } from '../types/commonTypes';
 
-// const inter = Inter({ subsets: ['latin'] });
+const HomePage = styled.div<{ theme: ColorTypes }>`
+  width: 100vw;
+  height: 100vh;
+  background-color: ${props => props.theme.background};
+`;
 
 const HomePage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;

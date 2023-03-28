@@ -2,6 +2,14 @@ import styled from '@emotion/styled';
 import Round, { DiaryProps } from '../progressbar/Round';
 import { useNowDate, useDate } from '../../hooks/useDate';
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 80vw;
+`;
+
 const dummy: DiaryProps[] = [
   {
     index: 0,
@@ -32,24 +40,16 @@ const dummy: DiaryProps[] = [
     color: 'primary80',
   },
 ];
+
 function Challenge() {
-  return (
-    <Container>
-      <Round data={dummy[0]} />
-      <Round data={dummy[1]} />
-      <Round data={dummy[2]} />
-      <Round data={dummy[3]} />
-    </Container>
-  );
+  const renderRound = () => {
+    const renderRoundArr = dummy.map((el: DiaryProps, index: number) => {
+      return <Round key={index} data={el} />;
+    });
+    return renderRoundArr;
+  };
+
+  return <Container>{renderRound()}</Container>;
 }
 
 export default Challenge;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 1224px;
-  height: 240px;
-`;

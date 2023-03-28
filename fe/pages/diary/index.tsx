@@ -10,48 +10,7 @@ import Palette from '../../components/diary/Palette';
 import { useDate } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
-import Jelly from '../../components/animation/Jelly';
-import useBall from '../../hooks/useBall';
-
-function Diary() {
-  const nowYear = useDate().year;
-  const nowMonth = useDate().month;
-  const theme = useTheme();
-  const [year, setYear] = useState(nowYear);
-  const [month, setMonth] = useState(nowMonth);
-
-  return (
-    <>
-      <Header />
-      <JellyList>
-        {useBall().map(item => {
-          return <Jelly ballData={item} />;
-        })}
-      </JellyList>
-      <DirayPage theme={theme}>
-        <Title theme={theme}>
-          {year}년 {month}월
-        </Title>
-        <Container>
-          <Section>
-            <Select
-              setYear={setYear}
-              year={year}
-              setMonth={setMonth}
-              month={month}
-            />
-            <Calendar year={year} month={month} />
-            <Palette />
-          </Section>
-          <Section>
-            <Challenge />
-            <CreateButton />
-          </Section>
-        </Container>
-      </DirayPage>
-    </>
-  );
-}
+import JellyList from '../../components/common/JellyList';
 
 const DirayPage = styled.div<{ theme: ColorTypes }>`
   width: 100%;
@@ -61,15 +20,6 @@ const DirayPage = styled.div<{ theme: ColorTypes }>`
   flex-direction: column;
   align-items: center;
   background: ${props => props.theme.background};
-`;
-
-const JellyList = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
 `;
 
 const Title = styled.div<{ theme: ColorTypes }>`
@@ -85,8 +35,6 @@ const Title = styled.div<{ theme: ColorTypes }>`
     margin-bottom: 0;
   }
 `;
-
-export default Diary;
 
 const Container = styled.div`
   width: calc(100vw - 320px);
@@ -129,3 +77,41 @@ const Section = styled.div`
     width: 100vw;
   }
 `;
+
+function Diary() {
+  const nowYear = useDate().year;
+  const nowMonth = useDate().month;
+  const theme = useTheme();
+  const [year, setYear] = useState(nowYear);
+  const [month, setMonth] = useState(nowMonth);
+
+  return (
+    <>
+      <Header />
+      <JellyList />
+      <DirayPage theme={theme}>
+        <Title theme={theme}>
+          {year}년 {month}월
+        </Title>
+        <Container>
+          <Section>
+            <Select
+              setYear={setYear}
+              year={year}
+              setMonth={setMonth}
+              month={month}
+            />
+            <Calendar year={year} month={month} />
+            <Palette />
+          </Section>
+          <Section>
+            <Challenge />
+            <CreateButton />
+          </Section>
+        </Container>
+      </DirayPage>
+    </>
+  );
+}
+
+export default Diary;

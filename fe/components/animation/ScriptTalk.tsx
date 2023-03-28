@@ -10,7 +10,21 @@ const scripts: string[] = [
   '오늘 하루는 어땠어?',
   '난 죽을 것 같아',
 ];
-const speed: number = 100;
+const speed = 100;
+
+const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean }>`
+  z-index: 99;
+  font-size: 2.2rem;
+  margin-left: 0.6rem;
+  background: linear-gradient(
+    to right,
+    ${props => props.theme.primary20},
+    ${props => props.theme.primary60}
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
 
 function ScriptTalk() {
   const theme = useTheme();
@@ -21,7 +35,6 @@ function ScriptTalk() {
   useEffect(() => {
     const typing = async () => {
       const script = scripts[index];
-      console.log(text.length);
       for (let i = 1; i <= script.length; i++) {
         await wait(speed);
 
@@ -29,7 +42,6 @@ function ScriptTalk() {
         setText(nextText);
       }
 
-      console.log(script.length);
       await wait(800);
 
       remove();
@@ -38,7 +50,6 @@ function ScriptTalk() {
     const remove = async () => {
       const script = scripts[index].split('');
 
-      console.log(script);
       while (script.length) {
         await wait(speed);
         script.pop();
@@ -69,17 +80,3 @@ function ScriptTalk() {
 }
 
 export default ScriptTalk;
-
-const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean }>`
-  z-index: 99;
-  font-size: 2.2rem;
-  margin-left: 0.6rem;
-  background: linear-gradient(
-    to right,
-    ${props => props.theme.primary20},
-    ${props => props.theme.primary60}
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-`;
