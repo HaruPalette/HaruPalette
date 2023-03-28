@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,12 +29,14 @@ import com.ssafy.palette.domain.dto.CalenderDto;
 import com.ssafy.palette.domain.dto.DetailDiaryDto;
 import com.ssafy.palette.domain.dto.DiaryDto;
 import com.ssafy.palette.domain.entity.Answer;
+import com.ssafy.palette.domain.entity.Challenge;
 import com.ssafy.palette.domain.entity.Diary;
 import com.ssafy.palette.domain.entity.Emotion;
 import com.ssafy.palette.domain.entity.File;
 import com.ssafy.palette.domain.entity.Friend;
 import com.ssafy.palette.domain.entity.User;
 import com.ssafy.palette.repository.AnswerRepository;
+import com.ssafy.palette.repository.ChallengeRepository;
 import com.ssafy.palette.repository.DiaryRepository;
 import com.ssafy.palette.repository.EmotionRepository;
 import com.ssafy.palette.repository.FileRepository;
@@ -56,6 +59,7 @@ public class DiaryService {
 	private final AnswerRepository answerRepository;
 	private final FriendRepository friendRepository;
 	private final EmotionRepository emotionRepository;
+	private final ChallengeRepository challengeRepository;
 	private final RedisTemplate<String, String> redisTemplate;
 
 	private final S3Service s3Service;
@@ -121,8 +125,10 @@ public class DiaryService {
 		// 오늘 처음 쓰는 일기인지 체크
 		// 포인트, 도전 과제 체크
 		if (isFirst(userId, date)) {
+			Challenge challenge = challengeRepository.getReferenceById(5L);
 			userService.plusCnt(userId);
-			pointService.earnPoint(userId, 5);
+			pointService.earnPoint(userId, challenge.getPoint());
+			pointService.addChallengeHistory(userId, 5L, date.atTime(LocalTime.now()));
 		}
 
 		Diary diary = Diary.builder()
