@@ -11,7 +11,9 @@ import com.ssafy.palette.domain.dto.PointListDto;
 import com.ssafy.palette.domain.entity.Point;
 import com.ssafy.palette.domain.entity.User;
 import com.ssafy.palette.repository.ChallengeRepository;
+import com.ssafy.palette.repository.FriendRepository;
 import com.ssafy.palette.repository.PointRepository;
+import com.ssafy.palette.repository.UserFriendRepository;
 import com.ssafy.palette.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 public class PointService {
 	private final UserRepository userRepository;
 	private final PointRepository pointRepository;
+	private final FriendRepository friendRepository;
 	private final ChallengeRepository challengeRepository;
+	private final UserFriendRepository userFriendRepository;
 
 	public void earnPoint(String userId, int val) {
 		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
@@ -41,6 +45,16 @@ public class PointService {
 			.user(userRepository.findById(useId).get())
 			.point(challengeRepository.getReferenceById(challengeId).getPoint())
 			.category(challengeRepository.getReferenceById(challengeId).getContents())
+			.date(date)
+			.build();
+		pointRepository.save(point);
+	}
+
+	public void addFriendHistory(String useId, Long friendId, LocalDateTime date) {
+		Point point = Point.builder()
+			.user(userRepository.findById(useId).get())
+			.point(friendRepository.findById(friendId).get().getPrice())
+			.category(friendRepository.findById(friendId).get().getKname() + "친구비")
 			.date(date)
 			.build();
 		pointRepository.save(point);

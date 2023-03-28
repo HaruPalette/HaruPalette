@@ -1,6 +1,7 @@
 package com.ssafy.palette.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ public class UserService {
 		UserFriend userFriend = UserFriend.builder()
 			.friend(friend)
 			.user(user)
-			.purchaseDate(LocalDate.now())
+			.purchaseDate(LocalDateTime.now())
 			.build();
 
 		userRepository.save(user);
