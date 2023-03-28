@@ -5,6 +5,7 @@ import profile from './profile';
 import menu from './menu';
 import shop from './shop';
 import script from './script';
+import weather from './weather';
 
 const rootReducer = combineReducers({
   theme,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   menu,
   shop,
   script,
+  weather,
   // 여기에 추가하세요
 });
 

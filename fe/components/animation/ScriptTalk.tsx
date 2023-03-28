@@ -5,6 +5,7 @@ import SCRIPT from '../../constants/script';
 import { useAppSelector } from '../../hooks/reduxHook';
 import useScript from '../../hooks/useScript';
 import useTheme from '../../hooks/useTheme';
+import { selectScript } from '../../store/modules/script';
 import { selectTheme } from '../../store/modules/theme';
 
 const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean }>`
@@ -12,8 +13,8 @@ const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean }>`
   font-size: 2.2rem;
   background: linear-gradient(
     to right,
-    ${props => props.theme.primary20},
-    ${props => props.theme.primary60}
+    ${props => props.theme.sub},
+    ${props => props.theme.main}
   );
   background-clip: text;
   -webkit-background-clip: text;
@@ -23,18 +24,12 @@ const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean }>`
 function ScriptTalk() {
   const theme = useTheme();
   const isDark = useAppSelector(selectTheme);
-  const [index, setIndex] = useState<number>(0);
+  const index = useAppSelector(selectScript).curScriptIndex;
   const scriptData = useScript(SCRIPT[index].script);
-  const cnt = SCRIPT[index].script.length;
 
   useEffect(() => {
-    console.log(`cnt: ${cnt}`);
-    for (let i = 0; i < cnt - 1; i++) {
-      scriptData.typing();
-      scriptData.remove();
-    }
     scriptData.typing();
-  }, []);
+  }, [index]);
 
   return (
     <Talk theme={theme} isDark={isDark}>
