@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import SCRIPT from '../constants/script';
+import { SCRIPT } from '../constants/script';
 import { useAppSelector } from './reduxHook';
 import { selectScript } from '../store/modules/script';
 
