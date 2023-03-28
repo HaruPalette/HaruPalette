@@ -3,12 +3,11 @@ import { useState } from 'react';
 
 const encodeWAV = (chunks: Blob[]): Blob => {
   const waveFile = new WaveFile();
-
+  waveFile.fromScratch(1, 16000, '16', []);
   chunks.forEach(chunk => {
-    waveFile.fromScratch(1, 44100, '32f', [chunk.arrayBuffer()]);
+    waveFile.addData(chunk.arrayBuffer());
   });
-
-  waveFile.toBitDepth('24');
+  console.log(waveFile);
 
   return new Blob([waveFile.toBuffer()]);
 };
