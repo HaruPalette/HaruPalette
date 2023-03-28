@@ -1,10 +1,13 @@
 package com.ssafy.palette.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.palette.domain.dto.PointListDto;
 import com.ssafy.palette.domain.entity.Point;
 import com.ssafy.palette.domain.entity.User;
 import com.ssafy.palette.repository.ChallengeRepository;
@@ -41,5 +44,24 @@ public class PointService {
 			.date(date)
 			.build();
 		pointRepository.save(point);
+	}
+
+	public PointListDto getPoint(String userId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+		List<PointListDto.PointDto> pointList = pointRepository.findByUser_Id(userId)
+			.stream()
+			.map(point -> PointListDto.PointDto.builder()
+				.point(point.getPoint())
+				.date(point.getDate())
+				.contents(point.getCategory())
+				.build())
+			.collect(Collectors.toList());
+
+		PointListDto pointListDto = PointListDto.builder()
+			.currentPoint(user.getPoint())
+			.pointList(pointList)
+			.build();
+
+		return pointListDto;
 	}
 }

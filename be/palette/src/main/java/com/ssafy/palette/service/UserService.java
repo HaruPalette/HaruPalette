@@ -14,6 +14,7 @@ import com.ssafy.palette.domain.entity.User;
 import com.ssafy.palette.domain.entity.UserFriend;
 import com.ssafy.palette.repository.DiaryRepository;
 import com.ssafy.palette.repository.FriendRepository;
+import com.ssafy.palette.repository.PointRepository;
 import com.ssafy.palette.repository.UserFriendRepository;
 import com.ssafy.palette.repository.UserRepository;
 
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final PointRepository pointRepository;
 	private final DiaryRepository diaryRepository;
 	private final FriendRepository friendRepository;
 	private final UserFriendRepository userFriendRepository;
@@ -53,7 +55,6 @@ public class UserService {
 	public ProfileDto sendProfile(String userId) {
 		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 		Friend friend = user.getFriend();
-		//String image = userRepository.findImageById(userId).get();
 		ProfileDto profileDto = ProfileDto.builder()
 			.image(user.getImage())
 			.friendEname(friend.getEname())
