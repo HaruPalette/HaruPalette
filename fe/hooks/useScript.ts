@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const useScript = (scripts: string[]) => {
   const [text, setText] = useState<string>('');
@@ -8,7 +8,6 @@ const useScript = (scripts: string[]) => {
 
   const typing = async () => {
     const script = scripts[index];
-    console.log(`script length: ${script.length}`);
     for (let i = 1; i <= script.length; i++) {
       await wait(100);
 
@@ -18,6 +17,10 @@ const useScript = (scripts: string[]) => {
     }
 
     await wait(800);
+
+    if (index + 1 !== scripts.length) {
+      remove();
+    }
   };
 
   const remove = async () => {
@@ -32,6 +35,8 @@ const useScript = (scripts: string[]) => {
     setIndex(prevIndex =>
       prevIndex === scripts.length - 1 ? 0 : prevIndex + 1,
     );
+
+    typing();
   };
 
   return { text, typing, remove };
