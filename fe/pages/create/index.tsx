@@ -28,8 +28,7 @@ const CreatePageContainer = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: center;
-
-  padding: 0 10rem;
+  width: 100%;
 `;
 
 const CreateHeader = styled.div`
