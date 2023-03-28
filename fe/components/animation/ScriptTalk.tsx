@@ -1,7 +1,7 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
-import SCRIPT from '../../constants/script';
+import { SCRIPT } from '../../constants/script';
 import { useAppSelector } from '../../hooks/reduxHook';
 import useScript from '../../hooks/useScript';
 import useTheme from '../../hooks/useTheme';
