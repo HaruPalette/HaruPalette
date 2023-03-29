@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import useTheme from '../../hooks/useTheme';
 import { selectScript } from '../../store/modules/script';
 import ScriptItem from './ScriptItem';
-import SCRIPT from '../../constants/script';
+import { SCRIPT } from '../../constants/script';
 import { selectProfile } from '../../store/modules/profile';
 
 const Container = styled.div<{ theme: ColorTypes }>`

@@ -26,6 +26,11 @@ const scriptSlice = createSlice({
       temp.isPausing = false;
       temp.curScriptIndex = 0;
     },
+    /**  */
+    startDiarySuccess(state) {
+      const temp = state;
+      temp.curScriptIndex = state.curScriptIndex + 1;
+    },
     /** 대화하기 버튼을 통해 녹음 시작 */
     startRecodingSuccess(state) {
       const temp = state;
@@ -46,6 +51,10 @@ const scriptSlice = createSlice({
       const temp = state;
       temp.isRecoding = false;
       temp.isPausing = false;
+      temp.curScriptIndex = Math.min(state.curScriptIndex + 1, 2);
+    },
+    endDiarySuceess(state) {
+      const temp = state;
       temp.curScriptIndex = state.curScriptIndex + 1;
     },
   },
@@ -54,10 +63,12 @@ const scriptSlice = createSlice({
 // 액션 생성함수
 export const {
   resetScriptIndexSuccess,
+  startDiarySuccess,
   startRecodingSuccess,
   pauseRecodeingSuccess,
   restartRecodingSuccess,
   recodingSuccess,
+  endDiarySuceess,
 } = scriptSlice.actions;
 export const selectScript = (state: RootState) => state.script;
 // 리듀서
