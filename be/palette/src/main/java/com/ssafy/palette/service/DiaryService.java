@@ -29,7 +29,6 @@ import com.ssafy.palette.domain.dto.CalenderDto;
 import com.ssafy.palette.domain.dto.DetailDiaryDto;
 import com.ssafy.palette.domain.dto.DiaryDto;
 import com.ssafy.palette.domain.entity.Answer;
-import com.ssafy.palette.domain.entity.Challenge;
 import com.ssafy.palette.domain.entity.Diary;
 import com.ssafy.palette.domain.entity.Emotion;
 import com.ssafy.palette.domain.entity.File;
@@ -64,7 +63,7 @@ public class DiaryService {
 
 	private final S3Service s3Service;
 	private final UserService userService;
-	private final PointService pointService;
+	private final ChallengeService challengeService;
 
 	private PaletteAIGrpc.PaletteAIBlockingStub paletteAIStub;
 
@@ -125,10 +124,8 @@ public class DiaryService {
 		// 오늘 처음 쓰는 일기인지 체크
 		// 포인트, 도전 과제 체크
 		if (isFirst(userId, date)) {
-			Challenge challenge = challengeRepository.getReferenceById(5L);
 			userService.plusCnt(userId);
-			pointService.earnPoint(userId, challenge.getPoint());
-			pointService.addChallengeHistory(userId, 5L, date.atTime(LocalTime.now()));
+			challengeService.checkChallenge(userId, date.atTime(LocalTime.now()));
 		}
 
 		Diary diary = Diary.builder()
@@ -222,9 +219,13 @@ public class DiaryService {
 		log.info(operations.opsForList().range(userId, 0, -1).toString());
 	}
 
-	public String sendScript(int order, String userId) {
+	public String sendScript(int index, String userId) throws Exception {
 		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
-		String str = operations.opsForList().index(userId, order);
+		// 키 존재 여부 & 인덱스에 해당 값 존재 여부 확인
+		if ((operations.hasKey(userId)) || (index + 1 > operations.opsForList().size(userId))) {
+			throw new Exception("해당 스크립트가 없습니다.");
+		}
+		String str = operations.opsForList().index(userId, index);
 
 		return str;
 	}

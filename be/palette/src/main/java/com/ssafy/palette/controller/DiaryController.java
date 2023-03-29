@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import com.ssafy.palette.domain.dto.CalenderDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.palette.config.security.JwtUtil;
+import com.ssafy.palette.domain.dto.CalenderDto;
 import com.ssafy.palette.domain.dto.DetailDiaryDto;
 import com.ssafy.palette.domain.dto.DiaryDto;
 import com.ssafy.palette.service.DiaryService;
@@ -43,7 +43,8 @@ public class DiaryController {
 
 	// 상세 조회
 	@GetMapping()
-	public ResponseEntity<?> detailDiary(@RequestHeader HttpHeaders header, @RequestParam("diaryId") Long diaryId) throws
+	public ResponseEntity<?> detailDiary(@RequestHeader HttpHeaders header,
+		@RequestParam("diaryId") Long diaryId) throws
 		Exception {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
@@ -53,8 +54,9 @@ public class DiaryController {
 	}
 
 	// stt
-	@PostMapping(value="/stt", produces = "application/json; charset=utf8")
-	public ResponseEntity<?> speechToText(@RequestHeader HttpHeaders header, @RequestBody MultipartFile file) throws Exception {
+	@PostMapping(value = "/stt", produces = "application/json; charset=utf8")
+	public ResponseEntity<?> speechToText(@RequestHeader HttpHeaders header, @RequestBody MultipartFile file) throws
+		Exception {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
 
@@ -64,7 +66,9 @@ public class DiaryController {
 
 	// 일기 작성
 	@PostMapping()
-	public ResponseEntity<?> writeDiary(@RequestHeader HttpHeaders header, @RequestPart(value = "diaryDto") DiaryDto diaryDto, @RequestPart(value = "file", required = false) MultipartFile file) throws
+	public ResponseEntity<?> writeDiary(@RequestHeader HttpHeaders header,
+		@RequestPart(value = "diaryDto") DiaryDto diaryDto,
+		@RequestPart(value = "file", required = false) MultipartFile file) throws
 		IOException {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
@@ -87,7 +91,8 @@ public class DiaryController {
 
 	// 수정 조회
 	@GetMapping("/script")
-	public ResponseEntity<?> scriptDiary(@RequestHeader HttpHeaders header, @RequestParam("order") int order) {
+	public ResponseEntity<?> scriptDiary(@RequestHeader HttpHeaders header, @RequestParam("order") int order) throws
+		Exception {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
 
