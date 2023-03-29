@@ -13,7 +13,8 @@ const CustomDiv = styled.div`
   width: 100%;
 `;
 
-function Model() {
+function Model(props: any) {
+  const currModel = props.data;
   const refDiv = useRef<HTMLDivElement>(null);
   let rendererPrev: any;
   let cameraPrev: any;
@@ -40,7 +41,8 @@ function Model() {
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setPixelRatio(window.devicePixelRatio);
       // renderer.setSize(sizes.width, sizes.height - 120);
-      renderer.setSize(sizes.width, sizes.height - 222 - 200 - 32);
+      // renderer.setSize(sizes.width, sizes.height - 222 - 200 - 32);
+      renderer.setSize(sizes.width, 300);
       rendererPrev = renderer;
 
       const scene = new THREE.Scene();
@@ -71,27 +73,27 @@ function Model() {
 
       sphereShadow.rotation.x = -Math.PI * 0.5;
       sphereShadow.position.x = 0;
-      sphereShadow.position.y = -0.3;
-      sphereShadow.scale.set(0.8, 0.8, 0.8);
+      sphereShadow.position.y = -0.55;
+      sphereShadow.scale.set(0.7, 0.7, 0.7);
 
       group.add(sphereShadow);
 
       let width = customdiv ? customdiv.clientWidth : 0;
       let height = customdiv ? customdiv.clientHeight : 0;
       const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100);
-      const controls = new OrbitControls(camera, customdiv);
-      controls.saveState();
-      controls.minDistance = 2.2;
-      controls.maxDistance = 2.2;
-      controls.minPolarAngle = 1.5; // 윗각도 제한
-      controls.maxPolarAngle = 1.5; // 아래각도 제한(MATH.PI/2의 경우 바닥까지만 보여줌)
-      controls.enableDamping = true;
-      controls.enableZoom = false;
-      controls.screenSpacePanning = false;
+      // const controls = new OrbitControls(camera, customdiv);
+      // controls.saveState();
+      // controls.minDistance = 2.2;
+      // controls.maxDistance = 2.2;
+      // controls.minPolarAngle = 1.5; // 윗각도 제한
+      // controls.maxPolarAngle = 1.5; // 아래각도 제한(MATH.PI/2의 경우 바닥까지만 보여줌)
+      // controls.enableDamping = true;
+      // controls.enableZoom = false;
+      // controls.screenSpacePanning = false;
       camera.position.x = 0;
       camera.position.y = 0.35;
-      camera.position.z = 2.2;
-      controls.update();
+      camera.position.z = 1.8;
+      // controls.update();
       cameraPrev = camera;
 
       const onWindowResize = function (): void {
@@ -100,12 +102,12 @@ function Model() {
 
         cameraPrev.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
 
-        height = sizes.height - 222 - 150;
+        height = sizes.height - 222 - 149;
         cameraPrev.aspect = width / height; // canvas비율을 카메라에 적용
 
         rendererPrev.setSize(width, height, true);
         // _renderer.setSize(sizes.width, sizes.height - 120 - 98);
-        controls.reset();
+        // controls.reset();
       };
 
       window.addEventListener('resize', onWindowResize, false);
@@ -121,9 +123,9 @@ function Model() {
 
       // 캐릭터 설정
       const glftLoader = new GLTFLoader();
-      glftLoader.load('assets/img/gomi/gomi_finish.gltf', el => {
+      glftLoader.load(`assets/img/${props.data}/${props.data}.gltf`, el => {
         const temp = el;
-        temp.scene.position.x = 0.15;
+        temp.scene.position.x = 0.35;
         temp.scene.position.y = 0;
         temp.scene.position.z = 1;
         // 옆면: -0.7 정면: -0.4
@@ -146,7 +148,7 @@ function Model() {
         const animate = () => {
           if (temp) {
             step += 0.02;
-            temp.scene.scale.set(0.5, 0.5, 0.5);
+            temp.scene.scale.set(0.9, 0.9, 0.9);
             temp.scene.position.y = 0.5 * Math.abs(Math.sin(step));
             // el.scene.position.y = Math.sin(elapsedTime * .5) * .1 - 0.1
             sphereShadow.material.opacity =
@@ -154,29 +156,32 @@ function Model() {
           }
           // requestAnimationFrame: 애니메이션을 무한 반복 되도록 하는 메서드
           requestAnimationFrame(animate);
-          controls.update();
+          // controls.update();
 
           rendererPrev.render(scenePrev, cameraPrev);
         };
         animate();
       });
       const glftLoaderSub = new GLTFLoader();
-      glftLoaderSub.load('assets/img/gomi/bamboo.gltf', ele => {
-        const temp3 = ele;
-        temp3.scene.position.x = -1.1;
-        temp3.scene.position.y = 0.4;
-        temp3.scene.position.z = 0.4;
-        temp3.scene.rotation.y = 2;
-        temp3.scene.rotation.x = 0.3;
-        group.add(ele.scene);
+      glftLoaderSub.load(
+        `assets/img/${props.data}/${props.data}_item.gltf`,
+        ele => {
+          const temp3 = ele;
+          temp3.scene.position.x = -1.1;
+          temp3.scene.position.y = 0.4;
+          temp3.scene.position.z = 0.4;
+          temp3.scene.rotation.y = 2;
+          temp3.scene.rotation.x = 0.3;
+          group.add(ele.scene);
 
-        // scene.add(el.scene);
-        ele.scene.scale.set(0.1, 0.1, 0.1);
-      });
+          // scene.add(el.scene);
+          ele.scene.scale.set(0.1, 0.1, 0.1);
+        },
+      );
 
       scenePrev.add(group);
     }
-  }, [refDiv]);
+  }, [refDiv, currModel]);
 
   return <CustomDiv ref={refDiv} />;
 }
