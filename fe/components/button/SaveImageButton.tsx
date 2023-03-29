@@ -6,7 +6,7 @@ import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 
 const SaveButton = styled.button<{ theme: ColorTypes }>`
-  width: 20rem;
+  width: 15rem;
   height: 3.5rem;
   border-radius: 3.5rem;
   color: ${props => props.theme.color};
