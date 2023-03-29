@@ -44,7 +44,7 @@ const Button = styled.button<{ theme: ColorTypes }>`
 
 const ContentDiv = styled.div<{ theme: ColorTypes }>`
   position: absolute;
-  top: 28rem;
+  top: 27.0625rem;
   display: flex;
   color: ${props => props.theme.color};
 `;

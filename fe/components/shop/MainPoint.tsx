@@ -27,6 +27,7 @@ const Container = styled.div`
   z-index: 3;
   display: flex;
   align-items: center;
+  justify-content: center;
   border-radius: 35px;
   border: 1px solid #e5e5e5;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -44,7 +45,7 @@ const Point = styled.div<{ theme: ColorTypes }>`
   height: 40px;
   right: 10px;
   color: ${props => props.theme.main};
-  font-size: 25px;
+  font-size: 28px;
   line-height: 45px;
   font-weight: 600;
 `;
@@ -54,7 +55,7 @@ const PointDesc = styled.div`
   height: 40px;
   right: 40px;
   color: #000000;
-  font-size: 25px;
+  font-size: 28px;
   line-height: 45px;
   font-weight: 600;
 `;

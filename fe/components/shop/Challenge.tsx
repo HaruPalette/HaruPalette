@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import Round, { DiaryProps } from '../progressbar/Round';
 import { useNowDate, useDate } from '../../hooks/useDate';
+import Model2 from '../common/Model2';
 
 const Container = styled.div`
   display: flex;
@@ -8,6 +9,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 80vw;
+  height: 300px;
 `;
 
 const dummy: DiaryProps[] = [

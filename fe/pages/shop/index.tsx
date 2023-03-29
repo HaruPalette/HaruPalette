@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectShop, setCompIdx } from '../../store/modules/shop';
 import MainPoint from '../../components/shop/MainPoint';
 import FilterModal from '../../components/shop/FilterModal';
+import { selectProfile } from '../../store/modules/profile';
 
 const ShopPage = styled.div<{ theme: ColorTypes }>`
   position: absolute;
@@ -43,6 +44,7 @@ function Shop() {
   const dispatch = useAppDispatch();
   const theme = useTheme();
   const openFilterModal = useAppSelector(selectShop).openFilterModal;
+  const currCharName = useAppSelector(selectProfile).chrName;
 
   useEffect(() => {
     dispatch(setCompIdx(0));
@@ -53,8 +55,8 @@ function Shop() {
       {openFilterModal ? <BlurBg /> : ''}
       <DiaryStyles theme={theme}>
         <Header />
-        <Model />
-        <MainPoint />
+        <Model data={currCharName} />
+        {/* <MainPoint /> */}
         <ShopNav />
       </DiaryStyles>
     </ShopPage>
