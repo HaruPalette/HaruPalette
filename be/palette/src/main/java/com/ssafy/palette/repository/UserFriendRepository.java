@@ -9,7 +9,7 @@ import com.ssafy.palette.domain.entity.Friend;
 import com.ssafy.palette.domain.entity.User;
 import com.ssafy.palette.domain.entity.UserFriend;
 
-public interface UserFriendRepository extends JpaRepository<UserFriend, Long> {
+public interface UserFriendRepository extends JpaRepository<UserFriend, String> {
 
 	Optional<Friend> findFriendByUser(User user);
 
