@@ -15,6 +15,6 @@ public interface UserClient {
 	@PostMapping(produces = "application/json")
 	ResponseEntity<? extends BaseResponseBody> insertUser(@RequestBody UserDto userDto);
 
-	@PostMapping(value = "/image", produces = "application/json")
-	ResponseEntity<? extends BaseResponseBody> updateImage(UserDto userDto);
+	// @PostMapping(value = "/image", produces = "application/json")
+	// ResponseEntity<? extends BaseResponseBody> updateImage(@RequestBody UserDto userDto);
 }
