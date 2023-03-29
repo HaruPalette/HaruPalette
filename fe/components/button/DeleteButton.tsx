@@ -1,11 +1,10 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { Dispatch, SetStateAction } from 'react';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 
-const SaveButton = styled.button<{ theme: ColorTypes }>`
+const DeleteButtonStyles = styled.button<{ theme: ColorTypes }>`
   width: 15rem;
   height: 3.5rem;
   border-radius: 3.5rem;
@@ -19,29 +18,26 @@ const SaveButton = styled.button<{ theme: ColorTypes }>`
   justify-content: center;
   border: 1px solid ${props => props.theme.border};
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
-  margin: 1rem;
 `;
 
-const SaveImg = styled(Image)`
-  margin-right: 1rem;
+const DeleteImg = styled(Image)`
+  margin-right: 2.5rem;
 `;
 
-function SaveImageButton(props: {
-  setSave: Dispatch<SetStateAction<boolean>>;
-}) {
-  const { setSave } = props;
+function DeleteButton() {
   const theme = useTheme();
+  // 버튼 onClick 시 삭제 axios 호출
   return (
-    <SaveButton type="button" theme={theme} onClick={() => setSave(true)}>
-      <SaveImg
-        src="/assets/img/common/save.svg"
+    <DeleteButtonStyles type="button" theme={theme}>
+      <DeleteImg
+        src="/assets/img/common/delete.svg"
         width={40}
         height={40}
         alt="share"
       />
-      이미지로 저장
-    </SaveButton>
+      일기 삭제
+    </DeleteButtonStyles>
   );
 }
 
-export default SaveImageButton;
+export default DeleteButton;
