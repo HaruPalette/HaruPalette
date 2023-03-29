@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const CustomDiv = styled.div`
   position: absolute;
@@ -14,7 +14,8 @@ const CustomDiv = styled.div`
 `;
 
 function Model(props: any) {
-  const currModel = props.data;
+  const temp = props;
+  const currModel = temp.data;
   const refDiv = useRef<HTMLDivElement>(null);
   let rendererPrev: any;
   let cameraPrev: any;
@@ -123,14 +124,14 @@ function Model(props: any) {
 
       // 캐릭터 설정
       const glftLoader = new GLTFLoader();
-      glftLoader.load(`assets/img/${props.data}/${props.data}.gltf`, el => {
-        const temp = el;
-        temp.scene.position.x = 0.35;
-        temp.scene.position.y = 0;
-        temp.scene.position.z = 1;
+      glftLoader.load(`assets/img/${temp.data}/${temp.data}.gltf`, el => {
+        const temp6 = el;
+        temp6.scene.position.x = 0.35;
+        temp6.scene.position.y = 0;
+        temp6.scene.position.z = 1;
         // 옆면: -0.7 정면: -0.4
-        temp.scene.rotation.y = -0.9;
-        temp.scene.rotation.x = 0.3;
+        temp6.scene.rotation.y = -0.9;
+        temp6.scene.rotation.x = 0.3;
 
         // scene.add(el.scene);
         group.add(el.scene);
@@ -146,10 +147,10 @@ function Model(props: any) {
         let step = 0;
 
         const animate = () => {
-          if (temp) {
+          if (temp6) {
             step += 0.02;
-            temp.scene.scale.set(0.9, 0.9, 0.9);
-            temp.scene.position.y = 0.5 * Math.abs(Math.sin(step));
+            temp6.scene.scale.set(0.9, 0.9, 0.9);
+            temp6.scene.position.y = 0.5 * Math.abs(Math.sin(step));
             // el.scene.position.y = Math.sin(elapsedTime * .5) * .1 - 0.1
             sphereShadow.material.opacity =
               (1 - Math.abs(el.scene.position.y)) * 0.5;
@@ -164,7 +165,7 @@ function Model(props: any) {
       });
       const glftLoaderSub = new GLTFLoader();
       glftLoaderSub.load(
-        `assets/img/${props.data}/${props.data}_item.gltf`,
+        `assets/img/${temp.data}/${temp.data}_item.gltf`,
         ele => {
           const temp3 = ele;
           temp3.scene.position.x = -1.1;

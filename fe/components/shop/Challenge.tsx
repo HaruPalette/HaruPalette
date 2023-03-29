@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import Round, { DiaryProps } from '../progressbar/Round';
 import { useNowDate, useDate } from '../../hooks/useDate';
-import Model2 from '../common/Model2';
 
 const Container = styled.div`
   display: flex;
@@ -45,8 +44,8 @@ const dummy: DiaryProps[] = [
 
 function Challenge() {
   const renderRound = () => {
-    const renderRoundArr = dummy.map((el: DiaryProps, index: number) => {
-      return <Round key={index} data={el} />;
+    const renderRoundArr = dummy.map((el: DiaryProps) => {
+      return <Round key={el.index} data={el} />;
     });
     return renderRoundArr;
   };

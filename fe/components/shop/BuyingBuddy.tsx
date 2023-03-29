@@ -37,10 +37,17 @@ const friendData: IFriendData[] = [
   },
 ];
 
+const Container = styled.div`
+  display: flex;
+  width: 80vw;
+  height: 300px;
+  justify-content: center;
+`;
+
 function BuyingBuddy() {
   const renderCards = () => {
-    const renderCardsArr = friendData.map((el: IFriendData, index: number) => {
-      return <FriendCard key={index} data={el} />;
+    const renderCardsArr = friendData.map((el: IFriendData) => {
+      return <FriendCard key={el.index} data={el} />;
     });
     return renderCardsArr;
   };
@@ -48,10 +55,3 @@ function BuyingBuddy() {
 }
 
 export default BuyingBuddy;
-
-const Container = styled.div`
-  display: flex;
-  width: 80vw;
-  height: 300px;
-  justify-content: center;
-`;
