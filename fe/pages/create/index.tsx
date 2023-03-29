@@ -10,6 +10,7 @@ import WeatherButton from '../../components/button/WeatherButton';
 import Model from '../../components/common/Model';
 import RecodeBar from '../../components/create/RecodeBar';
 import TalkButton from '../../components/create/TalkButton';
+import { SCRIPT } from '../../constants/script';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useAudioRecorder from '../../hooks/useAudioRecorder';
 import useTheme from '../../hooks/useTheme';
@@ -66,7 +67,7 @@ function Create() {
           <HomeButton />
           <WeatherButton />
         </CreateHeader>
-        <ScriptTalk />
+        <ScriptTalk script={SCRIPT} />
         <Model />
         {isRecode ? (
           <RecodeBar audioRecorder={audioRecorder} />
