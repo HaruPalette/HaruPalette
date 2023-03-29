@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
 
-const WeatherCanvas = styled.canvas`
+const RainCanvas = styled.canvas`
   margin: 0;
   width: 100%;
   height: 100%;
@@ -183,7 +183,7 @@ function RainAnimation() {
   }, []);
 
   return (
-    <WeatherCanvas
+    <RainCanvas
       ref={canvasRef}
       onMouseEnter={() => {
         mouseRef.current.isActive = true;
