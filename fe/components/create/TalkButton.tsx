@@ -1,9 +1,15 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 import useTheme from '../../hooks/useTheme';
-import { startRecodingSuccess } from '../../store/modules/script';
+import {
+  endDiarySuceess,
+  selectScript,
+  startDiarySuccess,
+  startRecodingSuccess,
+} from '../../store/modules/script';
 import { common } from '../../styles/theme';
 import AudioRecorder from '../../types/recodeTypes';
 
@@ -12,13 +18,12 @@ const CustomButton = styled.button<{ theme: ColorTypes }>`
   align-items: center;
   justify-content: space-around;
 
-  position: absolute;
-  top: 70vh;
-
   z-index: 1;
 
   width: 10rem;
   height: 4rem;
+
+  scale: 0.8;
 
   border-radius: 2rem;
   border: 2px solid ${props => props.theme.primary20};
@@ -37,26 +42,90 @@ const CustomButton = styled.button<{ theme: ColorTypes }>`
   }
 `;
 
+const ButtonContainer = styled.div<{ index: number }>`
+  --index: ${props => props.index};
+
+  display: flex;
+  justify-content: space-between;
+
+  button:nth-of-type(1) {
+    display: ${props => (props.index !== 3 ? 'flex' : 'none')};
+  }
+
+  button:nth-of-type(2) {
+    display: ${props => (props.index === 2 ? 'flex' : 'none')};
+  }
+
+  button:nth-of-type(3) {
+    display: ${props => (props.index === 3 ? 'flex' : 'none')};
+  }
+`;
+
 function TalkButton(props: { audioRecorder: AudioRecorder }) {
   const { audioRecorder } = props;
   const theme = useTheme();
   const dispatch = useDispatch();
+  const scriptData = useSelector(selectScript);
+  const router = useRouter();
+
+  const handleStart = () => {
+    dispatch(startDiarySuccess());
+  };
 
   const handleRecode = () => {
     dispatch(startRecodingSuccess());
     audioRecorder.startRecording();
   };
 
-  return (
-    <CustomButton type="button" theme={theme} onClick={handleRecode}>
+  const handleEnd = () => {
+    dispatch(endDiarySuceess());
+  };
+
+  const hendleModify = () => {
+    router.push('/modify');
+    // axios will come here
+  };
+
+  return scriptData.curScriptIndex === 0 ? (
+    <CustomButton type="button" theme={theme} onClick={handleStart}>
       <Image
         src="/assets/img/common/mic.svg"
         width={32}
         height={32}
         alt="mic"
       />
-      <h4>대화하기</h4>
+      <h4>시작하기</h4>
     </CustomButton>
+  ) : (
+    <ButtonContainer index={scriptData.curScriptIndex}>
+      <CustomButton type="button" theme={theme} onClick={handleRecode}>
+        <Image
+          src="/assets/img/common/mic.svg"
+          width={32}
+          height={32}
+          alt="mic"
+        />
+        <h4>대화하기</h4>
+      </CustomButton>
+      <CustomButton type="button" theme={theme} onClick={handleEnd}>
+        <Image
+          src="/assets/img/common/mic.svg"
+          width={32}
+          height={32}
+          alt="mic"
+        />
+        <h4>종료하기</h4>
+      </CustomButton>
+      <CustomButton type="button" theme={theme} onClick={hendleModify}>
+        <Image
+          src="/assets/img/common/mic.svg"
+          width={32}
+          height={32}
+          alt="mic"
+        />
+        <h4>일기작성</h4>
+      </CustomButton>
+    </ButtonContainer>
   );
 }
 
