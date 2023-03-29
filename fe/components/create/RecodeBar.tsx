@@ -1,19 +1,20 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
-import { selectScript } from '../../store/modules/script';
+import { recodingSuccess, selectScript } from '../../store/modules/script';
 import AudioRecorder from '../../types/recodeTypes';
 import RecodeProgressBar from './RecodeProgresssBar';
 import SaveButton from './SaveButton';
 import StopButton from './StopButton';
 
 const RecodeContainer = styled.div`
-  position: absolute;
+  /* position: absolute;
   top: 70vh;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%); */
 
   display: flex;
   flex-direction: column;
@@ -35,7 +36,6 @@ const MusicProgress = styled.div`
   position: relative;
   width: 100%;
   margin-bottom: 20px;
-  cursor: pointer;
 `;
 
 const MusicProgressTime = styled.div`
@@ -65,16 +65,18 @@ function RecodeBar(props: { audioRecorder: AudioRecorder }) {
   const [second, setSecond] = useState<number>(0);
   const [minute, setMinute] = useState<number>(0);
   const isPause = useAppSelector(selectScript).isPausing;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (second < 60 && !isPause) {
       setTimeout(() => {
         setSecond(second + 0.1);
       }, 100);
-    } else if (second >= 60 && !isPause) {
+    } else if (second >= 60) {
       setSecond(0);
       setMinute(1);
       audioRecorder.stopRecording();
+      dispatch(recodingSuccess());
     }
   }, [second, isPause]);
 
@@ -88,7 +90,7 @@ function RecodeBar(props: { audioRecorder: AudioRecorder }) {
             {Math.floor(second).toString().padStart(2, '0')}
           </MusicCurrentTime>
           {second > 50 ? (
-            <h5>{60 - Math.floor(second)} 초 후 자동으로 대화가 종료됩니다.</h5>
+            <h6>{60 - Math.floor(second)} 초 후 자동으로 대화가 종료됩니다.</h6>
           ) : (
             <div />
           )}

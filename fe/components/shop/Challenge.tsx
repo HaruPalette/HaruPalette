@@ -8,6 +8,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 80vw;
+  height: 300px;
 `;
 
 const dummy: DiaryProps[] = [
@@ -43,8 +44,8 @@ const dummy: DiaryProps[] = [
 
 function Challenge() {
   const renderRound = () => {
-    const renderRoundArr = dummy.map((el: DiaryProps, index: number) => {
-      return <Round key={index} data={el} />;
+    const renderRoundArr = dummy.map((el: DiaryProps) => {
+      return <Round key={el.index} data={el} />;
     });
     return renderRoundArr;
   };

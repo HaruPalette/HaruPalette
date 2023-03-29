@@ -6,6 +6,7 @@ import ScrollToTopButton from '../components/button/ScrollToTopButton';
 import useTheme from '../hooks/useTheme';
 import MovingBall from '../components/animation/MovingBall';
 import ScriptTalk from '../components/animation/ScriptTalk';
+import { MAIN_SCRIPT } from '../constants/script';
 
 const HomePage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -57,7 +58,7 @@ export default function Home() {
       <Header />
       <MainContainer theme={theme}>
         <Section1>
-          <ScriptTalk />
+          <ScriptTalk script={MAIN_SCRIPT} />
           <MovingBall />
         </Section1>
       </MainContainer>

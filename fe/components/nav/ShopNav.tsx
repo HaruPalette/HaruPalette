@@ -7,7 +7,6 @@ import useTheme from '../../hooks/useTheme';
 import Challenge from '../shop/Challenge';
 import BuyingBuddy from '../shop/BuyingBuddy';
 import PointDetail from '../shop/PointDetail';
-import { common } from '../../styles/theme';
 
 const ButtonsDiv = styled.div`
   position: absolute;
@@ -44,7 +43,7 @@ const Button = styled.button<{ theme: ColorTypes }>`
 
 const ContentDiv = styled.div<{ theme: ColorTypes }>`
   position: absolute;
-  top: 28rem;
+  top: 27.0625rem;
   display: flex;
   color: ${props => props.theme.color};
 `;
