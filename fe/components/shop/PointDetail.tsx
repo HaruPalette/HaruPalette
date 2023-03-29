@@ -46,77 +46,7 @@ const dummy: IDummy[] = [
     date: '2023.03.09',
   },
 ];
-function PointDetail() {
-  const theme = useTheme();
-  const dispatch = useAppDispatch();
-  let getTotalPoint = 1600;
-  const calcPoint = (point: number) => {
-    getTotalPoint += point;
 
-    return getTotalPoint > 1000
-      ? Math.floor(getTotalPoint / 1000) + ',' + (getTotalPoint % 1000)
-      : getTotalPoint;
-  };
-  const isDark = useAppSelector(selectTheme);
-  const currFilterCategoryIdx =
-    useAppSelector(selectShop).currFilterCategoryIdx;
-  const openFilterModal = useAppSelector(selectShop).openFilterModal;
-  const filterYear = useAppSelector(selectShop).filterYear;
-  const filterMonth = useAppSelector(selectShop).filterMonth;
-  const img = `/assets/img/common/filter${isDark ? 'Dark' : 'Light'}.svg`;
-  const renderRound = () => {
-    const renderRoundArr = dummy.map((el: IDummy, index: number) => {
-      return (
-        <DummyEls key={index}>
-          <DummyImg src={el.imgSrc} width={58} height={58} alt="DummyImg" />
-          <DummyTitle theme={theme}>{el.title}</DummyTitle>
-          {el.addPoint > 0 ? (
-            <DummyAddPointPlus>
-              +
-              {el.addPoint > 1000
-                ? Math.floor(el.addPoint / 1000) + ',' + (el.addPoint % 1000)
-                : el.addPoint + ' '}
-              P
-            </DummyAddPointPlus>
-          ) : (
-            <DummyAddPointMinus>
-              {el.addPoint > 1000
-                ? Math.floor(el.addPoint / 1000) + ',' + (el.addPoint % 1000)
-                : el.addPoint + ' '}
-              P
-            </DummyAddPointMinus>
-          )}
-          <DummyDate>{el.date}</DummyDate>
-          <DummySumPoint>{calcPoint(el.addPoint)} P</DummySumPoint>
-        </DummyEls>
-      );
-    });
-    return renderRoundArr;
-  };
-
-  return (
-    <Container>
-      <LeftContainer>
-        <FilterDiv
-          theme={theme}
-          onClick={() => {
-            dispatch(setOpenFilterModal(!openFilterModal));
-          }}
-        >
-          <FilterTitle theme={theme}>
-            {filterYear}.{filterMonth < 10 ? '0' + filterMonth : filterMonth}
-            {' ' + SHOP_FILTER_CATORIGY_LIST[currFilterCategoryIdx].title}
-          </FilterTitle>
-          <FilterIcon src={img} width={16} height={16} alt="FilterIcon" />
-        </FilterDiv>
-      </LeftContainer>
-      <MiddleContainer theme={theme}>{renderRound()}</MiddleContainer>
-      <RightContainer />
-    </Container>
-  );
-}
-
-export default PointDetail;
 const Container = styled.div`
   display: flex;
   width: 80vw;
@@ -264,3 +194,76 @@ const DummySumPoint = styled.span`
   line-height: 35px;
   text-align: right;
 `;
+
+function PointDetail() {
+  const theme = useTheme();
+  const dispatch = useAppDispatch();
+  let getTotalPoint = 1600;
+  const calcPoint = (point: number) => {
+    getTotalPoint += point;
+
+    return getTotalPoint > 1000
+      ? `${Math.floor(getTotalPoint / 1000)},${getTotalPoint % 1000}`
+      : getTotalPoint;
+  };
+  const isDark = useAppSelector(selectTheme);
+  const currFilterCategoryIdxData =
+    useAppSelector(selectShop).currFilterCategoryIdx;
+  const openFilterModalData = useAppSelector(selectShop).openFilterModal;
+  const filterYearData = useAppSelector(selectShop).filterYear;
+  const filterMonthData = useAppSelector(selectShop).filterMonth;
+  const img = `/assets/img/common/filter${isDark ? 'Dark' : 'Light'}.svg`;
+  const renderRound = () => {
+    const renderRoundArr = dummy.map((el: IDummy) => {
+      return (
+        <DummyEls key={el.date}>
+          <DummyImg src={el.imgSrc} width={58} height={58} alt="DummyImg" />
+          <DummyTitle theme={theme}>{el.title}</DummyTitle>
+          {el.addPoint > 0 ? (
+            <DummyAddPointPlus>
+              +
+              {el.addPoint > 1000
+                ? `${Math.floor(el.addPoint / 1000)},${el.addPoint % 1000}`
+                : `${el.addPoint} `}
+              P
+            </DummyAddPointPlus>
+          ) : (
+            <DummyAddPointMinus>
+              {el.addPoint > 1000
+                ? `${Math.floor(el.addPoint / 1000)},${el.addPoint % 1000}`
+                : `${el.addPoint} `}
+              P
+            </DummyAddPointMinus>
+          )}
+          <DummyDate>{el.date}</DummyDate>
+          <DummySumPoint>{calcPoint(el.addPoint)} P</DummySumPoint>
+        </DummyEls>
+      );
+    });
+    return renderRoundArr;
+  };
+
+  return (
+    <Container>
+      <LeftContainer>
+        <FilterDiv
+          theme={theme}
+          onClick={() => {
+            dispatch(setOpenFilterModal(!openFilterModalData));
+          }}
+        >
+          <FilterTitle theme={theme}>
+            {filterYearData}.
+            {filterMonthData < 10 ? `0${filterMonthData}` : filterMonthData}
+            {` ${SHOP_FILTER_CATORIGY_LIST[currFilterCategoryIdxData].title}`}
+          </FilterTitle>
+          <FilterIcon src={img} width={16} height={16} alt="FilterIcon" />
+        </FilterDiv>
+      </LeftContainer>
+      <MiddleContainer theme={theme}>{renderRound()}</MiddleContainer>
+      <RightContainer />
+    </Container>
+  );
+}
+
+export default PointDetail;

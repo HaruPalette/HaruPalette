@@ -14,11 +14,12 @@ const CustomDiv = styled.div`
 `;
 
 function Model2(props: any) {
+  const temp = props;
   const refDiv = useRef<HTMLDivElement>(null);
   let rendererPrev: any;
   let cameraPrev: any;
   let scenePrev: any;
-  let buddyEname = props.data;
+  const buddyEname = temp.data;
 
   useEffect(() => {
     const { current: customdiv } = refDiv;
@@ -44,8 +45,8 @@ function Model2(props: any) {
       scene.background = null;
       scenePrev = scene;
 
-      let width = customdiv ? customdiv.clientWidth : 0;
-      let height = customdiv ? customdiv.clientHeight : 0;
+      const width = customdiv ? customdiv.clientWidth : 0;
+      const height = customdiv ? customdiv.clientHeight : 0;
       const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100);
       cameraPrev = camera;
       cameraPrev.position.x = 0;
@@ -66,22 +67,22 @@ function Model2(props: any) {
       // tori/tori_update
       const glftLoader = new GLTFLoader();
       glftLoader.load(`assets/img/${buddyEname}/${buddyEname}.gltf`, el => {
-        const temp = el;
-        temp.scene.position.x = 0.35;
-        temp.scene.position.y = 0;
-        temp.scene.position.z = 1;
-        temp.scene.rotation.y = -0.92;
-        temp.scene.rotation.x = 0.3;
+        const temp2 = el;
+        temp2.scene.position.x = 0.35;
+        temp2.scene.position.y = 0;
+        temp2.scene.position.z = 1;
+        temp2.scene.rotation.y = -0.92;
+        temp2.scene.rotation.x = 0.3;
 
-        group.add(temp.scene);
+        group.add(temp2.scene);
 
         let step = 0;
 
         const animate = () => {
-          if (temp) {
+          if (temp2) {
             step += 0.02;
-            temp.scene.scale.set(1.2, 1.2, 1.2);
-            temp.scene.position.y = 0.5 * Math.abs(Math.sin(step));
+            temp2.scene.scale.set(1.2, 1.2, 1.2);
+            temp2.scene.position.y = 0.5 * Math.abs(Math.sin(step));
           }
           requestAnimationFrame(animate); // 애니메이션을 무한 반복 되도록 하는 메서드
 

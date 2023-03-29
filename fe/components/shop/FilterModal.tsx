@@ -10,99 +10,11 @@ import { selectTheme } from '../../store/modules/theme';
 import Select from '../common/Select';
 import { common } from '../../styles/theme';
 import {
-  selectShop,
   setFilterCategory,
   setFilterMonth,
   setFilterYear,
   setOpenFilterModal,
 } from '../../store/modules/shop';
-function FilterModal() {
-  const theme = useTheme();
-  const dispatch = useAppDispatch();
-  const isDark = useAppSelector(selectTheme);
-  const nowYear = useDate().year;
-  const nowMonth = useDate().month;
-  const [year, setYear] = useState(nowYear);
-  const [month, setMonth] = useState(nowMonth);
-  const [categoryIdx, setCategoryIdx] = useState(0);
-  // const currFilterCategoryIdx =
-  //   useAppSelector(selectShop).currFilterCategoryIdx;
-  // const openFilterModal = useAppSelector(selectShop).openFilterModal;
-  // console.log(year, month);
-  const img = `/assets/img/common/${isDark ? 'xIconWhite' : 'xIconBlack'}.svg`;
-
-  const setFilterAll = (): any => {
-    dispatch(setFilterYear(year));
-    dispatch(setFilterMonth(month));
-    dispatch(setFilterCategory(categoryIdx));
-    dispatch(setOpenFilterModal(false));
-    alert('필터 설정이 완료되었습니다.');
-
-    // axios 요청해야 함
-  };
-
-  return (
-    <Container theme={theme}>
-      <MainText theme={theme}>보기 옵션</MainText>
-      <SelectDiv theme={theme}>
-        <Select
-          setYear={setYear}
-          year={year}
-          setMonth={setMonth}
-          month={month}
-        />
-      </SelectDiv>
-      <CloseBtn
-        src={img}
-        width={16}
-        height={16}
-        alt="FilterIcon"
-        onClick={() => {
-          dispatch(setOpenFilterModal(false));
-        }}
-      />
-      <MainBar theme={theme}></MainBar>
-      {/* <FilterYearDiv theme={theme}>{makingOptions()}</FilterYearDiv> */}
-      <GetText theme={theme}>조회</GetText>
-      <CategoryText theme={theme}>유형</CategoryText>
-      <CategoryButtons theme={theme}>
-        {SHOP_FILTER_CATORIGY_LIST.map((item, index) => {
-          if (index === categoryIdx) {
-            return (
-              <CategoryCurrButton
-                theme={theme}
-                key={item.index}
-                onClick={() => setCategoryIdx(item.index)}
-              >
-                {item.title}
-              </CategoryCurrButton>
-            );
-          } else {
-            return (
-              <CategoryButton
-                theme={theme}
-                key={item.index}
-                onClick={() => setCategoryIdx(item.index)}
-              >
-                {item.title}
-              </CategoryButton>
-            );
-          }
-        })}
-      </CategoryButtons>
-      <CategoryConfirmBtn
-        theme={theme}
-        onClick={() => {
-          setFilterAll();
-        }}
-      >
-        확인
-      </CategoryConfirmBtn>
-    </Container>
-  );
-}
-
-export default FilterModal;
 
 const Container = styled.div<{ theme: ColorTypes }>`
   position: absolute;
@@ -219,3 +131,87 @@ const SelectDiv = styled.div<{ theme: ColorTypes }>`
   justify-content: space-between;
   z-index: 4;
 `;
+
+function FilterModal() {
+  const theme = useTheme();
+  const dispatch = useAppDispatch();
+  const isDark = useAppSelector(selectTheme);
+  const nowYear = useDate().year;
+  const nowMonth = useDate().month;
+  const [year, setYear] = useState(nowYear);
+  const [month, setMonth] = useState(nowMonth);
+  const [categoryIdx, setCategoryIdx] = useState(0);
+  // const currFilterCategoryIdx =
+  //   useAppSelector(selectShop).currFilterCategoryIdx;
+  // const openFilterModal = useAppSelector(selectShop).openFilterModal;
+  // console.log(year, month);
+  const img = `/assets/img/common/${isDark ? 'xIconWhite' : 'xIconBlack'}.svg`;
+
+  const setFilterAll = (): any => {
+    dispatch(setFilterYear(year));
+    dispatch(setFilterMonth(month));
+    dispatch(setFilterCategory(categoryIdx));
+    dispatch(setOpenFilterModal(false));
+    alert('필터 설정이 완료되었습니다.');
+
+    // axios 요청해야 함
+  };
+
+  return (
+    <Container theme={theme}>
+      <MainText theme={theme}>보기 옵션</MainText>
+      <SelectDiv theme={theme}>
+        <Select
+          setYear={setYear}
+          year={year}
+          setMonth={setMonth}
+          month={month}
+        />
+      </SelectDiv>
+      <CloseBtn
+        src={img}
+        width={16}
+        height={16}
+        alt="FilterIcon"
+        onClick={() => {
+          dispatch(setOpenFilterModal(false));
+        }}
+      />
+      <MainBar theme={theme} />
+      {/* <FilterYearDiv theme={theme}>{makingOptions()}</FilterYearDiv> */}
+      <GetText theme={theme}>조회</GetText>
+      <CategoryText theme={theme}>유형</CategoryText>
+      <CategoryButtons theme={theme}>
+        {SHOP_FILTER_CATORIGY_LIST.map((item, index) => {
+          return index === categoryIdx ? (
+            <CategoryCurrButton
+              theme={theme}
+              key={item.index}
+              onClick={() => setCategoryIdx(item.index)}
+            >
+              {item.title}
+            </CategoryCurrButton>
+          ) : (
+            <CategoryButton
+              theme={theme}
+              key={item.index}
+              onClick={() => setCategoryIdx(item.index)}
+            >
+              {item.title}
+            </CategoryButton>
+          );
+        })}
+      </CategoryButtons>
+      <CategoryConfirmBtn
+        theme={theme}
+        onClick={() => {
+          setFilterAll();
+        }}
+      >
+        확인
+      </CategoryConfirmBtn>
+    </Container>
+  );
+}
+
+export default FilterModal;
