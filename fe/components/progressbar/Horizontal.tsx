@@ -23,16 +23,17 @@ const ProgressWrap = styled.div<{ theme?: ColorTypes }>`
 `;
 
 // 진행바
-const ProgressBar = styled.div<{ theme: ColorTypes; percent: number }>`
+const ProgressBar = styled.div<{ color: string; percent: number }>`
   width: ${props => props.percent}%;
-  height: 1rem;
-  border-radius: 1rem;
-  background: ${props => props.theme.primary20};
+  height: 0.9rem;
+  border-radius: ${props =>
+    props.percent < 10 ? '1rem 50% 50% 1rem' : '1rem'};
+  background: ${props => props.color};
   animation: ${props => animation(props.percent)} 2.5s ease;
 `;
 
-function Horizontal(props: { percent: number }) {
-  const { percent } = props;
+function Horizontal(props: { percent: number; color: string }) {
+  const { percent, color } = props;
   // 주간이면 props로 n/7 * 100
   // 월간이면 props로 n/일수 * 100
   // 감정 : % 단위로 받음
@@ -41,7 +42,7 @@ function Horizontal(props: { percent: number }) {
   const theme = useTheme();
   return (
     <ProgressWrap theme={theme}>
-      <ProgressBar theme={theme} percent={percent} />
+      <ProgressBar percent={percent} color={color} />
     </ProgressWrap>
   );
 }

@@ -39,7 +39,10 @@ function Challenge() {
     <>
       <ChallengeStyles>
         <Title theme={theme}>이번 주 도전 과제</Title>
-        <Horizontal percent={Math.floor((4 / 7) * 100)} />
+        <Horizontal
+          percent={Math.floor((4 / 7) * 100)}
+          color={theme.primary20}
+        />
         <CountStyles theme={theme}>
           <div>0회</div>
           <div>7회</div>
@@ -47,7 +50,10 @@ function Challenge() {
       </ChallengeStyles>
       <ChallengeStyles>
         <Title theme={theme}>이번 달 도전 과제</Title>
-        <Horizontal percent={Math.floor((4 / nowDate) * 100)} />
+        <Horizontal
+          percent={Math.floor((4 / nowDate) * 100)}
+          color={theme.primary20}
+        />
         <CountStyles theme={theme}>
           <div>0회</div>
           <div>{nowDate}회</div>

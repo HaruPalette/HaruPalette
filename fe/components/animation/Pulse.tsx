@@ -2,16 +2,6 @@ import { ColorTypes, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import useTheme from '../../hooks/useTheme';
 
-const transform = keyframes`
-    0%,
-  100% { border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%; } 
-   14% {  border-radius: 40% 60% 54% 46% / 49% 60% 40% 51%; } 
-   28% { border-radius: 50% 50% 50% 50% / 55% 50% 50% 50%; } 
-   56% {  border-radius: 61% 39% 67% 33% / 70% 50% 50% 30%; } 
-   70% { border-radius: 50% 50% 34% 66% / 56% 68% 32% 44%; } 
-   84% { border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%; } 
-`;
-
 const pulse = keyframes`
     25% {
 		opacity: .4;
