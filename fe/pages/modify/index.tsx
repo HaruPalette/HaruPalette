@@ -9,6 +9,7 @@ import { DiaryData } from '../../types/diariesTypes';
 import { useDate } from '../../hooks/useDate';
 import { selectProfile } from '../../store/modules/profile';
 import { selectScript } from '../../store/modules/script';
+import Sticker from '../../components/modify/Sticker';
 
 const ModifyPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -16,11 +17,11 @@ const ModifyPage = styled.div<{ theme: ColorTypes }>`
   background: ${props => props.theme.background};
 `;
 const Container = styled.div`
-  width: calc(100vw - 320px);
+  width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   margin: auto;
 `;
@@ -72,6 +73,7 @@ function Modify() {
           setShare={null}
         />
         <ScriptList />
+        <Sticker />
       </Container>
     </ModifyPage>
   );
