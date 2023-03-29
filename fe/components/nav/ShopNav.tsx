@@ -7,7 +7,6 @@ import useTheme from '../../hooks/useTheme';
 import Challenge from '../shop/Challenge';
 import BuyingBuddy from '../shop/BuyingBuddy';
 import PointDetail from '../shop/PointDetail';
-import { common } from '../../styles/theme';
 
 const ButtonsDiv = styled.div`
   position: absolute;

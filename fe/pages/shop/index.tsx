@@ -7,7 +7,6 @@ import ShopNav from '../../components/nav/ShopNav';
 import useTheme from '../../hooks/useTheme';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectShop, setCompIdx } from '../../store/modules/shop';
-import MainPoint from '../../components/shop/MainPoint';
 import FilterModal from '../../components/shop/FilterModal';
 import { selectProfile } from '../../store/modules/profile';
 
@@ -43,7 +42,7 @@ const BlurBg = styled.div`
 function Shop() {
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const openFilterModal = useAppSelector(selectShop).openFilterModal;
+  const openFilterModalData = useAppSelector(selectShop).openFilterModal;
   const currCharName = useAppSelector(selectProfile).chrName;
 
   useEffect(() => {
@@ -51,8 +50,8 @@ function Shop() {
   }, []);
   return (
     <ShopPage theme={theme}>
-      {openFilterModal ? <FilterModal /> : ''}
-      {openFilterModal ? <BlurBg /> : ''}
+      {openFilterModalData ? <FilterModal /> : ''}
+      {openFilterModalData ? <BlurBg /> : ''}
       <DiaryStyles theme={theme}>
         <Header />
         <Model data={currCharName} />

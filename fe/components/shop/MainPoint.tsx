@@ -1,22 +1,7 @@
-import { ColorTypes } from '@emotion/react';
-import useTheme from '../../hooks/useTheme';
-import styled from '@emotion/styled';
 import Image from 'next/image';
-
-function MainPoint() {
-  const PointImgSrc = `assets/img/palette.svg`;
-  const theme = useTheme();
-
-  return (
-    <Container>
-      <PointImg src={PointImgSrc} width={20} height={20} alt="pointImg" />
-      <Point theme={theme}>700</Point>
-      <PointDesc>P</PointDesc>
-    </Container>
-  );
-}
-
-export default MainPoint;
+import { ColorTypes } from '@emotion/react';
+import styled from '@emotion/styled';
+import useTheme from '../../hooks/useTheme';
 
 const Container = styled.div`
   position: absolute;
@@ -59,3 +44,18 @@ const PointDesc = styled.div`
   line-height: 45px;
   font-weight: 600;
 `;
+
+function MainPoint() {
+  const PointImgSrc = `assets/img/palette.svg`;
+  const theme = useTheme();
+
+  return (
+    <Container>
+      <PointImg src={PointImgSrc} width={20} height={20} alt="pointImg" />
+      <Point theme={theme}>700</Point>
+      <PointDesc>P</PointDesc>
+    </Container>
+  );
+}
+
+export default MainPoint;
