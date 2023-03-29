@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
@@ -27,6 +28,7 @@ const Container = styled.div`
 `;
 
 function Modify() {
+  const [nowSticker, setNowSticker] = useState('empty');
   const theme = useTheme();
   const date = useDate();
   const len = useSelector(selectScript).curScriptIndex;
@@ -51,7 +53,7 @@ function Modify() {
     answer: '',
     image:
       'http://dimg.donga.com/ugc/CDB/WEEKLY/Article/5b/b3/22/85/5bb32285000ed2738de6.jpg',
-    stickerCode: 'ampty',
+    stickerCode: `${nowSticker}`,
     neutral: 60,
     happy: 20,
     surprise: 10,
@@ -73,7 +75,7 @@ function Modify() {
           setShare={null}
         />
         <ScriptList />
-        <Sticker />
+        <Sticker setNowSticker={setNowSticker} nowSticker={nowSticker} />
       </Container>
     </ModifyPage>
   );
