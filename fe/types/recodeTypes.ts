@@ -5,5 +5,4 @@ export default interface AudioRecorder {
   pauseRecording: any;
   resumeRecording: any;
   isRecording: boolean;
-  recordedChunksWAV: Blob[];
 }
