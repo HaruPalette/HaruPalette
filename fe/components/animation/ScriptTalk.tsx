@@ -5,6 +5,7 @@ import { useAppSelector } from '../../hooks/reduxHook';
 import useScript from '../../hooks/useScript';
 import useTheme from '../../hooks/useTheme';
 import { selectTheme } from '../../store/modules/theme';
+import { TalkData } from '../../types/commonTypes';
 
 const TalkContainer = styled.div`
   display: flex;
@@ -29,10 +30,11 @@ const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean }>`
   }
 `;
 
-function ScriptTalk() {
+function ScriptTalk(props: { script: TalkData[] }) {
+  const { script } = props;
   const theme = useTheme();
   const isDark = useAppSelector(selectTheme);
-  const scriptData = useScript();
+  const scriptData = useScript(script);
 
   useEffect(() => {
     scriptData.start();
