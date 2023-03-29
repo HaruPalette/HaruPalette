@@ -9,6 +9,12 @@ export interface ShopSlice {
   filterYear: number;
   filterMonth: number;
   openFilterModal: boolean;
+  friendShipList: Array<boolean>;
+}
+interface IUser {
+  haru: boolean;
+  tori: boolean;
+  gomi: boolean;
 }
 
 // 초기 상태 정의
@@ -18,6 +24,7 @@ const initialState = {
   filterYear: useDate().year,
   filterMonth: useDate().month,
   openFilterModal: false,
+  friendShipList: [false, false, false],
 };
 
 const shopSlice = createSlice({
@@ -40,6 +47,10 @@ const shopSlice = createSlice({
     setOpenFilterModal(state, action) {
       state.openFilterModal = action.payload;
     },
+    setFriendShip(state, action) {
+      const data: number = action.payload;
+      state.friendShipList[data] = true;
+    },
   },
 });
 
@@ -50,6 +61,7 @@ export const {
   setFilterYear,
   setFilterMonth,
   setOpenFilterModal,
+  setFriendShip,
 } = shopSlice.actions;
 export const selectShop = (state: RootState) => state.shop;
 // 리듀서

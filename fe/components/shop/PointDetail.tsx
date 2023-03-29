@@ -141,10 +141,9 @@ const FilterDiv = styled.div<{ theme: ColorTypes }>`
   position: absolute;
   width: 200px;
   height: 48px;
-  display: flex;
   border-radius: 16px;
-  color: black;
   border: 2px solid ${common.colors.disable};
+  display: flex;
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -155,10 +154,9 @@ const FilterTitle = styled.span<{ theme: ColorTypes }>`
   position: absolute;
   width: 120px;
   height: 18px;
-  left: 35px;
   color: ${props => props.theme.color};
   font-size: 16px;
-  line-height: 19px;
+  line-height: 18px;
   font-weight: 600;
   text-align: left;
 `;
@@ -167,7 +165,7 @@ const FilterIcon = styled(Image)`
   width: 16px;
   height: 16px;
   right: 30px;
-  top: 15px;
+  top: 12px;
 `;
 
 const MiddleContainer = styled.div<{ theme: ColorTypes }>`

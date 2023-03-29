@@ -30,11 +30,14 @@ const profileSlice = createSlice({
       state.chrName = 'haru';
       state.chrPK = 1;
     },
+    setCharName(state, action) {
+      state.chrName = action.payload;
+    },
   },
 });
 
 // 액션 생성함수
-export const { loginSuccess } = profileSlice.actions;
+export const { loginSuccess, setCharName } = profileSlice.actions;
 export const selectProfile = (state: RootState) => state.profile;
 // 리듀서
 export default profileSlice.reducer;
