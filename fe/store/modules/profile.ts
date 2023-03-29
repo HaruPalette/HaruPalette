@@ -26,9 +26,10 @@ const profileSlice = createSlice({
       temp.chrPK = action.payload.chrPK;
     },
     logoutSuccess(state) {
-      state.image = '';
-      state.chrName = 'haru';
-      state.chrPK = 1;
+      const temp = state;
+      temp.image = '';
+      temp.chrName = 'haru';
+      temp.chrPK = 1;
     },
     setCharName(state, action) {
       state.chrName = action.payload;

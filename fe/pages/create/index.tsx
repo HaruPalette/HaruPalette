@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/media-has-caption */
+/* eslint-disable react/no-array-index-key */
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
@@ -9,12 +11,12 @@ import Model from '../../components/common/Model';
 import RecodeBar from '../../components/create/RecodeBar';
 import TalkButton from '../../components/create/TalkButton';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
+import useAudioRecorder from '../../hooks/useAudioRecorder';
 import useTheme from '../../hooks/useTheme';
 import {
   resetScriptIndexSuccess,
   selectScript,
 } from '../../store/modules/script';
-
 
 const CreatePage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -22,21 +24,21 @@ const CreatePage = styled.div<{ theme: ColorTypes }>`
   background-color: ${props => props.theme.background};
 `;
 
-
 const CreatePageContainer = styled.div`
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
 
-  padding: 0 10rem;
+  padding: 2rem 0;
 `;
 
 const CreateHeader = styled.div`
   display: flex;
   justify-content: space-between;
 
-  position: absolute;
-  top: 2rem;
+  position: relative;
 
   width: calc(100vw - 32px);
   padding: 0 1rem;
@@ -46,9 +48,11 @@ const CreateHeader = styled.div`
 
 function Create() {
   const theme = useTheme();
-  const curSrciptIndex = useAppSelector(selectScript).curScriptIndex;
+  // const curSrciptIndex = useAppSelector(selectScript).curScriptIndex;
   const isRecode = useAppSelector(selectScript).isRecoding;
   const dispatch = useAppDispatch();
+
+  const audioRecorder = useAudioRecorder();
 
   useEffect(() => {
     dispatch(resetScriptIndexSuccess());
@@ -57,19 +61,21 @@ function Create() {
   return (
     <CreatePage theme={theme}>
       <Pulse />
-      <CreateHeader>
-        <HomeButton></HomeButton>
-        <WeatherButton></WeatherButton>
-      </CreateHeader>
       <CreatePageContainer>
+        <CreateHeader>
+          <HomeButton />
+          <WeatherButton />
+        </CreateHeader>
         <ScriptTalk />
         <Model />
-        {isRecode ? <RecodeBar /> : <TalkButton />}
+        {isRecode ? (
+          <RecodeBar audioRecorder={audioRecorder} />
+        ) : (
+          <TalkButton audioRecorder={audioRecorder} />
+        )}
       </CreatePageContainer>
     </CreatePage>
   );
 }
 
 export default Create;
-
-

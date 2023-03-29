@@ -10,9 +10,11 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@intactile/dom-to-image-next": "^3.0.3",
     "@plot-and-scatter/react-animated-number": "^1.1.0",
     "@ramonak/react-progress-bar": "^5.0.3",
     "@reduxjs/toolkit": "^1.9.3",
+    "@types/html2canvas": "^1.0.0",
     "@types/node": "18.15.0",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
@@ -20,7 +22,10 @@
     "dom-to-image": "^2.6.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-next": "13.2.3",
+    "extendable-media-recorder": "^7.1.9",
+    "extendable-media-recorder-wav-encoder": "^7.0.85",
     "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
     "js-cookie": "^3.0.1",
     "jwt-decode": "^3.1.2",
     "next": "13.2.3",
@@ -32,7 +37,8 @@
     "react-redux": "^8.0.5",
     "redux": "^4.2.1",
     "redux-logger": "^3.0.6",
-    "typescript": "4.9.5"
+    "typescript": "4.9.5",
+    "wavefile": "^11.0.0"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.10.6",

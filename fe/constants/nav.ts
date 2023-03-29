@@ -7,7 +7,7 @@ export const NAV_LIST: NavList = [
   },
   {
     title: '달력 보기',
-    link: '/diary',
+    link: '/calendar',
   },
   {
     title: '상점 가기',

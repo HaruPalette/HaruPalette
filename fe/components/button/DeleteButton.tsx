@@ -1,12 +1,11 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { Dispatch, SetStateAction } from 'react';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 
-const ShareButton = styled.button<{ theme: ColorTypes }>`
-  width: 20rem;
+const DeleteButtonStyles = styled.button<{ theme: ColorTypes }>`
+  width: 15rem;
   height: 3.5rem;
   border-radius: 3.5rem;
   color: ${props => props.theme.color};
@@ -21,26 +20,24 @@ const ShareButton = styled.button<{ theme: ColorTypes }>`
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
 `;
 
-const ShareImg = styled(Image)`
-  margin-right: 1rem;
+const DeleteImg = styled(Image)`
+  margin-right: 2.5rem;
 `;
 
-function KakaoShareButton(props: {
-  setShare: Dispatch<SetStateAction<boolean>>;
-}) {
-  const { setShare } = props;
+function DeleteButton() {
   const theme = useTheme();
+  // 버튼 onClick 시 삭제 axios 호출
   return (
-    <ShareButton type="button" theme={theme} onClick={() => setShare(true)}>
-      <ShareImg
-        src="/assets/img/common/share.svg"
+    <DeleteButtonStyles type="button" theme={theme}>
+      <DeleteImg
+        src="/assets/img/common/delete.svg"
         width={40}
         height={40}
         alt="share"
       />
-      KAKAO 공유
-    </ShareButton>
+      일기 삭제
+    </DeleteButtonStyles>
   );
 }
 
-export default KakaoShareButton;
+export default DeleteButton;
