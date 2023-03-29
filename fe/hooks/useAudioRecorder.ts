@@ -1,33 +1,13 @@
-import { WaveFile } from 'wavefile';
 import { useState } from 'react';
-import { MediaRecorder, register } from 'extendable-media-recorder';
-import { connect } from 'extendable-media-recorder-wav-encoder';
-import { IMediaRecorderConstructor } from 'extendable-media-recorder/src/interfaces/media-recorder-constructor';
-import { IMediaRecorder } from 'extendable-media-recorder/src/interfaces/media-recorder';
-
-// const encodeWAV = (chunks: Blob[]): Blob => {
-//   const waveFile = new WaveFile();
-//   waveFile.fromScratch(1, 16000, '16', []);
-//   chunks.forEach(chunk => {
-//     waveFile.addData(chunk.arrayBuffer());
-//   });
-//   console.log(waveFile);
-
-//   return new Blob([waveFile.toBuffer()]);
-// };
 
 const useAudioRecorder = () => {
   const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
-  const [recordedChunksWAV, setRecordedChunksWAV] = useState<Blob[]>([]);
-  const [mediaRecorder, setMediaRecorder] = useState<IMediaRecorder | null>(
-    null,
-  );
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>();
   const [isRecording, setIsRecording] = useState(false);
 
   const startRecording = async () => {
-    await register(await connect());
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const recorder = new MediaRecorder(stream, { mimeType: 'audio/wav' });
+    const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
     if (!recorder) return;
     recorder.start();
     recorder.addEventListener('dataavailable', event => {
@@ -41,8 +21,6 @@ const useAudioRecorder = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
       setIsRecording(false);
-      // const chunksWAV = encodeWAV(recordedChunks);
-      // setRecordedChunksWAV(prevChunks => [...prevChunks, chunksWAV]);
     }
   };
 
@@ -67,7 +45,6 @@ const useAudioRecorder = () => {
     pauseRecording,
     resumeRecording,
     isRecording,
-    recordedChunksWAV,
   };
 };
 
