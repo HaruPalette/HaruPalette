@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useRef, useEffect } from 'react';
-import domtoimage from 'dom-to-image';
+import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 import styled from '@emotion/styled';
 import { ColorTypes } from '@emotion/react';
@@ -48,10 +48,10 @@ const Title = styled.div<{ theme: ColorTypes }>`
 const ContentList = styled.div<{ theme: ColorTypes; type: string }>`
   width: 25rem;
   height: ${props => (props.type === 'modify' ? '10rem' : 'auto')};
-  overflow-y: ${props => (props.type === 'modify' ? 'scroll' : 'auto')};
+  overflow-y: ${props => (props.type === 'modify' ? 'scroll' : 'hidden')};
   color: ${props => props.theme.main};
   font-size: ${common.fontSize.fs16};
-  margin: 1rem 0 1rem 1rem;
+  margin: 1rem 0 1rem 0.5rem;
 
   ::-webkit-scrollbar {
     width: 1.5rem; /* 스크롤바의 너비 */
@@ -143,9 +143,16 @@ function Diary(props: {
   const diaryRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (diaryRef.current && save) {
-      domtoimage.toBlob(diaryRef.current).then((blob: any) => {
-        saveAs(blob, 'diary.png');
-      });
+      // domtoimage.toBlob(diaryRef.current).then((blob: any) => {
+      //   saveAs(blob, 'diary.png');
+      // });
+      html2canvas(diaryRef.current, { backgroundColor: 'rgba(0,0,0,0)' }).then(
+        div => {
+          div.toBlob((blob: any) => {
+            saveAs(blob, 'diary.png');
+          });
+        },
+      );
       if (setSave) setSave(false);
     }
   }, [save]);
