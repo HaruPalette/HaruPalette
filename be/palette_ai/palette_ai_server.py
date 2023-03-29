@@ -7,6 +7,7 @@ import torch
 import torchaudio
 from transformers import pipeline
 import os
+from pydub import AudioSegment
 
 # 모델 로드
 # whisper 모델
@@ -42,11 +43,17 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
 
     def SpeechToText(self, request, context):
         audio_data = request.audio
-        audio_path = 'audio.wav'
-        with open(audio_path, 'wb') as f:
+        weba_file = "audio.webm"
+        wav_file = "audio.wav"
+        with open(weba_file, 'wb') as f:
             f.write(audio_data)
-        audio_input, _ = torchaudio.load(audio_path)
+        sound = AudioSegment.from_file(weba_file, format="webm")
+        sound.export(wav_file, format="wav", parameters=['-ac', '1', '-ar', '16000'])
+        audio_input, _ = torchaudio.load(wav_file)
+        logger.info("Audio file loaded")
         input_values = torch.mean(audio_input, dim=0).numpy()
+        logger.info("Audio file converted")
+        logger.info("Prediction started...")
         prediction = whisperPipe(
             input_values,
             generate_kwargs={
@@ -55,7 +62,10 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
                 "max_new_tokens": 65535
              }
         )['text']
-        os.remove(audio_path)
+        logger.info("Prediction finished")
+        logger.info("Prediction: " + prediction)
+        os.remove(weba_file)
+        os.remove(wav_file)
         return palette_ai_pb2.TextResponse(prediction=prediction)
 
     def TextToEmotion(self, request, context):
@@ -63,6 +73,7 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
         data = {
             ko2en[r["label"]]: r["score"] for r in result
         }
+        logger.info("Prediction: " + str(data))
         ret = palette_ai_pb2.EmotionResponse(
             neutral=data.get("neutral", 0),
             happy=data.get("happy", 0),
