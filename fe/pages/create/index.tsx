@@ -26,30 +26,24 @@ const CreatePage = styled.div<{ theme: ColorTypes }>`
 
 const CreatePageContainer = styled.div`
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
   width: 100%;
+
+  padding: 2rem 0;
 `;
 
 const CreateHeader = styled.div`
   display: flex;
   justify-content: space-between;
 
-  position: absolute;
-  top: 2rem;
+  position: relative;
 
   width: calc(100vw - 32px);
   padding: 0 1rem;
 
   z-index: 1;
-`;
-
-const TestRecode = styled.ul`
-  position: absolute;
-  top: 80vh;
-  left: 50%;
-  transform: translateX(-50%);
-  list-style: none;
 `;
 
 function Create() {
@@ -67,11 +61,11 @@ function Create() {
   return (
     <CreatePage theme={theme}>
       <Pulse />
-      <CreateHeader>
-        <HomeButton />
-        <WeatherButton />
-      </CreateHeader>
       <CreatePageContainer>
+        <CreateHeader>
+          <HomeButton />
+          <WeatherButton />
+        </CreateHeader>
         <ScriptTalk />
         <Model />
         {isRecode ? (
@@ -79,13 +73,6 @@ function Create() {
         ) : (
           <TalkButton audioRecorder={audioRecorder} />
         )}
-        <TestRecode>
-          {audioRecorder.recordedChunks.map((chunk, index) => (
-            <li key={index}>
-              <audio controls src={URL.createObjectURL(chunk)} />
-            </li>
-          ))}
-        </TestRecode>
       </CreatePageContainer>
     </CreatePage>
   );
