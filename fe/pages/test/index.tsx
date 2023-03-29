@@ -1,7 +1,7 @@
-import WeatherAnimation from '../../components/animation/WeatherAnimation';
+import RainAnimation from '../../components/animation/RainAnimation';
 
 function Test() {
-  return <WeatherAnimation />;
+  return <RainAnimation />;
 }
 
 export default Test;
