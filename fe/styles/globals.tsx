@@ -22,7 +22,7 @@ const style = () => css`
     border: 0;
     vertical-align: baseline;
     font-family: 'GmarketSansMedium';
-
+    box-sizing: border-box;
     transition: 0.4s ease-in-out;
   }
 
@@ -44,8 +44,8 @@ const style = () => css`
   }
 `;
 
-const GlobalStyle = () => {
+function GlobalStyle() {
   return <Global styles={style} />;
-};
+}
 
 export default GlobalStyle;

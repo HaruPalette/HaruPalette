@@ -1,21 +1,19 @@
-import { DIARIES, SCRIPT } from '../constants/api';
+import { DIARIES, IMAGE, SCRIPT } from '../constants/api';
 import { axiosInstance } from '../utils/axios';
 
 class DiariesService {
   /** 일기 상세 조회 */
   public static async getDiaries(diaryId: number) {
     const response = await axiosInstance.get(DIARIES, {
-      params: { diaryId: diaryId },
+      params: { diaryId },
     });
 
     return response;
   }
 
   /** 일기 작성 */
-  public static async postDiaries(params: object) {
-    const response = await axiosInstance.post(DIARIES, {
-      params,
-    });
+  public static async postDiaries(diaryData: object) {
+    const response = await axiosInstance.post(DIARIES, diaryData);
 
     return response;
   }
@@ -23,8 +21,15 @@ class DiariesService {
   /** 일기 삭제 */
   public static async patchDiaries(diaryId: number) {
     const response = await axiosInstance.patch(DIARIES, {
-      params: { diaryId: diaryId },
+      params: { diaryId },
     });
+
+    return response;
+  }
+
+  /** 이미지 조회 */
+  public static async getImage() {
+    const response = await axiosInstance.get(IMAGE);
 
     return response;
   }
@@ -32,7 +37,7 @@ class DiariesService {
   /** 수정 조회 */
   public static async getScript(order: number) {
     const response = await axiosInstance.get(SCRIPT, {
-      params: { order: order },
+      params: { order },
     });
 
     return response;

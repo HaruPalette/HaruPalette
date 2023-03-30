@@ -1,7 +1,7 @@
-import MovingBall from '../../components/animation/MovingBall';
+import WeatherAnimation from '../../components/animation/WeatherAnimation';
 
 function Test() {
-  return <MovingBall />;
+  return <WeatherAnimation />;
 }
 
 export default Test;
