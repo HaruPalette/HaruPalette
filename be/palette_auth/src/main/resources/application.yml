@@ -5,7 +5,7 @@ spring:
   # MySQL
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://mysql:3306/palette_auth?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://j8b303.p.ssafy.io:3306/palette_auth?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
     username: palette
     password: haru0220
 
