@@ -71,7 +71,7 @@ function Create() {
           <HomeButton />
           <WeatherButton />
         </CreateHeader>
-        <ScriptTalk script={SCRIPT} />
+        <ScriptTalk talkData={SCRIPT} type="create" />
         <Model data={currCharName} />
         {isRecode ? (
           <RecodeBar audioRecorder={audioRecorder} />
