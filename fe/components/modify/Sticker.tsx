@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
@@ -24,21 +25,41 @@ const Container = styled.div<{ theme: ColorTypes }>`
 
 const StickerImage = styled(Image)`
   margin: 2rem;
+  opacity: 0.5;
 `;
 
-function Sticker() {
+const NowStickerImage = styled(Image)`
+  margin: 2rem;
+`;
+
+function Sticker(props: {
+  setNowSticker: Dispatch<SetStateAction<string>>;
+  nowSticker: string;
+}) {
+  const { setNowSticker, nowSticker } = props;
   const theme = useTheme();
   return (
     <Container theme={theme}>
       {STICKER.map(item => {
         return (
-          <button type="button">
-            <StickerImage
-              src={`assets/img/sticker/${item}.svg`}
-              width={48}
-              height={48}
-              alt={item}
-            />
+          <button type="button" key={item}>
+            {item === nowSticker ? (
+              <NowStickerImage
+                src={`assets/img/sticker/${item}.svg`}
+                width={48}
+                height={48}
+                alt={item}
+                onClick={() => setNowSticker(item)}
+              />
+            ) : (
+              <StickerImage
+                src={`assets/img/sticker/${item}.svg`}
+                width={48}
+                height={48}
+                alt={item}
+                onClick={() => setNowSticker(item)}
+              />
+            )}
           </button>
         );
       })}

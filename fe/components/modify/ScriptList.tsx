@@ -3,7 +3,7 @@ import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import useTheme from '../../hooks/useTheme';
-import { selectScript } from '../../store/modules/script';
+// import { selectScript } from '../../store/modules/script';
 import ScriptItem from './ScriptItem';
 import { SCRIPT } from '../../constants/script';
 import { selectProfile } from '../../store/modules/profile';
@@ -21,41 +21,51 @@ const Container = styled.div<{ theme: ColorTypes }>`
   border-radius: 1.5rem;
 
   ::-webkit-scrollbar {
-    width: 1.5rem; /* 스크롤바의 너비 */
+    width: 2rem; /* 스크롤바의 너비 */
   }
 
   ::-webkit-scrollbar-thumb {
     height: 10%; /* 스크롤바의 길이 */
     background: ${props => props.theme.primary20}; /* 스크롤바의 색상 */
     background-clip: padding-box;
-    border: 0.5rem solid transparent;
+    border: 0.7rem solid transparent;
     border-radius: 2rem;
   }
 `;
 const ScriptSet = styled.div`
   width: 100%;
-  height: 100%;
   padding: 2rem;
 `;
 const ChrScript = styled.div<{ theme: ColorTypes }>`
-  width: 20rem;
-  height: 10rem;
-  background: ${props => props.theme.primary20};
-  opacity: 0.2;
+  width: 25rem;
+  height: 8rem;
+  background: ${props => props.theme.diaryBackground};
+  padding: 1rem;
+  text-align: left;
+  color: ${props => props.theme.main};
+  border-radius: 1rem;
 `;
-const ChrInfo = styled.div``;
+const ChrInfo = styled.div<{ theme: ColorTypes }>`
+  width: 6rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+`;
 
 function ScriptList() {
   const theme = useTheme();
   const chr = useSelector(selectProfile).chrName;
-  const scriptLen = useSelector(selectScript).curScriptIndex;
+  // const scriptLen = useSelector(selectScript).curScriptIndex;
+  const scriptLen = 3;
   return (
     <Container theme={theme}>
-      {Array.from({ length: scriptLen }, (v, i) => i + 1).map(item => {
+      {Array.from({ length: scriptLen }, (v, i) => i).map(item => {
         return (
-          <ScriptSet>
+          <ScriptSet key={item}>
             <ChrScript theme={theme}>
-              <ChrInfo>
+              <ChrInfo theme={theme}>
                 <Image
                   src={`assets/img/${chr}/2d.svg`}
                   width={36}
