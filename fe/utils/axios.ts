@@ -29,8 +29,7 @@ import { getCookie } from './cookie';
 const createAxiosInstance = (): AxiosInstance => {
   const baseURL = BASE_URL;
   const accessToken: string | undefined = getCookie('Authorization');
-  const headers = accessToken ? { Authorization: `${accessToken}` } : undefined;
-
+  const headers = { Authorization: `${accessToken}` };
   const axiosInstance = axios.create({
     baseURL,
     headers,
