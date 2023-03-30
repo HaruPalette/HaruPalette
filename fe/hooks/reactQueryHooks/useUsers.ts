@@ -5,7 +5,7 @@ import UserService from '../../services/UserService';
 import { ErrorResponse } from '../../types/commonTypes';
 import { RemindResponse, UsersResponse } from '../../types/usersTypes';
 
-const useGetUsers = () => {
+export const useGetUsers = () => {
   const queryFunction = () => UserService.getUsers();
   const { isLoading, data, isError, error } = useQuery<
     AxiosResponse<UsersResponse>,
@@ -25,7 +25,7 @@ const useGetUsers = () => {
   };
 };
 
-const useGetRemind = () => {
+export const useGetRemind = () => {
   const queryFunction = () => UserService.getRemind();
   const { isLoading, data, isError, error } = useQuery<
     AxiosResponse<RemindResponse>,
@@ -44,5 +44,3 @@ const useGetRemind = () => {
     errorMessage,
   };
 };
-
-export default { useGetUsers, useGetRemind };

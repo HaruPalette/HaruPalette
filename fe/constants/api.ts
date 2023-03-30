@@ -1,12 +1,9 @@
 // 기본 URL
-export const BASE_URL: string =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:8080/api'
-    : 'https://harupalette.com/api';
+export const BASE_URL = 'https://harupalette.com:8080';
 
 // API 엔드 포인트
-export const V1 = '/api/v1';
-export const V2 = '/api/v2';
+export const V1 = 'api/v1';
+export const V2 = 'api/v2';
 
 // 정보 조회
 export const USERS = `${V1} + '/users'`;
