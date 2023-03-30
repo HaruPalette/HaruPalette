@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import Pulse from '../../components/animation/Pulse';
 import ScriptTalk from '../../components/animation/ScriptTalk';
+import Rain from '../../components/animation/Rain';
 import HomeButton from '../../components/button/HomeButton';
 import WeatherButton from '../../components/button/WeatherButton';
 import Model from '../../components/common/ModelCreate';
@@ -32,7 +33,7 @@ const CreatePageContainer = styled.div`
   align-items: center;
   justify-content: space-around;
   width: 100%;
-
+  z-index: 1;
   padding: 2rem 0;
 `;
 
@@ -63,6 +64,7 @@ function Create() {
 
   return (
     <CreatePage theme={theme}>
+      <Rain />
       <Pulse />
       <CreatePageContainer>
         <CreateHeader>
