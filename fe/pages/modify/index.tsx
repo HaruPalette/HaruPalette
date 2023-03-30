@@ -26,6 +26,11 @@ const Container = styled.div`
   justify-content: space-around;
   align-items: center;
   margin: auto;
+
+  @media all and (max-width: 1450px) {
+    height: auto;
+    flex-direction: column;
+  }
 `;
 
 const Section = styled.div`
@@ -34,12 +39,26 @@ const Section = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 1;
+  transform: scale(1);
+
+  @media all and (max-width: 1450px) {
+    margin: 2rem;
+  }
+  @media all and (max-width: 500px) {
+    margin: 0;
+  }
 `;
 
 const Title = styled.div<{ theme: ColorTypes }>`
   color: ${props => props.theme.main};
   font-size: ${common.fontSize.fs20};
   font-weight: bold;
+  transform: scale(1);
+
+  @media all and (max-width: 500px) {
+    transform: scale(0.65);
+    margin: 2rem;
+  }
 `;
 
 function Modify() {
