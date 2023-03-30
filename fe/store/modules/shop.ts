@@ -11,11 +11,6 @@ export interface ShopSlice {
   openFilterModal: boolean;
   friendShipList: Array<boolean>;
 }
-interface IUser {
-  haru: boolean;
-  tori: boolean;
-  gomi: boolean;
-}
 
 // 초기 상태 정의
 const initialState = {
@@ -52,8 +47,9 @@ const shopSlice = createSlice({
       temp.openFilterModal = action.payload;
     },
     setFriendShip(state, action) {
+      const temp = state;
       const data: number = action.payload;
-      state.friendShipList[data] = true;
+      temp.friendShipList[data] = true;
     },
   },
 });
