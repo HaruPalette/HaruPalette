@@ -5,7 +5,9 @@ import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import Pulse from '../../components/animation/Pulse';
 import ScriptTalk from '../../components/animation/ScriptTalk';
+import CherryBlossom from '../../components/animation/CherryBlossom';
 import Rain from '../../components/animation/Rain';
+import Snow from '../../components/animation/Snow';
 import HomeButton from '../../components/button/HomeButton';
 import WeatherButton from '../../components/button/WeatherButton';
 import Model from '../../components/common/ModelCreate';
@@ -20,6 +22,11 @@ import {
   resetScriptIndexSuccess,
   selectScript,
 } from '../../store/modules/script';
+import {
+  changeWeatherSuccess,
+  selectWeather,
+} from '../../store/modules/weather';
+import useWeather from '../../hooks/useWeather';
 
 const CreatePage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -54,9 +61,17 @@ function Create() {
   // const curSrciptIndex = useAppSelector(selectScript).curScriptIndex;
   const currCharName = useAppSelector(selectProfile).chrName;
   const isRecode = useAppSelector(selectScript).isRecoding;
+  const reduxWeather = useAppSelector(selectWeather).curWeather;
+  const weather = useWeather();
+  console.log(weather);
   const dispatch = useAppDispatch();
 
   const audioRecorder = useAudioRecorder();
+
+  useEffect(() => {
+    dispatch(changeWeatherSuccess(weather));
+    console.log(weather);
+  }, [weather]);
 
   useEffect(() => {
     dispatch(resetScriptIndexSuccess());
@@ -64,7 +79,10 @@ function Create() {
 
   return (
     <CreatePage theme={theme}>
-      <Rain />
+      {reduxWeather === 'Clear' && <CherryBlossom />}
+      {reduxWeather === 'Clouds' && <Rain />}
+      {reduxWeather === 'Rain' && <Rain />}
+      {reduxWeather === 'Snow' && <Snow />}
       <Pulse />
       <CreatePageContainer>
         <CreateHeader>

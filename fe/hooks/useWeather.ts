@@ -41,7 +41,6 @@ const useWeather = () => {
           } else {
             curWeather = 'Clouds';
           }
-
           setWeather(curWeather);
         })
         .catch(error => {
