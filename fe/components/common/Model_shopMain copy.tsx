@@ -39,7 +39,6 @@ function Model(props: any) {
     //   console.log('여기 안타네');
     // }
     if (customdiv) {
-      console.log(customdiv);
       const sizes = {
         width: window.innerWidth,
         height: window.innerHeight,
