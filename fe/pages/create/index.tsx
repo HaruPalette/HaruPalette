@@ -7,7 +7,7 @@ import Pulse from '../../components/animation/Pulse';
 import ScriptTalk from '../../components/animation/ScriptTalk';
 import HomeButton from '../../components/button/HomeButton';
 import WeatherButton from '../../components/button/WeatherButton';
-import Model from '../../components/common/Model';
+import Model from '../../components/common/Model_create';
 import RecodeBar from '../../components/create/RecodeBar';
 import TalkButton from '../../components/create/TalkButton';
 import { SCRIPT } from '../../constants/script';
@@ -52,7 +52,6 @@ function Create() {
   const theme = useTheme();
   // const curSrciptIndex = useAppSelector(selectScript).curScriptIndex;
   const currCharName = useAppSelector(selectProfile).chrName;
-
   const isRecode = useAppSelector(selectScript).isRecoding;
   const dispatch = useAppDispatch();
 
