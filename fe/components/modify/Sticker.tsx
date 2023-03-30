@@ -21,6 +21,12 @@ const Container = styled.div<{ theme: ColorTypes }>`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  transform: scale(1);
+
+  @media all and (max-width: 500px) {
+    transform: scale(0.65);
+    margin-top: -150px;
+  }
 `;
 
 const StickerImage = styled(Image)`
