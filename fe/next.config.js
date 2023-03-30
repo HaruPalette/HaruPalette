@@ -15,10 +15,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  rewrites: {
-    source: '/api/v1/:path*',
-    destination: 'https://harupalette.com:8080/:path*',
-  },
 };
 
 module.exports = nextConfig;
