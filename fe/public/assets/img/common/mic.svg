@@ -1,0 +1,15 @@
+<svg width="60" height="104" viewBox="0 0 60 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M30 0C21.1634 0 14 7.16344 14 16V48C14 56.8366 21.1634 64 30 64V0Z" fill="#E5E5E5"/>
+<path d="M30 64C38.8366 64 46 56.8366 46 48V16C46 7.16344 38.8366 0 30 0V64Z" fill="#888888"/>
+<rect x="14" y="16" width="9.6" height="3.2" fill="black"/>
+<rect x="14" y="25.6001" width="9.6" height="3.2" fill="black"/>
+<rect x="14" y="35.2" width="9.6" height="3.2" fill="black"/>
+<rect x="14" y="44.8" width="9.6" height="3.2" fill="black"/>
+<rect x="36.4" y="16" width="9.6" height="3.2" fill="black"/>
+<rect x="36.4" y="25.6001" width="9.6" height="3.2" fill="black"/>
+<rect x="36.4" y="35.2" width="9.6" height="3.2" fill="black"/>
+<rect x="36.4" y="44.8" width="9.6" height="3.2" fill="black"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M4 44C4 42.8954 3.10457 42 2 42C0.895431 42 0 42.8954 0 44C0 59.8965 12.3639 72.9052 28 73.9344V96H18C10 96 10 104 10 104H28H32H50C50 104 50 96 42 96H32V73.9344C47.6361 72.9052 60 59.8965 60 44C60 42.8954 59.1046 42 58 42C56.8954 42 56 42.8954 56 44C56 58.3594 44.3594 70 30 70C15.6406 70 4 58.3594 4 44Z" fill="black"/>
+<path d="M32 79.5L28 75.5V79.5L32 83V79.5Z" fill="#888888"/>
+<path d="M32 88L28 84V91L32 95V88Z" fill="#888888"/>
+</svg>
