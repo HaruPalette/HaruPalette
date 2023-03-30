@@ -9,12 +9,9 @@ import com.ssafy.palette.domain.dto.UserDto;
 import com.ssafy.palette.model.BaseResponseBody;
 
 @FeignClient(name = "user-client", url = "localhost:8080/api/v1/users")
-// @FeignClient(name = "user-profile-client", url = "j8b303.p.ssafy.io:8080/api/v1/users")
 public interface UserClient {
 
 	@PostMapping(produces = "application/json")
 	ResponseEntity<? extends BaseResponseBody> insertUser(@RequestBody UserDto userDto);
 
-	// @PostMapping(value = "/image", produces = "application/json")
-	// ResponseEntity<? extends BaseResponseBody> updateImage(@RequestBody UserDto userDto);
 }

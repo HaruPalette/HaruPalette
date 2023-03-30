@@ -104,22 +104,6 @@ public class TokenProvider implements InitializingBean {
 		return JwtCode.DENIED;
 	}
 
-/*
-    public boolean validateToken(String token) {
-        try {
-            Jws<Claims> claims = Jwts.parserBuilder()
-                    .setSigningKey(secret)
-                    .build()
-                    .parseClaimsJws(token);
-            return claims.getBody()
-                    .getExpiration()
-                    .after(new Date());
-        } catch (Exception e) {
-            return false;
-        }
-    }
-*/
-
 	public String getUid(String token) {
 		return Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody().getSubject();
 	}
