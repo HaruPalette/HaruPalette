@@ -11,9 +11,13 @@ const nextConfig = {
   compiler: {
     emotion: true,
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  rewrites: {
+    source: '/api/v1/:path*',
+    destination: 'https://harupalette.com:8080/:path*',
   },
 };
 

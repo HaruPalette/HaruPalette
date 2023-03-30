@@ -1,7 +1,11 @@
-import MovingBall from '../../components/animation/MovingBall';
+// import Rain from '../../components/animation/Rain';
+import Snow from '../../components/animation/Snow';
+// import CherryBlossom from '../../components/animation/CherryBlossom';
 
 function Test() {
-  return <MovingBall />;
+  // return <CherryBlossom />;
+  // return <Rain />;
+  return <Snow />;
 }
 
 export default Test;
