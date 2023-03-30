@@ -13,13 +13,13 @@ const TalkContainer = styled.div`
   height: 5rem;
 `;
 
-const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean }>`
+const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean; type: string }>`
   z-index: 99;
   font-size: 2rem;
   background: linear-gradient(
     to right,
-    ${props => props.theme.sub},
-    ${props => props.theme.main}
+    ${props => (props.type === 'main' ? props.theme.color : props.theme.sub)},
+    ${props => (props.type === 'main' ? props.theme.color : props.theme.main)}
   );
   background-clip: text;
   -webkit-background-clip: text;
@@ -30,11 +30,11 @@ const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean }>`
   }
 `;
 
-function ScriptTalk(props: { script: TalkData[] }) {
-  const { script } = props;
+function ScriptTalk(props: { talkData: TalkData[]; type: string }) {
+  const { talkData, type } = props;
   const theme = useTheme();
   const isDark = useAppSelector(selectTheme);
-  const scriptData = useScript(script);
+  const scriptData = useScript(talkData, type);
 
   useEffect(() => {
     scriptData.start();
@@ -42,7 +42,7 @@ function ScriptTalk(props: { script: TalkData[] }) {
 
   return (
     <TalkContainer>
-      <Talk theme={theme} isDark={isDark}>
+      <Talk theme={theme} isDark={isDark} type={type}>
         {scriptData.text}
       </Talk>
     </TalkContainer>

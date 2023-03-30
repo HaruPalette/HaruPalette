@@ -20,7 +20,10 @@ const menuSlice = createSlice({
       const temp = state;
       temp.isActive = true;
     },
-
+    menuCloseSuccess(state) {
+      const temp = state;
+      temp.isActive = false;
+    },
     changeLinkSuccess(state, actions) {
       const temp = state;
       temp.link = actions.payload;
@@ -30,7 +33,8 @@ const menuSlice = createSlice({
 });
 
 // 액션 생성함수
-export const { menuOpenSuccess, changeLinkSuccess } = menuSlice.actions;
+export const { menuOpenSuccess, menuCloseSuccess, changeLinkSuccess } =
+  menuSlice.actions;
 export const selectMenu = (state: RootState) => state.menu;
 // 리듀서
 export default menuSlice.reducer;

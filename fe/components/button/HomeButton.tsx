@@ -43,7 +43,7 @@ const HomeImage = styled(Image)`
 
 function HomeButton() {
   const chr = useSelector(selectProfile);
-  const icon = `assets/img/${chr.chrName}/home.svg`;
+  const icon = `/assets/img/${chr.chrName}/home.svg`;
   const dispatch = useAppDispatch();
   const handleChangeLink = (link: string) => {
     dispatch(changeLinkSuccess(link));

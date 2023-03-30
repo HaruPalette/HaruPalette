@@ -2,7 +2,11 @@ import { ColorTypes, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
-import { menuOpenSuccess, selectMenu } from '../../store/modules/menu';
+import {
+  menuCloseSuccess,
+  menuOpenSuccess,
+  selectMenu,
+} from '../../store/modules/menu';
 
 const Hamburger = styled.button<{ isActive: boolean; theme: ColorTypes }>`
   display: none;
@@ -89,7 +93,11 @@ function HamburgerButton() {
   const theme = useTheme();
 
   const handleOpenHamburger = () => {
-    dispatch(menuOpenSuccess());
+    if (active) {
+      dispatch(menuCloseSuccess());
+    } else {
+      dispatch(menuOpenSuccess());
+    }
   };
 
   return (
