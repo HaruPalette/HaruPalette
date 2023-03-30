@@ -10,9 +10,9 @@ import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.ssafy.palette.model.JwtCode;
-import com.ssafy.palette.model.Token;
-import com.ssafy.palette.model.TokenKey;
+import com.ssafy.palette.config.security.JwtCode;
+import com.ssafy.palette.config.security.Token;
+import com.ssafy.palette.config.security.TokenKey;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -103,6 +103,22 @@ public class TokenProvider implements InitializingBean {
 		}
 		return JwtCode.DENIED;
 	}
+
+/*
+    public boolean validateToken(String token) {
+        try {
+            Jws<Claims> claims = Jwts.parserBuilder()
+                    .setSigningKey(secret)
+                    .build()
+                    .parseClaimsJws(token);
+            return claims.getBody()
+                    .getExpiration()
+                    .after(new Date());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+*/
 
 	public String getUid(String token) {
 		return Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody().getSubject();
