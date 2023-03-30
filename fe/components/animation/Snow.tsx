@@ -2,6 +2,14 @@ import { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
 
+// light
+// linear-gradient(
+//   to top,
+//   rgba(255, 255, 255, 0.7) 0%,
+//   rgba(255, 255, 255, 0.5) 5%,
+//   rgba(255, 255, 255, 0.1) 70%
+// );
+
 const SnowCanvas = styled.canvas`
   margin: 0;
   width: 100%;
@@ -10,9 +18,9 @@ const SnowCanvas = styled.canvas`
   background-color: #000;
   background-image: linear-gradient(
     to top,
-    rgba(255, 255, 255, 0.7) 0%,
-    rgba(255, 255, 255, 0.5) 5%,
-    rgba(255, 255, 255, 0.1) 70%
+    rgba(255, 255, 255, 1) 0%,
+    rgba(220, 248, 255, 1) 5%,
+    rgba(0, 169, 217, 0.8) 70%
   );
   position: fixed;
   z-index: 0;
@@ -36,8 +44,10 @@ function Snow() {
     opacityRate: number;
 
     constructor() {
+      // dark
       this.color = '155, 155, 155';
-      // this.color = '255, 255, 255';
+      // light
+      this.color = '255, 255, 255';
       this.x = randomBetween(0, window.innerWidth);
       this.y = randomBetween(-(window.innerHeight * 0.2), window.innerHeight);
       this.radius = randomBetween(10, 20) / 4;
@@ -65,7 +75,10 @@ function Snow() {
       if (!ctx) return;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.shadowColor = '#9b9b9b';
+      // dark
+      // ctx.shadowColor = '#9b9b9b';
+      // light
+      ctx.shadowColor = '#ffffff';
       ctx.shadowBlur = 15;
       ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
       // ctx.strokeStyle = `rgba(${this.color}, ${this.opacity})`;
@@ -146,12 +159,9 @@ function Snow() {
     }
   }, 0);
 
-  const resizeHandler = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
+  const init = () => {
+    const ctx = canvasRef.current?.getContext('2d');
+    if (!ctx) return;
     snowRef.current = [];
     snow2Ref.current = [];
     for (let i = 0; i < totalRef.current; i++) {
@@ -160,14 +170,16 @@ function Snow() {
     }
   };
 
-  const init = () => {
-    const ctx = canvasRef.current?.getContext('2d');
-    if (!ctx) return;
-    resizeHandler();
+  const resizeHandler = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    init();
   };
 
   useEffect(() => {
-    init();
+    resizeHandler();
     window.addEventListener('resize', resizeHandler);
     return () => window.removeEventListener('resize', resizeHandler);
   }, []);

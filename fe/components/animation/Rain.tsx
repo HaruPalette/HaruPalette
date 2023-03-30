@@ -2,29 +2,42 @@ import { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
 
+// light
+// linear-gradient(to bottom, #202020, #878787);
+
+// dark
+// linear-gradient(to bottom, #222b33, #12171b);
+
 const RainCanvas = styled.canvas`
   margin: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: linear-gradient(to bottom, #222b33, #12171b);
+  background: linear-gradient(to bottom, #484848, #a5a5a5);
   position: fixed;
   z-index: 0;
 `;
 
 function Rain() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef<{ x: number; y: number; isActive: boolean }>({
-    x: 0,
-    y: 0,
-    isActive: false,
-  });
+  // const mouseRef = useRef<{ x: number; y: number; isActive: boolean }>({
+  //   x: 0,
+  //   y: 0,
+  //   isActive: false,
+  // });
   const totalRef = useRef<number>(50);
-  const THUNDER_RATE = 0.007;
+  const THUNDER_RATE = 0.003;
 
   const randomBetween = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
+
+  // light
+  // `rgba(255, 255, 255, 0.7)`;
+
+  // dark
+  // #8899a6
+  // #a5b1c2
 
   class Drop {
     x: number;
@@ -45,7 +58,7 @@ function Rain() {
       if (!ctx) return;
       ctx.beginPath();
       ctx.arc(x, y, 1.5, 0, Math.PI * 2, false);
-      ctx.fillStyle = '#8899a6';
+      ctx.fillStyle = `rgba(255, 255, 255, 0.7)`;
       ctx.fill();
     }
 
@@ -66,12 +79,22 @@ function Rain() {
       this.opacity = 0;
     }
 
+    // light
+    // `rgba(200, 200, 200, ${this.opacity})`
+    // `rgba(35, 35, 35, ${this.opacity})`
+
+    // dark
+    // `rgba(96, 114, 129, ${this.opacity})`
+    // `rgba(18, 23, 27, ${this.opacity})`
+
     draw() {
       const ctx = canvasRef.current?.getContext('2d');
       if (!ctx) return;
       const gradient = ctx.createLinearGradient(0, 0, 0, window.innerHeight);
-      gradient.addColorStop(0, `rgba(66, 84, 99, ${this.opacity})`);
-      gradient.addColorStop(1, `rgba(18, 23, 27, ${this.opacity})`);
+      gradient.addColorStop(0, `rgba(200, 200, 200, ${this.opacity})`);
+      gradient.addColorStop(1, `rgba(35, 35, 35, ${this.opacity})`);
+      // gradient.addColorStop(0, `rgba(96, 114, 129, ${this.opacity})`);
+      // gradient.addColorStop(1, `rgba(18, 23, 27, ${this.opacity})`);
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
     }
@@ -129,10 +152,10 @@ function Rain() {
         );
         this.y = -20;
       }
-      this.velocity.x = mouseRef.current.isActive
-        ? randomBetween(-1, 1) +
-          (-window.innerWidth / 2 + mouseRef.current.x) / 100
-        : randomBetween(-1, 1);
+      // this.velocity.x = mouseRef.current.isActive
+      //   ? randomBetween(-1, 1) +
+      //     (-window.innerWidth / 2 + mouseRef.current.x) / 100
+      //   : randomBetween(-1, 1);
       this.x += this.velocity.x;
       this.y += this.velocity.y;
       this.draw();
@@ -140,6 +163,19 @@ function Rain() {
   }
 
   const rainListRef = useRef<RainElem[]>([]);
+
+  useAnimationFrame(() => {
+    const ctx = canvasRef.current?.getContext('2d');
+    if (!ctx) return;
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    if (Math.random() < THUNDER_RATE) thunderRef.current.opacity = 1;
+    thunderRef.current.animate();
+    rainListRef.current.forEach(rain => rain.animate());
+    dropListRef.current.forEach((drop, index) => {
+      drop.animate();
+      if (drop.y > window.innerHeight) dropListRef.current.splice(index, 1);
+    });
+  }, 0);
 
   const init = () => {
     rainListRef.current = [];
@@ -154,19 +190,6 @@ function Rain() {
       rainListRef.current.push(new RainElem(x, y, velocity));
     }
   };
-
-  useAnimationFrame(() => {
-    const ctx = canvasRef.current?.getContext('2d');
-    if (!ctx) return;
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    if (Math.random() < THUNDER_RATE) thunderRef.current.opacity = 1;
-    thunderRef.current.animate();
-    rainListRef.current.forEach(rain => rain.animate());
-    dropListRef.current.forEach((drop, index) => {
-      drop.animate();
-      if (drop.y > window.innerHeight) dropListRef.current.splice(index, 1);
-    });
-  }, 0);
 
   const resizeHandler = () => {
     const canvas = canvasRef.current;
@@ -185,16 +208,16 @@ function Rain() {
   return (
     <RainCanvas
       ref={canvasRef}
-      onMouseEnter={() => {
-        mouseRef.current.isActive = true;
-      }}
-      onMouseLeave={() => {
-        mouseRef.current.isActive = false;
-      }}
-      onMouseMove={e => {
-        mouseRef.current.x = e.clientX;
-        mouseRef.current.y = e.clientY;
-      }}
+      // onMouseEnter={() => {
+      //   mouseRef.current.isActive = true;
+      // }}
+      // onMouseLeave={() => {
+      //   mouseRef.current.isActive = false;
+      // }}
+      // onMouseMove={e => {
+      //   mouseRef.current.x = e.clientX;
+      //   mouseRef.current.y = e.clientY;
+      // }}
     />
   );
 }
