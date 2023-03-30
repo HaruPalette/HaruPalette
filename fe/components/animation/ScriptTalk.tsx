@@ -30,11 +30,11 @@ const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean }>`
   }
 `;
 
-function ScriptTalk(props: { script: TalkData[] }) {
-  const { script } = props;
+function ScriptTalk(props: { talkData: TalkData[]; type: string }) {
+  const { talkData, type } = props;
   const theme = useTheme();
   const isDark = useAppSelector(selectTheme);
-  const scriptData = useScript(script);
+  const scriptData = useScript(talkData, type);
 
   useEffect(() => {
     scriptData.start();
