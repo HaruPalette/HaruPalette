@@ -3,56 +3,54 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-
 /**
  * 동동 뛰는 애니매이션
- * 위치: shop-메인
+ * 위치: 일기작성
  */
-const CustomDiv = styled.div`
-  position: absolute;
-  /* padding: 0 160px; */
-  top: 88px;
+const CustomDiv = styled.canvas`
+  position: relative;
   left: 0px;
-  /* scale: 0.8; */
   width: 100%;
 `;
 
 function Model(props: any) {
   const temp = props;
   const currModel = temp.data;
-  const refDiv = useRef<HTMLDivElement>(null);
+  const refDiv = useRef<HTMLCanvasElement>(null);
   let rendererPrev: any;
   let cameraPrev: any;
   let scenePrev: any;
 
   useEffect(() => {
     const group = new THREE.Group();
-    let customdiv = refDiv.current;
-    if (customdiv && rendererPrev) {
-      customdiv = null;
-      rendererPrev = null;
-    }
+    const { current: customdiv } = refDiv;
+    // if (customdiv && rendererPrev) {
+    //   customdiv = "";
+    // }
     if (customdiv && !rendererPrev) {
-      console.log(customdiv);
       const sizes = {
         width: window.innerWidth,
         height: window.innerHeight,
       };
 
+      let boundaryHeight = 0;
+      if (sizes.width > 900) boundaryHeight = 450;
+      else if (sizes.width > 400) boundaryHeight = 400;
+      else boundaryHeight = 350;
+
       const renderer = new THREE.WebGLRenderer({
+        canvas: customdiv,
         antialias: true,
         alpha: true,
       });
       // renderer.setClearColor(0x000000, 1);
-
-      customdiv?.appendChild(renderer.domElement);
 
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setPixelRatio(window.devicePixelRatio);
       // renderer.setSize(sizes.width, sizes.height - 120);
       // renderer.setSize(sizes.width, sizes.height - 222 - 200 - 32);
-      renderer.setSize(sizes.width, 300);
+      renderer.setSize(sizes.width, boundaryHeight);
       rendererPrev = renderer;
 
       const scene = new THREE.Scene();
@@ -84,7 +82,7 @@ function Model(props: any) {
       sphereShadow.rotation.x = -Math.PI * 0.5;
       sphereShadow.position.x = 0;
       sphereShadow.position.y = -0.55;
-      sphereShadow.scale.set(0.7, 0.7, 0.7);
+      sphereShadow.scale.set(0.6, 0.6, 0.6);
 
       group.add(sphereShadow);
 
@@ -101,7 +99,7 @@ function Model(props: any) {
       // controls.enableZoom = false;
       // controls.screenSpacePanning = false;
       camera.position.x = 0;
-      camera.position.y = 0.35;
+      camera.position.y = 0.4;
       camera.position.z = 1.8;
       // controls.update();
       cameraPrev = camera;
@@ -109,13 +107,15 @@ function Model(props: any) {
       const onWindowResize = function (): void {
         width = window.innerWidth;
         height = window.innerHeight;
-
         if (sizes.width === width) {
           rendererPrev.setPixelRatio(window.devicePixelRatio);
-          cameraPrev.aspect = sizes.width / 300; // canvas비율을 카메라에 적용
-          rendererPrev.setSize(sizes.width, 300, true);
+          cameraPrev.aspect = sizes.width / boundaryHeight; // canvas비율을 카메라에 적용
+          rendererPrev.setSize(sizes.width, boundaryHeight, true);
         } else {
-          height = sizes.height - 420 > 300 ? 300 : sizes.height - 420;
+          height =
+            sizes.height - 420 > boundaryHeight
+              ? boundaryHeight
+              : sizes.height - 420;
           cameraPrev.aspect = width / height; // canvas비율을 카메라에 적용
           rendererPrev.setSize(width, height, true);
         }
@@ -162,7 +162,7 @@ function Model(props: any) {
         const animate = () => {
           if (temp6) {
             step += 0.02;
-            temp6.scene.scale.set(0.9, 0.9, 0.9);
+            temp6.scene.scale.set(1, 1, 1);
             temp6.scene.position.y = 0.5 * Math.abs(Math.sin(step));
             // el.scene.position.y = Math.sin(elapsedTime * .5) * .1 - 0.1
             sphereShadow.material.opacity =
@@ -176,22 +176,6 @@ function Model(props: any) {
         };
         animate();
       });
-      const glftLoaderSub = new GLTFLoader();
-      glftLoaderSub.load(
-        `assets/img/${temp.data}/${temp.data}_item.gltf`,
-        ele => {
-          const temp3 = ele;
-          temp3.scene.position.x = -1.1;
-          temp3.scene.position.y = 0.4;
-          temp3.scene.position.z = 0.4;
-          temp3.scene.rotation.y = 2;
-          temp3.scene.rotation.x = 0.3;
-          group.add(ele.scene);
-
-          // scene.add(el.scene);
-          ele.scene.scale.set(0.1, 0.1, 0.1);
-        },
-      );
 
       scenePrev.add(group);
     }

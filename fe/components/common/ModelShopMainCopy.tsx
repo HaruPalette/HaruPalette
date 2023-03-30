@@ -6,7 +6,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 /**
  * 동동 뛰는 애니매이션
- * 위치: shop-메인 복사본(canvas가 아닌 기존 div로 정상 구현 백업본)
+ * 위치: shop-메인 캔버스로 작업 중
  */
 const CustomDiv = styled.canvas`
   position: absolute;
@@ -25,19 +25,20 @@ function Model(props: any) {
   let rendererPrev: any;
   let cameraPrev: any;
   let scenePrev: any;
+  console.log('not useEffect rendererPrev', rendererPrev);
 
   useEffect(() => {
     const group = new THREE.Group();
     const customdiv = refDiv.current;
-    // customdiv
-    //   ?.getContext('2d')
-    //   ?.clearRect(0, 0, customdiv?.width, customdiv?.height);
 
     // if (customdiv && rendererPrev) {
     //   customdiv = null;
     //   rendererPrev = null;
     //   console.log('여기 안타네');
     // }
+    if (rendererPrev) {
+      console.log('useEffect rendererPrev', rendererPrev);
+    }
     if (customdiv) {
       const sizes = {
         width: window.innerWidth,
@@ -46,12 +47,15 @@ function Model(props: any) {
 
       const renderer = new THREE.WebGLRenderer({
         antialias: true,
+        canvas: customdiv,
         alpha: true,
       });
+      customdiv
+        ?.getContext('2d')
+        ?.clearRect(0, 0, customdiv?.width, customdiv?.height);
       // renderer.setClearColor(0x000000, 1);
 
-      customdiv?.appendChild(renderer.domElement);
-
+      // customdiv?.appendChild(renderer.domElement);
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setPixelRatio(window.devicePixelRatio);
@@ -59,6 +63,10 @@ function Model(props: any) {
       // renderer.setSize(sizes.width, sizes.height - 222 - 200 - 32);
       renderer.setSize(sizes.width, 300);
       rendererPrev = renderer;
+      renderer.dispose();
+      rendererPrev.dispose();
+      console.log('render after renderer', renderer);
+      console.log('render after rendererPrev', rendererPrev);
 
       const scene = new THREE.Scene();
       scene.background = null;
@@ -136,7 +144,7 @@ function Model(props: any) {
       group.add(ambientLight);
 
       const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-      directionalLight.position.set(0, 1, 4);
+      directionalLight.position.set(0, 3, 4);
       directionalLight.castShadow = true;
       group.add(directionalLight);
 
