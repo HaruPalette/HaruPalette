@@ -1,19 +1,17 @@
 import { useEffect, useRef } from 'react';
+import { weatherTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
+import { useAppSelector } from '../../hooks/reduxHook';
+import { selectTheme } from '../../store/modules/theme';
+import { weatherDark, weatherLight } from '../../styles/weather';
 
-// light
-// linear-gradient(to bottom, #202020, #878787);
-
-// dark
-// linear-gradient(to bottom, #222b33, #12171b);
-
-const RainCanvas = styled.canvas`
+const RainCanvas = styled.canvas<{ theme: weatherTypes }>`
   margin: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: linear-gradient(to bottom, #484848, #a5a5a5);
+  background: ${props => props.theme.rain};
   position: fixed;
   z-index: 0;
 `;
@@ -27,17 +25,12 @@ function Rain() {
   // });
   const totalRef = useRef<number>(50);
   const THUNDER_RATE = 0.003;
+  const isDark = useAppSelector(selectTheme);
+  const theme = isDark ? weatherDark : weatherLight;
 
   const randomBetween = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
-
-  // light
-  // `rgba(255, 255, 255, 0.7)`;
-
-  // dark
-  // #8899a6
-  // #a5b1c2
 
   class Drop {
     x: number;
@@ -58,7 +51,7 @@ function Rain() {
       if (!ctx) return;
       ctx.beginPath();
       ctx.arc(x, y, 1.5, 0, Math.PI * 2, false);
-      ctx.fillStyle = `rgba(255, 255, 255, 0.7)`;
+      ctx.fillStyle = isDark ? '#8899a6' : `rgba(255, 255, 255, 0.7)`;
       ctx.fill();
     }
 
@@ -91,10 +84,14 @@ function Rain() {
       const ctx = canvasRef.current?.getContext('2d');
       if (!ctx) return;
       const gradient = ctx.createLinearGradient(0, 0, 0, window.innerHeight);
-      gradient.addColorStop(0, `rgba(200, 200, 200, ${this.opacity})`);
-      gradient.addColorStop(1, `rgba(35, 35, 35, ${this.opacity})`);
-      // gradient.addColorStop(0, `rgba(96, 114, 129, ${this.opacity})`);
-      // gradient.addColorStop(1, `rgba(18, 23, 27, ${this.opacity})`);
+      if (isDark) {
+        gradient.addColorStop(0, `rgba(96, 114, 129, ${this.opacity})`);
+        gradient.addColorStop(1, `rgba(18, 23, 27, ${this.opacity})`);
+      } else {
+        gradient.addColorStop(0, `rgba(14, 15, 55, ${this.opacity})`);
+        gradient.addColorStop(0.95, `rgba(150, 224, 240, ${this.opacity})`);
+        gradient.addColorStop(1, `rgba(250, 150, 100, ${this.opacity})`);
+      }
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
     }
@@ -208,6 +205,7 @@ function Rain() {
   return (
     <RainCanvas
       ref={canvasRef}
+      theme={theme}
       // onMouseEnter={() => {
       //   mouseRef.current.isActive = true;
       // }}

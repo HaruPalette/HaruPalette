@@ -1,27 +1,17 @@
 import { useEffect, useRef } from 'react';
+import { weatherTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
+import { useAppSelector } from '../../hooks/reduxHook';
+import { selectTheme } from '../../store/modules/theme';
+import { weatherDark, weatherLight } from '../../styles/weather';
 
-// light
-// linear-gradient(
-//   to top,
-//   rgba(255, 255, 255, 0.7) 0%,
-//   rgba(255, 255, 255, 0.5) 5%,
-//   rgba(255, 255, 255, 0.1) 70%
-// );
-
-const SnowCanvas = styled.canvas`
+const SnowCanvas = styled.canvas<{ theme: weatherTypes }>`
   margin: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: #000;
-  background-image: linear-gradient(
-    to top,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(220, 248, 255, 1) 5%,
-    rgba(0, 169, 217, 0.8) 70%
-  );
+  background: ${props => props.theme.snow};
   position: fixed;
   z-index: 0;
 `;
@@ -29,6 +19,8 @@ const SnowCanvas = styled.canvas`
 function Snow() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const totalRef = useRef<number>(200);
+  const isDark = useAppSelector(selectTheme);
+  const theme = isDark ? weatherDark : weatherLight;
 
   const randomBetween = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -44,9 +36,6 @@ function Snow() {
     opacityRate: number;
 
     constructor() {
-      // dark
-      this.color = '155, 155, 155';
-      // light
       this.color = '255, 255, 255';
       this.x = randomBetween(0, window.innerWidth);
       this.y = randomBetween(-(window.innerHeight * 0.2), window.innerHeight);
@@ -75,15 +64,10 @@ function Snow() {
       if (!ctx) return;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      // dark
-      // ctx.shadowColor = '#9b9b9b';
-      // light
       ctx.shadowColor = '#ffffff';
       ctx.shadowBlur = 15;
       ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
-      // ctx.strokeStyle = `rgba(${this.color}, ${this.opacity})`;
       ctx.fill();
-      // ctx.stroke();
       ctx.closePath();
     }
 
@@ -113,7 +97,7 @@ function Snow() {
       this.radius = randomBetween(0, 10) / 10;
       this.opacity = randomBetween(-10, 0) / 10;
       this.opacityRate = 0.01;
-      this.color = '155, 155, 155';
+      this.color = '255, 255, 255';
     }
     reset() {
       this.x = randomBetween(0, window.innerWidth);
@@ -128,9 +112,7 @@ function Snow() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
-      // ctx.strokeStyle = `rgba(${this.color}, ${this.opacity})`;
       ctx.fill();
-      // ctx.stroke();
       ctx.closePath();
     }
     update() {
@@ -184,7 +166,7 @@ function Snow() {
     return () => window.removeEventListener('resize', resizeHandler);
   }, []);
 
-  return <SnowCanvas ref={canvasRef} />;
+  return <SnowCanvas ref={canvasRef} theme={theme} />;
 }
 
 export default Snow;

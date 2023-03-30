@@ -41,4 +41,10 @@ declare module '@emotion/react' {
     diaryBackground: string;
     shopBackground: string;
   }
+  export interface weatherTypes {
+    clear: string;
+    clouds: string;
+    rain: string;
+    snow: string;
+  }
 }

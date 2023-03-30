@@ -1,37 +1,17 @@
 import { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
-import { ColorTypes } from '@emotion/react';
+import { weatherTypes } from '@emotion/react';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
-import useTheme from '../../hooks/useTheme';
+import { useAppSelector } from '../../hooks/reduxHook';
+import { selectTheme } from '../../store/modules/theme';
+import { weatherDark, weatherLight } from '../../styles/weather';
 
-// light
-// linear-gradient(
-//  to bottom,
-//  rgba(0, 169, 217, 0.7) 0%,
-//  rgba(0, 169, 217, 0.2) 90%
-// );
-
-// dark
-// url('/assets/img/cloud/stars.png'),
-// linear-gradient(
-//   to bottom,
-//   rgba(0, 0, 0, 1) 0%,
-//   rgba(0, 0, 0, 0.9) 70%,
-//   rgba(173, 168, 168, 0.7) 90%
-// );
-
-const CloudCanvas = styled.canvas<{ theme: ColorTypes }>`
+const CloudCanvas = styled.canvas<{ theme: weatherTypes }>`
   margin: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: url('/assets/img/weather/stars.png'),
-    linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 0.9) 70%,
-      rgba(173, 168, 168, 0.7) 90%
-    );
+  background: ${props => props.theme.clouds};
   position: fixed;
   z-index: 0;
 `;
@@ -40,7 +20,8 @@ function Cloud() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const totalRef = useRef<number>(25);
   const cloudImageRef = useRef<HTMLImageElement[]>([]);
-  const theme = useTheme();
+  const isDark = useAppSelector(selectTheme);
+  const theme = isDark ? weatherDark : weatherLight;
 
   const randomBetween = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1) + min);

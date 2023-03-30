@@ -1,36 +1,17 @@
 import { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
-import { ColorTypes } from '@emotion/react';
+import { weatherTypes } from '@emotion/react';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
-import useTheme from '../../hooks/useTheme';
+import { useAppSelector } from '../../hooks/reduxHook';
+import { selectTheme } from '../../store/modules/theme';
+import { weatherLight, weatherDark } from '../../styles/weather';
 
-// light
-// linear-gradient(
-//   to bottom,
-//   rgba(0, 169, 217, 0.7) 0%,
-//   rgba(220, 248, 255, 1) 70%,
-//   rgba(255, 217, 220, 0.9) 100%
-// );
-
-// dark
-// linear-gradient(
-//   to bottom,
-//   rgba(10, 20, 46, 1) 0%,
-//   rgba(10, 20, 46, 0.7) 80%,
-//   rgba(200, 167, 160, 0.9) 100%
-// );
-
-const CherryBlossomCanvas = styled.canvas<{ theme: ColorTypes }>`
+const CherryBlossomCanvas = styled.canvas<{ theme: weatherTypes }>`
   margin: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 20, 46, 1) 0%,
-    rgba(10, 20, 46, 0.7) 80%,
-    rgba(200, 167, 160, 0.9) 100%
-  );
+  background: ${props => props.theme.clear};
   position: fixed;
   z-index: 0;
 `;
@@ -39,7 +20,8 @@ function CherryBlossom() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const totalRef = useRef<number>(70);
   const petalImageRef = useRef<HTMLImageElement[]>([]);
-  const theme = useTheme();
+  const isDark = useAppSelector(selectTheme);
+  const theme = isDark ? weatherDark : weatherLight;
 
   const imagePromise = (src: string) => {
     return new Promise<HTMLImageElement>((resolve, reject) => {
