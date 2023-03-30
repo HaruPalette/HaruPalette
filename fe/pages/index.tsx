@@ -58,7 +58,7 @@ export default function Home() {
       <Header />
       <MainContainer theme={theme}>
         <Section1>
-          <ScriptTalk script={MAIN_SCRIPT} />
+          <ScriptTalk talkData={MAIN_SCRIPT} type="main" />
           <MovingBall />
         </Section1>
       </MainContainer>

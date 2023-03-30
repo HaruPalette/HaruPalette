@@ -46,7 +46,7 @@ const PointDesc = styled.div`
 `;
 
 function MainPoint() {
-  const PointImgSrc = `assets/img/palette.svg`;
+  const PointImgSrc = `/assets/img/palette.svg`;
   const theme = useTheme();
 
   return (

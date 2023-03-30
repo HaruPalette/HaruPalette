@@ -195,7 +195,7 @@ function FriendCard(props: { data: IFriendData }) {
   const isFriendShip = useAppSelector(selectShop).friendShipList[data.index];
   const customTheme = data.ename + isDark;
 
-  const imgSrc = `assets/img/${data.ename}/2d.svg`;
+  const imgSrc = `/assets/img/${data.ename}/2d.svg`;
 
   const getTheme = () => {
     if (customTheme === 'haruDark') return haruDark;
