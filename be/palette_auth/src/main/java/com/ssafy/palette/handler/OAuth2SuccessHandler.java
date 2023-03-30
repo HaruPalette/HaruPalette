@@ -34,7 +34,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 	private final AuthRepository authRepository;
 	private final TokenProvider tokenProvider;
 	private final UserClient userClient;
-	private String redirectUrl = "http://172.21.0.4:3000/login";
+	private String redirectUrl = "https://harupalette.com/login";
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
