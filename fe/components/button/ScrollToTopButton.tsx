@@ -4,31 +4,6 @@ import useScreenY from '../../hooks/useScreenY';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 
-function ScrollToTopButton() {
-  const screenY = useScreenY();
-  const theme = useTheme();
-  const handleScrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    });
-  };
-
-  return (
-    <TopButton
-      type="button"
-      onClick={handleScrollToTop}
-      theme={theme}
-      screenY={screenY}
-    >
-      <i className="fas fa-arrow-up"></i>
-    </TopButton>
-  );
-}
-
-export default ScrollToTopButton;
-
 const TopButton = styled.button<{ theme: ColorTypes; screenY: number }>`
   position: absolute;
   right: ${common.fontSize.fs40};
@@ -53,3 +28,28 @@ const TopButton = styled.button<{ theme: ColorTypes; screenY: number }>`
     background-color: ${props => props.theme.primary40};
   }
 `;
+
+function ScrollToTopButton() {
+  const screenY = useScreenY();
+  const theme = useTheme();
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  return (
+    <TopButton
+      type="button"
+      onClick={handleScrollToTop}
+      theme={theme}
+      screenY={screenY}
+    >
+      <i className="fas fa-arrow-up" />
+    </TopButton>
+  );
+}
+
+export default ScrollToTopButton;

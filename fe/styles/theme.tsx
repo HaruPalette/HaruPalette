@@ -35,6 +35,8 @@ export const haruLight: ColorTypes = {
   border: '#E5E5E5',
   color: '#000000',
   diaryBackground: 'rgba(255,166,214,0.2)',
+  shopBackground:
+    'linear-gradient(180deg, rgba(255, 166, 214, 0.5) 0%, rgba(255, 166, 214, 0.188542) 36.77%, rgba(255, 166, 214, 0) 100%);',
 };
 
 export const haruDark: ColorTypes = {
@@ -47,7 +49,8 @@ export const haruDark: ColorTypes = {
   background: '#0A142E',
   border: '#ffffff',
   color: '#ffffff',
-  diaryBackground: 'rgba(10, 20, 46, 0.4)',
+  diaryBackground: 'rgba(255,166,214,0.2)',
+  shopBackground: '#0A142E',
 };
 
 export const toriLight: ColorTypes = {
@@ -61,6 +64,8 @@ export const toriLight: ColorTypes = {
   border: '#E5E5E5',
   color: '#000000',
   diaryBackground: 'rgba(210, 151, 99, 0.2)',
+  shopBackground:
+    'linear-gradient(180deg, rgba(210, 151, 99, 0.5) 0%, rgba(210, 151, 99, 0.185) 36.77%, rgba(210, 151, 99, 0) 100%);',
 };
 export const toriDark: ColorTypes = {
   primary20: '#D29763',
@@ -72,7 +77,8 @@ export const toriDark: ColorTypes = {
   background: '#0A142E',
   border: '#ffffff',
   color: '#ffffff',
-  diaryBackground: 'rgba(10, 20, 46, 0.4)',
+  diaryBackground: 'rgba(210, 151, 99, 0.2)',
+  shopBackground: '#0A142E',
 };
 
 export const gomiLight: ColorTypes = {
@@ -86,6 +92,8 @@ export const gomiLight: ColorTypes = {
   border: '#E5E5E5',
   color: '#000000',
   diaryBackground: 'rgba(79, 220, 85, 0.2)',
+  shopBackground:
+    'linear-gradient(180deg, rgba(79, 220, 85, 0.5) 0%, rgba(79, 220, 85, 0.185) 36.77%, rgba(79, 220, 85, 0) 100%);',
 };
 
 export const gomiDark: ColorTypes = {
@@ -98,5 +106,6 @@ export const gomiDark: ColorTypes = {
   background: '#0A142E',
   border: '#ffffff',
   color: '#ffffff',
-  diaryBackground: 'rgba(10, 20, 46, 0.4)',
+  diaryBackground: 'rgba(79, 220, 85, 0.2)',
+  shopBackground: '#0A142E',
 };

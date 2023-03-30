@@ -24,6 +24,10 @@ public class Challenge {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 횟수
+    @Column
+    private int count;
+
     // 내용
     @Column
     @NotNull
@@ -35,5 +39,10 @@ public class Challenge {
     private int point;
 
     public Challenge() {
+    }
+
+    // setter //
+    public void setCount(int count) {
+        this.count = count;
     }
 }

@@ -4,34 +4,6 @@ import Image from 'next/image';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 
-function Palette() {
-  const theme = useTheme();
-  return (
-    <>
-      <Container>
-        <Bar theme={theme} />
-        <Content>
-          <Image
-            src="assets/img/common/soso.svg"
-            width={40}
-            height={40}
-            alt="soso"
-          />
-          <Text theme={theme}>행복한 일기라면 색이 더 짙게 나타납니다.</Text>
-          <Image
-            src="assets/img/common/smile.svg"
-            width={40}
-            height={40}
-            alt="smile"
-          />
-        </Content>
-      </Container>
-    </>
-  );
-}
-
-export default Palette;
-
 const Container = styled.div`
   width: 100%;
   height: 4.75rem;
@@ -64,3 +36,29 @@ const Text = styled.div<{ theme: ColorTypes }>`
   color: ${props => props.theme.color};
   font-size: ${common.fontSize.fs20};
 `;
+
+function Palette() {
+  const theme = useTheme();
+  return (
+    <Container>
+      <Bar theme={theme} />
+      <Content>
+        <Image
+          src="assets/img/common/soso.svg"
+          width={40}
+          height={40}
+          alt="soso"
+        />
+        <Text theme={theme}>행복한 일기라면 색이 더 짙게 나타납니다.</Text>
+        <Image
+          src="assets/img/common/smile.svg"
+          width={40}
+          height={40}
+          alt="smile"
+        />
+      </Content>
+    </Container>
+  );
+}
+
+export default Palette;

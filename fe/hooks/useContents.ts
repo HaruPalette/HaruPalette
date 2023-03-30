@@ -4,14 +4,14 @@ export function useContents(contents: string) {
   let temp = [];
   let count = 0;
   for (let i = 0; i < arr.length; i++) {
-    if (count + arr[i].length <= 25) {
+    if (count + arr[i].length <= 23) {
       temp.push(arr[i]);
       count += arr[i].length;
     } else {
       contentList.push(temp.join(' '));
       temp = [];
       count = 0;
-      i--;
+      i -= 1;
     }
   }
   if (temp) contentList.push(temp.join(' '));

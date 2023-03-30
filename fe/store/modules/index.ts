@@ -4,12 +4,16 @@ import theme from './theme';
 import profile from './profile';
 import menu from './menu';
 import shop from './shop';
+import script from './script';
+import weather from './weather';
 
 const rootReducer = combineReducers({
   theme,
   profile,
   menu,
   shop,
+  script,
+  weather,
   // 여기에 추가하세요
 });
 
