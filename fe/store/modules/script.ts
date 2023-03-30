@@ -6,6 +6,7 @@ export interface ScriptSlice {
   isRecoding: boolean;
   isPausing: boolean;
   curScriptIndex: number;
+  nowScript: string[];
 }
 
 // 초기 상태 정의
@@ -13,6 +14,7 @@ const initialState = {
   isRecoding: false,
   isPausing: false,
   curScriptIndex: 0,
+  nowScript: [],
 };
 
 const scriptSlice = createSlice({
@@ -25,6 +27,7 @@ const scriptSlice = createSlice({
       temp.isRecoding = false;
       temp.isPausing = false;
       temp.curScriptIndex = 0;
+      temp.nowScript = [];
     },
     /**  */
     startDiarySuccess(state) {
@@ -57,6 +60,11 @@ const scriptSlice = createSlice({
       const temp = state;
       temp.curScriptIndex = state.curScriptIndex + 1;
     },
+    /** 사용자가 스크립트 수정 */
+    setScript(state, actions) {
+      const temp = state;
+      temp.nowScript = actions.payload;
+    },
   },
 });
 
@@ -69,6 +77,7 @@ export const {
   restartRecodingSuccess,
   recodingSuccess,
   endDiarySuceess,
+  setScript,
 } = scriptSlice.actions;
 export const selectScript = (state: RootState) => state.script;
 // 리듀서
