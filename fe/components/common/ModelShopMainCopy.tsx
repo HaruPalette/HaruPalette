@@ -6,7 +6,10 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 /**
  * 동동 뛰는 애니매이션
- * 위치: shop-메인 캔버스로 작업 중
+ * 위치: shop-메인 캔버스 버전(성공)
+ * 문제: 캐릭터 탭을 여러번 들어가게 되면, 메모리에 3d가 계속해서 저장되다가,
+ * 일정 개수가 쌓이게 되면 저장을 한 순서부터 하나씩 없어짐
+ * 문제해결상태: 미해결(반응형 작업 후에 진행, 후순위)
  */
 const CustomDiv = styled.canvas`
   position: absolute;
@@ -144,7 +147,7 @@ function Model(props: any) {
       group.add(ambientLight);
 
       const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-      directionalLight.position.set(0, 3, 4);
+      directionalLight.position.set(2, 1.3, 5); // 0, 0.3, 4
       directionalLight.castShadow = true;
       group.add(directionalLight);
 
