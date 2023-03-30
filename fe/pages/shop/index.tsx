@@ -2,7 +2,7 @@ import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import Header from '../../components/common/Header';
-import Model from '../../components/common/Model_shopMain';
+import Model from '../../components/common/Model_shopMainCopy';
 import ShopNav from '../../components/nav/ShopNav';
 import useTheme from '../../hooks/useTheme';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';

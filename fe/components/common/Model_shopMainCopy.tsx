@@ -6,7 +6,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 /**
  * 동동 뛰는 애니매이션
- * 위치: shop-메인
+ * 위치: shop-메인 복사본(canvas가 아닌 기존 div로 정상 구현 백업본)
  */
 const CustomDiv = styled.canvas`
   position: absolute;

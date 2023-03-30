@@ -8,11 +8,10 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
  * 동동 뛰는 애니매이션
  * 위치: shop-메인
  */
-const CustomDiv = styled.canvas`
+const CustomDiv = styled.div`
   position: absolute;
   /* padding: 0 160px; */
   top: 88px;
-  height: 300px;
   left: 0px;
   /* scale: 0.8; */
   width: 100%;
@@ -21,24 +20,20 @@ const CustomDiv = styled.canvas`
 function Model(props: any) {
   const temp = props;
   const currModel = temp.data;
-  const refDiv = useRef<HTMLCanvasElement>(null);
+  const refDiv = useRef<HTMLDivElement>(null);
   let rendererPrev: any;
   let cameraPrev: any;
   let scenePrev: any;
 
   useEffect(() => {
     const group = new THREE.Group();
-    const customdiv = refDiv.current;
-    // customdiv
-    //   ?.getContext('2d')
-    //   ?.clearRect(0, 0, customdiv?.width, customdiv?.height);
-
-    // if (customdiv && rendererPrev) {
-    //   customdiv = null;
-    //   rendererPrev = null;
-    //   console.log('여기 안타네');
-    // }
-    if (customdiv) {
+    let customdiv = refDiv.current;
+    if (customdiv && rendererPrev) {
+      customdiv = null;
+      rendererPrev = null;
+    }
+    if (customdiv && !rendererPrev) {
+      console.log(customdiv);
       const sizes = {
         width: window.innerWidth,
         height: window.innerHeight,
