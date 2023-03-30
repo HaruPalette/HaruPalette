@@ -6,7 +6,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
  * 동동 뛰는 애니매이션
  * 위치: shop-캐릭터-카드front
  */
-const CustomDiv = styled.div`
+const CustomDiv = styled.canvas`
   top: 88px;
   left: 0px;
   width: 280px;
@@ -15,7 +15,7 @@ const CustomDiv = styled.div`
 
 function Model2(props: any) {
   const temp = props;
-  const refDiv = useRef<HTMLDivElement>(null);
+  const refDiv = useRef<HTMLCanvasElement>(null);
   let rendererPrev: any;
   let cameraPrev: any;
   let scenePrev: any;
@@ -28,17 +28,24 @@ function Model2(props: any) {
       const group = new THREE.Group();
 
       const renderer = new THREE.WebGLRenderer({
+        canvas: customdiv,
         antialias: true,
         alpha: true,
       });
+      customdiv
+        ?.getContext('2d')
+        ?.clearRect(0, 0, customdiv?.width, customdiv?.height);
 
-      customdiv?.appendChild(renderer.domElement);
+      // customdiv?.appendChild(renderer.domElement);
 
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setPixelRatio(window.devicePixelRatio);
       renderer.setSize(280, 180);
       rendererPrev = renderer;
+
+      renderer.dispose();
+      rendererPrev.dispose();
 
       // 씬 && 카메라 설정
       const scene = new THREE.Scene();

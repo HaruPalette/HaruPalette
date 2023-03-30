@@ -12,7 +12,7 @@ import {
 } from '../../styles/theme';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectTheme } from '../../store/modules/theme';
-import Model from '../common/Model_character';
+import Model from '../common/ModelCharacter';
 import { setCharName } from '../../store/modules/profile';
 import { selectShop, setFriendShip } from '../../store/modules/shop';
 
