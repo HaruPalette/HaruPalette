@@ -42,7 +42,7 @@ function Sticker(props: {
     <Container theme={theme}>
       {STICKER.map(item => {
         return (
-          <button type="button">
+          <button type="button" key={item}>
             {item === nowSticker ? (
               <NowStickerImage
                 src={`assets/img/sticker/${item}.svg`}
