@@ -12,7 +12,7 @@ import {
 } from '../../styles/theme';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectTheme } from '../../store/modules/theme';
-import Model2 from '../common/Model2';
+import Model from '../common/Model_character';
 import { setCharName } from '../../store/modules/profile';
 import { selectShop, setFriendShip } from '../../store/modules/shop';
 
@@ -35,7 +35,7 @@ const Card = styled.div<{ theme: ColorTypes }>`
   &:hover {
     transform: translate(-50%, -50%) rotateY(180deg);
   }
-  border: 3px solid ${props => props.theme.sub};
+  /* border: 3px solid ${props => props.theme.sub}; */
   border-radius: 16px;
   z-index: 200;
   white-space: pre-wrap;
@@ -157,6 +157,7 @@ const DescDivBack = styled.div<{ theme: ColorTypes }>`
   height: 140px;
   text-align: center;
   font-size: 14px;
+  line-height: 24px;
   color: ${props => props.theme.color};
 `;
 const BtnDivBack = styled.div`
@@ -247,7 +248,7 @@ function FriendCard(props: { data: IFriendData }) {
             <ENameTitle>{data.ename}</ENameTitle>
           </NameDiv>
           <CharacterDiv>
-            <Model2 data={data.ename} />
+            <Model data={data.ename} />
           </CharacterDiv>
           <CharacteristicDiv>{handleCharacteristic()}</CharacteristicDiv>
         </Front>

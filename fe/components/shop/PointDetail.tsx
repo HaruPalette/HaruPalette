@@ -13,6 +13,7 @@ interface IDummy {
   title: string;
   addPoint: number;
   date: string;
+  index: number;
 }
 const dummy: IDummy[] = [
   {
@@ -20,30 +21,35 @@ const dummy: IDummy[] = [
     title: '하루 친구비',
     addPoint: -30,
     date: '2023.03.12',
+    index: 0,
   },
   {
     imgSrc: '/assets/img/common/coin.svg',
     title: '한달 과제 달성',
     addPoint: +130,
     date: '2023.03.11',
+    index: 1,
   },
   {
     imgSrc: '/assets/img/common/coin.svg',
     title: '주 7회 과제 달성',
     addPoint: +30,
     date: '2023.03.10',
+    index: 2,
   },
   {
     imgSrc: '/assets/img/common/coin.svg',
     title: '고미 친구비',
     addPoint: -30,
     date: '2023.03.09',
+    index: 3,
   },
   {
     imgSrc: '/assets/img/common/coin.svg',
     title: '고미 친구비',
     addPoint: -30,
-    date: '2023.03.09',
+    date: '2023.03.08',
+    index: 4,
   },
 ];
 
@@ -216,7 +222,7 @@ function PointDetail() {
   const renderRound = () => {
     const renderRoundArr = dummy.map((el: IDummy) => {
       return (
-        <DummyEls key={el.date}>
+        <DummyEls key={el.index}>
           <DummyImg src={el.imgSrc} width={58} height={58} alt="DummyImg" />
           <DummyTitle theme={theme}>{el.title}</DummyTitle>
           {el.addPoint > 0 ? (
