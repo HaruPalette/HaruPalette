@@ -115,6 +115,7 @@ const UserSticker = styled(Image)`
   position: absolute;
   top: 250px;
   left: 40px;
+  transform: rotate(-10deg);
 `;
 
 function Diary(props: {
@@ -208,7 +209,7 @@ function Diary(props: {
           height={183}
           alt="weather"
         />
-        {diary.stickerCode !== 'ampty' && (
+        {diary.stickerCode !== 'empty' && (
           <UserSticker src={userSticker} width={72} height={72} alt="sticker" />
         )}
       </DiaryLine>
