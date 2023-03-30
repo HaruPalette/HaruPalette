@@ -4,12 +4,13 @@ import { useAppSelector } from './reduxHook';
 import { selectScript } from '../store/modules/script';
 import { TalkData } from '../types/commonTypes';
 
-const useScript = (props: TalkData[]) => {
+const useScript = (talkData: TalkData[], type: string) => {
   const [text, setText] = useState<string>('');
   const [index, setIndex] = useState<number>(0);
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const scriptIndex = useAppSelector(selectScript).curScriptIndex;
-  let scripts = props[scriptIndex].script;
+  let scripts =
+    type === 'create' ? talkData[scriptIndex].script : talkData[0].script;
 
   const start = () => {
     scripts = SCRIPT[scriptIndex].script;
