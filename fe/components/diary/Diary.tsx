@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useRef, useEffect } from 'react';
+import { Dispatch, SetStateAction, useRef, useEffect, useState } from 'react';
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 import styled from '@emotion/styled';
@@ -130,6 +130,8 @@ function Diary(props: {
   const { diary, type, save, share, setSave, setShare } = props;
   const theme = prevTheme(diary.ename);
   const title = useDay(diary.date);
+  const [previewImage, setPreviewImage] = useState(diary.image);
+  const [image, setImage] = useState('');
 
   // 스티커 경로
   const chrSticker = `/assets/img/${diary.ename}/2d.svg`;
@@ -139,6 +141,16 @@ function Diary(props: {
   // 내용 & 위로의 말 자연스러운 줄바꿈
   const contentList = useContents(diary.contents);
   const answerList = useAnswer(diary.answer);
+
+  const handleDrop = (event: {
+    preventDefault: () => void;
+    dataTransfer: { files: any };
+  }) => {
+    event.preventDefault();
+    const { files } = event.dataTransfer;
+    setPreviewImage(URL.createObjectURL(files[0]));
+    setImage(files[0]);
+  };
 
   // 일기 이미지로 저장
   const diaryRef = useRef<HTMLDivElement>(null);
@@ -179,7 +191,17 @@ function Diary(props: {
     <DetailStyles ref={diaryRef} theme={theme}>
       <DiaryLine theme={theme}>
         <Title theme={theme}>{title}</Title>
-        <DiaryImage src={diary.image} width={300} height={300} alt="img" />
+        <DiaryImage
+          src={previewImage}
+          width={300}
+          height={300}
+          alt="img"
+          onDrop={handleDrop}
+          onDragOver={event => event.preventDefault()}
+          onClick={() => {
+            window.open(previewImage);
+          }}
+        />
         <ContentList theme={theme} type={type}>
           {contentList.map(item => {
             return (
