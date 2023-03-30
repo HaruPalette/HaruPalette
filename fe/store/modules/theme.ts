@@ -1,4 +1,4 @@
-import { HYDRATE } from 'next-redux-wrapper';
+// import { HYDRATE } from 'next-redux-wrapper';
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '..';
 
@@ -15,7 +15,8 @@ const themeSlice = createSlice({
   initialState,
   reducers: {
     setTheme(state, action) {
-      state.isDark = action.payload;
+      const temp = state;
+      temp.isDark = action.payload;
     },
   },
 

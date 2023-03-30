@@ -25,6 +25,22 @@ export const TALK_BUTTON: ButtonData = {
 };
 
 export const STOP_BUTTON: ButtonData = {
+  width: 6,
+  height: 3,
+  context: '정지',
+  fs: 1.5,
+  image: `assets/img/common/mic.svg`,
+};
+
+export const SAVE_BUTTON: ButtonData = {
+  width: 6,
+  height: 3,
+  context: '저장',
+  fs: 1.5,
+  image: `assets/img/common/mic.svg`,
+};
+
+export const FINISH_BUTTON: ButtonData = {
   width: 5,
   height: 3,
   context: '종료하기',

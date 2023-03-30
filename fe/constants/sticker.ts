@@ -1,5 +1,5 @@
-export const sticker: string[] = [
-  'default',
+const STICKER: string[] = [
+  'empty',
   'love',
   'sad',
   'smile',
@@ -20,3 +20,5 @@ export const sticker: string[] = [
   'yarn',
   'play',
 ];
+
+export default STICKER;

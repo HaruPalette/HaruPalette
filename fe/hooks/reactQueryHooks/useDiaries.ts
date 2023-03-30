@@ -1,17 +1,17 @@
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import { AxiosError, AxiosResponse } from 'axios';
-import { DIARIES } from '../../constants/api';
+import { DIARIES, IMAGE } from '../../constants/api';
 import DiariesService from '../../services/DiariesService';
 import {
   DiariesResponse,
+  ImageResponse,
   ScriptResponse,
-  UseGetDiariesResult,
-  UseGetScriptResult,
 } from '../../types/diariesTypes';
 import { ErrorResponse } from '../../types/commonTypes';
 
-const useGetDiaries = (diaryId: number): UseGetDiariesResult => {
+/** 일기 상세 조회 */
+const useGetDiaries = (diaryId: number) => {
   const queryFunction = () => DiariesService.getDiaries(diaryId);
   const { isLoading, data, isError, error } = useQuery<
     AxiosResponse<DiariesResponse>,
@@ -31,11 +31,39 @@ const useGetDiaries = (diaryId: number): UseGetDiariesResult => {
   };
 };
 
-const usePostDiaries = () => {};
+/** 일기 작성 */
+const usePostDiaries = (diaryData: object) => {
+  const queryClient = useQueryClient();
 
+  const mutation = useMutation([]);
+};
+
+/** 일기 삭제 */
 const usePatchDiaries = () => {};
 
-const useGetScript = (order: number): UseGetScriptResult => {
+/** 일기 이미지 조회 */
+const useGetImage = () => {
+  const queryFunction = () => DiariesService.getImage();
+  const { isLoading, data, isError, error } = useQuery<
+    AxiosResponse<ImageResponse>,
+    AxiosError<ErrorResponse>
+  >([IMAGE], queryFunction, {
+    keepPreviousData: true,
+  });
+
+  const imageDate = data?.data?.imageData;
+  const errorMessage = error?.response?.data?.message || '';
+
+  return {
+    isLoading,
+    imageDate,
+    isError,
+    errorMessage,
+  };
+};
+
+/** 일기 수정 조회 (order: 스크립트 순서) */
+const useGetScript = (order: number) => {
   const queryFunction = () => DiariesService.getScript(order);
   const { isLoading, data, isError, error } = useQuery<
     AxiosResponse<ScriptResponse>,
@@ -55,4 +83,10 @@ const useGetScript = (order: number): UseGetScriptResult => {
   };
 };
 
-export default { useGetDiaries, usePostDiaries, usePatchDiaries, useGetScript };
+export default {
+  useGetDiaries,
+  usePostDiaries,
+  usePatchDiaries,
+  useGetImage,
+  useGetScript,
+};

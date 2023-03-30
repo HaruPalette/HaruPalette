@@ -1,10 +1,10 @@
 import Image from 'next/image';
-import { keyframes } from '@emotion/react';
+import { ColorTypes, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import { selectProfile } from '../../store/modules/profile';
-import { ColorTypes } from '@emotion/react';
+
 export interface DiaryProps {
   index: number;
   currCnt: number;
@@ -12,50 +12,8 @@ export interface DiaryProps {
   desc: string;
   color: string;
 }
-function Round(props: { data: DiaryProps }) {
-  const { currCnt, AllCnt, desc, color } = props.data;
-  // props : 과제 완료 현황(percent), 색상 값(20, 40, 60, 80), 과제 내용
-  // 과제 완료 현황
-  const percent = Math.floor((currCnt / AllCnt) * 100);
-  // 색상 값
-  const primary: string = color;
-  // 현재 테마 가져오기
-  const theme = useTheme();
-  // 현재 선택된 캐릭터 가져오기
-  const chr = useAppSelector(selectProfile);
-  // 일기장 이미지 가져오기
-  const diary = `assets/img/${chr.chrName}/${primary}_diary.svg`;
-  // 과제 내용 및 현황
-  const content = desc;
-  //   const AnimatedNumbers = dynamic(() => import('react-animated-numbers'), {
-  //     ssr: false,
-  //   });
-  return (
-    <Container>
-      <ProgressWrap>
-        <ProgressBar1 cx="110" cy="110" r="110" />
-        <ProgressBar2
-          cx="110"
-          cy="110"
-          r="110"
-          theme={theme}
-          percent={percent}
-          primary={primary}
-        />
-      </ProgressWrap>
-      <Diary src={diary} width={120} height={126} alt="diary" />
-      <Challenge>
-        <div>{content}</div>
 
-        <Percent>
-          {currCnt}/{AllCnt}
-        </Percent>
-      </Challenge>
-    </Container>
-  );
-}
-
-const stroke: number = 690;
+const stroke = 690;
 
 const animation = (percent: number) => keyframes`
     0% {
@@ -108,14 +66,12 @@ const ProgressBar2 = styled.circle<{
     ${stroke} - (${stroke} * ${props => props.percent}) / 100
   );
   stroke-linecap: round;
-  stroke: ${props =>
-    props.primary === 'primary20'
-      ? props.theme.primary20
-      : props.primary === 'primary40'
-      ? props.theme.primary40
-      : props.primary === 'primary60'
-      ? props.theme.primary60
-      : props.theme.primary80};
+  stroke: ${props => {
+    if (props.primary === 'primary40') return props.theme.primary40;
+    if (props.primary === 'primary60') return props.theme.primary60;
+    if (props.primary === 'primary80') return props.theme.primary80;
+    return props.theme.primary20;
+  }};
   animation: ${props => animation(props.percent)} 2s linear;
 `;
 
@@ -138,11 +94,55 @@ const Challenge = styled.div`
   left: 0;
   transform: scale(0.75);
   text-align: center;
+  color: black;
 `;
 
 const Percent = styled.div`
   font-size: 3rem;
   font-weight: bold;
+  color: black;
 `;
+function Round(props: { data: DiaryProps }) {
+  const { data } = props;
+  // props : 과제 완료 현황(percent), 색상 값(20, 40, 60, 80), 과제 내용
+  // 과제 완료 현황
+  const percent = Math.floor((data.currCnt / data.AllCnt) * 100);
+  // 색상 값
+  const primary: string = data.color;
+  // 현재 테마 가져오기
+  const theme = useTheme();
+  // 현재 선택된 캐릭터 가져오기
+  const chr = useAppSelector(selectProfile);
+  // 일기장 이미지 가져오기
+  const diary = `assets/img/${chr.chrName}/${primary}_diary.svg`;
+  // 과제 내용 및 현황
+  const content = data.desc;
+  //   const AnimatedNumbers = dynamic(() => import('react-animated-numbers'), {
+  //     ssr: false,
+  //   });
+  return (
+    <Container>
+      <ProgressWrap>
+        <ProgressBar1 cx="110" cy="110" r="110" />
+        <ProgressBar2
+          cx="110"
+          cy="110"
+          r="110"
+          theme={theme}
+          percent={percent}
+          primary={primary}
+        />
+      </ProgressWrap>
+      <Diary src={diary} width={120} height={126} alt="diary" />
+      <Challenge>
+        <div>{content}</div>
+
+        <Percent>
+          {data.currCnt}/{data.AllCnt}
+        </Percent>
+      </Challenge>
+    </Container>
+  );
+}
 
 export default Round;
