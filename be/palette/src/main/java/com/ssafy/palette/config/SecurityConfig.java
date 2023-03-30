@@ -1,5 +1,8 @@
 package com.ssafy.palette.config;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +12,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.ssafy.palette.filter.JwtAuthFilter;
 import com.ssafy.palette.provider.TokenProvider;
@@ -28,7 +33,7 @@ public class SecurityConfig {
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		// cors 설정
-		http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+		http.cors().configurationSource(corsConfigurationSource())
 			.and()
 			// REST 방식 사용 -> csrf, form로그인, 세션 무시
 			.httpBasic().disable()
@@ -44,5 +49,19 @@ public class SecurityConfig {
 			.anyRequest().authenticated();
 
 		return http.build();
+	}
+
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "https://harupalette.com"));
+		configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE"));
+		configuration.setAllowedHeaders(List.of("*"));
+		configuration.setAllowCredentials(true); // 자격증명과 함께 요청 여부 (Authorization로 사용자 인증 사용 시 true)
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
 	}
 }
