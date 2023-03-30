@@ -1,36 +1,75 @@
+import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { useSelector } from 'react-redux';
-import { selectScript } from '../../store/modules/script';
+import { useDispatch, useSelector } from 'react-redux';
+import { ColorTypes } from '@emotion/react';
+import { selectScript, setScript } from '../../store/modules/script';
+import useTheme from '../../hooks/useTheme';
+import { common } from '../../styles/theme';
 
-const Container = styled.div``;
-const Script = styled.textarea``;
+const Container = styled.div<{ theme: ColorTypes }>`
+  width: 23rem;
+  height: 6rem;
+  text-align: left;
+  color: ${props => props.theme.color};
+`;
+const Script = styled.textarea<{ theme: ColorTypes }>`
+  all: unset;
+  width: 100%;
+  height: 100%;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f2f2f2;
+  border-radius: 1rem;
+  overflow-y: scroll;
+  color: ${common.colors.dark};
+
+  ::-webkit-scrollbar {
+    width: 1.5rem; /* 스크롤바의 너비 */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    height: 10%; /* 스크롤바의 길이 */
+    background: ${props => props.theme.primary20}; /* 스크롤바의 색상 */
+    background-clip: padding-box;
+    border: 0.5rem solid transparent;
+    border-radius: 2rem;
+  }
+`;
 
 function ScriptItem(props: { index: number }) {
   const { index } = props;
-  //   const [isLoad, setLoad] = useState(false);
+  const [nowScript, setNowScript] = useState(`${index}번째 스크립트입니다.`);
 
-  // axios요청 후 내용을 전달 받았을 때
-  console.log(
-    index,
-    // scriptArr.length,
-    useSelector(selectScript).curScriptIndex,
-  );
-  const script = `${index} 번째 스크립트입니다.`;
-  //   if (scriptArr.length < useSelector(selectScript).curScriptIndex) {
-  //     console.log('스크립트 수정');
-  //     scriptData.splice(index, 0, script);
-  //   }
-  //   useEffect(() => {
-  //     setScriptData(scriptData.splice(index, 0, script));
-  //     // if (isLoad) {
-  //     //   setLoad(false);
-  //     // }
-  //   }, []);
+  const theme = useTheme();
+  const dispatch = useDispatch();
+
+  const script: string[] = [...useSelector(selectScript).nowScript];
+
+  useEffect(() => {
+    if (script.length < index + 1) {
+      script.push(nowScript);
+      dispatch(setScript(script));
+    }
+  }, [script]);
+
+  const handleScript = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const eventTarget = e.target;
+    setNowScript(eventTarget.value);
+    script[index] = eventTarget.value;
+    dispatch(setScript(script));
+  };
   return (
-    <Container>
-      {/* {isLoad && <div>로딩 중 ...</div>} */}
-      {/* {!isLoad && } */}
-      <Script>{script}</Script>
+    <Container theme={theme}>
+      {script.length < index && (
+        <Script theme={theme} defaultValue="로딩 중 ..." />
+      )}
+      {script.length >= index && (
+        <Script
+          defaultValue={nowScript}
+          theme={theme}
+          onChange={handleScript}
+        />
+      )}
     </Container>
   );
 }
