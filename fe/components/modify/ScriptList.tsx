@@ -20,6 +20,8 @@ const Container = styled.div<{ theme: ColorTypes }>`
   position: relative;
   border-radius: 1.5rem;
 
+  transform: scale(1);
+
   ::-webkit-scrollbar {
     width: 2rem; /* 스크롤바의 너비 */
   }
@@ -30,6 +32,11 @@ const Container = styled.div<{ theme: ColorTypes }>`
     background-clip: padding-box;
     border: 0.7rem solid transparent;
     border-radius: 2rem;
+  }
+
+  @media all and (max-width: 500px) {
+    transform: scale(0.65);
+    margin-top: -150px;
   }
 `;
 const ScriptSet = styled.div`

@@ -104,10 +104,8 @@ const MiddleContainer = styled.div<{ theme: ColorTypes }>`
   height: 290px;
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
   overflow-y: scroll;
   border-radius: 6px;
-  background-color: ${props => props.theme.background};
   &::-webkit-scrollbar {
     width: 10px;
     border-radius: 6px;

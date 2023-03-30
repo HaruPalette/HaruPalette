@@ -14,7 +14,7 @@ const ShopPage = styled.div<{ theme: ColorTypes }>`
   position: absolute;
   width: 100vw;
   height: 100vh;
-  background-color: ${props => props.theme.background};
+  background: ${props => props.theme.shopBackground};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,7 +26,7 @@ const DiaryStyles = styled.div<{ theme: ColorTypes }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${props => props.theme.background};
+  /* background: ${props => props.theme.background}; */
 `;
 const BlurBg = styled.div`
   position: absolute;
