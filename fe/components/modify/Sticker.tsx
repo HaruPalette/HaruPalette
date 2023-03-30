@@ -51,7 +51,7 @@ function Sticker(props: {
           <button type="button" key={item}>
             {item === nowSticker ? (
               <NowStickerImage
-                src={`assets/img/sticker/${item}.svg`}
+                src={`/assets/img/sticker/${item}.svg`}
                 width={48}
                 height={48}
                 alt={item}
@@ -59,7 +59,7 @@ function Sticker(props: {
               />
             ) : (
               <StickerImage
-                src={`assets/img/sticker/${item}.svg`}
+                src={`/assets/img/sticker/${item}.svg`}
                 width={48}
                 height={48}
                 alt={item}
