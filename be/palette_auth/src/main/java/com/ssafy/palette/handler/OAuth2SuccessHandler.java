@@ -97,8 +97,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 			} else {
 				tokens = tokenProvider.generateToken(userDto.getUserId(), Role.USER.getKey());
 			}
-
-			// userClient.updateImage(userDto);
 		}
 
 		String targetUrl;
