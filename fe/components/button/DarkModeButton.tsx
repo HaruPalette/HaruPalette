@@ -25,7 +25,7 @@ function DarkModeButton() {
   const handleChangeTheme = () => {
     dispatch(setTheme(!isDark));
   };
-  const img = `assets/img/common/${isDark ? 'dark' : 'light'}/${
+  const img = `/assets/img/common/${isDark ? 'dark' : 'light'}/${
     isDark ? 'dark' : 'light'
   }_theme.svg`;
   return (

@@ -34,7 +34,7 @@ const ButtonStyles = styled.button<{ theme: ColorTypes }>`
 function CreateButton() {
   const theme = useTheme();
   const chr = useSelector(selectProfile);
-  const icon = `assets/img/${chr.chrName}/2d.svg`;
+  const icon = `/assets/img/${chr.chrName}/2d.svg`;
   return (
     <Link href="/create">
       <ButtonStyles type="button" theme={theme}>

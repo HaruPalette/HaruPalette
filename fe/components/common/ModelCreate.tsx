@@ -66,7 +66,7 @@ function Model(props: any) {
       // 그림자 설정
       const textureLoader = new THREE.TextureLoader();
       const alphaShadow = textureLoader.load(
-        'assets/img/common/textures/simpleShadow.jpg',
+        '/assets/img/common/textures/simpleShadow.jpg',
       );
 
       const sphereShadow = new THREE.Mesh(
@@ -137,7 +137,7 @@ function Model(props: any) {
 
       // 캐릭터 설정
       const glftLoader = new GLTFLoader();
-      glftLoader.load(`assets/img/${temp.data}/${temp.data}.gltf`, el => {
+      glftLoader.load(`/assets/img/${temp.data}/${temp.data}.gltf`, el => {
         const temp6 = el;
         temp6.scene.position.x = 0.35;
         temp6.scene.position.y = 0;

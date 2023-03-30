@@ -49,7 +49,7 @@ function LoginButton() {
   return (
     <KakaoLogInButton type="button" onClick={loginKakao}>
       <Image
-        src="assets/img/common/kakao.svg"
+        src="/assets/img/common/kakao.svg"
         width={24}
         height={24}
         alt="kakao"

@@ -44,14 +44,14 @@ function Palette() {
       <Bar theme={theme} />
       <Content>
         <Image
-          src="assets/img/common/soso.svg"
+          src="/assets/img/common/soso.svg"
           width={40}
           height={40}
           alt="soso"
         />
         <Text theme={theme}>행복한 일기라면 색이 더 짙게 나타납니다.</Text>
         <Image
-          src="assets/img/common/smile.svg"
+          src="/assets/img/common/smile.svg"
           width={40}
           height={40}
           alt="smile"

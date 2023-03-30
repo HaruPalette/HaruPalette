@@ -5,6 +5,7 @@ const nextConfig = {
       'localhost',
       'dimg.donga.com',
       'haru-palette.s3.ap-northeast-2.amazonaws.com',
+      'harupalette.com',
     ],
   },
   compiler: {
