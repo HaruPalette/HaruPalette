@@ -114,7 +114,7 @@ function Round(props: { data: DiaryProps }) {
   // 현재 선택된 캐릭터 가져오기
   const chr = useAppSelector(selectProfile);
   // 일기장 이미지 가져오기
-  const diary = `assets/img/${chr.chrName}/${primary}_diary.svg`;
+  const diary = `/assets/img/${chr.chrName}/${primary}_diary.svg`;
   // 과제 내용 및 현황
   const content = data.desc;
   //   const AnimatedNumbers = dynamic(() => import('react-animated-numbers'), {

@@ -73,7 +73,7 @@ function Model2(props: any) {
       // ${buddyEname}/${buddyEname}
       // tori/tori_update
       const glftLoader = new GLTFLoader();
-      glftLoader.load(`assets/img/${buddyEname}/${buddyEname}.gltf`, el => {
+      glftLoader.load(`/assets/img/${buddyEname}/${buddyEname}.gltf`, el => {
         const temp2 = el;
         temp2.scene.position.x = 0.35;
         temp2.scene.position.y = 0;
@@ -99,7 +99,7 @@ function Model2(props: any) {
       });
       const glftLoaderSub = new GLTFLoader();
       glftLoaderSub.load(
-        `assets/img/${buddyEname}/${buddyEname}_item.gltf`,
+        `/assets/img/${buddyEname}/${buddyEname}_item.gltf`,
         ele => {
           const temp3 = ele;
           temp3.scene.position.x = -2.3;

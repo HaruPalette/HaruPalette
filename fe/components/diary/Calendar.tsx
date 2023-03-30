@@ -89,12 +89,13 @@ function Calendar(props: { year: number; month: number }) {
   for (let i = 1; i < 7 - nowDay; i++) {
     monthDate.push({ type: 'next', data: i, diaryId: null });
   }
+  console.log(monthDate);
   return (
     <Container>
       {monthDate.map(item => {
         if (item.type !== 'now')
           return (
-            <OtherDate type="button" key={item.data} theme={theme}>
+            <OtherDate type="button" key={item.data + 50} theme={theme}>
               {item.data}
             </OtherDate>
           );
