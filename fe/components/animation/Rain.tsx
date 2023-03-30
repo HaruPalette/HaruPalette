@@ -12,7 +12,7 @@ const RainCanvas = styled.canvas`
   z-index: 0;
 `;
 
-function RainAnimation() {
+function Rain() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef<{ x: number; y: number; isActive: boolean }>({
     x: 0,
@@ -85,7 +85,7 @@ function RainAnimation() {
 
   const thunderRef = useRef<Thunder>(new Thunder());
 
-  class Rain {
+  class RainElem {
     x: number;
     y: number;
     velocity: { x: number; y: number };
@@ -139,7 +139,7 @@ function RainAnimation() {
     }
   }
 
-  const rainListRef = useRef<Rain[]>([]);
+  const rainListRef = useRef<RainElem[]>([]);
 
   const init = () => {
     rainListRef.current = [];
@@ -151,7 +151,7 @@ function RainAnimation() {
         x: randomBetween(-1, 1),
         y: randomBetween(13, 18),
       };
-      rainListRef.current.push(new Rain(x, y, velocity));
+      rainListRef.current.push(new RainElem(x, y, velocity));
     }
   };
 
@@ -199,4 +199,4 @@ function RainAnimation() {
   );
 }
 
-export default RainAnimation;
+export default Rain;

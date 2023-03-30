@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import Pulse from '../../components/animation/Pulse';
 import ScriptTalk from '../../components/animation/ScriptTalk';
-import RainAnimation from '../../components/animation/RainAnimation';
+import Rain from '../../components/animation/Rain';
 import HomeButton from '../../components/button/HomeButton';
 import WeatherButton from '../../components/button/WeatherButton';
 import Model from '../../components/common/Model';
@@ -62,7 +62,7 @@ function Create() {
 
   return (
     <CreatePage theme={theme}>
-      <RainAnimation />
+      <Rain />
       <Pulse />
       <CreatePageContainer>
         <CreateHeader>

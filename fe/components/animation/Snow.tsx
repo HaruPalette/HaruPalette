@@ -18,7 +18,7 @@ const SnowCanvas = styled.canvas`
   z-index: 0;
 `;
 
-function SnowAnimation() {
+function Snow() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const totalRef = useRef<number>(200);
 
@@ -26,7 +26,7 @@ function SnowAnimation() {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
 
-  class Snow {
+  class SnowElem {
     color: string;
     x: number;
     y: number;
@@ -40,7 +40,7 @@ function SnowAnimation() {
       // this.color = '255, 255, 255';
       this.x = randomBetween(0, window.innerWidth);
       this.y = randomBetween(-(window.innerHeight * 0.2), window.innerHeight);
-      this.radius = randomBetween(10, 20) / 5;
+      this.radius = randomBetween(10, 20) / 4;
       this.velocity = {
         x: randomBetween(-3, 3),
         y: randomBetween(2, 5),
@@ -67,12 +67,10 @@ function SnowAnimation() {
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.shadowColor = '#9b9b9b';
       ctx.shadowBlur = 15;
-      ctx.shadowOffsetY = 1;
-      ctx.shadowOffsetX = 1;
       ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
-      ctx.strokeStyle = `rgba(${this.color}, ${this.opacity})`;
+      // ctx.strokeStyle = `rgba(${this.color}, ${this.opacity})`;
       ctx.fill();
-      ctx.stroke();
+      // ctx.stroke();
       ctx.closePath();
     }
 
@@ -88,7 +86,7 @@ function SnowAnimation() {
     }
   }
 
-  class Snow2 {
+  class SnowElem2 {
     x: number;
     y: number;
     radius: number;
@@ -117,9 +115,9 @@ function SnowAnimation() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
-      ctx.strokeStyle = `rgba(${this.color}, ${this.opacity})`;
+      // ctx.strokeStyle = `rgba(${this.color}, ${this.opacity})`;
       ctx.fill();
-      ctx.stroke();
+      // ctx.stroke();
       ctx.closePath();
     }
     update() {
@@ -133,8 +131,8 @@ function SnowAnimation() {
     }
   }
 
-  const snowRef = useRef<Snow[]>([]);
-  const snow2Ref = useRef<Snow2[]>([]);
+  const snowRef = useRef<SnowElem[]>([]);
+  const snow2Ref = useRef<SnowElem2[]>([]);
 
   useAnimationFrame(() => {
     const ctx = canvasRef.current?.getContext('2d');
@@ -157,8 +155,8 @@ function SnowAnimation() {
     snowRef.current = [];
     snow2Ref.current = [];
     for (let i = 0; i < totalRef.current; i++) {
-      snowRef.current.push(new Snow());
-      snow2Ref.current.push(new Snow2());
+      snowRef.current.push(new SnowElem());
+      snow2Ref.current.push(new SnowElem2());
     }
   };
 
@@ -177,4 +175,4 @@ function SnowAnimation() {
   return <SnowCanvas ref={canvasRef} />;
 }
 
-export default SnowAnimation;
+export default Snow;
