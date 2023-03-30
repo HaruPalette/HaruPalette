@@ -1,6 +1,8 @@
 import { ColorTypes, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
+import { selectScript } from '../../store/modules/script';
 
 const pulse = keyframes`
     25% {
@@ -12,7 +14,8 @@ const pulse = keyframes`
 	}
 `;
 
-const Container = styled.div`
+const Container = styled.div<{ isRecord: boolean; isPause: boolean }>`
+  opacity: ${props => (props.isRecord && !props.isPause ? 1 : 0)};
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -105,8 +108,11 @@ const Circle3 = styled.div<{ theme: ColorTypes }>`
 
 function Pulse() {
   const theme = useTheme();
+  const isRecord = useAppSelector(selectScript).isRecoding;
+  const isPause = useAppSelector(selectScript).isPausing;
+
   return (
-    <Container>
+    <Container isRecord={isRecord} isPause={isPause}>
       <Circle1 theme={theme} />
       <Circle2 theme={theme} />
       <Circle3 theme={theme} />
