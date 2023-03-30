@@ -39,5 +39,6 @@ declare module '@emotion/react' {
     border: string;
     color: string;
     diaryBackground: string;
+    shopBackground: string;
   }
 }

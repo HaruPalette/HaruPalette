@@ -1,27 +1,8 @@
-import { ColorTypes, css, keyframes } from '@emotion/react';
+import { ColorTypes, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
-
-function Pulse() {
-  const theme = useTheme();
-  return (
-    <Container>
-      <Circle1 theme={theme} />
-      <Circle2 theme={theme} />
-      <Circle3 theme={theme} />
-    </Container>
-  );
-}
-
-const transform = keyframes`
-    0%,
-  100% { border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%; } 
-   14% {  border-radius: 40% 60% 54% 46% / 49% 60% 40% 51%; } 
-   28% { border-radius: 50% 50% 50% 50% / 55% 50% 50% 50%; } 
-   56% {  border-radius: 61% 39% 67% 33% / 70% 50% 50% 30%; } 
-   70% { border-radius: 50% 50% 34% 66% / 56% 68% 32% 44%; } 
-   84% { border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%; } 
-`;
+import { selectScript } from '../../store/modules/script';
 
 const pulse = keyframes`
     25% {
@@ -33,7 +14,8 @@ const pulse = keyframes`
 	}
 `;
 
-const Container = styled.div`
+const Container = styled.div<{ isRecord: boolean; isPause: boolean }>`
+  opacity: ${props => (props.isRecord && !props.isPause ? 1 : 0)};
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -49,8 +31,7 @@ const Circle1 = styled.div<{ theme: ColorTypes }>`
   opacity: 0;
   background-color: ${props => props.theme.primary20};
   transform-style: preserve-3d;
-  animation: ${pulse} 2s cubic-bezier(0.5, 0.5, 0, 1) infinite,
-    ${transform} 3s ease-in-out infinite both alternate;
+  animation: ${pulse} 2s 0.5s cubic-bezier(0.5, 0.5, 0, 1) infinite;
 
   position: absolute;
   top: calc(50% - 600px);
@@ -78,8 +59,7 @@ const Circle2 = styled.div<{ theme: ColorTypes }>`
   opacity: 0;
   background-color: ${props => props.theme.primary40};
   transform-style: preserve-3d;
-  animation: ${pulse} 2s 0.75s cubic-bezier(0.5, 0.5, 0, 1) infinite,
-    ${transform} 4s ease-in-out infinite both alternate;
+  animation: ${pulse} 2s 1s cubic-bezier(0.5, 0.5, 0, 1) infinite;
 
   position: absolute;
   top: calc(50% - 600px);
@@ -107,8 +87,7 @@ const Circle3 = styled.div<{ theme: ColorTypes }>`
   opacity: 0;
   background-color: ${props => props.theme.primary60};
   transform-style: preserve-3d;
-  animation: ${pulse} 2s 1.5s cubic-bezier(0.5, 0.5, 0, 1) infinite,
-    ${transform} 5s ease-in-out infinite both alternate;
+  animation: ${pulse} 2s 1.5s cubic-bezier(0.5, 0.5, 0, 1) infinite;
 
   position: absolute;
   top: calc(50% - 600px);
@@ -126,5 +105,19 @@ const Circle3 = styled.div<{ theme: ColorTypes }>`
     left: calc(50% - 250px);
   }
 `;
+
+function Pulse() {
+  const theme = useTheme();
+  const isRecord = useAppSelector(selectScript).isRecoding;
+  const isPause = useAppSelector(selectScript).isPausing;
+
+  return (
+    <Container isRecord={isRecord} isPause={isPause}>
+      <Circle1 theme={theme} />
+      <Circle2 theme={theme} />
+      <Circle3 theme={theme} />
+    </Container>
+  );
+}
 
 export default Pulse;

@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
-import store from '../store';
-import GlobalStyle from '../styles/globals';
 import Head from 'next/head';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import GlobalStyle from '../styles/globals';
+import store from '../store';
 
 declare global {
   interface Window {
@@ -12,6 +13,8 @@ declare global {
 }
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [queryClient] = React.useState(() => new QueryClient());
+
   useEffect(() => {
     // 카카오 SDK 초기화
     if (!window.Kakao.isInitialized()) {
@@ -25,10 +28,14 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>Haru Palette</title>
       </Head>
-      <Provider store={store}>
-        <GlobalStyle />
-        <Component {...pageProps} />
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps?.dehydratedState}>
+          <Provider store={store}>
+            <GlobalStyle />
+            <Component {...pageProps} />
+          </Provider>
+        </Hydrate>
+      </QueryClientProvider>
     </>
   );
 }

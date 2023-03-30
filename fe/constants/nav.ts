@@ -7,7 +7,7 @@ export const NAV_LIST: NavList = [
   },
   {
     title: '달력 보기',
-    link: '/diary',
+    link: '/calendar',
   },
   {
     title: '상점 가기',
@@ -16,15 +16,30 @@ export const NAV_LIST: NavList = [
 ];
 export const SHOP_NAV_LIST: ShopNavList = [
   {
-    title: '도전과제',
+    title: '챌린지',
     index: 0,
   },
   {
-    title: '포인트 내역',
+    title: '포인트',
     index: 1,
   },
   {
-    title: '캐릭터 구매',
+    title: '캐릭터',
+    index: 2,
+  },
+];
+
+export const SHOP_FILTER_CATORIGY_LIST: ShopNavList = [
+  {
+    title: '전체',
+    index: 0,
+  },
+  {
+    title: '획득',
+    index: 1,
+  },
+  {
+    title: '사용',
     index: 2,
   },
 ];
