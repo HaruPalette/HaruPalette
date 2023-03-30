@@ -32,7 +32,8 @@ const profileSlice = createSlice({
       temp.chrPK = 1;
     },
     setCharName(state, action) {
-      state.chrName = action.payload;
+      const temp = state;
+      temp.chrName = action.payload;
     },
   },
 });
