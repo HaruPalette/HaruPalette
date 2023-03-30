@@ -74,7 +74,7 @@ function ScriptList() {
             <ChrScript theme={theme}>
               <ChrInfo theme={theme}>
                 <Image
-                  src={`assets/img/${chr}/2d.svg`}
+                  src={`/assets/img/${chr}/2d.svg`}
                   width={36}
                   height={30}
                   alt="chr"

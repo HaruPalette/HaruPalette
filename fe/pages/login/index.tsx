@@ -5,13 +5,13 @@ import { loginSuccess } from '../../store/modules/profile';
 import { setCookie } from '../../utils/cookie';
 
 function Login() {
+  const dispatch = useDispatch();
   useEffect(() => {
     const Authorization = new URLSearchParams(window.location.search).get(
       'Authorization',
     );
     if (Authorization) setCookie('Authorization', Authorization);
     // useGetUsers
-    const dispatch = useDispatch();
     dispatch(loginSuccess(useGetUsers().userData));
 
     console.log(Authorization);
