@@ -56,13 +56,15 @@ dependencies {
     implementation 'com.googlecode.protobuf-java-format:protobuf-java-format:1.4'
 
     // OAuth
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    //implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
+/*
     // Spring Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation 'org.springframework.security:spring-security-test'
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+*/
 
 
 }
