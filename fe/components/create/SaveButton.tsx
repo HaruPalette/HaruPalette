@@ -1,6 +1,6 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import { recodingSuccess } from '../../store/modules/script';
 import { common } from '../../styles/theme';
@@ -39,7 +39,7 @@ const CustomButton = styled.button<{ theme: ColorTypes }>`
 function SaveButton(props: { audioRecorder: AudioRecorder }) {
   const { audioRecorder } = props;
   const theme = useTheme();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleRecode = () => {
     dispatch(recodingSuccess());

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { useDispatch, useSelector } from 'react-redux';
 import { ColorTypes } from '@emotion/react';
 import { selectScript, setScript } from '../../store/modules/script';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 
 const Container = styled.div<{ theme: ColorTypes }>`
   width: 23rem;
@@ -41,9 +41,9 @@ function ScriptItem(props: { index: number }) {
   const [nowScript, setNowScript] = useState(`${index}번째 스크립트입니다.`);
 
   const theme = useTheme();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const script: string[] = [...useSelector(selectScript).nowScript];
+  const script: string[] = [...useAppSelector(selectScript).nowScript];
 
   useEffect(() => {
     if (script.length < index + 1) {

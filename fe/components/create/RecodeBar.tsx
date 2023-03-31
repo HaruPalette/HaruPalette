@@ -1,8 +1,7 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import { recodingSuccess, selectScript } from '../../store/modules/script';
 import AudioRecorder from '../../types/recodeTypes';
@@ -73,7 +72,7 @@ function RecodeBar(props: { audioRecorder: AudioRecorder }) {
   const [second, setSecond] = useState<number>(0);
   const [minute, setMinute] = useState<number>(0);
   const isPause = useAppSelector(selectScript).isPausing;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (second < 60 && !isPause) {

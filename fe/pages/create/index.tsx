@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/media-has-caption */
-/* eslint-disable react/no-array-index-key */
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';

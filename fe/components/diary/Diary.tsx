@@ -146,10 +146,12 @@ function Diary(props: {
     preventDefault: () => void;
     dataTransfer: { files: any };
   }) => {
-    event.preventDefault();
-    const { files } = event.dataTransfer;
-    setPreviewImage(URL.createObjectURL(files[0]));
-    setImage(files[0]);
+    if (type === 'modify') {
+      event.preventDefault();
+      const { files } = event.dataTransfer;
+      setPreviewImage(URL.createObjectURL(files[0]));
+      setImage(files[0]);
+    }
   };
 
   // 일기 이미지로 저장
