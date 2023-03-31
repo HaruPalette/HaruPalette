@@ -96,6 +96,7 @@ function Header() {
   const dark = useAppSelector(selectTheme);
   const profile = useAppSelector(selectProfile);
   const dispatch = useAppDispatch();
+
   const handleLogout = () => {
     dispatch(logoutSuccess());
   };
