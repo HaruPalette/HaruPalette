@@ -1,19 +1,17 @@
 import { useEffect, useRef } from 'react';
+import { weatherTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
+import { useAppSelector } from '../../hooks/reduxHook';
+import { selectTheme } from '../../store/modules/theme';
+import { weatherDark, weatherLight } from '../../styles/weather';
 
-const SnowCanvas = styled.canvas`
+const SnowCanvas = styled.canvas<{ theme: weatherTypes }>`
   margin: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: #000;
-  background-image: linear-gradient(
-    to top,
-    rgba(255, 255, 255, 0.7) 0%,
-    rgba(255, 255, 255, 0.5) 5%,
-    rgba(255, 255, 255, 0.1) 70%
-  );
+  background: ${props => props.theme.snow};
   position: fixed;
   z-index: 0;
 `;
@@ -21,6 +19,8 @@ const SnowCanvas = styled.canvas`
 function Snow() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const totalRef = useRef<number>(200);
+  const isDark = useAppSelector(selectTheme);
+  const theme = isDark ? weatherDark : weatherLight;
 
   const randomBetween = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -36,8 +36,7 @@ function Snow() {
     opacityRate: number;
 
     constructor() {
-      this.color = '155, 155, 155';
-      // this.color = '255, 255, 255';
+      this.color = '255, 255, 255';
       this.x = randomBetween(0, window.innerWidth);
       this.y = randomBetween(-(window.innerHeight * 0.2), window.innerHeight);
       this.radius = randomBetween(10, 20) / 4;
@@ -65,12 +64,10 @@ function Snow() {
       if (!ctx) return;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.shadowColor = '#9b9b9b';
+      ctx.shadowColor = '#ffffff';
       ctx.shadowBlur = 15;
       ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
-      // ctx.strokeStyle = `rgba(${this.color}, ${this.opacity})`;
       ctx.fill();
-      // ctx.stroke();
       ctx.closePath();
     }
 
@@ -100,7 +97,7 @@ function Snow() {
       this.radius = randomBetween(0, 10) / 10;
       this.opacity = randomBetween(-10, 0) / 10;
       this.opacityRate = 0.01;
-      this.color = '155, 155, 155';
+      this.color = '255, 255, 255';
     }
     reset() {
       this.x = randomBetween(0, window.innerWidth);
@@ -115,9 +112,7 @@ function Snow() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
-      // ctx.strokeStyle = `rgba(${this.color}, ${this.opacity})`;
       ctx.fill();
-      // ctx.stroke();
       ctx.closePath();
     }
     update() {
@@ -146,12 +141,9 @@ function Snow() {
     }
   }, 0);
 
-  const resizeHandler = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
+  const init = () => {
+    const ctx = canvasRef.current?.getContext('2d');
+    if (!ctx) return;
     snowRef.current = [];
     snow2Ref.current = [];
     for (let i = 0; i < totalRef.current; i++) {
@@ -160,19 +152,21 @@ function Snow() {
     }
   };
 
-  const init = () => {
-    const ctx = canvasRef.current?.getContext('2d');
-    if (!ctx) return;
-    resizeHandler();
+  const resizeHandler = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    init();
   };
 
   useEffect(() => {
-    init();
+    resizeHandler();
     window.addEventListener('resize', resizeHandler);
     return () => window.removeEventListener('resize', resizeHandler);
   }, []);
 
-  return <SnowCanvas ref={canvasRef} />;
+  return <SnowCanvas ref={canvasRef} theme={theme} />;
 }
 
 export default Snow;

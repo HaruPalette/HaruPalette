@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Pulse from '../../components/animation/Pulse';
 import ScriptTalk from '../../components/animation/ScriptTalk';
 import CherryBlossom from '../../components/animation/CherryBlossom';
+import Cloud from '../../components/animation/Cloud';
 import Rain from '../../components/animation/Rain';
 import Snow from '../../components/animation/Snow';
 import HomeButton from '../../components/button/HomeButton';
@@ -78,7 +79,7 @@ function Create() {
   return (
     <CreatePage theme={theme}>
       {reduxWeather === 'Clear' && <CherryBlossom />}
-      {reduxWeather === 'Clouds' && <Rain />}
+      {reduxWeather === 'Clouds' && <Cloud />}
       {reduxWeather === 'Rain' && <Rain />}
       {reduxWeather === 'Snow' && <Snow />}
       <Pulse />
