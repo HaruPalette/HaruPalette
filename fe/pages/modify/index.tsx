@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useSelector } from 'react-redux';
 import JellyList from '../../components/common/JellyList';
 import Diary from '../../components/diary/Diary';
 import ScriptList from '../../components/modify/ScriptList';
@@ -70,7 +69,7 @@ function Modify() {
   const date = useDate();
   // const len = useSelector(selectScript).curScriptIndex;
 
-  const scriptArr: string[] = [...useSelector(selectScript).nowScript];
+  const scriptArr: string[] = [...useAppSelector(selectScript).nowScript];
   const chr = useAppSelector(selectProfile).chrName;
   const dark = useAppSelector(selectTheme);
   console.log('리덕스 스크립트', scriptArr);
@@ -93,7 +92,7 @@ function Modify() {
     date: `${date.year}-${date.month}-${date.date}`,
     contents: `${nowScript}`,
     weather: 'Clear',
-    ename: `${useSelector(selectProfile).chrName}`,
+    ename: `${useAppSelector(selectProfile).chrName}`,
     answer: '',
     image: `/assets/img/${chr}/${dark ? 'dark_diary.svg' : 'light_diary.svg'}`,
     stickerCode: `${nowSticker}`,
