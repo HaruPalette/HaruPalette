@@ -18,54 +18,63 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class Diary  {
+public class Diary {
 
-    // 기본키
-    @Id
-    @Column(name = "diary_id")
-    @GeneratedValue//(strategy = GenerationType.IDENTITY)
-    private Long id;
+	// 기본키
+	@Id
+	@Column(name = "diary_id")
+	@GeneratedValue//(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    // 사용자
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+	// 사용자
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private User user;
 
-    // 내용
-    @Column(columnDefinition = "TEXT")
-    private String contents;
+	// 내용
+	@Column(columnDefinition = "TEXT")
+	private String contents;
 
-    // 날씨 (SUN:해, CLOUD:구름, SNOW:눈, RAIN:비)
-    @Column
-    private String weather;
+	// 날씨 (SUN:해, CLOUD:구름, SNOW:눈, RAIN:비)
+	@Column
+	private String weather;
 
-    // 감정값
-    @Column
-    private int feelingValue;
+	// 상태 (기본값 V:보기, D:삭제)
+	@Column
+	//@ColumnDefault("V")
+	private String status;
 
-    // 상태 (기본값 V:보기, D:삭제)
-    @Column
-    //@ColumnDefault("V")
-    private String status = "V";
+	// 등록 일시
+	@Column
+	private LocalDate registrationDate;
 
-    // 등록 일시
-    @Column
-    private LocalDate registrationDate;
+	// 스티커 코드
+	@Column
+	private String stickerCode;
 
-    // 스티커 코드
-    @Column
-    private String stickerCode;
+	// 답변
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "answer_id")
+	private Answer answer;
 
-    // 답변
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "answer_id")
-    private Answer answer;
+	// 캐릭터
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "friend_id")
+	private Friend friend;
 
-    // 캐릭터
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "friend_id")
-    private Friend friend;
+	public Diary() {
+	}
 
-    public Diary() {
-    }
+	// setter //
+	public void setAnswer(Answer answer) {
+		this.answer = answer;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public void setRegistrationDate(LocalDate date) {
+		this.registrationDate = date;
+	}
 }
