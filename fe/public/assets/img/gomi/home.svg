@@ -1,6 +1,0 @@
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="32" cy="32" r="32" transform="matrix(-1 0 0 1 64 0)" fill="#4FDC55"/>
-<rect width="34.5575" height="7.48538" rx="3.74269" transform="matrix(-1 0 0 1 50.1514 28.3197)" fill="white"/>
-<rect width="22.9552" height="7.48538" rx="3.74269" transform="matrix(-0.707107 -0.707107 -0.707107 0.707107 35.4297 43.0247)" fill="white"/>
-<rect x="35.5547" y="21.0123" width="22.9552" height="7.48538" rx="3.74269" transform="rotate(135 35.5547 21.0123)" fill="white"/>
-</svg>
