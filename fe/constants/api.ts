@@ -28,3 +28,7 @@ export const CHALLENGE = `${V1}/challenge`;
 export const FRIEND = `${V1}/friend`;
 // 포인트 내역 조회
 export const POINTS = `${V1}/points`;
+// stale time
+export const STALE_TIME = 1000 * 60 * 5;
+// cache time
+export const CACHE_TIME = 1000 * 60 * 20;
