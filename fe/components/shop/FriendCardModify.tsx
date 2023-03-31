@@ -19,7 +19,7 @@ import { selectShop, setFriendShip } from '../../store/modules/shop';
 
 const Section = styled.section`
   position: relative;
-  width: 300px;
+  width: 240px;
   height: 300px;
   perspective: 600px;
 `;

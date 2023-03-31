@@ -4,22 +4,20 @@ import { SHOP_NAV_LIST } from '../../constants/nav';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { setCompIdx, selectShop } from '../../store/modules/shop';
 import useTheme from '../../hooks/useTheme';
-import Challenge from '../shop/Challenge';
-import BuyingBuddy from '../shop/BuyingBuddy';
-import PointDetail from '../shop/PointDetail';
 
 const ButtonsDiv = styled.div`
-  position: absolute;
+  width: 100%;
+  position: relative;
   display: flex;
+  justify-content: center;
   height: 1.875rem;
-  left: 0px;
-  padding: 0 10rem;
-  top: 24.25rem;
+  top: 50px;
+  right: 0px;
   line-height: 1.875rem;
 `;
 
 const CurrButton = styled.button<{ theme: ColorTypes }>`
-  width: 7.5rem;
+  width: 10.5rem;
   height: 1.875rem;
   font-weight: bold;
   font-size: 20px;
@@ -30,7 +28,7 @@ const CurrButton = styled.button<{ theme: ColorTypes }>`
   text-decoration-thickness: 3px;
 `;
 const Button = styled.button<{ theme: ColorTypes }>`
-  width: 7.5rem;
+  width: 10.5rem;
   height: 1.875rem;
   text-align: center;
   font-size: 20px;
@@ -41,13 +39,6 @@ const Button = styled.button<{ theme: ColorTypes }>`
   }
 `;
 
-const ContentDiv = styled.div<{ theme: ColorTypes }>`
-  position: absolute;
-  top: 27.0625rem;
-  display: flex;
-  color: ${props => props.theme.color};
-`;
-
 function ShopNav() {
   const dispatch = useAppDispatch();
   const theme = useTheme();
@@ -55,37 +46,27 @@ function ShopNav() {
   const compIdx = useAppSelector(selectShop).currCompIdx;
 
   return (
-    <>
-      <ButtonsDiv>
-        {SHOP_NAV_LIST.map((item, index) =>
-          index === compIdx ? (
-            <CurrButton
-              theme={theme}
-              key={item.index}
-              onClick={() => dispatch(setCompIdx(item.index))}
-            >
-              {item.title}
-            </CurrButton>
-          ) : (
-            <Button
-              theme={theme}
-              key={item.index}
-              onClick={() => dispatch(setCompIdx(item.index))}
-            >
-              {item.title}
-            </Button>
-          ),
-        )}
-      </ButtonsDiv>
-
-      <ContentDiv theme={theme}>
-        {(() => {
-          if (compIdx === 1) return <PointDetail />;
-          if (compIdx === 2) return <BuyingBuddy />;
-          return <Challenge />;
-        })()}
-      </ContentDiv>
-    </>
+    <ButtonsDiv>
+      {SHOP_NAV_LIST.map((item, index) =>
+        index === compIdx ? (
+          <CurrButton
+            theme={theme}
+            key={item.index}
+            onClick={() => dispatch(setCompIdx(item.index))}
+          >
+            {item.title}
+          </CurrButton>
+        ) : (
+          <Button
+            theme={theme}
+            key={item.index}
+            onClick={() => dispatch(setCompIdx(item.index))}
+          >
+            {item.title}
+          </Button>
+        ),
+      )}
+    </ButtonsDiv>
   );
 }
 

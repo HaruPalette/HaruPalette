@@ -1,16 +1,14 @@
 import styled from '@emotion/styled';
 import Round, { DiaryProps } from '../progressbar/Round';
 import { useNowDate, useDate } from '../../hooks/useDate';
-
+// 원본 입니다(백업 본)
 const Container = styled.div`
-  position: relative;
-  width: 35vw;
-  height: 520px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   flex-direction: row;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 80vw;
+  height: 300px;
 `;
 
 const dummy: DiaryProps[] = [

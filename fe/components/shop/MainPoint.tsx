@@ -4,10 +4,9 @@ import styled from '@emotion/styled';
 import useTheme from '../../hooks/useTheme';
 
 const Container = styled.div`
-  position: absolute;
+  position: relative;
   width: 200px;
   height: 50px;
-  top: 330px;
   background: #ffffff;
   z-index: 3;
   display: flex;

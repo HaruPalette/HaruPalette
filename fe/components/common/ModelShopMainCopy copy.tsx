@@ -4,9 +4,21 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
+/**
+ * 동동 뛰는 애니매이션
+ * 위치: shop-메인 캔버스 버전(성공) --------------------------------------> 성공복사본
+ * 문제: 캐릭터 탭을 여러번 들어가게 되면, 메모리에 3d가 계속해서 저장되다가,
+ * 일정 개수가 쌓이게 되면 저장을 한 순서부터 하나씩 없어짐
+ * 문제해결상태: 미해결(반응형 작업 후에 진행, 후순위)
+ */
 const CustomDiv = styled.canvas`
+  position: absolute;
   /* padding: 0 160px; */
-  position: relative;
+  top: 88px;
+  height: 300px;
+  left: 0px;
+  /* scale: 0.8; */
+  width: 100%;
 `;
 
 function Model(props: any) {
@@ -52,7 +64,7 @@ function Model(props: any) {
       renderer.setPixelRatio(window.devicePixelRatio);
       // renderer.setSize(sizes.width, sizes.height - 120);
       // renderer.setSize(sizes.width, sizes.height - 222 - 200 - 32);
-      renderer.setSize(sizes.width * 0.4, 400);
+      renderer.setSize(sizes.width, 300);
       rendererPrev = renderer;
       renderer.dispose();
       rendererPrev.dispose();
@@ -116,12 +128,12 @@ function Model(props: any) {
 
         if (sizes.width === width) {
           rendererPrev.setPixelRatio(window.devicePixelRatio);
-          cameraPrev.aspect = sizes.width / 400; // canvas비율을 카메라에 적용
-          rendererPrev.setSize(sizes.width / 400, 400, true);
+          cameraPrev.aspect = sizes.width / 300; // canvas비율을 카메라에 적용
+          rendererPrev.setSize(sizes.width, 300, true);
         } else {
-          height = sizes.height - 420 > 400 ? 400 : sizes.height - 420;
+          height = sizes.height - 420 > 300 ? 300 : sizes.height - 420;
           cameraPrev.aspect = width / height; // canvas비율을 카메라에 적용
-          rendererPrev.setSize(width * 0.2, height, true);
+          rendererPrev.setSize(width, height, true);
         }
         cameraPrev.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
         // _renderer.setSize(sizes.width, sizes.height - 120 - 98);
@@ -185,10 +197,10 @@ function Model(props: any) {
         `assets/img/${temp.data}/${temp.data}_item.gltf`,
         ele => {
           const temp3 = ele;
-          temp3.scene.position.x = -1.2;
-          temp3.scene.position.y = 0.7;
-          temp3.scene.position.z = 0.1;
-          temp3.scene.rotation.y = 1.8;
+          temp3.scene.position.x = -1.1;
+          temp3.scene.position.y = 0.4;
+          temp3.scene.position.z = 0.4;
+          temp3.scene.rotation.y = 2;
           temp3.scene.rotation.x = 0.3;
           group.add(ele.scene);
 
