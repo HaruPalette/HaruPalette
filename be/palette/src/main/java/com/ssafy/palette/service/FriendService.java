@@ -36,8 +36,8 @@ public class FriendService {
 			.stream()
 			.map(friend -> FriendListDto.FriendDto.builder()
 				.friendId(friend.getId())
-				.friendKname(friend.getKname())
-				.friendEname(friend.getEname())
+				.kname(friend.getKname())
+				.ename(friend.getEname())
 				.contents(friend.getContents())
 				.tag(friend.getTag())
 				.price(friend.getPrice())
@@ -53,17 +53,16 @@ public class FriendService {
 		return friendListDto;
 	}
 
-	public int chooseFriend(String userId, Long friendId) throws Exception {
+	public void chooseFriend(String userId, Long friendId) throws Exception {
 		User user = userRepository.findById(userId).get();
 		Friend friend = friendRepository.findById(friendId).get();
 		if (!userFriendRepository.findByUserIdAndFriendId(userId, friendId).isPresent()) {
 			throw new Exception("해당 친구랑은 친구를 맺을 수 없습니다.");
 		}
 		user.setFriend(friend);
-		return user.getPoint();
 	}
 
-	public int makeFriend(String userId, Long friendId) throws Exception {
+	public void makeFriend(String userId, Long friendId) throws Exception {
 		User user = userRepository.findById(userId).get();
 		Friend friend = friendRepository.findById(friendId).get();
 		LocalDateTime date = LocalDateTime.now();
@@ -85,7 +84,5 @@ public class FriendService {
 
 		pointService.usePoint(userId, friend.getPrice());
 		pointService.addFriendHistory(userId, friendId, date);
-
-		return user.getPoint();
 	}
 }
