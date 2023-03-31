@@ -114,8 +114,7 @@ public class DiaryController {
 	public ResponseEntity<?> getCalendar(@RequestHeader HttpHeaders header, @RequestParam String date) {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
-
 		List<CalenderDto> calenderListDto = diaryService.getCalendar(userId, date);
-		return new ResponseEntity<List<CalenderDto>>(calenderListDto, HttpStatus.OK);
+		return new ResponseEntity<>(calenderListDto, HttpStatus.OK);
 	}
 }
