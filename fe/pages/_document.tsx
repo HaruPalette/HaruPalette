@@ -18,6 +18,12 @@ export default function Document() {
           content="https://harupalette.com/images/common/harupalette_main.png"
         />
 
+        {/* 네이버 site verification 등록 */}
+        <meta name="naver-site-verification" content="b1e5587d9e7fda16395f0ffd66ffbd3cb6b4eeb2" />
+
+        {/* 구글 search console 등록 */}
+        <meta name="google-site-verification" content="BjvSd03oEZ9Hxq7EeIwIQ6thNQ_Bli11Hn8ExJn-P-o" />
+
         {/* 카카오 SDK import */}
         <script src="https://developers.kakao.com/sdk/js/kakao.min.js" />
       </Head>
