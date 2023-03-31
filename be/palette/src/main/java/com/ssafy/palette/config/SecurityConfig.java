@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.ssafy.palette.filter.JwtAuthFilter;
 import com.ssafy.palette.provider.TokenProvider;
@@ -50,6 +52,7 @@ public class SecurityConfig {
 			// // REST 방식 사용 -> csrf, form로그인, 세션 무시
 			.httpBasic().disable()
 			.csrf().disable()
+			//.addFilterBefore(new MultipartFilter(), UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(new JwtAuthFilter(new TokenProvider(secret, Long.parseLong(time))),
 				UsernamePasswordAuthenticationFilter.class)
 			.sessionManagement()
@@ -57,8 +60,8 @@ public class SecurityConfig {
 			// 인가
 			.and()
 			.authorizeRequests()
-			.antMatchers("/api/v1/**").permitAll();
-		//.anyRequest().authenticated();
+			.antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+			.anyRequest().authenticated();
 
 		return http.build();
 	}
@@ -75,5 +78,13 @@ public class SecurityConfig {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
+	}
+
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		multipartResolver.setDefaultEncoding("UTF-8"); // 파일 인코딩 설정
+		//multipartResolver.setMaxUploadSizePerFile(5 * 1024 * 1024); // 파일당 업로드 크기 제한 (5MB)
+		return multipartResolver;
 	}
 }
