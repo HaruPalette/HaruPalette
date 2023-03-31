@@ -1,4 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 import theme from './theme';
 import profile from './profile';
@@ -17,5 +19,13 @@ const rootReducer = combineReducers({
   // 여기에 추가하세요
 });
 
-export default rootReducer;
+const persistConfig = {
+  key: 'root',
+  storage,
+  whiteList: ['theme', 'profile', 'menu', 'shop', 'script', 'weather'],
+};
+
+const persistReducers = persistReducer(persistConfig, rootReducer);
+
+export default persistReducers;
 // export type RootState = ReturnType<typeof rootReducer>;
