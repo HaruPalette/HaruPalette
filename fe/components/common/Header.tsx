@@ -89,6 +89,11 @@ const Profile = styled.div`
   align-items: center;
 `;
 
+const ProfileImage = styled(Image)`
+  /* width: ; */
+  border-radius: 3rem;
+`;
+
 function Header() {
   const theme = useTheme();
   const screenY = useScreenY();
@@ -128,10 +133,10 @@ function Header() {
                   alt="logout"
                   onClick={handleLogout}
                 />
-                <Image
+                <ProfileImage
                   src={profile.image}
-                  width={24}
-                  height={24}
+                  width={48}
+                  height={48}
                   alt="profile"
                 />
               </Profile>

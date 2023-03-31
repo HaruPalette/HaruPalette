@@ -6,6 +6,7 @@ const nextConfig = {
       'dimg.donga.com',
       'haru-palette.s3.ap-northeast-2.amazonaws.com',
       'harupalette.com',
+      'k.kakaocdn.net',
     ],
   },
   compiler: {
@@ -14,6 +15,10 @@ const nextConfig = {
   reactStrictMode: false,
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  rewrites: {
+    source: '/api/v1/:path*',
+    destination: 'https://harupalette.com/:path*',
   },
 };
 
