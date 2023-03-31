@@ -9,7 +9,6 @@ import { TalkData } from '../../types/commonTypes';
 
 const TalkContainer = styled.div`
   display: flex;
-  align-items: flex-end;
   height: 5rem;
 `;
 
@@ -24,7 +23,7 @@ const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean; type: string }>`
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
+  white-space: nowrap;
   @media screen and (max-width: 500px) {
     font-size: 1.5rem;
   }

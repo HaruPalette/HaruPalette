@@ -47,3 +47,9 @@ export interface TalkData {
   idx: number;
   script: string[];
 }
+
+export interface CardData {
+  image: string;
+  script: string;
+  backgroundColor: string;
+}
