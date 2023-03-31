@@ -14,6 +14,7 @@ declare global {
   }
 }
 
+// 데이터가 stale 상태일 때 윈도우 포커싱 돼도 refetch 실행 x
 const client = new QueryClient({
   defaultOptions: {
     queries: {
@@ -40,7 +41,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>Haru Palette</title>
       </Head>
       <QueryClientProvider client={client}>
-        <Hydrate state={pageProps?.dehydratedState}>
+        <Hydrate state={pageProps.dehydratedState}>
           <Provider store={store}>
             <PersistGate persistor={persist}>
               <GlobalStyle />

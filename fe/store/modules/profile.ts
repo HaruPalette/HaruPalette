@@ -24,8 +24,8 @@ const profileSlice = createSlice({
     loginSuccess(state, action) {
       const temp = state;
       temp.image = action.payload.image;
-      temp.chrName = action.payload.chrName;
-      temp.chrPK = action.payload.chrPK;
+      temp.chrName = action.payload.friendEname;
+      temp.chrPK = action.payload.friendId;
       temp.isLogin = true;
     },
     logoutSuccess(state) {
