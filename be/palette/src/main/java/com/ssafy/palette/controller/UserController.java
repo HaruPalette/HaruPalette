@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ssafy.palette.config.security.JwtUtil;
 import com.ssafy.palette.domain.dto.ChallengeListDto;
@@ -77,11 +78,12 @@ public class UserController {
 
 	// 포인트 내역 조회
 	@GetMapping("/points")
-	public ResponseEntity<?> pointUser(@RequestHeader HttpHeaders header) {
+	public ResponseEntity<?> pointUser(@RequestHeader HttpHeaders header, @RequestParam String category,
+		@RequestParam String date) {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
 
-		PointListDto pointListDto = pointService.getPoint(userId);
+		PointListDto pointListDto = pointService.getPoint(userId, category, date);
 		return new ResponseEntity<PointListDto>(pointListDto, HttpStatus.OK);
 	}
 }

@@ -1,5 +1,6 @@
 package com.ssafy.palette.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,28 +54,70 @@ public class PointService {
 	public void addFriendHistory(String useId, Long friendId, LocalDateTime date) {
 		Point point = Point.builder()
 			.user(userRepository.findById(useId).get())
-			.point(friendRepository.findById(friendId).get().getPrice())
-			.category(friendRepository.findById(friendId).get().getKname() + "친구비")
+			.point(-1 * (friendRepository.findById(friendId).get().getPrice()))
+			.category(friendRepository.findById(friendId).get().getKname() + " 친구비")
 			.date(date)
 			.build();
 		pointRepository.save(point);
 	}
 
-	public PointListDto getPoint(String userId) {
+	public PointListDto getPoint(String userId, String category, String date) {
 		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
-		List<PointListDto.PointDto> pointList = pointRepository.findByUser_Id(userId)
-			.stream()
-			.map(point -> PointListDto.PointDto.builder()
-				.point(point.getPoint())
-				.date(point.getDate())
-				.contents(point.getCategory())
-				.build())
-			.collect(Collectors.toList());
+		List<PointListDto.PointDto> pointList;
+		PointListDto pointListDto = new PointListDto();
+		LocalDate temp = LocalDate.parse(date + "-01");
+		LocalDateTime start = temp.atTime(0, 0, 1);
+		LocalDateTime end = temp.plusMonths(1).minusDays(1).atTime(23, 59, 59);
+		switch (category) {
+			case "all":
+				pointList = pointRepository.findByUser_IdAndDateBetween(userId, start, end)
+					.stream()
+					.map(point -> PointListDto.PointDto.builder()
+						.point(point.getPoint())
+						.date(point.getDate().toLocalDate())
+						.contents(point.getCategory())
+						.build())
+					.collect(Collectors.toList());
 
-		PointListDto pointListDto = PointListDto.builder()
-			.currentPoint(user.getPoint())
-			.pointList(pointList)
-			.build();
+				pointListDto = PointListDto.builder()
+					.currentPoint(user.getPoint())
+					.pointList(pointList)
+					.build();
+				break;
+
+			case "earn":
+				pointList = pointRepository.findByUser_IdAndDateBetweenAndPointGreaterThan(userId, start, end, 0)
+					.stream()
+					.map(point -> PointListDto.PointDto.builder()
+						.point(point.getPoint())
+						.date(point.getDate().toLocalDate())
+						.contents(point.getCategory())
+						.build())
+					.collect(Collectors.toList());
+
+				pointListDto = PointListDto.builder()
+					.currentPoint(user.getPoint())
+					.pointList(pointList)
+					.build();
+				break;
+
+			case "use":
+				pointList = pointRepository.findByUser_IdAndDateBetweenAndPointLessThan(userId, start, end, 0)
+					.stream()
+					.map(point -> PointListDto.PointDto.builder()
+						.point(point.getPoint())
+						.date(point.getDate().toLocalDate())
+						.contents(point.getCategory())
+						.build())
+					.collect(Collectors.toList());
+
+				pointListDto = PointListDto.builder()
+					.currentPoint(user.getPoint())
+					.pointList(pointList)
+					.build();
+				break;
+
+		}
 
 		return pointListDto;
 	}
