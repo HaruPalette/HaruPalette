@@ -1,25 +1,20 @@
 package com.ssafy.palette.provider;
 
 import java.security.Key;
-import java.util.Date;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.ssafy.palette.config.security.JwtCode;
-import com.ssafy.palette.config.security.Token;
 import com.ssafy.palette.config.security.TokenKey;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -27,105 +22,35 @@ import lombok.extern.slf4j.Slf4j;
 public class TokenProvider implements InitializingBean {
 	private final String secret;
 	private final long tokenValidityInMilliseconds;     // 1 hour
-	// private final RedisService redisService;
 	private Key key;
 
 	@Autowired
 	public TokenProvider(
 		@Value("${jwt.secret}") String secret,
 		@Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds
-		// RedisService redisService
 	) {
 		this.secret = secret;
 		this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
-		// this.redisService = redisService;
 	}
 
-	@Override
-	public void afterPropertiesSet() {
-		byte[] keyBytes = Decoders.BASE64.decode(secret);
-		this.key = Keys.hmacShaKeyFor(keyBytes);
-	}
-
-	public String getSavedRefresh(String key) {
-		// return redisService.getData(key);
-		return null;
-	}
-
-	public void setSaveRefresh(String key, String value, Long time) {
-		// redisService.setDataWithExpiration(key, value, time);
-	}
-
-	public String generateAccess(String userId, String role) {
-		return createToken(userId, role, TokenKey.ACCESS);
-	}
-
-	public String generateRefresh(String userId, String role) {
-		return createToken(userId, role, TokenKey.REFRESH);
-	}
-
-	public Token generateToken(String userId, String role) {
-		String accessToken = generateAccess(userId, role);
-		String refreshToken = generateRefresh(userId, role);
-
-		return new Token(accessToken, refreshToken);
-	}
-
-	public String createToken(String userId, String role, TokenKey tokenKey) {
-		// access : 1 hour, refresh : 1 month
-		long period = getExpiration(tokenKey);
-
-		Claims claims = Jwts.claims().setSubject(userId);
-		claims.put("role", role);
-
-		Date now = new Date();
-
-		return Jwts.builder()
-			.setClaims(claims)
-			.setIssuedAt(now)
-			.setExpiration(new Date(now.getTime() + period))
-			.signWith(key, SignatureAlgorithm.HS256)
-			.compact();
-	}
-
-	public JwtCode validateToken(String token) {
+	public boolean validateToken(String token) {
 		try {
-			Jwts.parserBuilder()
-				.setSigningKey(secret)
-				.build()
-				.parseClaimsJws(token);
-			return JwtCode.ACCESS;
-		} catch (ExpiredJwtException e) {
-			// 만료된 경우에는 refresh token을 확인하기 위해
-			return JwtCode.EXPIRED;
-		} catch (JwtException | IllegalArgumentException e) {
-			log.info("jwtException = {}", e);
+			Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+			return true;
+		} catch (SignatureException ex) {
+			log.error("Invalid JWT signature");
+		} catch (MalformedJwtException ex) {
+			log.error("Invalid JWT token");
+		} catch (ExpiredJwtException ex) {
+			log.error("Expired JWT token");
+		} catch (UnsupportedJwtException ex) {
+			log.error("Unsupported JWT token");
+		} catch (IllegalArgumentException ex) {
+			log.error("JWT claims string is empty.");
+		} catch (NullPointerException ex) {
+			log.error("JWT RefreshToken is empty");
 		}
-		return JwtCode.DENIED;
-	}
-
-/*
-    public boolean validateToken(String token) {
-        try {
-            Jws<Claims> claims = Jwts.parserBuilder()
-                    .setSigningKey(secret)
-                    .build()
-                    .parseClaimsJws(token);
-            return claims.getBody()
-                    .getExpiration()
-                    .after(new Date());
-        } catch (Exception e) {
-            return false;
-        }
-    }
-*/
-
-	public String getUid(String token) {
-		return Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody().getSubject();
-	}
-
-	public Claims getClaims(String token) {
-		return Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody();
+		return false;
 	}
 
 	public Long getExpiration(TokenKey tokenKey) {
@@ -145,5 +70,10 @@ public class TokenProvider implements InitializingBean {
 			return bearerToken.substring(7);
 		}
 		return null;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+
 	}
 }

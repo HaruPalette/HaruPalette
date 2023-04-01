@@ -7,13 +7,13 @@ import javax.transaction.Transactional;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,9 +54,8 @@ public class DiaryController {
 	}
 
 	// stt
-	@PostMapping(value = "/stt", produces = "application/json; charset=utf8")
-	public ResponseEntity<?> speechToText(@RequestHeader HttpHeaders header, @RequestBody MultipartFile file) throws
-		Exception {
+	@PostMapping(value = "/stt", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity<?> speechToText(@RequestHeader HttpHeaders header, MultipartFile file) throws Exception {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
 
