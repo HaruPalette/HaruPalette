@@ -1,6 +1,6 @@
 package com.ssafy.palette.domain.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -25,7 +25,7 @@ public class PointListDto {
 	@NoArgsConstructor
 	public static class PointDto {
 		private int point;
-		private LocalDateTime date;
+		private LocalDate date;
 		private String contents;
 	}
 }
