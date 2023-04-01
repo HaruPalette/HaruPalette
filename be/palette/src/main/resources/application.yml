@@ -29,7 +29,7 @@ spring:
 
   # Redis
   redis:
-    host: j8b303.p.ssafy.io
+    host: localhost
     port: 6379
     password: 'haru0220'
 

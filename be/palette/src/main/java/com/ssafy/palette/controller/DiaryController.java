@@ -54,18 +54,10 @@ public class DiaryController {
 	}
 
 	// stt
-	@PostMapping(value = "/stt", consumes = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-	public ResponseEntity<?> speechToText(@RequestHeader HttpHeaders header,
-		//@RequestParam(value = "file", required = false)
-		MultipartFile file)
-	//MultipartHttpServletRequest mRequest)
-/*	(@RequestHeader HttpHeaders header,
-		@RequestPart(value = "file", required = false) MultipartFile file) */
-		throws
-		Exception {
+	@PostMapping(value = "/stt", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity<?> speechToText(@RequestHeader HttpHeaders header, MultipartFile file) throws Exception {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
-		//MultipartFile file = mRequest.getFile("file");
 
 		diaryService.addRedisList(file, userId);
 		return new ResponseEntity<>(HttpStatus.OK);
