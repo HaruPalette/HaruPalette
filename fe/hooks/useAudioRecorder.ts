@@ -38,6 +38,14 @@ const useAudioRecorder = () => {
     }
   };
 
+  const forceQuit = () => {
+    if (mediaRecorder) {
+      mediaRecorder.stop();
+      setIsRecording(false);
+      setRecordedChunks([]);
+    }
+  };
+
   return {
     recordedChunks,
     startRecording,
@@ -45,6 +53,7 @@ const useAudioRecorder = () => {
     pauseRecording,
     resumeRecording,
     isRecording,
+    forceQuit,
   };
 };
 

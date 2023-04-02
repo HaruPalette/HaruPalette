@@ -62,18 +62,19 @@ function Create() {
   const isRecode = useAppSelector(selectScript).isRecoding;
   const reduxWeather = useAppSelector(selectWeather).curWeather;
   const weather = useWeather();
-  console.log(weather);
   const dispatch = useAppDispatch();
 
   const audioRecorder = useAudioRecorder();
 
   useEffect(() => {
     dispatch(changeWeatherSuccess(weather));
-    console.log(weather);
   }, [weather]);
 
   useEffect(() => {
     dispatch(resetScriptIndexSuccess());
+    return () => {
+      audioRecorder.forceQuit();
+    };
   }, []);
 
   return (
