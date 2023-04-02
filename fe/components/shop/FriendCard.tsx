@@ -26,8 +26,8 @@ const Section = styled.section`
 
 const Card = styled.div<{ theme: ColorTypes }>`
   position: relative;
-  width: 240px;
-  height: 300px;
+  width: 280px;
+  height: 350px;
   transform: translate(-50%, -50%);
   transition: all 1s;
   left: 50%;

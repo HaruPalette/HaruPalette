@@ -15,17 +15,16 @@ import BuyingBuddy from '../../components/shop/BuyingBuddy';
 import PointDetail from '../../components/shop/PointDetail';
 
 const ShopPage = styled.div<{ theme: ColorTypes }>`
-  position: absolute;
   width: 100vw;
   height: 100vh;
-  background-color: ${props => props.theme.background};
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: ${props => props.theme.background};
 `;
 
 const DiaryStyles = styled.div<{ theme: ColorTypes }>`
-  width: 100vw;
+  width: calc(100vw - 320px);
   height: calc(100vh - 5.5rem);
   margin: 0 160px;
   margin-top: 5.5rem;
@@ -34,25 +33,46 @@ const DiaryStyles = styled.div<{ theme: ColorTypes }>`
   justify-content: space-between;
   flex-direction: row;
   background: ${props => props.theme.background};
+  /* @media all and (max-width: 1450px) {
+    justify-content: center;
+    align-items: center;
+  } */
+  @media all and (max-width: 1150px) {
+    width: calc(100vw - 320px);
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const LeftDiv = styled.div`
-  width: 40%;
+  width: 40vw;
   height: 100%;
   /* border: 3px solid green; */
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  @media all and (max-width: 1150px) {
+    width: calc(100vw - 320px);
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 const RightDiv = styled.div`
-  width: 60%;
+  width: 60vw;
   height: 100%;
   border: 3px solid tomato;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-direction: column;
   align-items: center;
+  @media all and (max-width: 1150px) {
+    width: calc(100vw - 320px);
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const ContentDiv = styled.div<{ theme: ColorTypes }>`
@@ -61,7 +81,9 @@ const ContentDiv = styled.div<{ theme: ColorTypes }>`
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  height: 570px;
+  height: 500px;
+  margin-top: 40px;
+  margin-bottom: 40px;
   color: ${props => props.theme.color};
 `;
 

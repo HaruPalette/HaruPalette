@@ -13,6 +13,7 @@ const ButtonsDiv = styled.div`
   height: 1.875rem;
   top: 50px;
   right: 0px;
+  margin-bottom: 40px;
   line-height: 1.875rem;
 `;
 

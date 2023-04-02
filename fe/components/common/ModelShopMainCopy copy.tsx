@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-
+// 백업본
 /**
  * 동동 뛰는 애니매이션
  * 위치: shop-메인 캔버스 버전(성공) --------------------------------------> 성공복사본

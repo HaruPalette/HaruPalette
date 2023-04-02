@@ -82,6 +82,7 @@ const Container = styled.div`
   transform-style: preserve-3d;
   & .swiper_container {
     width: 100%;
+    height: 500px;
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -137,21 +138,14 @@ const Pagenation = styled.div<{ theme: ColorTypes }>`
   width: 200px;
   height: 50px;
   margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &::after {
-    position: relative;
-    width: 200px;
-    height: 50px;
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  &:nth-of-type(n) {
+    margin: 30px;
   }
-  & span {
+
+  & .swiper-pagination-bullet {
     background-color: ${props => props.theme.main};
     cursor: pointer;
+    margin: 4px;
   }
 `;
 

@@ -5,8 +5,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const CustomDiv = styled.canvas`
-  /* padding: 0 160px; */
   position: relative;
+  width: 100%;
 `;
 
 function Model(props: any) {
@@ -16,7 +16,6 @@ function Model(props: any) {
   let rendererPrev: any;
   let cameraPrev: any;
   let scenePrev: any;
-  console.log('not useEffect rendererPrev', rendererPrev);
 
   useEffect(() => {
     const group = new THREE.Group();
@@ -25,16 +24,14 @@ function Model(props: any) {
     // if (customdiv && rendererPrev) {
     //   customdiv = null;
     //   rendererPrev = null;
-    //   console.log('여기 안타네');
     // }
-    if (rendererPrev) {
-      console.log('useEffect rendererPrev', rendererPrev);
-    }
     if (customdiv) {
       const sizes = {
         width: window.innerWidth,
         height: window.innerHeight,
+        aspect: window.innerWidth / window.innerHeight,
       };
+      console.log(sizes);
 
       const renderer = new THREE.WebGLRenderer({
         antialias: true,
@@ -52,12 +49,10 @@ function Model(props: any) {
       renderer.setPixelRatio(window.devicePixelRatio);
       // renderer.setSize(sizes.width, sizes.height - 120);
       // renderer.setSize(sizes.width, sizes.height - 222 - 200 - 32);
-      renderer.setSize(sizes.width * 0.4, 400);
+      renderer.setSize((sizes.width - 320) * 0.4, 400);
       rendererPrev = renderer;
       renderer.dispose();
       rendererPrev.dispose();
-      console.log('render after renderer', renderer);
-      console.log('render after rendererPrev', rendererPrev);
 
       const scene = new THREE.Scene();
       scene.background = null;
@@ -114,17 +109,26 @@ function Model(props: any) {
         width = window.innerWidth;
         height = window.innerHeight;
 
-        if (sizes.width === width) {
-          rendererPrev.setPixelRatio(window.devicePixelRatio);
-          cameraPrev.aspect = sizes.width / 400; // canvas비율을 카메라에 적용
-          rendererPrev.setSize(sizes.width / 400, 400, true);
-        } else {
-          height = sizes.height - 420 > 400 ? 400 : sizes.height - 420;
-          cameraPrev.aspect = width / height; // canvas비율을 카메라에 적용
-          rendererPrev.setSize(width * 0.2, height, true);
+        /**
+         * case1
+         * 창최대(or 전체화면)를 할때
+         */
+        // case2: 아이패드
+        // case3: 모바일
+        console.log(sizes.width, width);
+        rendererPrev.setPixelRatio(window.devicePixelRatio);
+        // if (sizes.width === width) {
+        if (width >= 0) {
+          // cameraPrev.aspect = sizes.width / 400; // canvas비율을 카메라에 적용
+          // cameraPrev.aspect = sizes.aspect; // canvas비율을 카메라에 적용
+          cameraPrev.aspect = sizes.aspect; // canvas비율을 카메라에 적용
+          rendererPrev.setSize((sizes.width - 320) * 0.4, 400, true);
         }
-        cameraPrev.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
-        // _renderer.setSize(sizes.width, sizes.height - 120 - 98);
+        // else if (width < 1150) {
+        //   // cameraPrev.aspect = width / height; // canvas비율을 카메라에 적용
+        //   rendererPrev.setSize(500, 300, true);
+        // }
+        // cameraPrev.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
         // controls.reset();
       };
 
