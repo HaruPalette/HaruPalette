@@ -25,8 +25,6 @@ const MainContainer = styled.main<{ theme: ColorTypes }>`
   display: flex;
   flex-direction: column;
 
-  transition: width 0s ease-in-out;
-
   background-color: ${props => props.theme.background};
   color: ${props => props.theme.color};
 
