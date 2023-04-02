@@ -110,13 +110,14 @@ function Header() {
     <>
       <HaruHeader theme={theme} screenY={screenY} isActive={active}>
         <HeaderContainer>
-          <LeftContainer>
-            <HamburgerButton />
-          </LeftContainer>
-
+          {profile.isLogin && (
+            <LeftContainer>
+              <HamburgerButton />
+            </LeftContainer>
+          )}
           <CenterContainer>
             <Logo />
-            <NavList />
+            {profile.isLogin && <NavList />}
           </CenterContainer>
 
           <RightContainer>
