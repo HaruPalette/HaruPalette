@@ -2,7 +2,7 @@ import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import { selectProfile } from '../../store/modules/profile';
 import { common } from '../../styles/theme';
@@ -33,8 +33,8 @@ const ButtonStyles = styled.button<{ theme: ColorTypes }>`
 
 function CreateButton() {
   const theme = useTheme();
-  const chr = useSelector(selectProfile);
-  const icon = `assets/img/${chr.chrName}/2d.svg`;
+  const chr = useAppSelector(selectProfile);
+  const icon = `/assets/img/${chr.chrName}/2d.svg`;
   return (
     <Link href="/create">
       <ButtonStyles type="button" theme={theme}>

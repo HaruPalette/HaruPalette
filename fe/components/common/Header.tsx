@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styled from '@emotion/styled';
 import { ColorTypes } from '@emotion/react';
 import LoginButton from '../button/LoginButton';
@@ -8,8 +9,10 @@ import useTheme from '../../hooks/useTheme';
 import MobileNavList from '../nav/MobileNavList';
 import useScreenY from '../../hooks/useScreenY';
 import HamburgerButton from '../button/HamburgerButton';
-import { useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectMenu } from '../../store/modules/menu';
+import { logoutSuccess, selectProfile } from '../../store/modules/profile';
+import { selectTheme } from '../../store/modules/theme';
 
 const HaruHeader = styled.header<{
   theme: ColorTypes;
@@ -76,10 +79,32 @@ const RightContainer = styled.div`
   }
 `;
 
+const Profile = styled.div`
+  width: 7rem;
+  height: 2.5rem;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ProfileImage = styled(Image)`
+  /* width: ; */
+  border-radius: 3rem;
+`;
+
 function Header() {
   const theme = useTheme();
   const screenY = useScreenY();
   const active = useAppSelector(selectMenu).isActive;
+  const dark = useAppSelector(selectTheme);
+  const profile = useAppSelector(selectProfile);
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logoutSuccess());
+  };
 
   return (
     <>
@@ -96,7 +121,26 @@ function Header() {
 
           <RightContainer>
             <DarkModeButton />
-            <LoginButton />
+            {!profile.isLogin && <LoginButton />}
+            {profile.isLogin && (
+              <Profile>
+                <Image
+                  src={`/assets/img/common/${
+                    dark ? 'dark' : 'light'
+                  }/logout.svg`}
+                  width={24}
+                  height={24}
+                  alt="logout"
+                  onClick={handleLogout}
+                />
+                <ProfileImage
+                  src={profile.image}
+                  width={48}
+                  height={48}
+                  alt="profile"
+                />
+              </Profile>
+            )}
           </RightContainer>
         </HeaderContainer>
       </HaruHeader>

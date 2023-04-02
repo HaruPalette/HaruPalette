@@ -1,7 +1,7 @@
 export interface UserData {
   image: string;
-  ename: string;
-  characterId: number;
+  friendEname: string;
+  friendId: number;
 }
 
 export interface UsersResponse {

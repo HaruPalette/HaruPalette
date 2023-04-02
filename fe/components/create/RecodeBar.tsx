@@ -1,8 +1,7 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import { recodingSuccess, selectScript } from '../../store/modules/script';
 import AudioRecorder from '../../types/recodeTypes';
@@ -22,6 +21,14 @@ const RecodeContainer = styled.div`
 
   width: 20rem;
   height: 6rem;
+
+  z-index: 1;
+`;
+
+const AlertText = styled.h6<{ theme: ColorTypes; second: number }>`
+  color: ${props => props.theme.color};
+  height: 1rem;
+  opacity: ${props => (props.second > 50 ? 1 : 0)};
 `;
 
 const ButtonContainer = styled.div`
@@ -40,7 +47,7 @@ const MusicProgress = styled.div`
 
 const MusicProgressTime = styled.div`
   position: absolute;
-  top: 12px;
+  top: 0.5rem;
   width: 100%;
   display: flex;
   align-items: center;
@@ -65,7 +72,7 @@ function RecodeBar(props: { audioRecorder: AudioRecorder }) {
   const [second, setSecond] = useState<number>(0);
   const [minute, setMinute] = useState<number>(0);
   const isPause = useAppSelector(selectScript).isPausing;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (second < 60 && !isPause) {
@@ -82,6 +89,9 @@ function RecodeBar(props: { audioRecorder: AudioRecorder }) {
 
   return (
     <RecodeContainer>
+      <AlertText theme={theme} second={second}>
+        {60 - Math.floor(second)} 초 후 자동으로 대화가 종료됩니다.
+      </AlertText>
       <RecodeProgressBar second={second} />
       <MusicProgress>
         <MusicProgressTime>
@@ -89,11 +99,6 @@ function RecodeBar(props: { audioRecorder: AudioRecorder }) {
             {Math.floor(minute).toString().padStart(2, '0')}:
             {Math.floor(second).toString().padStart(2, '0')}
           </MusicCurrentTime>
-          {second > 50 ? (
-            <h6>{60 - Math.floor(second)} 초 후 자동으로 대화가 종료됩니다.</h6>
-          ) : (
-            <div />
-          )}
           <MusicDurationTime theme={theme}>01:00</MusicDurationTime>
         </MusicProgressTime>
       </MusicProgress>
