@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useMutation, useQuery } from 'react-query';
 import {
   BASE_URL,
@@ -9,14 +9,16 @@ import {
   STALE_TIME,
   STT,
 } from '../constants/api';
+import { ErrorResponse } from '../types/commonTypes';
+import { UsersResponse } from '../types/usersTypes';
 import { getCookie } from '../utils/cookie';
 
 /** 일기 상세 조회 */
-export const useGetDiaries = async (diaryId: number) => {
+export const useGetDiaries = (diaryId: number) => {
   //   요청 url
   const queryKey = BASE_URL + DIARIES;
   //   axios 요청
-  const queryFn = await axios
+  const queryFn = axios
     .get(queryKey, {
       headers: {
         Authorization: `${getCookie('Authorization')}`,
@@ -26,18 +28,25 @@ export const useGetDiaries = async (diaryId: number) => {
       },
     })
     .then(res => res.data);
-  return useQuery(queryKey, queryFn, {
+
+  const { isLoading, data, isError, error } = useQuery<
+    AxiosResponse<UsersResponse>,
+    AxiosError<ErrorResponse>
+  >([DIARIES], () => queryFn, {
+    keepPreviousData: true,
     staleTime: STALE_TIME,
     cacheTime: CACHE_TIME,
   });
+
+  return { isLoading, data, isError, error };
 };
 
 /** 일기 STT */
-export const usePostDiariesSTT = async (file: MediaStream) => {
+export const usePostDiariesSTT = (file: MediaStream) => {
   //   요청 url
   const queryKey = BASE_URL + STT;
   //   axios 요청
-  const queryFn = await axios
+  const queryFn = axios
     .post(
       queryKey,
       {
@@ -50,11 +59,17 @@ export const usePostDiariesSTT = async (file: MediaStream) => {
       },
     )
     .then(res => res.data);
-  return useMutation(queryKey, queryFn);
+
+  const { isLoading, data, isError, error } = useMutation<
+    AxiosResponse<UsersResponse>,
+    AxiosError<ErrorResponse>
+  >([STT], () => queryFn);
+
+  return { isLoading, data, isError, error };
 };
 
 /** 일기 작성 */
-export const usePostDiaries = async (
+export const usePostDiaries = (
   stickerCode: string,
   weather: string,
   contents: string,
@@ -65,7 +80,7 @@ export const usePostDiaries = async (
   //   요청 url
   const queryKey = BASE_URL + DIARIES;
   //   axios 요청
-  const queryFn = await axios
+  const queryFn = axios
     .post(
       queryKey,
       {
@@ -83,15 +98,21 @@ export const usePostDiaries = async (
       },
     )
     .then(res => res.data);
-  return useMutation(queryKey, queryFn);
+
+  const { isLoading, data, isError, error } = useMutation<
+    AxiosResponse<UsersResponse>,
+    AxiosError<ErrorResponse>
+  >([DIARIES], () => queryFn);
+
+  return { isLoading, data, isError, error };
 };
 
 /** 일기 수정 조회 */
-export const useGetDiariesScript = async (index: number) => {
+export const useGetDiariesScript = (index: number) => {
   //   요청 url
   const queryKey = BASE_URL + SCRIPT;
   //   axios 요청
-  const queryFn = await axios
+  const queryFn = axios
     .get(queryKey, {
       headers: {
         Authorization: `${getCookie('Authorization')}`,
@@ -101,18 +122,25 @@ export const useGetDiariesScript = async (index: number) => {
       },
     })
     .then(res => res.data);
-  return useQuery(queryKey, queryFn, {
+
+  const { isLoading, data, isError, error } = useQuery<
+    AxiosResponse<UsersResponse>,
+    AxiosError<ErrorResponse>
+  >([SCRIPT], () => queryFn, {
+    keepPreviousData: true,
     staleTime: STALE_TIME,
     cacheTime: CACHE_TIME,
   });
+
+  return { isLoading, data, isError, error };
 };
 
 /** 일기 삭제 */
-export const usePatchDiaries = async (diaryId: number) => {
+export const usePatchDiaries = (diaryId: number) => {
   //   요청 url
   const queryKey = `${BASE_URL}${DIARIES}/${String(diaryId)}`;
   //   axios 요청
-  const queryFn = await axios
+  const queryFn = axios
     .patch(
       queryKey,
       {},
@@ -123,26 +151,44 @@ export const usePatchDiaries = async (diaryId: number) => {
       },
     )
     .then(res => res.data);
-  return useMutation(queryKey, queryFn);
+
+  const { isLoading, data, isError, error } = useMutation<
+    AxiosResponse<UsersResponse>,
+    AxiosError<ErrorResponse>
+  >([DIARIES, diaryId], () => queryFn);
+
+  return { isLoading, data, isError, error };
 };
 
 /** 달력 조회 */
-export const useGetDiariesCalendars = async (date: string) => {
+export const useGetDiariesCalendars = (
+  date: string,
+  token: string | undefined,
+) => {
   //   요청 url
   const queryKey = BASE_URL + CALENDARS;
   //   axios 요청
-  const queryFn = await axios
+  const queryFn = axios
     .get(queryKey, {
       headers: {
-        Authorization: `${getCookie('Authorization')}`,
+        Authorization: `${token}`,
       },
       params: {
         date,
       },
     })
     .then(res => res.data);
-  return useQuery(queryKey, queryFn, {
-    staleTime: STALE_TIME,
-    cacheTime: CACHE_TIME,
-  });
+
+  return queryFn;
+
+  // const { isLoading, data, isError, error } = useQuery<
+  //   AxiosResponse<UsersResponse>,
+  //   AxiosError<ErrorResponse>
+  // >([CALENDARS], () => queryFn, {
+  //   keepPreviousData: true,
+  //   staleTime: STALE_TIME,
+  //   cacheTime: CACHE_TIME,
+  // });
+
+  // return { isLoading, data, isError, error };
 };
