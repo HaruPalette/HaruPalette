@@ -8,6 +8,7 @@ import MovingBall from '../components/animation/MovingBall';
 import Section0 from '../components/main/section0/Section0';
 import Section1 from '../components/main/section1/Section1';
 import Section2 from '../components/main/section2/Section2';
+import Section3 from '../components/main/section3/Section3';
 // import Section2 from '../components/main/section2/Section2';
 
 const HomePage = styled.div<{ theme: ColorTypes }>`
@@ -24,15 +25,12 @@ const MainContainer = styled.main<{ theme: ColorTypes }>`
   display: flex;
   flex-direction: column;
 
-  margin: 0 10rem;
-
   transition: width 0s ease-in-out;
 
   background-color: ${props => props.theme.background};
   color: ${props => props.theme.color};
 
   @media screen and (max-width: 960px) {
-    margin: 0 1rem;
   }
 `;
 
@@ -47,6 +45,7 @@ export default function Home() {
         <Section0 />
         <Section1 />
         <Section2 />
+        <Section3 />
       </MainContainer>
       <ScrollToTopButton />
       <Footer />
