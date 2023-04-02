@@ -4,21 +4,20 @@ import SectionCard from './SectionCard';
 import useCard from '../../../constants/card';
 
 const Section = styled.section`
-  width: 80%;
+  width: 100vw;
   height: 100vh;
   display: flex;
+  justify-content: space-between;
   align-items: center;
+
   position: relative;
 
-  justify-content: space-between;
   transition: font-size 0s ease-in-out;
 
-  @media screen and (max-width: 960px) {
-    width: 100%;
-  }
+  padding: 0 10rem;
 
-  @media screen and (max-width: 500px) {
-    width: 80%;
+  @media screen and (max-width: 960px) {
+    padding: 0 1rem;
   }
 `;
 
@@ -26,19 +25,21 @@ const SectionText = styled.h1<{ windowHeight: number }>`
   display: flex;
   text-align: start;
 
+  width: 50vw;
   z-index: 1;
 
-  transition: 0s ease-in-out;
-
   font-size: 5vw;
-  opacity: ${props => props.windowHeight / 500 - 2};
+  opacity: ${props => props.windowHeight - 1250};
 `;
 
-const CardContainer = styled.article`
+const CardContainer = styled.article<{ windowHeight: number }>`
   display: flex;
   flex-direction: column;
+  justify-content: center;
 
-  width: 40%;
+  width: 50vw;
+
+  opacity: ${props => props.windowHeight - 1250};
 `;
 
 const Row = styled.article`
@@ -48,7 +49,6 @@ const Row = styled.article`
 function Section1() {
   const windowHeight = useScreenY();
   const cardList = useCard();
-  console.log(cardList);
   return (
     <Section>
       <SectionText windowHeight={windowHeight}>
@@ -58,7 +58,7 @@ function Section1() {
         <br />
         기록해보세요
       </SectionText>
-      <CardContainer>
+      <CardContainer windowHeight={windowHeight}>
         <Row>
           <SectionCard cardData={cardList[0]} />
           <SectionCard cardData={cardList[1]} />
