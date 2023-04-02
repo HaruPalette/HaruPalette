@@ -65,6 +65,11 @@ const scriptSlice = createSlice({
       const temp = state;
       temp.nowScript = actions.payload;
     },
+    /** 메인 페이지 입장 시 효과 시작 */
+    setPulseStart(state) {
+      const temp = state;
+      temp.isRecoding = true;
+    },
   },
 });
 
@@ -78,6 +83,7 @@ export const {
   recodingSuccess,
   endDiarySuceess,
   setScript,
+  setPulseStart,
 } = scriptSlice.actions;
 export const selectScript = (state: RootState) => state.script;
 // 리듀서
