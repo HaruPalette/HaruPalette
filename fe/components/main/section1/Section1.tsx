@@ -16,8 +16,10 @@ const Section = styled.section`
 
   padding: 0 10rem;
 
-  @media screen and (max-width: 960px) {
-    padding: 0 1rem;
+  @media screen and (max-width: 500px) {
+    flex-direction: column;
+    justify-content: space-around;
+    height: 50vh;
   }
 `;
 
@@ -30,6 +32,10 @@ const SectionText = styled.h1<{ windowHeight: number }>`
 
   font-size: 5vw;
   opacity: ${props => props.windowHeight - 1250};
+
+  @media screen and (max-width: 500px) {
+    padding-left: 1rem;
+  }
 `;
 
 const CardContainer = styled.article<{ windowHeight: number }>`
