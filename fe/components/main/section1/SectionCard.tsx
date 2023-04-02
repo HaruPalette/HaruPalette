@@ -14,8 +14,8 @@ const Card = styled.span<{ background: string }>`
   height: 10vw;
   min-height: 5rem;
 
-  margin: 2rem;
-  padding: 0.5rem;
+  margin: 2rem 0;
+  margin-left: 4rem;
 
   border-radius: 0.5rem;
 
@@ -23,14 +23,15 @@ const Card = styled.span<{ background: string }>`
 
   @media screen and (max-width: 960px) {
     font-size: 14px;
-    margin: 1rem;
+    margin: 1rem 0;
+    margin-left: 2rem;
     justify-content: space-around;
   }
 
   @media screen and (max-width: 500px) {
     font-size: 12px;
-    margin: 0.5rem;
-    justify-content: space-around;
+    margin: 0.5rem 0;
+    margin-left: 1rem;
   }
 `;
 

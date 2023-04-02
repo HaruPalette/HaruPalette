@@ -25,7 +25,6 @@ import { useGetDiariesCalendars } from '../../apis/diaries';
 
 export const DirayPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,7 +33,6 @@ export const DirayPage = styled.div<{ theme: ColorTypes }>`
 
 const Container = styled.div`
   width: calc(100vw - 320px);
-  height: 100vh;
   padding-top: 5.5rem;
   display: flex;
   flex-direction: column;
@@ -48,7 +46,6 @@ const Container = styled.div`
   }
   @media all and (max-width: 1150px) {
     margin: 0;
-    padding-top: 25rem;
     flex-direction: column;
     justify-content: center;
     align-items: center;

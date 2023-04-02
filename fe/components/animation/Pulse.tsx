@@ -33,7 +33,7 @@ const Circle1 = styled.div<{ theme: ColorTypes }>`
   transform-style: preserve-3d;
   animation: ${pulse} 2s 0.5s cubic-bezier(0.5, 0.5, 0, 1) infinite;
 
-  position: absolute;
+  position: fixed;
   top: calc(50% - 600px);
   left: calc(50% - 600px);
   @media all and (max-width: 960px) {
@@ -61,7 +61,7 @@ const Circle2 = styled.div<{ theme: ColorTypes }>`
   transform-style: preserve-3d;
   animation: ${pulse} 2s 1s cubic-bezier(0.5, 0.5, 0, 1) infinite;
 
-  position: absolute;
+  position: fixed;
   top: calc(50% - 600px);
   left: calc(50% - 600px);
   @media all and (max-width: 960px) {
@@ -89,7 +89,7 @@ const Circle3 = styled.div<{ theme: ColorTypes }>`
   transform-style: preserve-3d;
   animation: ${pulse} 2s 1.5s cubic-bezier(0.5, 0.5, 0, 1) infinite;
 
-  position: absolute;
+  position: fixed;
   top: calc(50% - 600px);
   left: calc(50% - 600px);
   @media all and (max-width: 960px) {
