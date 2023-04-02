@@ -107,6 +107,17 @@ const Container = styled.div`
       transform: rotateY(240deg) translateZ(250px) rotateY(-240deg);
     }
   }
+  @media all and (max-width: 1150px) {
+    width: 55vw;
+  }
+  @media all and (max-width: 960px) {
+    width: 80vw;
+    margin-top: 40px;
+  }
+  @media all and (max-width: 700px) {
+    width: 100vw;
+    margin-top: 0px;
+  }
 `;
 
 const NextBtn = styled.div`

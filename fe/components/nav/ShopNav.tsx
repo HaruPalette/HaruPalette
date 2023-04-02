@@ -15,6 +15,10 @@ const ButtonsDiv = styled.div`
   right: 0px;
   margin-bottom: 40px;
   line-height: 1.875rem;
+
+  @media all and (max-width: 1150px) {
+    top: 40px;
+  }
 `;
 
 const CurrButton = styled.button<{ theme: ColorTypes }>`

@@ -43,6 +43,12 @@ const DiaryStyles = styled.div<{ theme: ColorTypes }>`
     flex-direction: column;
     align-items: center;
   }
+  @media all and (max-width: 960px) {
+    width: calc(100vw);
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const LeftDiv = styled.div`
@@ -59,17 +65,34 @@ const LeftDiv = styled.div`
     flex-direction: row;
     align-items: center;
   }
+  @media all and (max-width: 960px) {
+    width: calc(100vw);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  @media all and (max-width: 500px) {
+    width: calc(100vw);
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+  }
 `;
 const RightDiv = styled.div`
   width: 60vw;
   height: 100%;
-  border: 3px solid tomato;
+  /* border: 3px solid tomato; */
   display: flex;
   justify-content: space-around;
   flex-direction: column;
   align-items: center;
   @media all and (max-width: 1150px) {
     width: calc(100vw - 320px);
+    justify-content: center;
+    align-items: center;
+  }
+  @media all and (max-width: 960px) {
+    width: calc(100vw);
     justify-content: center;
     align-items: center;
   }

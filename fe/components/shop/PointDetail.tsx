@@ -60,6 +60,22 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  @media all and (max-width: 1150px) {
+    width: 50vw;
+    margin-top: 20px;
+  }
+  @media all and (max-width: 960px) {
+    width: 60vw;
+    margin-top: 20px;
+  }
+  @media all and (max-width: 700px) {
+    width: 85vw;
+    margin-top: 20px;
+  }
+  @media all and (max-width: 580px) {
+    margin-top: 0px;
+    width: 100vw;
+  }
 `;
 const LeftContainer = styled.div`
   position: relative;

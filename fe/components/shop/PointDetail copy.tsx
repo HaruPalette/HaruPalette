@@ -52,7 +52,6 @@ const dummy: IDummy[] = [
     index: 4,
   },
 ];
-
 const Container = styled.div`
   display: flex;
   width: 80vw;
