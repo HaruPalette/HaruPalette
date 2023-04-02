@@ -5,6 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import Head from 'next/head';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
+import Script from 'next/script';
 import GlobalStyle from '../styles/globals';
 import store from '../store';
 
@@ -39,6 +40,24 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>Haru Palette</title>
+        {/* Google Analytics */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"
+        />
+        <Script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'GA_MEASUREMENT_ID', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
       </Head>
       <QueryClientProvider client={client}>
         <Hydrate state={pageProps.dehydratedState}>

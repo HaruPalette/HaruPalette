@@ -16,7 +16,6 @@ import { selectTheme } from '../../store/modules/theme';
 
 const ModifyPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
-  height: 100vh;
   background: ${props => props.theme.background};
 `;
 const Container = styled.div`

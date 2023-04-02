@@ -7,6 +7,7 @@ import Mouse from '../Mouse';
 const Section = styled.section<{ windowHeight: number }>`
   width: 100vw;
   height: 1600px;
+  opacity: ${props => 2 - props.windowHeight / 500};
 
   /* display: flex;
   align-items: center;
@@ -20,12 +21,9 @@ const Section = styled.section<{ windowHeight: number }>`
     transform: translate(-50%, -50%);
     z-index: 1;
 
-    transition: 0s ease-in-out;
-
-    will-change: all;
+    transition: font-size 0s ease-in-out;
 
     font-size: calc(5vw + ${props => props.windowHeight / 10}px);
-    opacity: ${props => 1.6 - props.windowHeight / 500};
   }
 `;
 
@@ -34,11 +32,11 @@ function Section0() {
   return (
     <Section windowHeight={windowHeight}>
       {windowHeight > 1000 ? (
-        <></>
+        <div />
       ) : (
         <ScriptTalk talkData={MAIN_SCRIPT} type="main" />
       )}
-      {windowHeight > 500 ? <></> : <Mouse />}
+      {windowHeight > 500 ? <div /> : <Mouse />}
     </Section>
   );
 }

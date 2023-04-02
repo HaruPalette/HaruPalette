@@ -1,4 +1,4 @@
-import { ColorTypes, css, keyframes } from '@emotion/react';
+import { ColorTypes, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import useScreenY from '../../hooks/useScreenY';
 import useTheme from '../../hooks/useTheme';
@@ -26,7 +26,7 @@ const mouseScroll = keyframes`
   }
 `;
 
-const MouseWrapper = styled.div<{ windowHeight: number }>`
+const MouseWrapper = styled.button<{ windowHeight: number }>`
   position: absolute;
   top: 90%;
   left: 50%;
@@ -90,16 +90,28 @@ const MouseArrow = styled.div<{ theme: ColorTypes }>`
     animation-direction: alternate;
   }
 `;
-const Mouse = () => {
+function Mouse() {
   const windowHeight = useScreenY();
   const theme = useTheme();
 
+  const handleNextSection = () => {
+    window.scrollTo({
+      top: 1600,
+      left: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
-    <MouseWrapper windowHeight={windowHeight}>
+    <MouseWrapper
+      type="button"
+      windowHeight={windowHeight}
+      onClick={handleNextSection}
+    >
       <MouseIcon theme={theme} />
       <MouseArrow theme={theme} />
     </MouseWrapper>
   );
-};
+}
 
 export default Mouse;

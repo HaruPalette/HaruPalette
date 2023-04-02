@@ -2,12 +2,16 @@ import React, { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { BallReturn } from '../../types/movingBallTypes';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
+import useScreenY from '../../hooks/useScreenY';
 
-const SangukIsGod = styled.canvas`
+const SangukIsGod = styled.canvas<{ windowHeight: number }>`
   position: absolute;
+
+  opacity: ${props => 600 - props.windowHeight};
 `;
 
 function MovingBall() {
+  const windowHeight = useScreenY();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const Ball = (
@@ -300,7 +304,13 @@ function MovingBall() {
     return () => window.removeEventListener('resize', resizeHandler);
   }, []);
 
-  return <SangukIsGod ref={canvasRef} onMouseMove={mouseMoveHandler} />;
+  return (
+    <SangukIsGod
+      ref={canvasRef}
+      onMouseMove={mouseMoveHandler}
+      windowHeight={windowHeight}
+    />
+  );
 }
 
 export default MovingBall;
