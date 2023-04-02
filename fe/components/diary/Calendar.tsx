@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 import { ColorTypes } from '@emotion/react';
+import { useQuery } from 'react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import {
   useNowDate,
   useNowDay,
@@ -8,6 +10,11 @@ import {
 } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
+import { UsersResponse } from '../../types/usersTypes';
+import { ErrorResponse } from '../../types/commonTypes';
+import { CACHE_TIME, DIARIES, STALE_TIME } from '../../constants/api';
+import { useGetDiariesCalendars } from '../../apis/diaries';
+import { getCookie } from '../../utils/cookie';
 
 interface DateItem {
   type: string;
@@ -58,6 +65,25 @@ const NowDate = styled.button<{ theme: ColorTypes }>`
 
 function Calendar(props: { year: number; month: number }) {
   const { year, month } = props;
+
+  const { data } = useQuery<
+    AxiosResponse<UsersResponse>,
+    AxiosError<ErrorResponse>
+  >(
+    [DIARIES],
+    () =>
+      useGetDiariesCalendars(
+        `${year}-${month < 10 ? String(`0${month}`) : month}`,
+        getCookie('Authorization'),
+      ),
+    {
+      keepPreviousData: true,
+      staleTime: STALE_TIME,
+      cacheTime: CACHE_TIME,
+    },
+  );
+  console.log(data);
+
   const theme = useTheme();
   // 이전 달 마지막 날짜
   let prevDate: number = usePrevDate(year, month);
