@@ -1,11 +1,14 @@
 import styled from '@emotion/styled';
+import { useEffect } from 'react';
 import useScreenY from '../../../hooks/useScreenY';
 import Pulse from '../../animation/Pulse';
+import { useAppDispatch } from '../../../hooks/reduxHook';
+import { setPulseStart } from '../../../store/modules/script';
 
 const Section = styled.section<{ windowHeight: number }>`
   width: 100vw;
   height: 100vh;
-  display: ${props => (props.windowHeight >= 3900 ? 'flex' : 'none')};
+  display: ${props => (props.windowHeight >= 3600 ? 'flex' : 'none')};
   align-items: center;
   position: relative;
 
@@ -21,15 +24,28 @@ const Section = styled.section<{ windowHeight: number }>`
   }
 `;
 
-const SectionText = styled.h1``;
+const SectionText = styled.h1`
+  font-size: 5vw;
+  z-index: 9;
+`;
 
 function Section3() {
   const windowHeight = useScreenY();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setPulseStart());
+  });
 
   return (
     <Section windowHeight={windowHeight}>
       <Pulse />
-      <SectionText>언제, 어디서든</SectionText>
+      <SectionText>
+        타이핑은 NO
+        <br />
+        음성은 YES
+        <br />
+      </SectionText>
     </Section>
   );
 }

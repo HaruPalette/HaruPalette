@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectProfile } from '../../store/modules/profile';
 import { common } from '../../styles/theme';
+import { changeLinkSuccess } from '../../store/modules/menu';
 
 const HaruLogo = styled(Link)`
   display: flex;
@@ -16,9 +17,13 @@ const HaruLogo = styled(Link)`
 
 function Logo() {
   const chr = useAppSelector(selectProfile);
+  const dispatch = useAppDispatch();
+  const handleChangeLink = () => {
+    dispatch(changeLinkSuccess(''));
+  };
   const logo = `/assets/img/${chr.chrName}/logo.svg`;
   return (
-    <HaruLogo href="/">
+    <HaruLogo href="/" onClick={handleChangeLink}>
       <Image src={logo} width={100} height={88} alt="Logo" priority />
     </HaruLogo>
   );
