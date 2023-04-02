@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
 import {
   BASE_URL,
@@ -9,65 +9,94 @@ import {
   STALE_TIME,
   USERS,
 } from '../constants/api';
+import { ErrorResponse } from '../types/commonTypes';
+import { UsersResponse } from '../types/usersTypes';
 import { getCookie } from '../utils/cookie';
 
 /** 사용자 정보 조회 */
-export const useGetUsers = async () => {
+export const useGetUsers = () => {
   //   요청 url
   const queryKey = BASE_URL + USERS;
   //   axios 요청
-  const queryFn = await axios
+  const queryFn = axios
     .get(queryKey, {
       headers: {
         Authorization: `${getCookie('Authorization')}`,
       },
     })
     .then(res => res.data);
-  return queryFn;
+
+  const { isLoading, data, isError, error } = useQuery<
+    AxiosResponse<UsersResponse>,
+    AxiosError<ErrorResponse>
+  >([USERS], () => queryFn, {
+    keepPreviousData: true,
+    staleTime: STALE_TIME,
+    cacheTime: CACHE_TIME,
+  });
+
+  return { isLoading, data, isError, error };
 };
 
 /** 사용자 리마인드 */
-export const useGetUsersRemind = async () => {
+export const useGetUsersRemind = (token: string | undefined) => {
   //   요청 url
   const queryKey = BASE_URL + REMIND;
   //   axios 요청
-  const queryFn = await axios
+  const queryFn = axios
     .get(queryKey, {
       headers: {
-        Authorization: `${getCookie('Authorization')}`,
+        Authorization: `${token}`,
       },
     })
     .then(res => res.data);
-  return useQuery(queryKey, queryFn, {
-    staleTime: STALE_TIME,
-    cacheTime: CACHE_TIME,
-  });
+
+  return queryFn;
+  // const { isLoading, data, isError, error } = useQuery<
+  //   AxiosResponse<UsersResponse>,
+  //   AxiosError<ErrorResponse>
+  // >([REMIND], () => queryFn, {
+  //   keepPreviousData: true,
+  //   staleTime: STALE_TIME,
+  //   cacheTime: CACHE_TIME,
+  // });
+
+  // return { isLoading, data, isError, error };
 };
 
 /** 사용자 도전 과제 조회 */
-export const useGetUsersChallenge = async () => {
+export const useGetUsersChallenge = (token: string | undefined) => {
   //   요청 url
   const queryKey = BASE_URL + CHALLENGE;
   //   axios 요청
-  const queryFn = await axios
+  const queryFn = axios
     .get(queryKey, {
       headers: {
-        Authorization: `${getCookie('Authorization')}`,
+        Authorization: `${token}`,
       },
     })
     .then(res => res.data);
-  return useQuery(queryKey, queryFn, {
-    staleTime: STALE_TIME,
-    cacheTime: CACHE_TIME,
-  });
+
+  return queryFn;
+
+  // const { isLoading, data, isError, error } = useQuery<
+  //   AxiosResponse<UsersResponse>,
+  //   AxiosError<ErrorResponse>
+  // >([CHALLENGE], () => queryFn, {
+  //   keepPreviousData: true,
+  //   staleTime: STALE_TIME,
+  //   cacheTime: CACHE_TIME,
+  // });
+
+  // return { isLoading, data, isError, error };
 };
 
 /** 사용자 포인트 내역 조회 */
-export const useGetUsersPoints = async (category: string, date: string) => {
+export const useGetUsersPoints = (category: string, date: string) => {
   // 요청 url
   const queryKey = BASE_URL + POINTS;
   //   axios 요청
-  const queryFn = await axios
+  const queryFn = axios
     .get(queryKey, {
       headers: {
         Authorization: `${getCookie('Authorization')}`,
@@ -78,8 +107,15 @@ export const useGetUsersPoints = async (category: string, date: string) => {
       },
     })
     .then(res => res.data);
-  return useQuery(queryKey, queryFn, {
+
+  const { isLoading, data, isError, error } = useQuery<
+    AxiosResponse<UsersResponse>,
+    AxiosError<ErrorResponse>
+  >([POINTS], () => queryFn, {
+    keepPreviousData: true,
     staleTime: STALE_TIME,
     cacheTime: CACHE_TIME,
   });
+
+  return { isLoading, data, isError, error };
 };
