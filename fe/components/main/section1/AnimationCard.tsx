@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 import { CardData } from '../../../types/commonTypes';
 
-const Card = styled.span<{ background: string }>`
+const Card = styled.span<{ background: string; windowHeight: number }>`
   display: flex;
   flex-direction: column;
 
@@ -13,6 +13,14 @@ const Card = styled.span<{ background: string }>`
   min-width: 5rem;
   height: 12vw;
   min-height: 5rem;
+
+  transform: ${props => {
+    if (props.windowHeight > 1400) {
+      return 'rotate(15deg) translateX(15%)';
+    } else {
+      return 'rotate(0deg) translateX(0%)';
+    }
+  }};
 
   font-size: 1.5rem;
   margin: 1rem 0;
@@ -36,14 +44,15 @@ const Card = styled.span<{ background: string }>`
   }
 `;
 
-function SectionCard(props: { cardData: CardData }) {
-  const { cardData } = props;
+function AnimationCard(props: { cardData: CardData; windowHeight: number }) {
+  const { cardData, windowHeight } = props;
+  console.log(windowHeight);
   return (
-    <Card background={cardData.backgroundColor}>
+    <Card background={cardData.backgroundColor} windowHeight={windowHeight}>
       <Image
         src={cardData.image}
-        width={56}
-        height={56}
+        width={48}
+        height={48}
         alt={cardData.script}
       />
       {cardData.script}
@@ -51,4 +60,4 @@ function SectionCard(props: { cardData: CardData }) {
   );
 }
 
-export default SectionCard;
+export default AnimationCard;
