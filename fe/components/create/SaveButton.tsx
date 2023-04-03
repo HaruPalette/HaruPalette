@@ -10,6 +10,7 @@ import { common } from '../../styles/theme';
 import { ErrorResponse } from '../../types/commonTypes';
 import AudioRecorder from '../../types/recodeTypes';
 import { getCookie } from '../../utils/cookie';
+import { usePostDiariesSTT } from '../../apis/diaries';
 
 const CustomButton = styled.button<{ theme: ColorTypes }>`
   display: flex;
@@ -48,28 +49,16 @@ function SaveButton(props: { audioRecorder: AudioRecorder }) {
 
   //   요청 url
   const queryKey = BASE_URL + STT;
-  //   axios 요청
-  const queryFn = axios
-    .post(
-      queryKey,
-      {
-        file: audioRecorder.recordedChunks,
-      },
-      {
-        headers: {
-          Authorization: `${getCookie('Authorization')}`,
-        },
-      },
-    )
-    .then(res => res.data);
+
+  const mutation = useMutation<AxiosResponse<any>, AxiosError<ErrorResponse>>(
+    [STT],
+    usePostDiariesSTT(audioRecorder.recordedChunks),
+  );
 
   const handleRecode = () => {
     dispatch(recodingSuccess());
     audioRecorder.stopRecording();
-    useMutation<AxiosResponse<any>, AxiosError<ErrorResponse>>(
-      [STT],
-      () => queryFn,
-    );
+    mutation.mutate();
   };
 
   return (

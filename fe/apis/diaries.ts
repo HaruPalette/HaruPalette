@@ -37,28 +37,28 @@ export const usePostDiariesSTT = (file: Blob[]) => {
   //   요청 url
   const queryKey = BASE_URL + STT;
   //   axios 요청
-  const queryFn = axios
-    .post(
+  const queryFn = () => {
+    return axios.post(
       queryKey,
       {
-        file,
+        file: file,
       },
       {
         headers: {
-          Authorization: `${getCookie('Authorization')}`,
+          Authorization: getCookie('Authorization'),
         },
       },
-    )
-    .then(res => res.data);
+    );
+  };
 
-  // return queryFn;
-
-  const { isLoading, data, isError, error } = useMutation<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
-  >([STT], () => queryFn);
-
-  return { isLoading, data, isError, error };
+  return queryFn;
+  //
+  // const { isLoading, data, isError, error } = useMutation<
+  //   AxiosResponse<UsersResponse>,
+  //   AxiosError<ErrorResponse>
+  // >([STT], () => queryFn);
+  //
+  // return { isLoading, data, isError, error };
 };
 
 /** 일기 작성 */
@@ -129,21 +129,20 @@ export const useGetDiariesScript = (index: number) => {
 };
 
 /** 일기 삭제 */
-export const usePatchDiaries = (diaryId: number, token: string | undefined) => {
+export const usePatchDiaries = (diaryId: number) => {
   //   요청 url
   const queryKey = `${BASE_URL}${DIARIES}/${String(diaryId)}`;
   //   axios 요청
-  const queryFn = axios
-    .patch(
+  const queryFn = () =>
+    axios.patch(
       queryKey,
       {},
       {
         headers: {
-          Authorization: `${token}`,
+          Authorization: getCookie('Authorization'),
         },
       },
-    )
-    .then(res => res.data);
+    );
 
   return queryFn;
 };

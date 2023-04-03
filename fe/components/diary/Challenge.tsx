@@ -43,7 +43,7 @@ function Challenge() {
   const theme = useTheme();
   const nowDate: number = useNowDate(useDate().year, useDate().month);
 
-  const { data } = useQuery<
+  const query = useQuery<
     AxiosResponse<ChallengeResponse>,
     AxiosError<ErrorResponse>,
     ChallengeData
@@ -52,7 +52,7 @@ function Challenge() {
     staleTime: STALE_TIME,
     cacheTime: CACHE_TIME,
   });
-  console.log(data);
+  const { data } = query;
   return (
     <>
       <ChallengeStyles>

@@ -15,6 +15,7 @@ import { CACHE_TIME, DIARIES, STALE_TIME } from '../../constants/api';
 import { useGetDiariesCalendars } from '../../apis/diaries';
 import { getCookie } from '../../utils/cookie';
 import { CalendarData } from '../../types/diariesTypes';
+import { useEffect } from 'react';
 
 interface DateItem {
   type: string;
@@ -70,26 +71,25 @@ const NowDate = styled.button<{ theme: ColorTypes; happy: number }>`
 
 function Calendar(props: { year: number; month: number }) {
   const { year, month } = props;
-  // console.log(month, year);
-  const { data } = useQuery<
-    AxiosResponse<CalendarData[]>,
-    AxiosError<ErrorResponse>,
-    CalendarData[]
-  >(
+  const query = useQuery<CalendarData[], AxiosError<ErrorResponse>>(
     [DIARIES],
-    () => {
-      // console.log('1234');
-      return useGetDiariesCalendars(
+    () =>
+      useGetDiariesCalendars(
         `${year}-${month < 10 ? String(`0${month}`) : month}`,
         getCookie('Authorization'),
-      );
-    },
+      ),
     {
       keepPreviousData: true,
       staleTime: STALE_TIME,
       cacheTime: CACHE_TIME,
     },
   );
+  const { data } = query;
+  console.log(data);
+
+  useEffect(() => {
+    query.refetch();
+  }, [month, year]);
 
   const theme = useTheme();
   // 이전 달 마지막 날짜
