@@ -3,23 +3,21 @@ import Image from 'next/image';
 import useScreenY from '../../../hooks/useScreenY';
 import { useAppSelector } from '../../../hooks/reduxHook';
 import { selectTheme } from '../../../store/modules/theme';
+import { useSectionTwoBall } from '../../../hooks/useBall';
+import JellyList from '../../common/JellyList';
+import Mouse from '../Mouse';
 
 const Section = styled.section<{ windowHeight: number }>`
-  width: 100%;
+  width: 100vw;
   height: 300vh;
+  display: 'flex';
   opacity: ${props =>
-    props.windowHeight >= 1500 && props.windowHeight <= 5250 ? 'flex' : 'none'};
+    props.windowHeight >= 2200 && props.windowHeight < 3700 ? 1 : 0};
   align-items: center;
   justify-content: space-between;
   position: relative;
 
   padding: 0 10rem;
-
-  transition: font-size 0s ease-in-out;
-
-  @media screen and (max-width: 500px) {
-    display: flex;
-  }
 `;
 
 const DesktopMockUp = styled.article<{ windowHeight: number }>`
@@ -33,7 +31,7 @@ const DesktopMockUp = styled.article<{ windowHeight: number }>`
   transform: translateY(-50%);
 
   opacity: ${props =>
-    props.windowHeight >= 2200 && props.windowHeight <= 2700 ? 1 : 0};
+    props.windowHeight >= 2200 && props.windowHeight < 2700 ? 1 : 0};
 
   @media screen and (max-width: 960px) {
     scale: 0.6;
@@ -46,7 +44,7 @@ const DesktopMockUp = styled.article<{ windowHeight: number }>`
     left: 50%;
     transform: translate(-50%, -25%);
     opacity: ${props =>
-      props.windowHeight >= 2200 && props.windowHeight <= 3700 ? 1 : 0};
+      props.windowHeight >= 2200 && props.windowHeight < 3700 ? 1 : 0};
   }
 `;
 
@@ -61,7 +59,7 @@ const TabletMockUp = styled.article<{ windowHeight: number }>`
   transform: translateY(-50%);
 
   opacity: ${props =>
-    props.windowHeight >= 2700 && props.windowHeight <= 3200 ? 1 : 0};
+    props.windowHeight >= 2700 && props.windowHeight < 3200 ? 1 : 0};
 
   @media screen and (max-width: 960px) {
     scale: 0.5;
@@ -75,7 +73,7 @@ const TabletMockUp = styled.article<{ windowHeight: number }>`
     left: 20%;
     transform: translate(-50%, -50%);
     opacity: ${props =>
-      props.windowHeight >= 2700 && props.windowHeight <= 3700 ? 1 : 0};
+      props.windowHeight >= 2700 && props.windowHeight < 3700 ? 1 : 0};
   }
 `;
 
@@ -90,7 +88,7 @@ const MobileMockUp = styled.article<{ windowHeight: number }>`
   transform: translateY(-50%);
 
   opacity: ${props =>
-    props.windowHeight >= 3200 && props.windowHeight <= 3700 ? 1 : 0};
+    props.windowHeight >= 3200 && props.windowHeight < 3700 ? 1 : 0};
 
   @media screen and (max-width: 960px) {
     scale: 0.5;
@@ -104,7 +102,7 @@ const MobileMockUp = styled.article<{ windowHeight: number }>`
     left: 75%;
     transform: translate(-50%, -50%);
     opacity: ${props =>
-      props.windowHeight >= 3200 && props.windowHeight <= 3700 ? 1 : 0};
+      props.windowHeight >= 3200 && props.windowHeight < 3700 ? 1 : 0};
   }
 `;
 
@@ -123,16 +121,16 @@ const DesktopText = styled.h1<{ windowHeight: number }>`
 
   font-size: 5vw;
   opacity: ${props =>
-    props.windowHeight >= 2200 && props.windowHeight <= 2700 ? 1 : 0};
+    props.windowHeight >= 2200 && props.windowHeight < 2700 ? 1 : 0};
 
   @media screen and (max-width: 500px) {
     font-size: 3rem;
     top: 20%;
-    left: 5rem;
+    left: 1rem;
     opacity: ${props =>
-      props.windowHeight >= 2200 && props.windowHeight <= 2700 ? 1 : 0.2};
+      props.windowHeight >= 2200 && props.windowHeight < 2700 ? 1 : 0.5};
     display: ${props =>
-      props.windowHeight >= 2200 && props.windowHeight <= 3700
+      props.windowHeight >= 2200 && props.windowHeight < 3700
         ? 'flex'
         : 'none'};
   }
@@ -153,16 +151,16 @@ const TabletText = styled.h1<{ windowHeight: number }>`
 
   font-size: 5vw;
   opacity: ${props =>
-    props.windowHeight >= 2700 && props.windowHeight <= 3200 ? 1 : 0};
+    props.windowHeight >= 2700 && props.windowHeight < 3200 ? 1 : 0};
 
   @media screen and (max-width: 500px) {
     font-size: 3rem;
     top: 28%;
-    left: 5rem;
+    left: 1rem;
     opacity: ${props =>
-      props.windowHeight >= 2700 && props.windowHeight <= 3200 ? 1 : 0.2};
+      props.windowHeight >= 2700 && props.windowHeight < 3200 ? 1 : 0.5};
     display: ${props =>
-      props.windowHeight >= 2200 && props.windowHeight <= 3700
+      props.windowHeight >= 2200 && props.windowHeight < 3700
         ? 'flex'
         : 'none'};
   }
@@ -183,16 +181,16 @@ const MobileText = styled.h1<{ windowHeight: number }>`
 
   font-size: 5vw;
   opacity: ${props =>
-    props.windowHeight >= 3200 && props.windowHeight <= 3700 ? 1 : 0};
+    props.windowHeight >= 3200 && props.windowHeight < 3700 ? 1 : 0};
 
   @media screen and (max-width: 500px) {
     font-size: 3rem;
     top: 36%;
-    left: 5rem;
+    left: 1rem;
     opacity: ${props =>
-      props.windowHeight >= 3200 && props.windowHeight <= 3700 ? 1 : 0.2};
+      props.windowHeight >= 3200 && props.windowHeight < 3700 ? 1 : 0.5};
     display: ${props =>
-      props.windowHeight >= 2200 && props.windowHeight <= 3700
+      props.windowHeight >= 2200 && props.windowHeight < 3700
         ? 'flex'
         : 'none'};
   }
@@ -201,9 +199,11 @@ const MobileText = styled.h1<{ windowHeight: number }>`
 function Section2() {
   const isDark = useAppSelector(selectTheme);
   const windowHeight = useScreenY();
+  const ball = useSectionTwoBall();
 
   return (
     <Section windowHeight={windowHeight}>
+      <JellyList ball={ball} />
       <DesktopMockUp windowHeight={windowHeight}>
         <Image
           src={
@@ -243,6 +243,7 @@ function Section2() {
         />
       </MobileMockUp>
       <MobileText windowHeight={windowHeight}>보다 자유롭게</MobileText>
+      {windowHeight < 3200 ? <div /> : <Mouse top={4400} />}
     </Section>
   );
 }
