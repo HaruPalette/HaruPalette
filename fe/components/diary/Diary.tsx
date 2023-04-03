@@ -4,11 +4,20 @@ import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 import styled from '@emotion/styled';
 import { ColorTypes } from '@emotion/react';
+import { useMutation } from 'react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import { useDay } from '../../hooks/useDate';
 import { prevTheme } from '../../hooks/useTheme';
 import { DiaryData } from '../../types/diariesTypes';
 import { useAnswer, useContents } from '../../hooks/useContents';
 import { common } from '../../styles/theme';
+import { ErrorResponse } from '../../types/commonTypes';
+import { DIARIES } from '../../constants/api';
+import { usePostDiaries } from '../../apis/diaries';
+import { useAppSelector } from '../../hooks/reduxHook';
+import { selectWeather } from '../../store/modules/weather';
+import { selectScript } from '../../store/modules/script';
+import { selectProfile } from '../../store/modules/profile';
 
 const DetailStyles = styled.div<{ theme: ColorTypes }>`
   width: 30rem;
@@ -125,9 +134,10 @@ function Diary(props: {
   share: boolean;
   setSave: Dispatch<SetStateAction<boolean>> | null;
   setShare: Dispatch<SetStateAction<boolean>> | null;
+  stickerCode: string | null;
 }) {
   // 일기 상세조회 정보, 수정("modify") || 디테일("view")
-  const { diary, type, save, share, setSave, setShare } = props;
+  const { diary, type, save, share, setSave, setShare, stickerCode } = props;
   const theme = prevTheme(diary?.friendEname);
   const title = useDay(diary ? diary.date : '');
   const [previewImage, setPreviewImage] = useState(diary ? diary.image : '');
@@ -154,17 +164,45 @@ function Diary(props: {
     }
   };
 
+  const weather = useAppSelector(selectWeather).curWeather;
+  const contents = useAppSelector(selectScript).nowScript.join('\n');
+  const friend = useAppSelector(selectProfile).chrPK;
+  const mutation = useMutation<AxiosResponse<any>, AxiosError<ErrorResponse>>(
+    [DIARIES],
+    usePostDiaries(
+      stickerCode || 'empty',
+      weather,
+      contents,
+      friend,
+      previewImage,
+      null,
+    ),
+  );
+
+  const handleCreateBtn = () => {
+    if (
+      window.confirm('지금까지의 내용을 바탕으로\n 일기를 작성하시겠습니까 ?')
+    ) {
+      mutation.mutate();
+    }
+  };
+
+  useEffect(() => {
+    setPreviewImage(diary ? diary.image : '');
+  }, [diary]);
+
   // 일기 이미지로 저장
   const diaryRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   useEffect(() => {
     if (diaryRef.current && save) {
-      html2canvas(diaryRef.current, { backgroundColor: 'rgba(0,0,0,0)' }).then(
-        div => {
-          div.toBlob((blob: any) => {
-            saveAs(blob, 'diary.png');
-          });
-        },
-      );
+      html2canvas(diaryRef.current, {
+        backgroundColor: 'transparent',
+      }).then(div => {
+        div.toBlob((blob: any) => {
+          saveAs(blob, 'diary.png');
+        });
+      });
       if (setSave) setSave(false);
     }
   }, [save]);
@@ -190,17 +228,21 @@ function Diary(props: {
     <DetailStyles ref={diaryRef} theme={theme}>
       <DiaryLine theme={theme}>
         <Title theme={theme}>{title}</Title>
-        <DiaryImage
-          src={previewImage}
-          width={300}
-          height={300}
-          alt="img"
-          onDrop={handleDrop}
-          onDragOver={event => event.preventDefault()}
-          onClick={() => {
-            window.open(previewImage);
-          }}
-        />
+        {previewImage && (
+          <DiaryImage
+            src={previewImage}
+            width={300}
+            height={300}
+            alt="img"
+            priority
+            onDrop={handleDrop}
+            onDragOver={event => event.preventDefault()}
+            onClick={() => {
+              window.open(previewImage);
+            }}
+            ref={imageRef}
+          />
+        )}
         <ContentList theme={theme} type={type}>
           {contentList.map(item => {
             return (
@@ -211,7 +253,7 @@ function Diary(props: {
           })}
         </ContentList>
         {type === 'modify' && (
-          <CreateButton type="button" theme={theme}>
+          <CreateButton type="button" theme={theme} onClick={handleCreateBtn}>
             일기장 완성
           </CreateButton>
         )}

@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import {
   BASE_URL,
   CACHE_TIME,
@@ -41,7 +41,7 @@ export const usePostDiariesSTT = (file: Blob[]) => {
     return axios.post(
       queryKey,
       {
-        file: file,
+        file,
       },
       {
         headers: {
@@ -73,8 +73,8 @@ export const usePostDiaries = (
   //   요청 url
   const queryKey = BASE_URL + DIARIES;
   //   axios 요청
-  const queryFn = axios
-    .post(
+  const queryFn = () =>
+    axios.post(
       queryKey,
       {
         stickerCode,
@@ -89,15 +89,14 @@ export const usePostDiaries = (
           Authorization: `${getCookie('Authorization')}`,
         },
       },
-    )
-    .then(res => res.data);
+    );
+  return queryFn;
+  // const { isLoading, data, isError, error } = useMutation<
+  //   AxiosResponse<UsersResponse>,
+  //   AxiosError<ErrorResponse>
+  // >([DIARIES], () => queryFn);
 
-  const { isLoading, data, isError, error } = useMutation<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
-  >([DIARIES], () => queryFn);
-
-  return { isLoading, data, isError, error };
+  // return { isLoading, data, isError, error };
 };
 
 /** 일기 수정 조회 */
@@ -155,7 +154,6 @@ export const useGetDiariesCalendars = (
   //   요청 url
   const queryKey = BASE_URL + CALENDARS;
   //   axios 요청
-  console.log(date);
   const queryFn = axios
     .get(queryKey, {
       headers: {
