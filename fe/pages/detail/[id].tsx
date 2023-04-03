@@ -16,7 +16,7 @@ import Horizontal from '../../components/progressbar/Horizontal';
 import { common } from '../../styles/theme';
 import useCookie from '../../hooks/useCookie';
 import { CACHE_TIME, DIARIES, STALE_TIME } from '../../constants/api';
-import { useGetDiaries, usePatchDiaries } from '../../apis/diaries';
+import { useGetDiaries } from '../../apis/diaries';
 import { ErrorResponse } from '../../types/commonTypes';
 import { getCookie } from '../../utils/cookie';
 import { useBall } from '../../hooks/useBall';
@@ -65,6 +65,10 @@ const DetailList = styled.div`
 `;
 const EmotionList = styled.div`
   width: 100%;
+`;
+
+const EmotionItem = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -107,9 +111,6 @@ export const getServerSideProps: GetServerSideProps = async context => {
     queryClinet.prefetchQuery([DIARIES], () =>
       useGetDiaries(Number(diaryId), token),
     ),
-    queryClinet.prefetchQuery([DIARIES], () =>
-      usePatchDiaries(Number(diaryId), token),
-    ),
   ]);
 
   return {
@@ -140,27 +141,6 @@ function Detail() {
     },
   );
 
-  // axios로 받아올 일기 상세조회
-  // const diary: DiaryData = {
-  //   diaryId: 1,
-  //   date: '2023-03-12',
-  //   contents:
-  //     '오늘은 팀 사진을 찍었다. 사진을 보았는데 정말 인간지네 같다. 잊지 못할 것 같은 하루다. 오늘은 팀 사진을 찍었다. 사진을 보았는데 정말 인간지네 같다. 잊지 못할 것 같은 하루다. 오늘은 팀 사진을 찍었다. 사진을 보았는데 정말 인간지네 같다. 잊지 못할 것 같은 하루다. ',
-  //   weather: 'Clear',
-  //   friendEname: 'haru',
-  //   answer: `너는 좋은 일들만 끌어당겨
-  //       그것도 아주 많이! 🧲`,
-  //   image:
-  //     'http://dimg.donga.com/ugc/CDB/WEEKLY/Article/5b/b3/22/85/5bb32285000ed2738de6.jpg',
-  //   stickerCode: 'nice',
-  //   neutral: 60,
-  //   happy: 20,
-  //   surprise: 10,
-  //   anger: 5,
-  //   disgust: 1,
-  //   anxiety: 2,
-  //   sadness: 2,
-  // };
   const emotion = [
     {
       emotion: '행복',
@@ -218,12 +198,13 @@ function Detail() {
           share={share}
           setSave={setSave}
           setShare={setShare}
+          stickerCode={null}
         />
         <DetailList>
           <EmotionList>
             {emotion.map(item => {
               return (
-                <>
+                <EmotionItem key={item.emotion}>
                   <Emotion color={item.color}>
                     <Image src={item.icon} width={40} height={40} alt="icon" />
                     <div>
@@ -234,7 +215,7 @@ function Detail() {
                     percent={item.percent ? item.percent : 0}
                     color={item.color}
                   />
-                </>
+                </EmotionItem>
               );
             })}
           </EmotionList>

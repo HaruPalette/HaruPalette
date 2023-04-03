@@ -119,6 +119,7 @@ function Modify() {
             share={false}
             setSave={null}
             setShare={null}
+            stickerCode={nowSticker}
           />
         </Section>
         <Section>
