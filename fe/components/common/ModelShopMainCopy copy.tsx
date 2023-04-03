@@ -3,9 +3,21 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-
+// 백업본
+/**
+ * 동동 뛰는 애니매이션
+ * 위치: shop-메인 캔버스 버전(성공) --------------------------------------> 성공복사본
+ * 문제: 캐릭터 탭을 여러번 들어가게 되면, 메모리에 3d가 계속해서 저장되다가,
+ * 일정 개수가 쌓이게 되면 저장을 한 순서부터 하나씩 없어짐
+ * 문제해결상태: 미해결(반응형 작업 후에 진행, 후순위)
+ */
 const CustomDiv = styled.canvas`
-  position: relative;
+  position: absolute;
+  /* padding: 0 160px; */
+  top: 88px;
+  height: 300px;
+  left: 0px;
+  /* scale: 0.8; */
   width: 100%;
 `;
 
@@ -16,55 +28,34 @@ function Model(props: any) {
   let rendererPrev: any;
   let cameraPrev: any;
   let scenePrev: any;
-  // let texture: any;
-  // let framebuffer: any;
+  console.log('not useEffect rendererPrev', rendererPrev);
 
   useEffect(() => {
     const group = new THREE.Group();
     const customdiv = refDiv.current;
 
-    // const a = document.querySelector('.canva');
-    // console.log(a);
-
     // if (customdiv && rendererPrev) {
     //   customdiv = null;
     //   rendererPrev = null;
+    //   console.log('여기 안타네');
     // }
-    // const context =
-    //   customdiv?.getContext('webgl') ||
-    //   customdiv?.getContext('experimental-webgl');
-    // console.log(context);
-    // if (!context) {
-    //   const prevContext =
-    //     customdiv?.getContext('2d') ||
-    //     customdiv?.getContext('webgl') ||
-    //     customdiv?.getContext('experimental-webgl');
-    //   if (prevContext) {
-    //     customdiv?.parentNode?.removeChild(customdiv);
-    //   }
-    //   const gl =
-    //     customdiv?.getContext('webgl') ||
-    //     customdiv?.getContext('experimental-webgl');
-
-    //   console.log(gl);
-    // }
-    if (customdiv && !rendererPrev) {
+    if (rendererPrev) {
+      console.log('useEffect rendererPrev', rendererPrev);
+    }
+    if (customdiv) {
       const sizes = {
         width: window.innerWidth,
         height: window.innerHeight,
-        aspect: window.innerWidth / window.innerHeight,
       };
-      console.log(sizes);
 
       const renderer = new THREE.WebGLRenderer({
         antialias: true,
         canvas: customdiv,
         alpha: true,
       });
-
-      // customdiv
-      //   ?.getContext('webgl')
-      //   ?.clearColor(0, 0, customdiv?.width, customdiv?.height);
+      customdiv
+        ?.getContext('2d')
+        ?.clearRect(0, 0, customdiv?.width, customdiv?.height);
       // renderer.setClearColor(0x000000, 1);
 
       // customdiv?.appendChild(renderer.domElement);
@@ -73,23 +64,12 @@ function Model(props: any) {
       renderer.setPixelRatio(window.devicePixelRatio);
       // renderer.setSize(sizes.width, sizes.height - 120);
       // renderer.setSize(sizes.width, sizes.height - 222 - 200 - 32);
-      if (sizes.width >= 500) {
-        renderer.setSize((sizes.width - 320) * 0.4, 400);
-      } else {
-        renderer.setSize(sizes.width, 300);
-      }
+      renderer.setSize(sizes.width, 300);
       rendererPrev = renderer;
-      // renderer.dispose();
-      // rendererPrev.dispose();
-
-      // const gl = customdiv.getContext('webgl2');
-
-      // texture = gl?.createTexture();
-      // console.log(gl, texture);
-      // gl?.deleteTexture(texture);
-
-      // framebuffer = gl?.createFramebuffer();
-      // gl?.deleteFramebuffer(framebuffer);
+      renderer.dispose();
+      rendererPrev.dispose();
+      console.log('render after renderer', renderer);
+      console.log('render after rendererPrev', rendererPrev);
 
       const scene = new THREE.Scene();
       scene.background = null;
@@ -104,7 +84,7 @@ function Model(props: any) {
       // 그림자 설정
       const textureLoader = new THREE.TextureLoader();
       const alphaShadow = textureLoader.load(
-        '/assets/img/common/textures/simpleShadow.jpg',
+        'assets/img/common/textures/simpleShadow.jpg',
       );
 
       const sphereShadow = new THREE.Mesh(
@@ -146,25 +126,17 @@ function Model(props: any) {
         width = window.innerWidth;
         height = window.innerHeight;
 
-        /**
-         * case1
-         * 창최대(or 전체화면)를 할때
-         */
-        // case2: 아이패드
-        // case3: 모바일
-        console.log(sizes.width, width);
-        rendererPrev.setPixelRatio(window.devicePixelRatio);
-        // if (sizes.width === width) {
-        if (width >= 0) {
-          cameraPrev.aspect = sizes.aspect; // canvas비율을 카메라에 적용
-          rendererPrev.setSize((sizes.width - 320) * 0.4, 400, true);
+        if (sizes.width === width) {
+          rendererPrev.setPixelRatio(window.devicePixelRatio);
+          cameraPrev.aspect = sizes.width / 300; // canvas비율을 카메라에 적용
+          rendererPrev.setSize(sizes.width, 300, true);
+        } else {
+          height = sizes.height - 420 > 300 ? 300 : sizes.height - 420;
+          cameraPrev.aspect = width / height; // canvas비율을 카메라에 적용
+          rendererPrev.setSize(width, height, true);
         }
-
-        // else if (width < 1150) {
-        //   // cameraPrev.aspect = width / height; // canvas비율을 카메라에 적용
-        //   rendererPrev.setSize(500, 300, true);
-        // }
-        // cameraPrev.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
+        cameraPrev.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
+        // _renderer.setSize(sizes.width, sizes.height - 120 - 98);
         // controls.reset();
       };
 
@@ -181,7 +153,7 @@ function Model(props: any) {
 
       // 캐릭터 설정
       const glftLoader = new GLTFLoader();
-      glftLoader.load(`/assets/img/${temp.data}/${temp.data}.gltf`, el => {
+      glftLoader.load(`assets/img/${temp.data}/${temp.data}.gltf`, el => {
         const temp6 = el;
         temp6.scene.position.x = 0.35;
         temp6.scene.position.y = 0;
@@ -222,13 +194,13 @@ function Model(props: any) {
       });
       const glftLoaderSub = new GLTFLoader();
       glftLoaderSub.load(
-        `/assets/img/${temp.data}/${temp.data}_item.gltf`,
+        `assets/img/${temp.data}/${temp.data}_item.gltf`,
         ele => {
           const temp3 = ele;
-          temp3.scene.position.x = -1.2;
-          temp3.scene.position.y = 0.7;
-          temp3.scene.position.z = 0.1;
-          temp3.scene.rotation.y = 1.8;
+          temp3.scene.position.x = -1.1;
+          temp3.scene.position.y = 0.4;
+          temp3.scene.position.z = 0.4;
+          temp3.scene.rotation.y = 2;
           temp3.scene.rotation.x = 0.3;
           group.add(ele.scene);
 
@@ -241,6 +213,6 @@ function Model(props: any) {
     }
   }, [refDiv, currModel]);
 
-  return <CustomDiv className="canva" ref={refDiv} />;
+  return <CustomDiv ref={refDiv} />;
 }
 export default Model;

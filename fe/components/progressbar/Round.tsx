@@ -30,6 +30,16 @@ const Container = styled.div`
   height: 240px;
   /* 반응형에 따라 스케일 바꾸기 */
   /* transform: scale(0.75); */
+  /* @media all and (max-width: 1400px) {
+    width: 216px;
+    height: 216px;
+    /* scale: 0.9; */
+  @media all and (max-width: 560px) {
+    margin: 30px 0;
+  }
+  @media all and (max-width: 560px) {
+    margin: 30px 0;
+  }
 `;
 
 const ProgressWrap = styled.svg`
@@ -88,10 +98,10 @@ const Diary = styled(Image)`
 
 const Challenge = styled.div`
   position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 30%;
-  left: 0;
+  width: 150px;
+  height: 125px;
+  top: 90px;
+  left: 45px;
   transform: scale(0.75);
   text-align: center;
   color: black;

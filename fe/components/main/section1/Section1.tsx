@@ -5,6 +5,7 @@ import useCard from '../../../constants/card';
 import JellyList from '../../common/JellyList';
 import { useSectionOneBall } from '../../../hooks/useBall';
 import Mouse from '../Mouse';
+import AnimationCard from './AnimationCard';
 
 const Section = styled.section<{ windowHeight: number }>`
   width: 100vw;
@@ -74,7 +75,7 @@ function Section1() {
       <CardContainer windowHeight={windowHeight}>
         <Row>
           <SectionCard cardData={cardList[0]} />
-          <SectionCard cardData={cardList[1]} />
+          <AnimationCard cardData={cardList[1]} windowHeight={windowHeight} />
         </Row>
         <Row>
           <SectionCard cardData={cardList[2]} />
