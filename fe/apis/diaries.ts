@@ -14,14 +14,14 @@ import { UsersResponse } from '../types/usersTypes';
 import { getCookie } from '../utils/cookie';
 
 /** 일기 상세 조회 */
-export const useGetDiaries = (diaryId: number) => {
+export const useGetDiaries = (diaryId: number, token: string | undefined) => {
   //   요청 url
   const queryKey = BASE_URL + DIARIES;
   //   axios 요청
   const queryFn = axios
     .get(queryKey, {
       headers: {
-        Authorization: `${getCookie('Authorization')}`,
+        Authorization: `${token}`,
       },
       params: {
         diaryId,
@@ -29,43 +29,36 @@ export const useGetDiaries = (diaryId: number) => {
     })
     .then(res => res.data);
 
-  const { isLoading, data, isError, error } = useQuery<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
-  >([DIARIES], () => queryFn, {
-    keepPreviousData: true,
-    staleTime: STALE_TIME,
-    cacheTime: CACHE_TIME,
-  });
-
-  return { isLoading, data, isError, error };
+  return queryFn;
 };
 
 /** 일기 STT */
-export const usePostDiariesSTT = (file: MediaStream) => {
+export const usePostDiariesSTT = (file: Blob[]) => {
   //   요청 url
   const queryKey = BASE_URL + STT;
   //   axios 요청
-  const queryFn = axios
-    .post(
+  const queryFn = () => {
+    return axios.post(
       queryKey,
       {
-        file,
+        file: file,
       },
       {
         headers: {
-          Authorization: `${getCookie('Authorization')}`,
+          Authorization: getCookie('Authorization'),
         },
       },
-    )
-    .then(res => res.data);
+    );
+  };
 
-  const { isLoading, data, isError, error } = useMutation<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
-  >([STT], () => queryFn);
-
-  return { isLoading, data, isError, error };
+  return queryFn;
+  //
+  // const { isLoading, data, isError, error } = useMutation<
+  //   AxiosResponse<UsersResponse>,
+  //   AxiosError<ErrorResponse>
+  // >([STT], () => queryFn);
+  //
+  // return { isLoading, data, isError, error };
 };
 
 /** 일기 작성 */
@@ -140,24 +133,18 @@ export const usePatchDiaries = (diaryId: number) => {
   //   요청 url
   const queryKey = `${BASE_URL}${DIARIES}/${String(diaryId)}`;
   //   axios 요청
-  const queryFn = axios
-    .patch(
+  const queryFn = () =>
+    axios.patch(
       queryKey,
       {},
       {
         headers: {
-          Authorization: `${getCookie('Authorization')}`,
+          Authorization: getCookie('Authorization'),
         },
       },
-    )
-    .then(res => res.data);
+    );
 
-  const { isLoading, data, isError, error } = useMutation<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
-  >([DIARIES, diaryId], () => queryFn);
-
-  return { isLoading, data, isError, error };
+  return queryFn;
 };
 
 /** 달력 조회 */
@@ -168,6 +155,7 @@ export const useGetDiariesCalendars = (
   //   요청 url
   const queryKey = BASE_URL + CALENDARS;
   //   axios 요청
+  console.log(date);
   const queryFn = axios
     .get(queryKey, {
       headers: {
@@ -180,15 +168,4 @@ export const useGetDiariesCalendars = (
     .then(res => res.data);
 
   return queryFn;
-
-  // const { isLoading, data, isError, error } = useQuery<
-  //   AxiosResponse<UsersResponse>,
-  //   AxiosError<ErrorResponse>
-  // >([CALENDARS], () => queryFn, {
-  //   keepPreviousData: true,
-  //   staleTime: STALE_TIME,
-  //   cacheTime: CACHE_TIME,
-  // });
-
-  // return { isLoading, data, isError, error };
 };

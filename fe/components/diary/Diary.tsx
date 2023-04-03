@@ -119,7 +119,7 @@ const UserSticker = styled(Image)`
 `;
 
 function Diary(props: {
-  diary: DiaryData;
+  diary: DiaryData | undefined;
   type: string;
   save: boolean;
   share: boolean;
@@ -128,19 +128,19 @@ function Diary(props: {
 }) {
   // 일기 상세조회 정보, 수정("modify") || 디테일("view")
   const { diary, type, save, share, setSave, setShare } = props;
-  const theme = prevTheme(diary.ename);
-  const title = useDay(diary.date);
-  const [previewImage, setPreviewImage] = useState(diary.image);
+  const theme = prevTheme(diary?.friendEname);
+  const title = useDay(diary ? diary.date : '');
+  const [previewImage, setPreviewImage] = useState(diary ? diary.image : '');
   const [image, setImage] = useState('');
 
   // 스티커 경로
-  const chrSticker = `/assets/img/${diary.ename}/2d.svg`;
-  const weatherSticker = `/assets/img/sticker/${diary.weather}.svg`;
-  const userSticker = `/assets/img/sticker/${diary.stickerCode}.svg`;
+  const chrSticker = `/assets/img/${diary?.friendEname}/2d.svg`;
+  const weatherSticker = `/assets/img/sticker/${diary?.weather}.svg`;
+  const userSticker = `/assets/img/sticker/${diary?.stickerCode}.svg`;
 
   // 내용 & 위로의 말 자연스러운 줄바꿈
-  const contentList = useContents(diary.contents);
-  const answerList = useAnswer(diary.answer);
+  const contentList = useContents(diary ? diary.contents : '');
+  const answerList = useAnswer(diary ? diary.answer : '');
 
   const handleDrop = (event: {
     preventDefault: () => void;
@@ -158,9 +158,6 @@ function Diary(props: {
   const diaryRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (diaryRef.current && save) {
-      // domtoimage.toBlob(diaryRef.current).then((blob: any) => {
-      //   saveAs(blob, 'diary.png');
-      // });
       html2canvas(diaryRef.current, { backgroundColor: 'rgba(0,0,0,0)' }).then(
         div => {
           div.toBlob((blob: any) => {
@@ -233,7 +230,7 @@ function Diary(props: {
           height={183}
           alt="weather"
         />
-        {diary.stickerCode !== 'empty' && (
+        {diary?.stickerCode !== 'empty' && (
           <UserSticker src={userSticker} width={72} height={72} alt="sticker" />
         )}
       </DiaryLine>

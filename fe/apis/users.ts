@@ -52,16 +52,6 @@ export const useGetUsersRemind = (token: string | undefined) => {
     .then(res => res.data);
 
   return queryFn;
-  // const { isLoading, data, isError, error } = useQuery<
-  //   AxiosResponse<UsersResponse>,
-  //   AxiosError<ErrorResponse>
-  // >([REMIND], () => queryFn, {
-  //   keepPreviousData: true,
-  //   staleTime: STALE_TIME,
-  //   cacheTime: CACHE_TIME,
-  // });
-
-  // return { isLoading, data, isError, error };
 };
 
 /** 사용자 도전 과제 조회 */
@@ -78,17 +68,6 @@ export const useGetUsersChallenge = (token: string | undefined) => {
     .then(res => res.data);
 
   return queryFn;
-
-  // const { isLoading, data, isError, error } = useQuery<
-  //   AxiosResponse<UsersResponse>,
-  //   AxiosError<ErrorResponse>
-  // >([CHALLENGE], () => queryFn, {
-  //   keepPreviousData: true,
-  //   staleTime: STALE_TIME,
-  //   cacheTime: CACHE_TIME,
-  // });
-
-  // return { isLoading, data, isError, error };
 };
 
 /** 사용자 포인트 내역 조회 */
