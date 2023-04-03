@@ -11,6 +11,7 @@ import JellyList from '../../components/common/JellyList';
 import DeleteButton from '../../components/button/DeleteButton';
 import Horizontal from '../../components/progressbar/Horizontal';
 import { common } from '../../styles/theme';
+import { useBall } from '../../hooks/useBall';
 
 const DetailPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -92,6 +93,7 @@ function Detail() {
   const [save, setSave] = useState(false);
   const [share, setShare] = useState(false);
 
+  const ball = useBall();
   const theme = useTheme();
 
   // axios로 받아올 일기 상세조회
@@ -165,7 +167,7 @@ function Detail() {
   }, []);
   return (
     <DetailPage theme={theme}>
-      <JellyList />
+      <JellyList ball={ball} />
       <Header />
       <Container>
         <Diary

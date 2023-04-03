@@ -36,7 +36,7 @@ function Section0() {
       ) : (
         <ScriptTalk talkData={MAIN_SCRIPT} type="main" />
       )}
-      {windowHeight > 500 ? <div /> : <Mouse />}
+      {windowHeight > 500 ? <div /> : <Mouse top={1600} />}
     </Section>
   );
 }
