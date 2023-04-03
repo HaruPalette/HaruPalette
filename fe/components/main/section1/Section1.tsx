@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import useScreenY from '../../../hooks/useScreenY';
 import SectionCard from './SectionCard';
 import useCard from '../../../constants/card';
+import AnimationCard from './AnimationCard';
 
 const Section = styled.section`
   width: 100vw;
@@ -67,7 +68,7 @@ function Section1() {
       <CardContainer windowHeight={windowHeight}>
         <Row>
           <SectionCard cardData={cardList[0]} />
-          <SectionCard cardData={cardList[1]} />
+          <AnimationCard cardData={cardList[1]} windowHeight={windowHeight} />
         </Row>
         <Row>
           <SectionCard cardData={cardList[2]} />
