@@ -62,8 +62,8 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   @media all and (max-width: 1500px) {
-    width: 50vw;
-    padding: 0 120px;
+    width: 45vw;
+    padding: 0 70px;
     margin-top: 20px;
   }
   @media all and (max-width: 1150px) {
