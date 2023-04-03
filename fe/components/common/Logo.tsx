@@ -13,6 +13,13 @@ const HaruLogo = styled(Link)`
 
   font-size: ${common.fontSize.fs48};
   font-weight: bold;
+
+  @media screen and (max-width: 500px) {
+    // center
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 `;
 
 function Logo() {
