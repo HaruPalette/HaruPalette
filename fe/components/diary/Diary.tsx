@@ -141,7 +141,7 @@ function Diary(props: {
   const theme = prevTheme(diary?.friendEname);
   const title = useDay(diary ? diary.date : '');
   const [previewImage, setPreviewImage] = useState(diary ? diary.image : '');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState<File | any>(null);
 
   // 스티커 경로
   const chrSticker = `/assets/img/${diary?.friendEname}/2d.svg`;
@@ -160,7 +160,7 @@ function Diary(props: {
       event.preventDefault();
       const { files } = event.dataTransfer;
       setPreviewImage(URL.createObjectURL(files[0]));
-      setImage(files[0]);
+      setImage(files[0] as File);
     }
   };
 

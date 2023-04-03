@@ -3,10 +3,11 @@ import useScreenY from '../../../hooks/useScreenY';
 import SectionCalendar from './SectionCalendar';
 
 const Section = styled.section<{ windowHeight: number }>`
+  display: flex;
   width: 100vw;
   height: 100vh;
-  display: flex;
   flex-direction: column;
+  justify-content: start;
   align-items: center;
 
   padding: 0 10rem;
@@ -26,7 +27,6 @@ const SectionText = styled.h1`
 `;
 
 const CalendarContainer = styled.article`
-  width: 50vw;
   display: flex;
   justify-content: center;
   background: #ffdbe6;

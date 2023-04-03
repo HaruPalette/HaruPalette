@@ -7,6 +7,13 @@ export const MAIN_SCRIPT: TalkData[] = [
   },
 ];
 
+export const SECTION_3: TalkData[] = [
+  {
+    idx: 0,
+    script: ['타이핑은 NO'],
+  },
+];
+
 export const SCRIPT: TalkData[] = [
   {
     idx: 0,
