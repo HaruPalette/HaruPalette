@@ -37,32 +37,36 @@ public class JwtAuthFilter extends GenericFilterBean {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws
 		IOException,
 		ServletException {
+
+		// HTTP 요청 Header에서 token을 추출하여 반환
 		String token = tokenProvider.resolveToken(((HttpServletRequest)request).getHeader(TokenKey.ACCESS.getKey()));
 
-		if (token != null && tokenProvider.validateToken(token) == JwtCode.ACCESS) {
-			String authId = tokenProvider.getUid(token);
 
+		if (token != null && tokenProvider.validateToken(token) == JwtCode.ACCESS) {
+			// 추출된 토큰을 통해 사용자 인증 정보를 읽어 AuthDto 객체에 저장
+			String authId = tokenProvider.getUid(token);
 			AuthDto authDto = AuthDto.builder()
 				.authId(authId)
 				.build();
 
+			// 생성한 AuthDto 객체를 기반으로 Authentication 객체를 생성하여 SecurityContextHolder에 저장
 			Authentication auth = getAuthentication(authDto);
 			SecurityContextHolder.getContext().setAuthentication(auth);
 			log.info("set Authentication to security context for '{}', uri = {}", auth.getName(),
 				((HttpServletRequest)request).getRequestURI());
 		} else if (token != null && tokenProvider.validateToken(token) == JwtCode.EXPIRED) {
-			Claims claims = tokenProvider.getClaims(token);
+			// access token이 유효하지 않고, EXPIRED인 경우
 
-			// 토큰에 저장된 유저정보
+			Claims claims = tokenProvider.getClaims(token);
 			AuthDto authDto = AuthDto.builder()
 				.authId(claims.getSubject())
 				.build();
 
-			// 헤더에 존재하는 리프레시 토큰
+			// Header에 존재하는 refresh token
 			String refresh = tokenProvider.resolveToken(
 				((HttpServletRequest)request).getHeader(TokenKey.REFRESH.getKey()));
 
-			// 캐시에 존재하는 리프레시 토큰
+			// 캐시에 존재하는 refresh token
 			String savedRefresh = tokenProvider.getSavedRefresh(authDto.getAuthId());
 
 			// refresh token을 확인해서 재발급
@@ -89,9 +93,13 @@ public class JwtAuthFilter extends GenericFilterBean {
 		chain.doFilter(request, response);
 	}
 
+	/**
+	 * 사용자 인증 정보를 기반으로 Authentication 객체 생성
+	 * @param auth
+	 * @return
+	 */
 	public Authentication getAuthentication(AuthDto auth) {
 		return new UsernamePasswordAuthenticationToken(auth, "",
 			Arrays.asList(new SimpleGrantedAuthority(Role.USER.getKey())));
 	}
-
 }
