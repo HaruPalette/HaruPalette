@@ -27,6 +27,7 @@ public class PointListDto {
 		private int point;
 		private LocalDate date;
 		private String contents;
+		private String type;
 	}
 }
 
