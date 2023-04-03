@@ -1,11 +1,13 @@
 package com.ssafy.palette.domain.entity;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -30,6 +32,12 @@ public class Auth {
 	@Type(type = "uuid-char")
 	private UUID authId;
 
+	@NotNull
+	@Column(columnDefinition = "VARCHAR(10)")
 	// 코드
 	private String code;
+
+	@NotNull
+	// 등록 일시
+	private LocalDateTime registration_date;
 }
