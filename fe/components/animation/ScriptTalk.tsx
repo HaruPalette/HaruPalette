@@ -9,12 +9,16 @@ import { TalkData } from '../../types/commonTypes';
 
 const TalkContainer = styled.div`
   display: flex;
-  height: 5rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 10rem;
+  height: 10rem;
 `;
 
 const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean; type: string }>`
   z-index: 99;
-  font-size: 2rem;
+  font-size: ${props => (props.type === 'main' ? '5vw' : '2rem')};
   background: linear-gradient(
     to right,
     ${props => (props.type === 'main' ? props.theme.color : props.theme.sub)},
