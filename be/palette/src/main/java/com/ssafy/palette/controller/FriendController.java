@@ -49,8 +49,8 @@ public class FriendController {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
 
-		friendService.chooseFriend(userId, friendId);
-		return new ResponseEntity<>(HttpStatus.OK);
+		int currentPoint = friendService.chooseFriend(userId, friendId);
+		return new ResponseEntity<Integer>(currentPoint, HttpStatus.OK);
 	}
 
 	// 캐릭터 구매
@@ -61,7 +61,7 @@ public class FriendController {
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
 
-		friendService.makeFriend(userId, userFriendDto.getFriendId());
-		return new ResponseEntity<>(HttpStatus.OK);
+		int currentPoint = friendService.makeFriend(userId, userFriendDto.getFriendId());
+		return new ResponseEntity<Integer>(currentPoint, HttpStatus.OK);
 	}
 }
