@@ -11,6 +11,6 @@ public class DiaryConfig {
 
 	@Bean
 	public ManagedChannel getManagedChannel() {
-		return ManagedChannelBuilder.forTarget("localhost:50051").usePlaintext().build();
+		return ManagedChannelBuilder.forTarget("172.21.0.7:50051").usePlaintext().build();
 	}
 }
