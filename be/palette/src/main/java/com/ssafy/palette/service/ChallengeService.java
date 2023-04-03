@@ -97,6 +97,12 @@ public class ChallengeService {
 		pointService.addChallengeHistory(userId, challenge.getId(), time);
 	}
 
+	public void eventChallenge(String userId, LocalDateTime time) {
+		Challenge challenge = challengeRepository.findById(6L).get();
+		pointService.earnPoint(userId, challenge.getPoint());
+		pointService.addChallengeHistory(userId, challenge.getId(), time);
+	}
+
 	public void checkChallenge(String userId, LocalDateTime time) {
 		checkWeekChallenge(userId, time);
 		checkMonthChallenge(userId, time);

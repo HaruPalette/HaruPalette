@@ -21,7 +21,7 @@ spring:
     show-sql: true
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
       use-new-id-generator-mappings: false
       jdbc:
         time_zone: Asia/Seoul

@@ -1,10 +1,18 @@
 package com.ssafy.palette.domain.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import javax.persistence.*;
 
 @Entity
 @Getter
@@ -13,51 +21,60 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Emotion {
 
-    // 기본키
-    @Id
-    @Column(name = "emotion_id")
-    @GeneratedValue //(strategy = GenerationType.IDENTITY)
-    private Long id;
+	// 기본키
+	@Id
+	@Column(name = "emotion_id")
+	@GeneratedValue
+	private Long id;
 
-    // 일기
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "diary_id")
-    private Diary diary;
+	// 일기
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "diary_id")
+	@NotNull
+	private Diary diary;
 
-    // 유저
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+	// 유저
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	@NotNull
+	private User user;
 
-    // 중립
-    @Column
-    private int neutral;
+	// 중립
+	@Column
+	@NotNull
+	private int neutral;
 
-    // 행복
-    @Column
-    private int happy;
+	// 행복
+	@Column
+	@NotNull
+	private int happy;
 
-    // 당황
-    @Column
-    private int surprise;
+	// 당황
+	@Column
+	@NotNull
+	private int surprise;
 
-    // 분노
-    @Column
-    private int anger;
+	// 분노
+	@Column
+	@NotNull
+	private int anger;
 
-    // 불안
-    @Column
-    private int anxiety;
+	// 불안
+	@Column
+	@NotNull
+	private int anxiety;
 
-    // 슬픔
-    @Column
-    private int sadness;
+	// 슬픔
+	@Column
+	@NotNull
+	private int sadness;
 
-    // 혐오
-    @Column
-    private int disgust;
+	// 혐오
+	@Column
+	@NotNull
+	private int disgust;
 
-    public Emotion() {
+	public Emotion() {
 
-    }
+	}
 }
