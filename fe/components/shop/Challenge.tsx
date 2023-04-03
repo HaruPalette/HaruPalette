@@ -11,6 +11,14 @@ const Container = styled.div`
   align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
+  @media all and (max-width: 1410px) {
+    margin-top: 20px;
+    width: 40vw;
+  }
+  @media all and (max-width: 1220px) {
+    margin-top: 20px;
+    width: 45vw;
+  }
   @media all and (max-width: 1150px) {
     margin-top: 20px;
     width: 50vw;

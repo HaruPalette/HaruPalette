@@ -16,16 +16,39 @@ function Model(props: any) {
   let rendererPrev: any;
   let cameraPrev: any;
   let scenePrev: any;
+  // let texture: any;
+  // let framebuffer: any;
 
   useEffect(() => {
     const group = new THREE.Group();
     const customdiv = refDiv.current;
 
+    // const a = document.querySelector('.canva');
+    // console.log(a);
+
     // if (customdiv && rendererPrev) {
     //   customdiv = null;
     //   rendererPrev = null;
     // }
-    if (customdiv) {
+    // const context =
+    //   customdiv?.getContext('webgl') ||
+    //   customdiv?.getContext('experimental-webgl');
+    // console.log(context);
+    // if (!context) {
+    //   const prevContext =
+    //     customdiv?.getContext('2d') ||
+    //     customdiv?.getContext('webgl') ||
+    //     customdiv?.getContext('experimental-webgl');
+    //   if (prevContext) {
+    //     customdiv?.parentNode?.removeChild(customdiv);
+    //   }
+    //   const gl =
+    //     customdiv?.getContext('webgl') ||
+    //     customdiv?.getContext('experimental-webgl');
+
+    //   console.log(gl);
+    // }
+    if (customdiv && !rendererPrev) {
       const sizes = {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -38,9 +61,10 @@ function Model(props: any) {
         canvas: customdiv,
         alpha: true,
       });
-      customdiv
-        ?.getContext('2d')
-        ?.clearRect(0, 0, customdiv?.width, customdiv?.height);
+
+      // customdiv
+      //   ?.getContext('webgl')
+      //   ?.clearColor(0, 0, customdiv?.width, customdiv?.height);
       // renderer.setClearColor(0x000000, 1);
 
       // customdiv?.appendChild(renderer.domElement);
@@ -51,8 +75,17 @@ function Model(props: any) {
       // renderer.setSize(sizes.width, sizes.height - 222 - 200 - 32);
       renderer.setSize((sizes.width - 320) * 0.4, 400);
       rendererPrev = renderer;
-      renderer.dispose();
-      rendererPrev.dispose();
+      // renderer.dispose();
+      // rendererPrev.dispose();
+
+      // const gl = customdiv.getContext('webgl2');
+
+      // texture = gl?.createTexture();
+      // console.log(gl, texture);
+      // gl?.deleteTexture(texture);
+
+      // framebuffer = gl?.createFramebuffer();
+      // gl?.deleteFramebuffer(framebuffer);
 
       const scene = new THREE.Scene();
       scene.background = null;
@@ -205,6 +238,6 @@ function Model(props: any) {
     }
   }, [refDiv, currModel]);
 
-  return <CustomDiv ref={refDiv} />;
+  return <CustomDiv className="canva" ref={refDiv} />;
 }
 export default Model;

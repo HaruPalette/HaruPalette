@@ -26,15 +26,31 @@ function Model2(props: any) {
 
     if (customdiv && !rendererPrev) {
       const group = new THREE.Group();
-
+      // WebGL 컨텍스트 재사용: 모든 3D 객체가 동일한 컨텍스트에서 렌더링되도록 한다. 새로운 3D 객체를 렌더링하려면 기존 컨텍스트를 삭제하지 않고 재사용해야 합니다.
       const renderer = new THREE.WebGLRenderer({
         canvas: customdiv,
         antialias: true,
         alpha: true,
       });
       customdiv
-        ?.getContext('2d')
-        ?.clearRect(0, 0, customdiv?.width, customdiv?.height);
+        .getContext('webgl2')
+        ?.clearColor(0, 0, customdiv?.width, customdiv?.height);
+
+      // console.log(gl?.isContextLost());
+
+      // const loseContext = gl?.getExtension('WEBGL_lose_context');
+      // console.log(loseContext?.loseContext());
+      // Window.loseC = () => loseContext?.loseContext();
+      // windows.restoreC = () => loseContext?.restoreContext();
+
+      // console.log(gl?.getExtension('WEBGL_lose_context')?.loseContext());
+      // const a = document.querySelector('.canvaChar');
+      // console.log(a);
+      // console.log(customdiv);
+      // a?.getContext('2d');
+      // customdiv
+      //   ?.getContext('2d')
+      //   ?.clearRect(0, 0, customdiv?.width, customdiv?.height);
 
       // customdiv?.appendChild(renderer.domElement);
 
@@ -44,8 +60,15 @@ function Model2(props: any) {
       renderer.setSize(280, 180);
       rendererPrev = renderer;
 
-      renderer.dispose();
-      rendererPrev.dispose();
+      // const gl = customdiv.getContext('webgl');
+
+      // texture = gl?.createTexture();
+      // console.log(gl, texture);
+      // gl?.deleteTexture(texture);
+
+      // framebuffer = gl?.createFramebuffer();
+      // console.log(framebuffer);
+      // gl?.deleteFramebuffer(framebuffer);
 
       // 씬 && 카메라 설정
       const scene = new THREE.Scene();
@@ -110,6 +133,8 @@ function Model2(props: any) {
           group.add(ele.scene);
 
           ele.scene.scale.set(0.4, 0.4, 0.4);
+          renderer.dispose();
+          rendererPrev.dispose();
         },
       );
 
@@ -117,6 +142,6 @@ function Model2(props: any) {
     }
   }, [refDiv]);
 
-  return <CustomDiv ref={refDiv} />;
+  return <CustomDiv className="canvaChar" ref={refDiv} />;
 }
 export default Model2;
