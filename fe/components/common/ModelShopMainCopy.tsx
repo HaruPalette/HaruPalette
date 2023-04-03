@@ -73,7 +73,11 @@ function Model(props: any) {
       renderer.setPixelRatio(window.devicePixelRatio);
       // renderer.setSize(sizes.width, sizes.height - 120);
       // renderer.setSize(sizes.width, sizes.height - 222 - 200 - 32);
-      renderer.setSize((sizes.width - 320) * 0.4, 400);
+      if (sizes.width >= 500) {
+        renderer.setSize((sizes.width - 320) * 0.4, 400);
+      } else {
+        renderer.setSize(sizes.width, 300);
+      }
       rendererPrev = renderer;
       // renderer.dispose();
       // rendererPrev.dispose();
@@ -152,11 +156,10 @@ function Model(props: any) {
         rendererPrev.setPixelRatio(window.devicePixelRatio);
         // if (sizes.width === width) {
         if (width >= 0) {
-          // cameraPrev.aspect = sizes.width / 400; // canvas비율을 카메라에 적용
-          // cameraPrev.aspect = sizes.aspect; // canvas비율을 카메라에 적용
           cameraPrev.aspect = sizes.aspect; // canvas비율을 카메라에 적용
           rendererPrev.setSize((sizes.width - 320) * 0.4, 400, true);
         }
+
         // else if (width < 1150) {
         //   // cameraPrev.aspect = width / height; // canvas비율을 카메라에 적용
         //   rendererPrev.setSize(500, 300, true);

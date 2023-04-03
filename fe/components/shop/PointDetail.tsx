@@ -56,13 +56,18 @@ const dummy: IDummy[] = [
 const Container = styled.div`
   position: relative;
   display: flex;
-  width: 30vw;
+  width: 45vw;
+  padding: 0 100px;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  @media all and (max-width: 1150px) {
+  @media all and (max-width: 1500px) {
     width: 50vw;
+    padding: 0 120px;
     margin-top: 20px;
+  }
+  @media all and (max-width: 1150px) {
+    padding: 0;
   }
   @media all and (max-width: 960px) {
     width: 60vw;
@@ -74,7 +79,7 @@ const Container = styled.div`
   }
   @media all and (max-width: 580px) {
     margin-top: 0px;
-    width: 100vw;
+    width: 90vw;
   }
 `;
 const LeftContainer = styled.div`
@@ -99,6 +104,7 @@ const FilterDiv = styled.div<{ theme: ColorTypes }>`
   justify-content: center;
   cursor: pointer;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
+  background: ${props => props.theme.background};
 `;
 const FilterTitle = styled.span<{ theme: ColorTypes }>`
   position: absolute;
@@ -130,7 +136,7 @@ const MiddleContainer = styled.div<{ theme: ColorTypes }>`
   &::-webkit-scrollbar {
     width: 10px;
     border-radius: 6px;
-    background: ${props => props.theme.background};
+    background: ${props => props.theme.primary20};
     /* background-color: white; */
   }
   overflow-x: hidden;
@@ -146,7 +152,7 @@ const DummyEls = styled.div<{ theme: ColorTypes }>`
   display: flex;
   align-items: center;
   &:hover {
-    background-color: ${props => props.theme.main};
+    background-color: ${props => props.theme.diaryBackground};
     border-radius: 12px;
     color: ${props => props.theme.border};
   }
