@@ -13,6 +13,7 @@ import Sticker from '../../components/modify/Sticker';
 import { common } from '../../styles/theme';
 import { useAppSelector } from '../../hooks/reduxHook';
 import { selectTheme } from '../../store/modules/theme';
+import { useBall } from '../../hooks/useBall';
 
 const ModifyPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -66,6 +67,7 @@ function Modify() {
   const [nowScript, setNowScript] = useState('로딩 중 ...');
   const theme = useTheme();
   const date = useDate();
+  const ball = useBall();
   // const len = useSelector(selectScript).curScriptIndex;
 
   const scriptArr: string[] = [...useAppSelector(selectScript).nowScript];
@@ -106,7 +108,7 @@ function Modify() {
 
   return (
     <ModifyPage theme={theme}>
-      <JellyList />
+      <JellyList ball={ball} />
       <Container>
         <Section>
           <Title theme={theme}>일기장 미리보기</Title>
