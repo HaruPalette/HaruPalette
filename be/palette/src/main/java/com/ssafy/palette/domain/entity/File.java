@@ -1,6 +1,13 @@
 package com.ssafy.palette.domain.entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,18 +21,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class File {
 
-    // 기본키
-    @Id
-    @Column(name = "file_id")
-    @GeneratedValue//(strategy = GenerationType.IDENTITY)
-    private Long id;
+	// 기본키
+	@Id
+	@Column(name = "file_id")
+	@GeneratedValue
+	private Long id;
 
-    // 일기
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "diary_id")
-    private Diary diary;
+	// 일기
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "diary_id")
+	@NotNull
+	private Diary diary;
 
-    // 경로
-    @Column
-    private String path;
+	// 경로
+	@Column(columnDefinition = "VARCHAR(255)")
+	@NotNull
+	private String path;
 }
