@@ -19,15 +19,15 @@ import { selectShop, setFriendShip } from '../../store/modules/shop';
 
 const Section = styled.section`
   position: relative;
-  width: 300px;
+  width: 240px;
   height: 300px;
   perspective: 600px;
 `;
 
 const Card = styled.div<{ theme: ColorTypes }>`
   position: relative;
-  width: 280px;
-  height: 350px;
+  width: 240px;
+  height: 300px;
   transform: translate(-50%, -50%);
   transition: all 1s;
   left: 50%;
@@ -197,7 +197,7 @@ function FriendCard(props: { data: IFriendData }) {
   const isFriendShip = useAppSelector(selectShop).friendShipList[data.index];
   const customTheme = data.ename + isDark;
 
-  const imgSrc = `/assets/img/${data.ename}/2d.svg`;
+  const imgSrc = `assets/img/${data.ename}/2d.svg`;
 
   const getTheme = () => {
     if (customTheme === 'haruDark') return haruDark;
