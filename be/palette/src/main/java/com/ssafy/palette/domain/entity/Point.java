@@ -49,4 +49,9 @@ public class Point {
 	@Column
 	@NotNull
 	private LocalDateTime date;
+
+	// 구분
+	@NotNull
+	@Column(columnDefinition = "VARCHAR(100)")
+	private String type;
 }

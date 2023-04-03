@@ -41,12 +41,13 @@ public class PointService {
 		user.setPoint(user.getPoint() - val);
 	}
 
-	public void addChallengeHistory(String useId, Long challengeId, LocalDateTime date) {
+	public void addChallengeHistory(String useId, Long challengeId, LocalDateTime date, String type) {
 		Point point = Point.builder()
 			.user(userRepository.findById(useId).get())
 			.point(challengeRepository.getReferenceById(challengeId).getPoint())
 			.category(challengeRepository.getReferenceById(challengeId).getContents())
 			.date(date)
+			.type(type)
 			.build();
 		pointRepository.save(point);
 	}
@@ -57,6 +58,7 @@ public class PointService {
 			.point(-1 * (friendRepository.findById(friendId).get().getPrice()))
 			.category(friendRepository.findById(friendId).get().getKname() + " 친구비")
 			.date(date)
+			.type(friendRepository.findById(friendId).get().getEname())
 			.build();
 		pointRepository.save(point);
 	}
@@ -76,6 +78,7 @@ public class PointService {
 						.point(point.getPoint())
 						.date(point.getDate().toLocalDate())
 						.contents(point.getCategory())
+						.type(point.getType())
 						.build())
 					.collect(Collectors.toList());
 
