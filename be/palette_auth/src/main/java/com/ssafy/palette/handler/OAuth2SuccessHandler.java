@@ -35,19 +35,20 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 	private final AuthRepository authRepository;
 	private final TokenProvider tokenProvider;
 	private final UserClient userClient;
+
+	// 로그인 성공 후 리다이렉트할 프론트 페이지 URL
 	private String redirectUrl = "http://localhost:3000/login";
-	// private String redirectUrl = "https://harupalette.com/login";
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 		Authentication authentication) throws IOException {
 
+		// OAuth2User 객체를 사용하여 로그인한 사용자의 정보를 가져옴
 		OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
 		Map<String, Object> attributes = oAuth2User.getAttributes();
 
 		AuthDto authDto = AuthDto.builder()
 			.code(String.valueOf(attributes.get("id")))
-			.registration_date(LocalDateTime.now())
 			.build();
 
 		UserDto userDto;
@@ -59,12 +60,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 		// 회원 정보 받아옴
 		Auth auth = authRepository.findByCode(authDto.getCode()).orElse(guest);
 
-		// 최초 로그인이라면 회원가입 처리를 한다.
+		// 최초 로그인이라면 회원가입 처리
 		if (auth.equals(guest)) {
 			// 회원 정보 저장
 			authRepository.save(authDto.toAuth(authDto));
 
-			// 저장된 회원 정보 불러옴 -> authId 사용
+			// 저장된 회원 정보 불러옴
 			auth = authRepository.findByCode(authDto.getCode()).orElseThrow();
 
 			userDto = new UserDto(
@@ -72,10 +73,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 				, String.valueOf(attributes.get("image"))
 			);
 
-			// 토큰 발행
+			// token 발행
 			tokens = tokenProvider.generateToken(userDto.getUserId(), Role.USER.getKey());
 
-			// 리프레시 토큰 캐시 저장
+			// refresh token 캐시에 저장
 			tokenProvider.setSaveRefresh(
 				String.valueOf(auth.getAuthId())
 				, tokens.getRefreshToken()
@@ -85,25 +86,26 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 			// 사용자 DB에 저장
 			userClient.insertUser(userDto);
 		} else {
+			// 회원가입이 되어있다면 회원 정보를 userDto로 변환
 			userDto = new UserDto(
 				String.valueOf(auth.getAuthId()),
 				String.valueOf(attributes.get("image"))
 			);
 
 			String access = tokenProvider.generateAccess(userDto.getUserId(), Role.USER.getKey());
-
-			// 리프레시 토큰 유효하면 그대로 사용, 아니면 재발행
 			String refresh = tokenProvider.getSavedRefresh(String.valueOf(auth.getAuthId()));
+
 			if (refresh != null && tokenProvider.validateToken(refresh) == JwtCode.ACCESS) {
+				// refresh token이 유효하면 그대로 사용
 				tokens = tokens.builder().accessToken(access)
 					.refreshToken(refresh).build();
 			} else {
+				// refresh token이 유효하지 않으면 재발행
 				tokens = tokenProvider.generateToken(userDto.getUserId(), Role.USER.getKey());
 			}
 		}
 
-		String targetUrl;
-		targetUrl = UriComponentsBuilder.fromUriString(redirectUrl)
+		String targetUrl = UriComponentsBuilder.fromUriString(redirectUrl)
 			.queryParam(TokenKey.ACCESS.getKey(), "Bearer-" + tokens.getAccessToken())
 			.queryParam(TokenKey.REFRESH.getKey(), "Bearer-" + tokens.getRefreshToken())
 			.build().toUriString();
