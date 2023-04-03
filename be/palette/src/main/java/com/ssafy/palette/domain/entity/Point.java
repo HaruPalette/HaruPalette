@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,17 +32,21 @@ public class Point {
 	// 사용자
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
+	@NotNull
 	private User user;
 
 	// 포인트
 	@Column
+	@NotNull
 	private int point;
 
 	// 구분
 	@Column
+	@NotNull
 	private String category;
 
 	// 일시
 	@Column
+	@NotNull
 	private LocalDateTime date;
 }
