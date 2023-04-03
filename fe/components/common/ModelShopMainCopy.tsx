@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const CustomDiv = styled.canvas`
   position: relative;
@@ -23,38 +23,12 @@ function Model(props: any) {
     const group = new THREE.Group();
     const customdiv = refDiv.current;
 
-    // const a = document.querySelector('.canva');
-    // console.log(a);
-
-    // if (customdiv && rendererPrev) {
-    //   customdiv = null;
-    //   rendererPrev = null;
-    // }
-    // const context =
-    //   customdiv?.getContext('webgl') ||
-    //   customdiv?.getContext('experimental-webgl');
-    // console.log(context);
-    // if (!context) {
-    //   const prevContext =
-    //     customdiv?.getContext('2d') ||
-    //     customdiv?.getContext('webgl') ||
-    //     customdiv?.getContext('experimental-webgl');
-    //   if (prevContext) {
-    //     customdiv?.parentNode?.removeChild(customdiv);
-    //   }
-    //   const gl =
-    //     customdiv?.getContext('webgl') ||
-    //     customdiv?.getContext('experimental-webgl');
-
-    //   console.log(gl);
-    // }
     if (customdiv && !rendererPrev) {
       const sizes = {
         width: window.innerWidth,
         height: window.innerHeight,
         aspect: window.innerWidth / window.innerHeight,
       };
-      console.log(sizes);
 
       const renderer = new THREE.WebGLRenderer({
         antialias: true,
@@ -62,17 +36,9 @@ function Model(props: any) {
         alpha: true,
       });
 
-      // customdiv
-      //   ?.getContext('webgl')
-      //   ?.clearColor(0, 0, customdiv?.width, customdiv?.height);
-      // renderer.setClearColor(0x000000, 1);
-
-      // customdiv?.appendChild(renderer.domElement);
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setPixelRatio(window.devicePixelRatio);
-      // renderer.setSize(sizes.width, sizes.height - 120);
-      // renderer.setSize(sizes.width, sizes.height - 222 - 200 - 32);
       if (sizes.width >= 500) {
         renderer.setSize((sizes.width - 320) * 0.4, 400);
       } else {
@@ -81,15 +47,6 @@ function Model(props: any) {
       rendererPrev = renderer;
       // renderer.dispose();
       // rendererPrev.dispose();
-
-      // const gl = customdiv.getContext('webgl2');
-
-      // texture = gl?.createTexture();
-      // console.log(gl, texture);
-      // gl?.deleteTexture(texture);
-
-      // framebuffer = gl?.createFramebuffer();
-      // gl?.deleteFramebuffer(framebuffer);
 
       const scene = new THREE.Scene();
       scene.background = null;
@@ -117,9 +74,9 @@ function Model(props: any) {
         }),
       );
 
+      sphereShadow.position.x = 0.1;
+      sphereShadow.position.y = -0.95;
       sphereShadow.rotation.x = -Math.PI * 0.5;
-      sphereShadow.position.x = 0;
-      sphereShadow.position.y = -0.55;
       sphereShadow.scale.set(0.7, 0.7, 0.7);
 
       group.add(sphereShadow);
@@ -127,20 +84,26 @@ function Model(props: any) {
       let width = customdiv ? customdiv.clientWidth : 0;
       let height = customdiv ? customdiv.clientHeight : 0;
       const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100);
-      // const controls = new OrbitControls(camera, customdiv);
-      // controls.saveState();
-      // controls.minDistance = 2.2;
-      // controls.maxDistance = 2.2;
-      // controls.minPolarAngle = 1.5; // 윗각도 제한
-      // controls.maxPolarAngle = 1.5; // 아래각도 제한(MATH.PI/2의 경우 바닥까지만 보여줌)
-      // controls.enableDamping = true;
-      // controls.enableZoom = false;
-      // controls.screenSpacePanning = false;
+
+      // OrbitControls 적용이 되지 않았을 때 내가 맞춘값
+      // camera.position.x = 0;
+      // camera.position.y = 0.35;
+      // camera.position.z = 1.8;
+
       camera.position.x = 0;
       camera.position.y = 0.35;
-      camera.position.z = 1.8;
+      camera.position.z = 2;
       // controls.update();
       cameraPrev = camera;
+      const controls = new OrbitControls(camera, customdiv);
+      // controls.saveState();
+      // controls.minDistance = 1.8;
+      // controls.maxDistance = 1.8;
+      controls.minPolarAngle = 1.5; // 윗각도 제한
+      controls.maxPolarAngle = 1.5; // 아래각도 제한(MATH.PI/2의 경우 바닥까지만 보여줌)
+      controls.enableDamping = true;
+      controls.enableZoom = false;
+      controls.screenSpacePanning = false;
 
       const onWindowResize = function (): void {
         width = window.innerWidth;
@@ -175,7 +138,7 @@ function Model(props: any) {
       group.add(ambientLight);
 
       const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-      directionalLight.position.set(2, 1.3, 5); // 0, 0.3, 4
+      directionalLight.position.set(2, 1.3, 5);
       directionalLight.castShadow = true;
       group.add(directionalLight);
 
@@ -184,14 +147,15 @@ function Model(props: any) {
       glftLoader.load(`/assets/img/${temp.data}/${temp.data}.gltf`, el => {
         const temp6 = el;
         temp6.scene.position.x = 0.35;
-        temp6.scene.position.y = 0;
-        temp6.scene.position.z = 1;
+        temp6.scene.position.y = 1;
+        temp6.scene.position.z = 1.1;
+
+        temp6.scene.rotation.x = 0.3;
         // 옆면: -0.7 정면: -0.4
         temp6.scene.rotation.y = -0.9;
-        temp6.scene.rotation.x = 0.3;
 
         // scene.add(el.scene);
-        group.add(el.scene);
+        group.add(temp6.scene);
 
         // 부모 요소에는 castShadow가 true이지만 자식요소의 그림자옵션 false -> true로 변경
         el.scene.traverse(function (child) {
@@ -205,16 +169,16 @@ function Model(props: any) {
 
         const animate = () => {
           if (temp6) {
-            step += 0.02;
+            step += 0.02; // 움직임 속도
             temp6.scene.scale.set(0.9, 0.9, 0.9);
-            temp6.scene.position.y = 0.5 * Math.abs(Math.sin(step));
+            temp6.scene.position.y = -0.4 + 0.4 * Math.abs(Math.sin(step));
             // el.scene.position.y = Math.sin(elapsedTime * .5) * .1 - 0.1
             sphereShadow.material.opacity =
-              (1 - Math.abs(el.scene.position.y)) * 0.5;
+              (1 - Math.abs(temp6.scene.position.y + 0.4)) * 0.5;
           }
           // requestAnimationFrame: 애니메이션을 무한 반복 되도록 하는 메서드
           requestAnimationFrame(animate);
-          // controls.update();
+          controls.update();
 
           rendererPrev.render(scenePrev, cameraPrev);
         };
@@ -230,7 +194,7 @@ function Model(props: any) {
           temp3.scene.position.z = 0.1;
           temp3.scene.rotation.y = 1.8;
           temp3.scene.rotation.x = 0.3;
-          group.add(ele.scene);
+          group.add(temp3.scene);
 
           // scene.add(el.scene);
           ele.scene.scale.set(0.1, 0.1, 0.1);

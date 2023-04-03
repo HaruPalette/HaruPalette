@@ -32,43 +32,12 @@ function Model2(props: any) {
         antialias: true,
         alpha: true,
       });
-      customdiv
-        .getContext('webgl2')
-        ?.clearColor(0, 0, customdiv?.width, customdiv?.height);
-
-      // console.log(gl?.isContextLost());
-
-      // const loseContext = gl?.getExtension('WEBGL_lose_context');
-      // console.log(loseContext?.loseContext());
-      // Window.loseC = () => loseContext?.loseContext();
-      // windows.restoreC = () => loseContext?.restoreContext();
-
-      // console.log(gl?.getExtension('WEBGL_lose_context')?.loseContext());
-      // const a = document.querySelector('.canvaChar');
-      // console.log(a);
-      // console.log(customdiv);
-      // a?.getContext('2d');
-      // customdiv
-      //   ?.getContext('2d')
-      //   ?.clearRect(0, 0, customdiv?.width, customdiv?.height);
-
-      // customdiv?.appendChild(renderer.domElement);
 
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setPixelRatio(window.devicePixelRatio);
       renderer.setSize(280, 180);
       rendererPrev = renderer;
-
-      // const gl = customdiv.getContext('webgl');
-
-      // texture = gl?.createTexture();
-      // console.log(gl, texture);
-      // gl?.deleteTexture(texture);
-
-      // framebuffer = gl?.createFramebuffer();
-      // console.log(framebuffer);
-      // gl?.deleteFramebuffer(framebuffer);
 
       // 씬 && 카메라 설정
       const scene = new THREE.Scene();
@@ -81,7 +50,7 @@ function Model2(props: any) {
       cameraPrev = camera;
       cameraPrev.position.x = 0;
       cameraPrev.position.y = 0.6;
-      cameraPrev.position.z = 2;
+      cameraPrev.position.z = 1.7;
 
       // 빛 설정
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
@@ -130,7 +99,7 @@ function Model2(props: any) {
           temp3.scene.position.z = -1.8;
           temp3.scene.rotation.y = 2;
           temp3.scene.rotation.x = 0.3;
-          group.add(ele.scene);
+          group.add(temp3.scene);
 
           ele.scene.scale.set(0.4, 0.4, 0.4);
           renderer.dispose();
