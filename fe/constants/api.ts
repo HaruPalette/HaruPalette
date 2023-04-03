@@ -20,7 +20,7 @@ export const IMAGE = `${DIARIES}/image`;
 export const SCRIPT = `${DIARIES}/script`;
 
 // 달력 목록
-export const CALENDARS = `${V1}/calendars`;
+export const CALENDARS = `${DIARIES}/calendars`;
 
 // 도전과제 조회
 export const CHALLENGE = `${V1}/challenge`;

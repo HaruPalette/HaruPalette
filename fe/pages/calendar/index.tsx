@@ -1,6 +1,10 @@
+import { GetServerSideProps } from 'next';
+import Image from 'next/image';
 import { useState } from 'react';
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { dehydrate, QueryClient, useQuery } from 'react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import CreateButton from '../../components/button/CreateButton';
 import Header from '../../components/common/Header';
 import Select from '../../components/common/Select';
@@ -10,10 +14,17 @@ import Palette from '../../components/diary/Palette';
 import { useDate } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import JellyList from '../../components/common/JellyList';
+import { useGetUsersRemind } from '../../apis/users';
+import { common } from '../../styles/theme';
+import { CACHE_TIME, DIARIES, REMIND, STALE_TIME } from '../../constants/api';
+import useCookie from '../../hooks/useCookie';
+import { UsersResponse } from '../../types/usersTypes';
+import { ErrorResponse } from '../../types/commonTypes';
+import { getCookie } from '../../utils/cookie';
+import { useGetDiariesCalendars } from '../../apis/diaries';
 
-const DirayPage = styled.div<{ theme: ColorTypes }>`
+export const DirayPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,7 +33,6 @@ const DirayPage = styled.div<{ theme: ColorTypes }>`
 
 const Container = styled.div`
   width: calc(100vw - 320px);
-  height: 100vh;
   padding-top: 5.5rem;
   display: flex;
   flex-direction: column;
@@ -36,7 +46,6 @@ const Container = styled.div`
   }
   @media all and (max-width: 1150px) {
     margin: 0;
-    padding-top: 25rem;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -85,6 +94,17 @@ const SectionContainer = styled.div`
   }
 `;
 
+const Remind = styled.div<{ theme: ColorTypes }>`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: ${props => props.theme.main};
+  text-decoration: underline;
+  font-size: ${common.fontSize.fs24};
+  margin-top: 3rem;
+`;
+
 const Section = styled.div`
   width: 35rem;
   display: flex;
@@ -103,7 +123,36 @@ const Section = styled.div`
   }
 `;
 
+export const getServerSideProps: GetServerSideProps = async context => {
+  const cookieString = context.req.headers.cookie || '';
+  const cookies = useCookie(cookieString);
+  const token = cookies.Authorization;
+  const queryClinet = new QueryClient();
+  const date = new Date();
+  await queryClinet.prefetchQuery([REMIND], () => useGetUsersRemind(token));
+  await queryClinet.prefetchQuery([DIARIES], () =>
+    useGetDiariesCalendars(
+      `${date.getFullYear()}-${date.getMonth() + 1}`,
+      token,
+    ),
+  );
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClinet),
+    },
+  };
+};
+
 function Diary() {
+  const { data } = useQuery<
+    AxiosResponse<UsersResponse>,
+    AxiosError<ErrorResponse>
+  >([REMIND], () => useGetUsersRemind(getCookie('Authorization')), {
+    keepPreviousData: true,
+    staleTime: STALE_TIME,
+    cacheTime: CACHE_TIME,
+  });
   const nowYear = useDate().year;
   const nowMonth = useDate().month;
   const theme = useTheme();
@@ -132,6 +181,17 @@ function Diary() {
           <Section>
             <Challenge />
             <CreateButton />
+            {Boolean(data) && (
+              <Remind theme={theme}>
+                <Image
+                  src="/assets/img/common/remind.svg"
+                  width={40}
+                  height={40}
+                  alt="remind"
+                />
+                <div>&nbsp;1년 전 나의 일기를 확인해 보세요 :&#41;</div>
+              </Remind>
+            )}
           </Section>
         </SectionContainer>
       </Container>
