@@ -117,8 +117,6 @@ const DesktopText = styled.h1<{ windowHeight: number }>`
 
   z-index: 1;
 
-  transition: 0s ease-in-out;
-
   font-size: 5vw;
   opacity: ${props =>
     props.windowHeight >= 2200 && props.windowHeight < 2700 ? 1 : 0};
@@ -146,8 +144,6 @@ const TabletText = styled.h1<{ windowHeight: number }>`
   transform: translateY(-50%);
 
   z-index: 1;
-
-  transition: 0s ease-in-out;
 
   font-size: 5vw;
   opacity: ${props =>
@@ -177,8 +173,6 @@ const MobileText = styled.h1<{ windowHeight: number }>`
 
   z-index: 1;
 
-  transition: 0s ease-in-out;
-
   font-size: 5vw;
   opacity: ${props =>
     props.windowHeight >= 3200 && props.windowHeight < 3700 ? 1 : 0};
@@ -196,6 +190,11 @@ const MobileText = styled.h1<{ windowHeight: number }>`
   }
 `;
 
+const Background = styled.div<{ windowHeight: number }>`
+  display: ${props =>
+    props.windowHeight >= 2200 && props.windowHeight < 3700 ? 'flex' : 'none'};
+`;
+
 function Section2() {
   const isDark = useAppSelector(selectTheme);
   const windowHeight = useScreenY();
@@ -203,7 +202,9 @@ function Section2() {
 
   return (
     <Section windowHeight={windowHeight}>
-      <JellyList ball={ball} />
+      <Background windowHeight={windowHeight}>
+        <JellyList ball={ball} />
+      </Background>
       <DesktopMockUp windowHeight={windowHeight}>
         <Image
           src={
@@ -243,7 +244,21 @@ function Section2() {
         />
       </MobileMockUp>
       <MobileText windowHeight={windowHeight}>보다 자유롭게</MobileText>
-      {windowHeight < 3200 ? <div /> : <Mouse top={4400} />}
+      {windowHeight >= 2200 && windowHeight < 2700 ? (
+        <Mouse top={2700} />
+      ) : (
+        <div />
+      )}
+      {windowHeight >= 2700 && windowHeight < 3200 ? (
+        <Mouse top={3200} />
+      ) : (
+        <div />
+      )}
+      {windowHeight >= 3200 && windowHeight < 3700 ? (
+        <Mouse top={3900} />
+      ) : (
+        <div />
+      )}
     </Section>
   );
 }
