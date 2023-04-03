@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { ColorTypes } from '@emotion/react';
 import { IFriendData } from './BuyingBuddy';
 import {
-  common,
   gomiDark,
   gomiLight,
   haruDark,
@@ -16,31 +15,30 @@ import { selectTheme } from '../../store/modules/theme';
 import Model from '../common/ModelCharacter';
 import { setCharName } from '../../store/modules/profile';
 import { selectShop, setFriendShip } from '../../store/modules/shop';
-
+// 원본
 const Section = styled.section`
-  position: relative;
-  width: 300px;
+  width: 80vw;
   height: 300px;
+  position: relative;
   perspective: 600px;
 `;
 
 const Card = styled.div<{ theme: ColorTypes }>`
   position: relative;
   width: 280px;
-  height: 350px;
-  transform: translate(-50%, -50%);
-  transition: all 1s;
+  height: 290px;
   left: 50%;
   top: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 1s;
   transform-style: preserve-3d;
   &:hover {
     transform: translate(-50%, -50%) rotateY(180deg);
   }
   /* border: 3px solid ${props => props.theme.sub}; */
+  border-radius: 16px;
   z-index: 200;
   white-space: pre-wrap;
-  /* -webkit-box-reflect: below 35px
-    linear-gradient(transparent 45%, rgba(255, 255, 255, 0.4)); */
 `;
 
 const Front = styled.div<{ theme: ColorTypes }>`
@@ -50,7 +48,7 @@ const Front = styled.div<{ theme: ColorTypes }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 8px;
+  border-radius: 10px;
   left: 0;
   top: 0;
   background: ${props => props.theme.diaryBackground};
@@ -65,7 +63,7 @@ const Back = styled.div<{ theme: ColorTypes }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 8px;
+  border-radius: 10px;
   left: 0;
   top: 0;
   background: ${props => props.theme.diaryBackground};
@@ -74,7 +72,7 @@ const Back = styled.div<{ theme: ColorTypes }>`
   flex-direction: column;
 `;
 const NameDiv = styled.div<{ theme: ColorTypes }>`
-  width: 240px;
+  width: 280px;
   height: 90px;
   top: 0px;
   text-align: center;
@@ -132,7 +130,7 @@ const Characteristic = styled.div<{ theme: ColorTypes }>`
   justify-content: center;
   text-align: center;
   align-items: center;
-  font-size: ${common.fontSize.fs12};
+  font-size: 10px;
   margin: 0 10px;
   border-radius: 16px;
   background: ${props => props.theme.background};
@@ -197,7 +195,7 @@ function FriendCard(props: { data: IFriendData }) {
   const isFriendShip = useAppSelector(selectShop).friendShipList[data.index];
   const customTheme = data.ename + isDark;
 
-  const imgSrc = `/assets/img/${data.ename}/2d.svg`;
+  const imgSrc = `assets/img/${data.ename}/2d.svg`;
 
   const getTheme = () => {
     if (customTheme === 'haruDark') return haruDark;
