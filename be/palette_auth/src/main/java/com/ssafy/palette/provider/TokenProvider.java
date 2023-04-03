@@ -37,7 +37,7 @@ public class TokenProvider implements InitializingBean {
 		// RedisService redisService
 	) {
 		this.secret = secret;
-		this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+		this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000 * 24;
 		// this.redisService = redisService;
 	}
 
@@ -72,7 +72,7 @@ public class TokenProvider implements InitializingBean {
 	}
 
 	public String createToken(String userId, String role, TokenKey tokenKey) {
-		// access : 1 hour, refresh : 1 month
+		// access : 하루, refresh : 2주
 		long period = getExpiration(tokenKey);
 
 		Claims claims = Jwts.claims().setSubject(userId);
@@ -118,7 +118,7 @@ public class TokenProvider implements InitializingBean {
 		if (delimiter.equals(TokenKey.ACCESS.getKey())) {
 			return tokenValidityInMilliseconds;
 		} else if (delimiter.equals(TokenKey.REFRESH.getKey())) {
-			return tokenValidityInMilliseconds * 2L * 24L * 30;
+			return tokenValidityInMilliseconds * 14;
 		} else {
 			throw new RuntimeException();
 		}
