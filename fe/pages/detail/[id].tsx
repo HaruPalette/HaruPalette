@@ -19,6 +19,7 @@ import { CACHE_TIME, DIARIES, STALE_TIME } from '../../constants/api';
 import { useGetDiaries, usePatchDiaries } from '../../apis/diaries';
 import { ErrorResponse } from '../../types/commonTypes';
 import { getCookie } from '../../utils/cookie';
+import { useBall } from '../../hooks/useBall';
 
 const DetailPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -122,6 +123,7 @@ function Detail() {
   const [save, setSave] = useState(false);
   const [share, setShare] = useState(false);
   const diaryId = window.location.href.split('detail/')[1];
+  const ball = useBall();
   const theme = useTheme();
 
   const { data } = useQuery<
@@ -206,7 +208,7 @@ function Detail() {
 
   return (
     <DetailPage theme={theme}>
-      <JellyList />
+      <JellyList ball={ball} />
       <Header />
       <Container>
         <Diary

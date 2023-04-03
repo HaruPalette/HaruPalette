@@ -19,15 +19,15 @@ import { selectShop, setFriendShip } from '../../store/modules/shop';
 
 const Section = styled.section`
   position: relative;
-  width: 300px;
+  width: 240px;
   height: 300px;
   perspective: 600px;
 `;
 
 const Card = styled.div<{ theme: ColorTypes }>`
   position: relative;
-  width: 280px;
-  height: 350px;
+  width: 240px;
+  height: 300px;
   transform: translate(-50%, -50%);
   transition: all 1s;
   left: 50%;
@@ -162,57 +162,43 @@ const DescDivBack = styled.div<{ theme: ColorTypes }>`
   line-height: 24px;
   color: ${props => props.theme.color};
 `;
-const BtnDivBack = styled.div<{ theme: ColorTypes }>`
-  width: 140px;
+const BtnDivBack = styled.div`
+  width: 280px;
   height: 40px;
   text-align: center;
   font-size: 14px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  border-radius: ${common.fontSize.fs12};
-  background: ${props => props.theme.background};
+  justify-content: center;
 `;
-
-const BtnImgDivBack = styled(Image)`
-  width: 25px;
-  height: 25px;
-  margin-left: 15px;
-`;
-
 const BtnNotFriendBack = styled.button<{ theme: ColorTypes }>`
-  width: 80px;
+  width: 100px;
   height: 30px;
   text-align: center;
   font-size: 18px;
   color: ${props => props.theme.main};
   cursor: pointer;
   font-weight: bold;
-  line-height: 32px;
-  margin-right: 10px;
 `;
 const BtnYesFriendBack = styled.button<{ theme: ColorTypes }>`
-  width: 80px;
+  width: 100px;
   height: 30px;
   text-align: center;
   font-size: 18px;
   color: ${props => props.theme.main};
   cursor: pointer;
   font-weight: bold;
-  line-height: 32px;
-  margin-right: 10px;
 `;
 
 function FriendCard(props: { data: IFriendData }) {
   const { data } = props;
   const dispatch = useAppDispatch();
-  // const theme1 = useTheme();
   const isDark = useAppSelector(selectTheme) ? 'Dark' : 'Light';
   const isFriendShip = useAppSelector(selectShop).friendShipList[data.index];
   const customTheme = data.ename + isDark;
 
-  const imgSrc = `/assets/img/${data.ename}/2d.svg`;
-  const backBtnImg = `/assets/img/common/coin2.svg`;
+  const imgSrc = `assets/img/${data.ename}/2d.svg`;
+
   const getTheme = () => {
     if (customTheme === 'haruDark') return haruDark;
     if (customTheme === 'haruLight') return haruLight;
@@ -278,15 +264,8 @@ function FriendCard(props: { data: IFriendData }) {
             />
           </CharacterDivBack>
           <DescDivBack theme={getTheme()}>{data.desc}</DescDivBack>
-          {/* <BtnDivBack theme={getTheme()}> */}
-          {isFriendShip ? (
-            <BtnDivBack theme={getTheme()}>
-              <BtnImgDivBack
-                src={backBtnImg}
-                width={16}
-                height={16}
-                alt="PrevIcon"
-              />
+          <BtnDivBack>
+            {isFriendShip ? (
               <BtnYesFriendBack
                 theme={getTheme()}
                 onClick={() => {
@@ -295,15 +274,7 @@ function FriendCard(props: { data: IFriendData }) {
               >
                 선택하기
               </BtnYesFriendBack>
-            </BtnDivBack>
-          ) : (
-            <BtnDivBack theme={getTheme()}>
-              <BtnImgDivBack
-                src={backBtnImg}
-                width={16}
-                height={16}
-                alt="PrevIcon"
-              />
+            ) : (
               <BtnNotFriendBack
                 theme={getTheme()}
                 onClick={() => {
@@ -312,9 +283,8 @@ function FriendCard(props: { data: IFriendData }) {
               >
                 친해지기
               </BtnNotFriendBack>
-            </BtnDivBack>
-          )}
-          {/* </BtnDivBack> */}
+            )}
+          </BtnDivBack>
         </Back>
       </Card>
     </Section>

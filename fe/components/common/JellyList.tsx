@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import useBall from '../../hooks/useBall';
 import Jelly from '../animation/Jelly';
+import { BallData } from '../../types/commonTypes';
 
 const JellyListStyles = styled.div`
   width: 100%;
@@ -20,10 +20,11 @@ const JellyListStyles = styled.div`
   }
 `;
 
-function JellyList() {
+function JellyList(props: { ball: BallData[] }) {
+  const { ball } = props;
   return (
     <JellyListStyles>
-      {useBall().map(item => {
+      {ball.map((item: BallData) => {
         return <Jelly ballData={item} key={item.left} />;
       })}
     </JellyListStyles>

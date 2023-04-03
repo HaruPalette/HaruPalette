@@ -28,6 +28,7 @@ import { ErrorResponse } from '../../types/commonTypes';
 import { getCookie } from '../../utils/cookie';
 import { useGetDiariesCalendars } from '../../apis/diaries';
 import { RemindResponse } from '../../types/usersTypes';
+import { useBall } from '../../hooks/useBall';
 
 export const DirayPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -178,11 +179,12 @@ function Diary() {
   const theme = useTheme();
   const [year, setYear] = useState(nowYear);
   const [month, setMonth] = useState(nowMonth);
+  const ball = useBall();
 
   return (
     <DirayPage theme={theme}>
       <Header />
-      <JellyList />
+      <JellyList ball={ball} />
       <Container>
         <Title theme={theme}>
           {year}년 {month}월
