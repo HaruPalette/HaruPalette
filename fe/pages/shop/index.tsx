@@ -16,7 +16,6 @@ import PointDetail from '../../components/shop/PointDetail';
 
 const ShopPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,18 +24,16 @@ const ShopPage = styled.div<{ theme: ColorTypes }>`
 
 const DiaryStyles = styled.div<{ theme: ColorTypes }>`
   width: calc(100vw - 320px);
-  height: calc(100vh - 5.5rem);
-  margin: 0 160px;
-  margin-top: 5.5rem;
+  height: calc(100vh);
+  /* margin: 0 160px; */
+  padding-top: 5.5rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   flex-direction: row;
-  /* @media all and (max-width: 1450px) {
-    justify-content: center;
-    align-items: center;
-  } */
+  justify-content: center;
+
   @media all and (max-width: 1150px) {
+    height: auto;
     width: calc(100vw - 320px);
     justify-content: space-between;
     flex-direction: column;
@@ -60,7 +57,7 @@ const LeftDiv = styled.div`
   align-items: center;
   @media all and (max-width: 1150px) {
     width: calc(100vw - 320px);
-    justify-content: center;
+    justify-content: space-around;
     flex-direction: row;
     align-items: center;
   }
