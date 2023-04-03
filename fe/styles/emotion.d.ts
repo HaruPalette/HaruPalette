@@ -29,6 +29,7 @@ declare module '@emotion/react' {
     fontSize: FontSize;
   }
   export interface ColorTypes {
+    happy: string;
     primary20: string;
     primary40: string;
     primary60: string;
