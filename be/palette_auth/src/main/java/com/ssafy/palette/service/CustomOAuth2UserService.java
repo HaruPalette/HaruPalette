@@ -22,26 +22,27 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
-		// DefaultOAuth2UserService 객체를 성공정보를 바탕으로 만든다.
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService();
 
-		// 생성된 Service 객체로 부터 User를 받는다.
+		// oAuth2UserService 객체로 부터 사용자 정보를 받는다.
 		OAuth2User oAuth2User = oAuth2UserService.loadUser(userRequest);
 		log.info("oAuth2User = {}", oAuth2User);
 
-		// 받은 User로 부터 user 정보를 받는다.
+		// 받은 사용자 정보로 registrationId(소셜로그인 종류)와 userNameAttributeName를 추출
 		String registrationId = userRequest.getClientRegistration().getRegistrationId();
 		String userNameAttributeName = userRequest.getClientRegistration()
 			.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 		log.info("registrationId = {}", registrationId);
 		log.info("userNameAttributeName = {}", userNameAttributeName);
 
-		// SuccessHandler가 사용할 수 있도록 등록해준다.
+		// 추출한 정보들로 OAuth2Attribute 객체 생성
 		OAuth2Attribute oAuth2Attribute =
 			OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
+		// 사용자 정보 매핑
 		var memberAttribute = oAuth2Attribute.convertToMap();
 
+		// 권한 정보를 추가하여 최종적으로 인증된 사용자 정보를 반환
 		return new DefaultOAuth2User(
 			Collections.singleton(new SimpleGrantedAuthority(Role.USER.getKey())),
 			memberAttribute, "id");
