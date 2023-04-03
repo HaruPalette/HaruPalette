@@ -10,19 +10,19 @@ const ButtonsDiv = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
   height: 1.875rem;
-  top: 50px;
-  right: 0px;
-  margin-bottom: 40px;
+  top: 20px;
+  margin-bottom: 0px;
   line-height: 1.875rem;
 
   @media all and (max-width: 1150px) {
-    top: 40px;
+    margin-bottom: 40px;
   }
 `;
 
 const CurrButton = styled.button<{ theme: ColorTypes }>`
-  width: 10.5rem;
+  width: 9.5rem;
   height: 1.875rem;
   font-weight: bold;
   font-size: 20px;
@@ -31,9 +31,12 @@ const CurrButton = styled.button<{ theme: ColorTypes }>`
   text-decoration: underline;
   text-underline-offset: 7px;
   text-decoration-thickness: 3px;
+  @media all and (max-width: 560px) {
+    font-size: 18px;
+  }
 `;
 const Button = styled.button<{ theme: ColorTypes }>`
-  width: 10.5rem;
+  width: 9.5rem;
   height: 1.875rem;
   text-align: center;
   font-size: 20px;
@@ -41,6 +44,9 @@ const Button = styled.button<{ theme: ColorTypes }>`
   color: ${props => props.theme.color};
   &:hover {
     color: ${props => props.theme.main};
+  }
+  @media all and (max-width: 560px) {
+    font-size: 18px;
   }
 `;
 

@@ -35,7 +35,10 @@ const Container = styled.div`
     height: 216px;
     /* scale: 0.9; */
   @media all and (max-width: 560px) {
-    transform: scale(0.8);
+    margin: 30px 0;
+  }
+  @media all and (max-width: 560px) {
+    margin: 30px 0;
   }
 `;
 

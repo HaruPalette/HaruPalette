@@ -20,7 +20,7 @@ const ShopPage = styled.div<{ theme: ColorTypes }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.theme.background};
+  background: ${props => props.theme.shopBackground};
 `;
 
 const DiaryStyles = styled.div<{ theme: ColorTypes }>`
@@ -32,7 +32,6 @@ const DiaryStyles = styled.div<{ theme: ColorTypes }>`
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-  background: ${props => props.theme.background};
   /* @media all and (max-width: 1450px) {
     justify-content: center;
     align-items: center;
