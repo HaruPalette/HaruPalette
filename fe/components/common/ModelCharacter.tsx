@@ -99,26 +99,26 @@ function Model2(props: any) {
       glftLoader.load(`/assets/img/${buddyEname}/${buddyEname}.gltf`, el => {
         const temp2 = el;
         temp2.scene.position.x = 0.35;
-        temp2.scene.position.y = 0;
+        temp2.scene.position.y = 0.5;
         temp2.scene.position.z = 1;
         temp2.scene.rotation.y = -0.92;
         temp2.scene.rotation.x = 0.3;
 
         group.add(temp2.scene);
 
-        let step = 0;
+        // let step = 0;
 
-        const animate = () => {
-          if (temp2) {
-            step += 0.02;
-            temp2.scene.scale.set(1.2, 1.2, 1.2);
-            temp2.scene.position.y = 0.5 * Math.abs(Math.sin(step));
-          }
-          requestAnimationFrame(animate); // 애니메이션을 무한 반복 되도록 하는 메서드
+        // const animate = () => {
+        //   if (temp2) {
+        //     step += 0.02;
+        //     temp2.scene.scale.set(1.2, 1.2, 1.2);
+        //     temp2.scene.position.y = 0.5 * Math.abs(Math.sin(step));
+        //   }
+        //   requestAnimationFrame(animate); // 애니메이션을 무한 반복 되도록 하는 메서드
 
-          rendererPrev.render(scenePrev, cameraPrev);
-        };
-        animate();
+        // };
+        // animate();
+        rendererPrev.render(scenePrev, cameraPrev);
       });
       const glftLoaderSub = new GLTFLoader();
       glftLoaderSub.load(

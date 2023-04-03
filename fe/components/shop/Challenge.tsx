@@ -4,16 +4,21 @@ import { useNowDate, useDate } from '../../hooks/useDate';
 
 const Container = styled.div`
   position: relative;
-  width: 35vw;
+  width: 45vw;
   height: 520px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
+  @media all and (min-width: 1411px) {
+    margin-top: 20px;
+    width: 45vw;
+    padding: 0px 50px;
+  }
   @media all and (max-width: 1410px) {
     margin-top: 20px;
-    width: 40vw;
+    width: 45vw;
   }
   @media all and (max-width: 1220px) {
     margin-top: 20px;
@@ -40,11 +45,10 @@ const Container = styled.div`
   }
   @media all and (max-width: 560px) {
     width: 100vw;
-    transform: scale(0.95);
+    margin-top: 50px;
   }
   @media all and (max-width: 460px) {
-    margin-top: 70px;
-    width: 65vw;
+    width: 100vw;
   }
 `;
 

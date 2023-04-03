@@ -73,8 +73,9 @@ const friendData: IFriendData[] = [
 
 const Container = styled.div`
   position: relative;
-  width: 38vw;
+  width: 45vw;
   height: 500px;
+  padding: 0 20px;
   display: flex;
   justify-content: center;
   align-items: center;
