@@ -27,6 +27,9 @@ public class AuthDto {
 	private LocalDateTime registration_date;
 
 	public Auth toAuth(AuthDto authDto) {
-		return Auth.builder().code(authDto.getCode()).build();
+		return Auth.builder()
+			.code(authDto.getCode())
+			.registration_date(authDto.getRegistration_date())
+			.build();
 	}
 }
