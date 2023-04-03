@@ -67,7 +67,6 @@ const CenterContainer = styled.div`
 `;
 
 const RightContainer = styled.div`
-  width: 10rem;
   height: 88px;
 
   display: flex;
@@ -75,7 +74,6 @@ const RightContainer = styled.div`
   justify-content: space-between;
 
   @media screen and (max-width: 500px) {
-    width: 6rem;
   }
 `;
 
@@ -87,6 +85,10 @@ const Profile = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  img:nth-of-type(1) {
+    margin-right: 1rem;
+  }
 `;
 
 const ProfileImage = styled(Image)`
