@@ -23,7 +23,7 @@ export const SCRIPT = `${DIARIES}/script`;
 export const CALENDARS = `${DIARIES}/calendars`;
 
 // 도전과제 조회
-export const CHALLENGE = `${V1}/challenge`;
+export const CHALLENGE = `${USERS}/challenge`;
 // 캐릭터 조회
 export const FRIEND = `${V1}/friend`;
 // 포인트 내역 조회
