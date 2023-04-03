@@ -90,8 +90,11 @@ const Profile = styled.div`
 `;
 
 const ProfileImage = styled(Image)`
-  /* width: ; */
   border-radius: 3rem;
+`;
+
+const Logout = styled(Image)`
+  cursor: pointer;
 `;
 
 function Header() {
@@ -125,7 +128,7 @@ function Header() {
             {!profile.isLogin && <LoginButton />}
             {profile.isLogin && (
               <Profile>
-                <Image
+                <Logout
                   src={`/assets/img/common/${
                     dark ? 'dark' : 'light'
                   }/logout.svg`}

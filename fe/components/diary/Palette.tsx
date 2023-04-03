@@ -35,6 +35,10 @@ const Content = styled.div`
 const Text = styled.div<{ theme: ColorTypes }>`
   color: ${props => props.theme.color};
   font-size: ${common.fontSize.fs20};
+
+  @media screen and (max-width: 500px) {
+    font-size: ${common.fontSize.fs16};
+  }
 `;
 
 function Palette() {
