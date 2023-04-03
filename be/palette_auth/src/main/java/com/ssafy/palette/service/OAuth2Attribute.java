@@ -12,6 +12,7 @@ import lombok.ToString;
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 public class OAuth2Attribute {
+	// 토큰을 통해 얻은 사용자 정보들을 매핑해서 저장
 	private Map<String, Object> attributes;
 	private String id;
 	private String attributeKey;

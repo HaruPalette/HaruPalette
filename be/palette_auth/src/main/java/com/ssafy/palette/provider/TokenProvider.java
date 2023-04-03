@@ -185,7 +185,7 @@ public class TokenProvider implements InitializingBean {
 	}
 
 	/**
-	 * HTTP Header에서 token을 추출하여 반환
+	 * HTTP 요청 Header에서 token을 추출하여 반환
 	 * @param bearerToken
 	 * @return
 	 */
