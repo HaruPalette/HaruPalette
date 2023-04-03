@@ -15,7 +15,6 @@ import com.ssafy.palette.domain.entity.User;
 import com.ssafy.palette.domain.entity.UserFriend;
 import com.ssafy.palette.repository.DiaryRepository;
 import com.ssafy.palette.repository.FriendRepository;
-import com.ssafy.palette.repository.PointRepository;
 import com.ssafy.palette.repository.UserFriendRepository;
 import com.ssafy.palette.repository.UserRepository;
 
@@ -27,10 +26,11 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
 	private final UserRepository userRepository;
-	private final PointRepository pointRepository;
 	private final DiaryRepository diaryRepository;
 	private final FriendRepository friendRepository;
 	private final UserFriendRepository userFriendRepository;
+
+	private final ChallengeService challengeService;
 
 	public void signup(LoginDto loginDto) {
 		Friend friend = friendRepository.findById(1L).get();
@@ -51,6 +51,8 @@ public class UserService {
 
 		userRepository.save(user);
 		userFriendRepository.save(userFriend);
+
+		challengeService.eventChallenge(user.getId(), LocalDateTime.now());
 	}
 
 	public ProfileDto sendProfile(String userId) {
@@ -72,7 +74,6 @@ public class UserService {
 	}
 
 	public Long BeforeOneYear(String userId) {
-
 		LocalDate date = LocalDate.now().minusYears(1);
 		List<Diary> diaries = diaryRepository.findByUser_IdAndRegistrationDate(userId, date);
 		System.out.println(diaries.size());
