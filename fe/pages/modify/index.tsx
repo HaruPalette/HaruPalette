@@ -93,7 +93,7 @@ function Modify() {
     date: `${date.year}-${date.month}-${date.date}`,
     contents: `${nowScript}`,
     weather: 'Clear',
-    ename: `${useAppSelector(selectProfile).chrName}`,
+    friendEname: `${useAppSelector(selectProfile).chrName}`,
     answer: '',
     image: `/assets/img/${chr}/${dark ? 'dark_diary.svg' : 'light_diary.svg'}`,
     stickerCode: `${nowSticker}`,

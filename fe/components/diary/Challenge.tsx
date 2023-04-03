@@ -1,8 +1,15 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { AxiosError, AxiosResponse } from 'axios';
+import { useQuery } from 'react-query';
+import { useGetUsersChallenge } from '../../apis/users';
+import { CACHE_TIME, DIARIES, STALE_TIME } from '../../constants/api';
 import { useDate, useNowDate } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
+import { ErrorResponse } from '../../types/commonTypes';
+import { ChallengeData, ChallengeResponse } from '../../types/usersTypes';
+import { getCookie } from '../../utils/cookie';
 import Horizontal from '../progressbar/Horizontal';
 
 const ChallengeStyles = styled.div`
@@ -35,12 +42,23 @@ const CountStyles = styled.div<{ theme: ColorTypes }>`
 function Challenge() {
   const theme = useTheme();
   const nowDate: number = useNowDate(useDate().year, useDate().month);
+
+  const query = useQuery<
+    AxiosResponse<ChallengeResponse>,
+    AxiosError<ErrorResponse>,
+    ChallengeData
+  >([DIARIES], () => useGetUsersChallenge(getCookie('Authorization')), {
+    keepPreviousData: true,
+    staleTime: STALE_TIME,
+    cacheTime: CACHE_TIME,
+  });
+  const { data } = query;
   return (
     <>
       <ChallengeStyles>
         <Title theme={theme}>이번 주 도전 과제</Title>
         <Horizontal
-          percent={Math.floor((4 / 7) * 100)}
+          percent={Math.floor((data?.weekCnt ? data.weekCnt : 0 / 7) * 100)}
           color={theme.primary20}
         />
         <CountStyles theme={theme}>
@@ -51,7 +69,9 @@ function Challenge() {
       <ChallengeStyles>
         <Title theme={theme}>이번 달 도전 과제</Title>
         <Horizontal
-          percent={Math.floor((4 / nowDate) * 100)}
+          percent={Math.floor(
+            (data?.monthCnt ? data.monthCnt : 0 / nowDate) * 100,
+          )}
           color={theme.primary20}
         />
         <CountStyles theme={theme}>

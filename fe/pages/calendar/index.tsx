@@ -14,14 +14,20 @@ import Palette from '../../components/diary/Palette';
 import { useDate } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import JellyList from '../../components/common/JellyList';
-import { useGetUsersRemind } from '../../apis/users';
+import { useGetUsersChallenge, useGetUsersRemind } from '../../apis/users';
 import { common } from '../../styles/theme';
-import { CACHE_TIME, DIARIES, REMIND, STALE_TIME } from '../../constants/api';
+import {
+  CACHE_TIME,
+  CHALLENGE,
+  DIARIES,
+  REMIND,
+  STALE_TIME,
+} from '../../constants/api';
 import useCookie from '../../hooks/useCookie';
-import { UsersResponse } from '../../types/usersTypes';
 import { ErrorResponse } from '../../types/commonTypes';
 import { getCookie } from '../../utils/cookie';
 import { useGetDiariesCalendars } from '../../apis/diaries';
+import { RemindResponse } from '../../types/usersTypes';
 import { useBall } from '../../hooks/useBall';
 
 export const DirayPage = styled.div<{ theme: ColorTypes }>`
@@ -104,6 +110,12 @@ const Remind = styled.div<{ theme: ColorTypes }>`
   text-decoration: underline;
   font-size: ${common.fontSize.fs24};
   margin-top: 3rem;
+  transform: scale(1);
+
+  @media screen and (max-width: 500px) {
+    font-size: ${common.fontSize.fs20};
+    transform: scale(0.7);
+  }
 `;
 
 const Section = styled.div`
@@ -130,13 +142,20 @@ export const getServerSideProps: GetServerSideProps = async context => {
   const token = cookies.Authorization;
   const queryClinet = new QueryClient();
   const date = new Date();
-  await queryClinet.prefetchQuery([REMIND], () => useGetUsersRemind(token));
-  await queryClinet.prefetchQuery([DIARIES], () =>
-    useGetDiariesCalendars(
-      `${date.getFullYear()}-${date.getMonth() + 1}`,
-      token,
+  await Promise.all([
+    queryClinet.prefetchQuery([REMIND], () => useGetUsersRemind(token)),
+    queryClinet.prefetchQuery([DIARIES], () =>
+      useGetDiariesCalendars(
+        `${date.getFullYear()}-${
+          date.getMonth() + 1 < 10
+            ? String(`0${date.getMonth() + 1}`)
+            : date.getMonth() + 1
+        }`,
+        token,
+      ),
     ),
-  );
+    queryClinet.prefetchQuery([CHALLENGE], () => useGetUsersChallenge(token)),
+  ]);
 
   return {
     props: {
@@ -146,9 +165,10 @@ export const getServerSideProps: GetServerSideProps = async context => {
 };
 
 function Diary() {
-  const { data } = useQuery<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
+  const { data, isLoading } = useQuery<
+    AxiosResponse<RemindResponse>,
+    AxiosError<ErrorResponse>,
+    RemindResponse
   >([REMIND], () => useGetUsersRemind(getCookie('Authorization')), {
     keepPreviousData: true,
     staleTime: STALE_TIME,
@@ -183,7 +203,7 @@ function Diary() {
           <Section>
             <Challenge />
             <CreateButton />
-            {Boolean(data) && (
+            {!isLoading && Boolean(data) && (
               <Remind theme={theme}>
                 <Image
                   src="/assets/img/common/remind.svg"
