@@ -1,5 +1,7 @@
 package com.ssafy.palette.domain.dto;
 
+import java.time.LocalDateTime;
+
 import com.ssafy.palette.domain.entity.Auth;
 
 import lombok.AllArgsConstructor;
@@ -20,6 +22,9 @@ public class AuthDto {
 
 	// 코드
 	private String code;
+
+	// 등록 일시
+	private LocalDateTime registration_date;
 
 	public Auth toAuth(AuthDto authDto) {
 		return Auth.builder().code(authDto.getCode()).build();
