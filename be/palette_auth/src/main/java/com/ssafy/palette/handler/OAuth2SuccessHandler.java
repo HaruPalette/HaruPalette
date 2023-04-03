@@ -1,6 +1,7 @@
 package com.ssafy.palette.handler;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +47,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
 		AuthDto authDto = AuthDto.builder()
 			.code(String.valueOf(attributes.get("id")))
+			.registration_date(LocalDateTime.now())
 			.build();
 
 		UserDto userDto;
