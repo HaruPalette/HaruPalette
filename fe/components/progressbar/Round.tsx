@@ -6,9 +6,8 @@ import useTheme from '../../hooks/useTheme';
 import { selectProfile } from '../../store/modules/profile';
 
 export interface DiaryProps {
-  index: number;
   currCnt: number;
-  AllCnt: number;
+  allCnt: number;
   desc: string;
   color: string;
 }
@@ -30,6 +29,16 @@ const Container = styled.div`
   height: 240px;
   /* 반응형에 따라 스케일 바꾸기 */
   /* transform: scale(0.75); */
+  /* @media all and (max-width: 1400px) {
+    width: 216px;
+    height: 216px;
+    /* scale: 0.9; */
+  @media all and (max-width: 560px) {
+    margin: 30px 0;
+  }
+  @media all and (max-width: 560px) {
+    margin: 30px 0;
+  }
 `;
 
 const ProgressWrap = styled.svg`
@@ -75,6 +84,24 @@ const ProgressBar2 = styled.circle<{
   animation: ${props => animation(props.percent)} 2s linear;
 `;
 
+const ProgressBar3 = styled.div`
+  width: 240px;
+  height: 240px;
+  border-radius: 240px;
+  background: rgba(122, 122, 122, 0.8);
+  position: relative;
+  top: -247px;
+  left: 0;
+  z-index: 9;
+`;
+
+const Stamp = styled(Image)`
+  position: relative;
+  top: -400px;
+  left: 130px;
+  z-index: 99;
+`;
+
 const Diary = styled(Image)`
   position: absolute;
   /* top: 0으로 바꿔야 함 */
@@ -88,10 +115,10 @@ const Diary = styled(Image)`
 
 const Challenge = styled.div`
   position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 30%;
-  left: 0;
+  width: 150px;
+  height: 125px;
+  top: 90px;
+  left: 45px;
   transform: scale(0.75);
   text-align: center;
   color: black;
@@ -106,7 +133,7 @@ function Round(props: { data: DiaryProps }) {
   const { data } = props;
   // props : 과제 완료 현황(percent), 색상 값(20, 40, 60, 80), 과제 내용
   // 과제 완료 현황
-  const percent = Math.floor((data.currCnt / data.AllCnt) * 100);
+  const percent = Math.floor((data.currCnt / data.allCnt) * 100);
   // 색상 값
   const primary: string = data.color;
   // 현재 테마 가져오기
@@ -129,7 +156,7 @@ function Round(props: { data: DiaryProps }) {
           cy="110"
           r="110"
           theme={theme}
-          percent={percent}
+          percent={percent > 100 ? 100 : percent}
           primary={primary}
         />
       </ProgressWrap>
@@ -138,9 +165,19 @@ function Round(props: { data: DiaryProps }) {
         <div>{content}</div>
 
         <Percent>
-          {data.currCnt}/{data.AllCnt}
+          {data.currCnt > data.allCnt ? data.allCnt : data.currCnt}/
+          {data.allCnt}
         </Percent>
       </Challenge>
+      {percent >= 100 && <ProgressBar3 />}
+      {percent >= 100 && (
+        <Stamp
+          src={`/assets/img/${chr.chrName}/stamp.svg`}
+          width={150}
+          height={150}
+          alt="stamp"
+        />
+      )}
     </Container>
   );
 }

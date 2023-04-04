@@ -1,10 +1,9 @@
 import Image from 'next/image';
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
 import { keyframes } from '@emotion/react';
 import { selectProfile } from '../../store/modules/profile';
-import { useAppDispatch } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { changeLinkSuccess } from '../../store/modules/menu';
 
 const HomeImageHover = keyframes`
@@ -42,7 +41,7 @@ const HomeImage = styled(Image)`
 `;
 
 function HomeButton() {
-  const chr = useSelector(selectProfile);
+  const chr = useAppSelector(selectProfile);
   const icon = `/assets/img/${chr.chrName}/home.svg`;
   const dispatch = useAppDispatch();
   const handleChangeLink = (link: string) => {

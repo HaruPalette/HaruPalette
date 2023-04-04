@@ -1,10 +1,15 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useDispatch } from 'react-redux';
+import { AxiosError, AxiosResponse } from 'axios';
+import { useMutation } from 'react-query';
+import { STT } from '../../constants/api';
+import { useAppDispatch } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import { recodingSuccess } from '../../store/modules/script';
 import { common } from '../../styles/theme';
+import { ErrorResponse } from '../../types/commonTypes';
 import AudioRecorder from '../../types/recodeTypes';
+import { usePostDiariesSTT } from '../../apis/diaries';
 
 const CustomButton = styled.button<{ theme: ColorTypes }>`
   display: flex;
@@ -39,11 +44,17 @@ const CustomButton = styled.button<{ theme: ColorTypes }>`
 function SaveButton(props: { audioRecorder: AudioRecorder }) {
   const { audioRecorder } = props;
   const theme = useTheme();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  console.log(audioRecorder.recordedChunks);
+  // const mutation = useMutation<AxiosResponse<any>, AxiosError<ErrorResponse>>(
+  //   [STT],
+  //   usePostDiariesSTT(audioRecorder.recordedChunks),
+  // );
 
   const handleRecode = () => {
     dispatch(recodingSuccess());
     audioRecorder.stopRecording();
+    // mutation.mutate();
   };
 
   return (

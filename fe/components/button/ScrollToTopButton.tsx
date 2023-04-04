@@ -5,9 +5,9 @@ import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 
 const TopButton = styled.button<{ theme: ColorTypes; screenY: number }>`
-  position: absolute;
-  right: ${common.fontSize.fs40};
-  bottom: 124px;
+  position: fixed;
+  right: 3rem;
+  bottom: 3rem;
 
   display: ${props => (props.screenY >= 900 ? 'flex' : 'none')};
   align-items: center;
@@ -18,6 +18,9 @@ const TopButton = styled.button<{ theme: ColorTypes; screenY: number }>`
 
   border-radius: 50%;
 
+  transition: 0.4s all ease-in-out;
+  opacity: 0.8;
+
   background-color: ${props => props.theme.primary20};
   color: white;
 
@@ -26,6 +29,7 @@ const TopButton = styled.button<{ theme: ColorTypes; screenY: number }>`
 
   &:hover {
     background-color: ${props => props.theme.primary40};
+    opacity: 1;
   }
 `;
 

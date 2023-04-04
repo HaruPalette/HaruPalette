@@ -4,11 +4,20 @@ import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 import styled from '@emotion/styled';
 import { ColorTypes } from '@emotion/react';
+import { useMutation } from 'react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import { useDay } from '../../hooks/useDate';
 import { prevTheme } from '../../hooks/useTheme';
 import { DiaryData } from '../../types/diariesTypes';
 import { useAnswer, useContents } from '../../hooks/useContents';
 import { common } from '../../styles/theme';
+import { ErrorResponse } from '../../types/commonTypes';
+import { DIARIES } from '../../constants/api';
+import { usePostDiaries } from '../../apis/diaries';
+import { useAppSelector } from '../../hooks/reduxHook';
+import { selectWeather } from '../../store/modules/weather';
+import { selectScript } from '../../store/modules/script';
+import { selectProfile } from '../../store/modules/profile';
 
 const DetailStyles = styled.div<{ theme: ColorTypes }>`
   width: 30rem;
@@ -94,7 +103,10 @@ const CreateButton = styled.button<{ theme: ColorTypes }>`
   margin: auto;
 `;
 
-const DiaryImage = styled(Image)`
+const DiaryImage = styled.div<{ url: string }>`
+  background-image: ${props => `url(${props.url})`};
+  background-size: cover;
+  background-position: center;
   width: 18.75rem;
   height: 18.75rem;
   border-radius: 1rem;
@@ -119,53 +131,81 @@ const UserSticker = styled(Image)`
 `;
 
 function Diary(props: {
-  diary: DiaryData;
+  diary: DiaryData | undefined;
   type: string;
   save: boolean;
   share: boolean;
   setSave: Dispatch<SetStateAction<boolean>> | null;
   setShare: Dispatch<SetStateAction<boolean>> | null;
+  stickerCode: string | null;
 }) {
   // 일기 상세조회 정보, 수정("modify") || 디테일("view")
-  const { diary, type, save, share, setSave, setShare } = props;
-  const theme = prevTheme(diary.ename);
-  const title = useDay(diary.date);
-  const [previewImage, setPreviewImage] = useState(diary.image);
-  const [image, setImage] = useState('');
+  const { diary, type, save, share, setSave, setShare, stickerCode } = props;
+  const theme = prevTheme(diary?.friendEname);
+  const title = useDay(diary ? diary.date : '');
+  const [image, setImage] = useState(diary ? diary.image : '');
+  const [file, setFile] = useState<File | null>(null);
 
   // 스티커 경로
-  const chrSticker = `/assets/img/${diary.ename}/2d.svg`;
-  const weatherSticker = `/assets/img/sticker/${diary.weather}.svg`;
-  const userSticker = `/assets/img/sticker/${diary.stickerCode}.svg`;
+  const chrSticker = `/assets/img/${diary?.friendEname}/2d.svg`;
+  const weatherSticker = `/assets/img/sticker/${diary?.weather}.svg`;
+  const userSticker = `/assets/img/sticker/${diary?.stickerCode}.svg`;
 
   // 내용 & 위로의 말 자연스러운 줄바꿈
-  const contentList = useContents(diary.contents);
-  const answerList = useAnswer(diary.answer);
+  const contentList = useContents(diary ? diary.contents : '');
+  const answerList = useAnswer(diary ? diary.answer : '');
 
   const handleDrop = (event: {
     preventDefault: () => void;
     dataTransfer: { files: any };
   }) => {
-    event.preventDefault();
-    const { files } = event.dataTransfer;
-    setPreviewImage(URL.createObjectURL(files[0]));
-    setImage(files[0]);
+    if (type === 'modify') {
+      event.preventDefault();
+      const files = event.dataTransfer.files?.[0];
+      setImage(URL.createObjectURL(files));
+      setFile(files);
+    }
   };
+
+  const weather = useAppSelector(selectWeather).curWeather;
+  const contents = useAppSelector(selectScript).nowScript.join('\n');
+  const friend = useAppSelector(selectProfile).chrPK;
+  const mutation = useMutation<AxiosResponse<any>, AxiosError<ErrorResponse>>(
+    [DIARIES],
+    usePostDiaries(
+      stickerCode || 'empty',
+      weather,
+      contents,
+      friend,
+      image.split('blob:')[0],
+      file,
+    ),
+  );
+
+  const handleCreateBtn = () => {
+    if (
+      window.confirm('지금까지의 내용을 바탕으로\n 일기를 작성하시겠습니까 ?')
+    ) {
+      mutation.mutate();
+    }
+  };
+
+  useEffect(() => {
+    setImage(diary ? diary.image : '');
+  }, [diary]);
 
   // 일기 이미지로 저장
   const diaryRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (diaryRef.current && save) {
-      // domtoimage.toBlob(diaryRef.current).then((blob: any) => {
-      //   saveAs(blob, 'diary.png');
-      // });
-      html2canvas(diaryRef.current, { backgroundColor: 'rgba(0,0,0,0)' }).then(
-        div => {
-          div.toBlob((blob: any) => {
-            saveAs(blob, 'diary.png');
-          });
-        },
-      );
+      html2canvas(diaryRef.current, {
+        backgroundColor: 'transparent',
+        useCORS: true,
+      }).then(div => {
+        div.toBlob((blob: any) => {
+          saveAs(blob, 'diary.png');
+        });
+      });
       if (setSave) setSave(false);
     }
   }, [save]);
@@ -191,17 +231,16 @@ function Diary(props: {
     <DetailStyles ref={diaryRef} theme={theme}>
       <DiaryLine theme={theme}>
         <Title theme={theme}>{title}</Title>
-        <DiaryImage
-          src={previewImage}
-          width={300}
-          height={300}
-          alt="img"
-          onDrop={handleDrop}
-          onDragOver={event => event.preventDefault()}
-          onClick={() => {
-            window.open(previewImage);
-          }}
-        />
+        {image && (
+          <DiaryImage
+            url={image}
+            onDrop={handleDrop}
+            onDragOver={event => event.preventDefault()}
+            onClick={() => {
+              window.open(image);
+            }}
+          />
+        )}
         <ContentList theme={theme} type={type}>
           {contentList.map(item => {
             return (
@@ -212,7 +251,7 @@ function Diary(props: {
           })}
         </ContentList>
         {type === 'modify' && (
-          <CreateButton type="button" theme={theme}>
+          <CreateButton type="button" theme={theme} onClick={handleCreateBtn}>
             일기장 완성
           </CreateButton>
         )}
@@ -231,7 +270,7 @@ function Diary(props: {
           height={183}
           alt="weather"
         />
-        {diary.stickerCode !== 'empty' && (
+        {diary?.stickerCode !== 'empty' && (
           <UserSticker src={userSticker} width={72} height={72} alt="sticker" />
         )}
       </DiaryLine>

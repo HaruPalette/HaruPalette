@@ -16,7 +16,6 @@ const weatherSlice = createSlice({
   initialState,
   reducers: {
     changeWeatherSuccess(state, action) {
-      console.log(action);
       const temp = state;
       temp.curWeather = action.payload;
     },

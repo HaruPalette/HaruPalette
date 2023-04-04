@@ -36,7 +36,7 @@ function useTheme() {
   return haruLight;
 }
 
-export function prevTheme(ename: string) {
+export function prevTheme(ename: string | undefined) {
   const isDark = useAppSelector(selectTheme);
   if (ename === 'haru' && isDark) {
     return haruDark;

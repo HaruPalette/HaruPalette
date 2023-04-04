@@ -1,7 +1,6 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import {
   pauseRecodeingSuccess,
@@ -44,7 +43,7 @@ function StopButton(props: { audioRecorder: AudioRecorder }) {
   const { audioRecorder } = props;
   const isPause = useAppSelector(selectScript).isPausing;
   const theme = useTheme();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handlePause = () => {
     dispatch(pauseRecodeingSuccess());
