@@ -34,7 +34,6 @@ function Model(props: any) {
       rendererPrev = null;
     }
     if (customdiv && !rendererPrev) {
-      console.log(customdiv);
       const sizes = {
         width: window.innerWidth,
         height: window.innerHeight,
