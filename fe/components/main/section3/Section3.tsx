@@ -12,9 +12,9 @@ import { SECTION_3 } from '../../../constants/script';
 // How to axios patch method with useMutation
 const Section = styled.section<{ windowHeight: number }>`
   width: 100vw;
-  height: 100vh;
+  height: 200vh;
   opacity: ${props =>
-    props.windowHeight >= 3900 && props.windowHeight < 5400 ? 1 : 0};
+    props.windowHeight >= 3900 && props.windowHeight < 5000 ? 1 : 0};
   align-items: flex-start;
 
   padding: 0 10rem;
@@ -57,6 +57,10 @@ const SectionTextYes = styled.h1<{ theme: ColorTypes; windowHeight: number }>`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   white-space: nowrap;
+
+  @media screen and (max-width: 500px) {
+    font-size: 2rem;
+  }
 `;
 
 const Background = styled.div<{ windowHeight: number }>`
@@ -86,10 +90,10 @@ function Section3() {
         목소리는 YES
       </SectionTextYes>
       <Background windowHeight={windowHeight}>
-        <Pulse />
+        {windowHeight < 4500 ? <div /> : <Pulse />}
       </Background>
       {windowHeight < 3900 ? <div /> : <Mouse top={4500} />}
-      {windowHeight < 4500 ? <div /> : <Mouse top={6000} />}
+      {windowHeight < 4500 ? <div /> : <Mouse top={5700} />}
     </Section>
   );
 }

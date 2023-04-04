@@ -21,7 +21,8 @@ const Section = styled.section<{ windowHeight: number }>`
 `;
 
 const DesktopMockUp = styled.article<{ windowHeight: number }>`
-  display: flex;
+  display: ${props =>
+    props.windowHeight >= 2000 && props.windowHeight < 3900 ? 'flex' : 'none'};
   justify-content: center;
   align-items: center;
   width: calc(50vw - 10rem);
@@ -42,14 +43,15 @@ const DesktopMockUp = styled.article<{ windowHeight: number }>`
     position: fixed;
     top: 40%;
     left: 50%;
-    transform: translate(-50%, -25%);
+    transform: translate(-75%, -25%);
     opacity: ${props =>
       props.windowHeight >= 2200 && props.windowHeight < 3700 ? 1 : 0};
   }
 `;
 
 const TabletMockUp = styled.article<{ windowHeight: number }>`
-  display: flex;
+  display: ${props =>
+    props.windowHeight >= 2500 && props.windowHeight < 3900 ? 'flex' : 'none'};
   justify-content: center;
   align-items: center;
   width: calc(50vw - 10rem);
@@ -70,7 +72,7 @@ const TabletMockUp = styled.article<{ windowHeight: number }>`
     scale: 0.33;
     position: fixed;
     top: 45%;
-    left: 20%;
+    left: 15%;
     transform: translate(-50%, -50%);
     opacity: ${props =>
       props.windowHeight >= 2700 && props.windowHeight < 3700 ? 1 : 0};
@@ -78,7 +80,8 @@ const TabletMockUp = styled.article<{ windowHeight: number }>`
 `;
 
 const MobileMockUp = styled.article<{ windowHeight: number }>`
-  display: flex;
+  display: ${props =>
+    props.windowHeight >= 3000 && props.windowHeight < 3900 ? 'flex' : 'none'};
   justify-content: center;
   align-items: center;
   width: calc(50vw - 10rem);
@@ -98,8 +101,8 @@ const MobileMockUp = styled.article<{ windowHeight: number }>`
   @media screen and (max-width: 500px) {
     scale: 0.25;
     position: fixed;
-    top: 50%;
-    left: 75%;
+    top: 52%;
+    left: 70%;
     transform: translate(-50%, -50%);
     opacity: ${props =>
       props.windowHeight >= 3200 && props.windowHeight < 3700 ? 1 : 0};
