@@ -31,16 +31,37 @@ const ButtonStyles = styled.button<{ theme: ColorTypes }>`
   }
 `;
 
-function CreateButton() {
+function CreateButton(props: { today: boolean; diaryId: number }) {
+  const { today, diaryId } = props;
   const theme = useTheme();
   const chr = useAppSelector(selectProfile);
   const icon = `/assets/img/${chr.chrName}/2d.svg`;
   return (
     <Link href="/create">
-      <ButtonStyles type="button" theme={theme}>
-        일기 쓰러 갈래 ?&nbsp;&nbsp;
-        <Image src={icon} width={72} height={60} alt="2d" />
-      </ButtonStyles>
+      {!today && (
+        <ButtonStyles
+          type="button"
+          theme={theme}
+          onClick={() => {
+            window.location.href = '/create';
+          }}
+        >
+          일기 쓰러 갈래 ?&nbsp;&nbsp;
+          <Image src={icon} width={72} height={60} alt="2d" />
+        </ButtonStyles>
+      )}
+      {today && (
+        <ButtonStyles
+          type="button"
+          theme={theme}
+          onClick={() => {
+            window.location.href = `/detail/${diaryId}`;
+          }}
+        >
+          일기 보러 갈래 ?&nbsp;&nbsp;
+          <Image src={icon} width={72} height={60} alt="2d" />
+        </ButtonStyles>
+      )}
     </Link>
   );
 }

@@ -34,15 +34,10 @@ const ProgressBar = styled.div<{ color: string; percent: number }>`
 
 function Horizontal(props: { percent: number; color: string }) {
   const { percent, color } = props;
-  // 주간이면 props로 n/7 * 100
-  // 월간이면 props로 n/일수 * 100
-  // 감정 : % 단위로 받음
-  // 즉, 퍼센트 값을 props로 전달받아야 함 !!!
-  // const percent = Math.floor((4 / 7) * 100);
   const theme = useTheme();
   return (
     <ProgressWrap theme={theme}>
-      <ProgressBar percent={percent} color={color} />
+      <ProgressBar percent={percent > 100 ? 100 : percent} color={color} />
     </ProgressWrap>
   );
 }

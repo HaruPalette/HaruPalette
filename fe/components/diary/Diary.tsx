@@ -233,7 +233,7 @@ function Diary(props: {
         <Title theme={theme}>{title}</Title>
         {image && (
           <DiaryImage
-            url={previewImage}
+            url={image}
             onDrop={handleDrop}
             onDragOver={event => event.preventDefault()}
             onClick={() => {
