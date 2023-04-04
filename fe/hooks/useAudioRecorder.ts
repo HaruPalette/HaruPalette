@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import axios from 'axios';
+import { getCookie } from '../utils/cookie';
+import { BASE_URL, STT } from '../constants/api';
 
 const useAudioRecorder = () => {
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>();
@@ -14,15 +17,19 @@ const useAudioRecorder = () => {
     recorder.ondataavailable = event => {
       recordedChunks.push(event.data);
     };
-    // recorder.addEventListener('dataavailable', event => {
-    //   setRecordedChunks(prevChunks => [...prevChunks, event.data]);
-    // });
     recorder.onstop = () => {
       const blob = new Blob(recordedChunks, { type: 'audio/webm' });
       const audioFile = new File([blob], 'audio.webm', { type: 'audio/webm' });
       const formData = new FormData();
       formData.append('file', audioFile);
       console.log(formData.get('file'));
+      const queryKey = BASE_URL + STT;
+      axios.post(queryKey, formData, {
+        headers: {
+          Authorization: getCookie('Authorization'),
+          'Content-Type': 'multipart/form-data',
+        },
+      });
     };
     setMediaRecorder(recorder);
     setIsRecording(true);
@@ -53,7 +60,6 @@ const useAudioRecorder = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
       setIsRecording(false);
-      // setRecordedChunks([]);
     }
   };
 
