@@ -6,9 +6,8 @@ import useTheme from '../../hooks/useTheme';
 import { selectProfile } from '../../store/modules/profile';
 
 export interface DiaryProps {
-  index: number;
   currCnt: number;
-  AllCnt: number;
+  allCnt: number;
   desc: string;
   color: string;
 }
@@ -116,7 +115,7 @@ function Round(props: { data: DiaryProps }) {
   const { data } = props;
   // props : 과제 완료 현황(percent), 색상 값(20, 40, 60, 80), 과제 내용
   // 과제 완료 현황
-  const percent = Math.floor((data.currCnt / data.AllCnt) * 100);
+  const percent = Math.floor((data.currCnt / data.allCnt) * 100);
   // 색상 값
   const primary: string = data.color;
   // 현재 테마 가져오기
@@ -148,7 +147,7 @@ function Round(props: { data: DiaryProps }) {
         <div>{content}</div>
 
         <Percent>
-          {data.currCnt}/{data.AllCnt}
+          {data.currCnt}/{data.allCnt}
         </Percent>
       </Challenge>
     </Container>

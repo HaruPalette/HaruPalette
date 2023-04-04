@@ -3,15 +3,18 @@ export interface UserData {
   friendEname: string;
   friendId: number;
 }
+
+export interface ChallengeList {
+  challengeId: number;
+  contents: string;
+  point: number;
+}
+
 export interface ChallengeData {
   weekCnt: number;
   monthCnt: number;
   currentPoint: number;
-  challengeList: {
-    challenge_id: number;
-    contents: string;
-    point: number;
-  }[];
+  challengeList: ChallengeList[];
 }
 
 export interface PointData {

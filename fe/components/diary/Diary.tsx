@@ -198,6 +198,7 @@ function Diary(props: {
     if (diaryRef.current && save) {
       html2canvas(diaryRef.current, {
         backgroundColor: 'transparent',
+        useCORS: true,
       }).then(div => {
         div.toBlob((blob: any) => {
           saveAs(blob, 'diary.png');

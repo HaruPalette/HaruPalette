@@ -1,12 +1,19 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { ColorTypes } from '@emotion/react';
+import { useQuery } from 'react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import useTheme from '../../hooks/useTheme';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectTheme } from '../../store/modules/theme';
 import { selectShop, setOpenFilterModal } from '../../store/modules/shop';
 import { SHOP_FILTER_CATORIGY_LIST } from '../../constants/nav';
 import { common } from '../../styles/theme';
+import { ErrorResponse } from '../../types/commonTypes';
+import { PointData, PointResponse } from '../../types/usersTypes';
+import { CACHE_TIME, STALE_TIME, POINTS } from '../../constants/api';
+import { useGetUsersPoints } from '../../apis/users';
+import { getCookie } from '../../utils/cookie';
 
 interface IDummy {
   imgSrc: string;
@@ -275,6 +282,24 @@ function PointDetail() {
     });
     return renderRoundArr;
   };
+
+  const category = 'all';
+  const date = '2023-04';
+  const { data } = useQuery<
+    AxiosResponse<PointResponse>,
+    AxiosError<ErrorResponse>,
+    PointData
+  >(
+    [POINTS],
+    () => useGetUsersPoints(category, date, getCookie('Authorization')),
+    {
+      keepPreviousData: true,
+      staleTime: STALE_TIME,
+      cacheTime: CACHE_TIME,
+    },
+  );
+
+  console.log(data);
 
   return (
     <Container>

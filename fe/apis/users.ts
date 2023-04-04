@@ -71,14 +71,18 @@ export const useGetUsersChallenge = (token: string | undefined) => {
 };
 
 /** 사용자 포인트 내역 조회 */
-export const useGetUsersPoints = (category: string, date: string) => {
+export const useGetUsersPoints = (
+  category: string,
+  date: string,
+  token: string | undefined,
+) => {
   // 요청 url
   const queryKey = BASE_URL + POINTS;
   //   axios 요청
   const queryFn = axios
     .get(queryKey, {
       headers: {
-        Authorization: `${getCookie('Authorization')}`,
+        Authorization: `${token}`,
       },
       params: {
         category,
@@ -87,14 +91,5 @@ export const useGetUsersPoints = (category: string, date: string) => {
     })
     .then(res => res.data);
 
-  const { isLoading, data, isError, error } = useQuery<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
-  >([POINTS], () => queryFn, {
-    keepPreviousData: true,
-    staleTime: STALE_TIME,
-    cacheTime: CACHE_TIME,
-  });
-
-  return { isLoading, data, isError, error };
+  return queryFn;
 };

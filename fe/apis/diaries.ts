@@ -33,9 +33,13 @@ export const useGetDiaries = (diaryId: number, token: string | undefined) => {
 };
 
 /** 일기 STT */
-export const usePostDiariesSTT = (file: Blob[]) => {
+export const usePostDiariesSTT = (recordedChunks: Blob[]) => {
   //   요청 url
   const queryKey = BASE_URL + STT;
+
+  const file = new FormData();
+  file.append('audio', new Blob(recordedChunks), 'audio.webm');
+
   //   axios 요청
   const queryFn = () => {
     const blob = new Blob(file, { type: 'audio/webm' });

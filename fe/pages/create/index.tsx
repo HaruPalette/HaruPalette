@@ -40,19 +40,26 @@ const CreatePageContainer = styled.div`
   justify-content: space-around;
   width: 100%;
   z-index: 1;
-  padding: 2rem 0;
+  padding: 2rem;
 `;
 
 const CreateHeader = styled.div`
   display: flex;
   justify-content: space-between;
-
+  width: calc(100vw - 320px);
   position: relative;
 
-  width: calc(100vw - 32px);
+  @media screen and (max-width: 960px) {
+    width: calc(100vw - 32px);
+  }
   padding: 0 1rem;
 
   z-index: 1;
+`;
+
+const ModelContainer = styled.div`
+  scale: 0.8;
+  height: 50vh;
 `;
 
 function Create() {
@@ -90,7 +97,9 @@ function Create() {
           <WeatherButton />
         </CreateHeader>
         <ScriptTalk talkData={SCRIPT} type="create" />
-        <Model data={currCharName} />
+        <ModelContainer>
+          <Model data={currCharName} />
+        </ModelContainer>
         {isRecode ? (
           <RecodeBar audioRecorder={audioRecorder} />
         ) : (

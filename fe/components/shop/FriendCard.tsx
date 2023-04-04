@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { ColorTypes } from '@emotion/react';
-import { IFriendData } from './BuyingBuddy';
+import { useMutation } from 'react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import {
   common,
   gomiDark,
@@ -15,7 +16,10 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectTheme } from '../../store/modules/theme';
 import Model from '../common/ModelCharacter';
 import { setCharName } from '../../store/modules/profile';
-import { selectShop, setFriendShip } from '../../store/modules/shop';
+import { FRIEND } from '../../constants/api';
+import { usePatchFriends } from '../../apis/friends';
+import { ErrorResponse } from '../../types/commonTypes';
+import { FriendList } from '../../types/friendsTypes';
 
 const Section = styled.section`
   position: relative;
@@ -203,15 +207,15 @@ const BtnYesFriendBack = styled.button<{ theme: ColorTypes }>`
   margin-right: 10px;
 `;
 
-function FriendCard(props: { data: IFriendData }) {
-  const { data } = props;
+function FriendCard(props: { friend: FriendList }) {
+  const { friend } = props;
   const dispatch = useAppDispatch();
   // const theme1 = useTheme();
   const isDark = useAppSelector(selectTheme) ? 'Dark' : 'Light';
-  const isFriendShip = useAppSelector(selectShop).friendShipList[data.index];
-  const customTheme = data.ename + isDark;
+  // const isFriendShip = useAppSelector(selectShop).friendShipList[friend.];
+  const customTheme = friend.ename + isDark;
 
-  const imgSrc = `/assets/img/${data.ename}/2d.svg`;
+  const imgSrc = `/assets/img/${friend.ename}/2d.svg`;
   const backBtnImg = `/assets/img/common/coin2.svg`;
   const getTheme = () => {
     if (customTheme === 'haruDark') return haruDark;
@@ -222,30 +226,40 @@ function FriendCard(props: { data: IFriendData }) {
     return gomiLight;
   };
 
+  const friendId = 1;
+  // 캐릭터 선택 axios(이미 구매한 것, def = 1)
+  // const { data } =
+  const mutation = useMutation<AxiosResponse<any>, AxiosError<ErrorResponse>>(
+    [FRIEND, friendId],
+    usePatchFriends(friendId),
+  );
+
   const handleDoFriendShip = () => {
+    // 포인트 선택을 진행함 ( 돈이 없을 때는 바로 리턴 )
+
     // alert 띄우고 확인 시
     const isConfirm = window.confirm(
-      `${data.name}와 친구를 맺으시겠어요?\n${data.amount}가 포인트에서 차감됩니다.`,
+      `${friend.kname}와 친구를 맺으시겠어요?\n${friend.price}가 포인트에서 차감됩니다.`,
     );
     if (isConfirm) {
       // store에 포인트 저장해 놓고, 가져와야 함
       // 포인트 차감해야 함
-      dispatch(setFriendShip(data.index));
-      dispatch(setCharName(data.ename));
-      alert(`${data.name}와 친구가 되었어요:)`);
+      // dispatch(setFriendShip(friend.index));
+      dispatch(setCharName(friend.ename));
+      alert(`${friend.kname}와 친구가 되었어요:)`);
     }
   };
 
   const handleCurrFriendShip = () => {
-    const isConfirm = window.confirm(`${data.name}을 선택하시겠어요?`);
+    const isConfirm = window.confirm(`${friend.kname}을 선택하시겠어요?`);
     if (isConfirm) {
-      // store에서 현재 선택한 친구 변경해 주어야 함
-      dispatch(setCharName(data.ename));
+      mutation.mutate();
+      dispatch(setCharName(friend.ename));
     }
   };
 
   const handleCharacteristic = () => {
-    const CharacteristicArr = data.characteristic.map((el: string) => {
+    const CharacteristicArr = friend.tag.split(' ').map((el: string) => {
       return (
         <Characteristic theme={getTheme()} key={el}>
           {el}
@@ -255,16 +269,28 @@ function FriendCard(props: { data: IFriendData }) {
     return CharacteristicArr;
   };
 
+  // console.log(data);
+
+  // 캐릭터 구매 axios(구매하지 않은 것, def: 1 제외)
+  // const { data } = useQuery<
+  //   AxiosResponse<FriendsSelectData>,
+  //   AxiosError<ErrorResponse>
+  // >([FRIEND], () => usePostFriends(friendId), {
+  //   keepPreviousData: true,
+  //   staleTime: STALE_TIME,
+  //   cacheTime: CACHE_TIME,
+  // });
+
   return (
     <Section>
       <Card theme={getTheme()}>
         <Front theme={getTheme()}>
           <NameDiv theme={getTheme()}>
-            <NameTitle>{data.name}</NameTitle>
-            <ENameTitle>{data.ename}</ENameTitle>
+            <NameTitle>{friend.kname}</NameTitle>
+            <ENameTitle>{friend.ename}</ENameTitle>
           </NameDiv>
           <CharacterDiv>
-            <Model data={data.ename} />
+            <Model data={friend.ename} />
           </CharacterDiv>
           <CharacteristicDiv>{handleCharacteristic()}</CharacteristicDiv>
         </Front>
@@ -277,9 +303,9 @@ function FriendCard(props: { data: IFriendData }) {
               alt="CharacterBackImg"
             />
           </CharacterDivBack>
-          <DescDivBack theme={getTheme()}>{data.desc}</DescDivBack>
+          <DescDivBack theme={getTheme()}>{friend.contents}</DescDivBack>
           {/* <BtnDivBack theme={getTheme()}> */}
-          {isFriendShip ? (
+          {friend.isBuy ? (
             <BtnDivBack theme={getTheme()}>
               <BtnImgDivBack
                 src={backBtnImg}
@@ -310,7 +336,7 @@ function FriendCard(props: { data: IFriendData }) {
                   handleDoFriendShip();
                 }}
               >
-                친해지기
+                {friend.price} P
               </BtnNotFriendBack>
             </BtnDivBack>
           )}

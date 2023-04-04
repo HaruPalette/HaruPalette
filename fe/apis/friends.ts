@@ -1,33 +1,21 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import { useMutation, useQuery } from 'react-query';
-import { BASE_URL, CACHE_TIME, FRIEND, STALE_TIME } from '../constants/api';
-import { ErrorResponse } from '../types/commonTypes';
-import { UsersResponse } from '../types/usersTypes';
+import axios from 'axios';
+import { BASE_URL, FRIEND } from '../constants/api';
 import { getCookie } from '../utils/cookie';
 
 /** 캐릭터 조회 */
-export const useGetFriends = () => {
+export const useGetFriends = (token: string | undefined) => {
   //   요청 url
   const queryKey = BASE_URL + FRIEND;
   //   axios 요청
   const queryFn = axios
     .get(queryKey, {
       headers: {
-        Authorization: `${getCookie('Authorization')}`,
+        Authorization: `${token}`,
       },
     })
     .then(res => res.data);
 
-  const { isLoading, data, isError, error } = useQuery<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
-  >([FRIEND], () => queryFn, {
-    keepPreviousData: true,
-    staleTime: STALE_TIME,
-    cacheTime: CACHE_TIME,
-  });
-
-  return { isLoading, data, isError, error };
+  return queryFn;
 };
 
 /** 캐릭터 선택 */
@@ -35,8 +23,8 @@ export const usePatchFriends = (friendId: number) => {
   //   요청 url
   const queryKey = `${BASE_URL}${FRIEND}/${String(friendId)}`;
   //   axios 요청
-  const queryFn = axios
-    .patch(
+  const queryFn = () =>
+    axios.patch(
       queryKey,
       {},
       {
@@ -44,15 +32,9 @@ export const usePatchFriends = (friendId: number) => {
           Authorization: `${getCookie('Authorization')}`,
         },
       },
-    )
-    .then(res => res.data);
+    );
 
-  const { isLoading, data, isError, error } = useMutation<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
-  >([FRIEND, friendId], () => queryFn);
-
-  return { isLoading, data, isError, error };
+  return queryFn;
 };
 
 /** 캐릭터 구매 */
@@ -74,10 +56,5 @@ export const usePostFriends = (friendId: number) => {
     )
     .then(res => res.data);
 
-  const { isLoading, data, isError, error } = useMutation<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
-  >([FRIEND], () => queryFn);
-
-  return { isLoading, data, isError, error };
+  return queryFn;
 };
