@@ -27,7 +27,7 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    private final String imgLink = "https://haru-palette.s3.ap-northeast-2.amazonaws.com/diary/";
+    private final String imgLink = "https://harupalette.com/image/diary/";
     private final String path = "diary/";
     private final AmazonS3 amazonS3;
 
@@ -66,7 +66,7 @@ public class S3Service {
 
             // 이미지 추가
             // Set File name here
-            amazonS3.putObject(new PutObjectRequest(bucket, "diary/" + date + sb.toString(), multipartFile.getInputStream(), metadata)
+            amazonS3.putObject(new PutObjectRequest(bucket, "image/diary/" + date + sb.toString(), multipartFile.getInputStream(), metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
 
             imgSet = imgLink + date + sb.toString();
@@ -82,13 +82,6 @@ public class S3Service {
             e.printStackTrace();
         }
 
-        //object 정보 가져오기
-/*        ListObjectsV2Result listObjectsV2Result = amazonS3.listObjectsV2(bucket);
-        List<S3ObjectSummary> objectSummaries = listObjectsV2Result.getObjectSummaries();
-
-        for (S3ObjectSummary object : objectSummaries) {
-            log.info("object = " + object.toString());
-        }*/
         return imgSet;
     }
 
