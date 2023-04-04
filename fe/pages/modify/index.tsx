@@ -12,8 +12,8 @@ import { selectScript } from '../../store/modules/script';
 import Sticker from '../../components/modify/Sticker';
 import { common } from '../../styles/theme';
 import { useAppSelector } from '../../hooks/reduxHook';
-import { selectTheme } from '../../store/modules/theme';
 import { useBall } from '../../hooks/useBall';
+import useImage from '../../hooks/useImage';
 
 const ModifyPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -72,7 +72,8 @@ function Modify() {
 
   const scriptArr: string[] = [...useAppSelector(selectScript).nowScript];
   const chr = useAppSelector(selectProfile).chrName;
-  const dark = useAppSelector(selectTheme);
+  const image = useImage();
+
   console.log('리덕스 스크립트', scriptArr);
   useEffect(() => {
     console.log('리덕스 스크립트 렌더링', scriptArr);
@@ -93,9 +94,9 @@ function Modify() {
     date: `${date.year}-${date.month}-${date.date}`,
     contents: `${nowScript}`,
     weather: 'Clear',
-    friendEname: `${useAppSelector(selectProfile).chrName}`,
+    friendEname: chr,
     answer: '',
-    image: `/assets/img/${chr}/${dark ? 'dark_diary.svg' : 'light_diary.svg'}`,
+    image,
     stickerCode: `${nowSticker}`,
     neutral: 60,
     happy: 20,
