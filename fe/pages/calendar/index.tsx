@@ -110,6 +110,7 @@ const Remind = styled.div<{ theme: ColorTypes }>`
   text-decoration: underline;
   font-size: ${common.fontSize.fs24};
   margin-top: 3rem;
+  cursor: pointer;
   transform: scale(1);
 
   @media screen and (max-width: 500px) {
@@ -208,7 +209,7 @@ function Diary() {
               <Remind
                 theme={theme}
                 onClick={() => {
-                  window.location.href = `/detail/${data?.diaryId}`;
+                  window.location.href = `/detail/${data}`;
                 }}
               >
                 <Image
