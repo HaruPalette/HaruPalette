@@ -46,15 +46,15 @@ function SaveButton(props: { audioRecorder: AudioRecorder }) {
   const theme = useTheme();
   const dispatch = useAppDispatch();
   console.log(audioRecorder.recordedChunks);
-  const mutation = useMutation<AxiosResponse<any>, AxiosError<ErrorResponse>>(
-    [STT],
-    usePostDiariesSTT(audioRecorder.recordedChunks),
-  );
+  // const mutation = useMutation<AxiosResponse<any>, AxiosError<ErrorResponse>>(
+  //   [STT],
+  //   usePostDiariesSTT(audioRecorder.recordedChunks),
+  // );
 
   const handleRecode = () => {
     dispatch(recodingSuccess());
     audioRecorder.stopRecording();
-    mutation.mutate();
+    // mutation.mutate();
   };
 
   return (
