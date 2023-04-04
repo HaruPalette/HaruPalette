@@ -11,6 +11,7 @@ import com.ssafy.palette.domain.dto.FriendListDto;
 import com.ssafy.palette.domain.entity.Friend;
 import com.ssafy.palette.domain.entity.User;
 import com.ssafy.palette.domain.entity.UserFriend;
+import com.ssafy.palette.exception.NoPointException;
 import com.ssafy.palette.repository.FriendRepository;
 import com.ssafy.palette.repository.UserFriendRepository;
 import com.ssafy.palette.repository.UserRepository;
@@ -73,7 +74,7 @@ public class FriendService {
 		}
 
 		if (user.getPoint() < friend.getPrice()) {
-			throw new Exception("포인트가 부족합니다.");
+			throw new NoPointException("포인트가 부족합니다.");
 		}
 
 		UserFriend userFriend = UserFriend.builder()
