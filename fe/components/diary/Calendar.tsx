@@ -2,12 +2,13 @@ import styled from '@emotion/styled';
 import { ColorTypes } from '@emotion/react';
 import { useQuery } from 'react-query';
 import { AxiosError } from 'axios';
-import { useEffect } from 'react';
+import { useEffect, Dispatch, SetStateAction } from 'react';
 import {
   useNowDate,
   useNowDay,
   usePrevDate,
   usePrevDay,
+  useDate,
 } from '../../hooks/useDate';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
@@ -66,8 +67,13 @@ const NowDate = styled.button<{ theme: ColorTypes; happy: number | null }>`
   }
 `;
 
-function Calendar(props: { year: number; month: number }) {
-  const { year, month } = props;
+function Calendar(props: {
+  year: number;
+  month: number;
+  setToday: Dispatch<SetStateAction<boolean>>;
+  setDiaryId: Dispatch<SetStateAction<number>>;
+}) {
+  const { year, month, setToday, setDiaryId } = props;
   const query = useQuery<CalendarData[], AxiosError<ErrorResponse>>(
     [DIARIES],
     () =>
@@ -82,6 +88,7 @@ function Calendar(props: { year: number; month: number }) {
     },
   );
   const { data } = query;
+  console.log(data);
 
   useEffect(() => {
     query.refetch();
@@ -119,6 +126,10 @@ function Calendar(props: { year: number; month: number }) {
     if (data && data.length > left) {
       const temp = data[left].date.split('-');
       if (Number(temp[2]) === i) {
+        if (i === useDate().date) {
+          setToday(true);
+          setDiaryId(data[left].diaryId);
+        }
         monthDate.push({
           type: 'now',
           data: i,
