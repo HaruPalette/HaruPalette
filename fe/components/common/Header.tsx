@@ -67,7 +67,6 @@ const CenterContainer = styled.div`
 `;
 
 const RightContainer = styled.div`
-  width: 10rem;
   height: 88px;
 
   display: flex;
@@ -75,7 +74,6 @@ const RightContainer = styled.div`
   justify-content: space-between;
 
   @media screen and (max-width: 500px) {
-    width: 6rem;
   }
 `;
 
@@ -87,6 +85,18 @@ const Profile = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  img:nth-of-type(1) {
+    margin-right: 1rem;
+  }
+`;
+
+const ProfileImage = styled(Image)`
+  border-radius: 3rem;
+`;
+
+const Logout = styled(Image)`
+  cursor: pointer;
 `;
 
 function Header() {
@@ -96,6 +106,7 @@ function Header() {
   const dark = useAppSelector(selectTheme);
   const profile = useAppSelector(selectProfile);
   const dispatch = useAppDispatch();
+
   const handleLogout = () => {
     dispatch(logoutSuccess());
   };
@@ -104,13 +115,14 @@ function Header() {
     <>
       <HaruHeader theme={theme} screenY={screenY} isActive={active}>
         <HeaderContainer>
-          <LeftContainer>
-            <HamburgerButton />
-          </LeftContainer>
-
+          {profile.isLogin && (
+            <LeftContainer>
+              <HamburgerButton />
+            </LeftContainer>
+          )}
           <CenterContainer>
             <Logo />
-            <NavList />
+            {profile.isLogin && <NavList />}
           </CenterContainer>
 
           <RightContainer>
@@ -118,7 +130,7 @@ function Header() {
             {!profile.isLogin && <LoginButton />}
             {profile.isLogin && (
               <Profile>
-                <Image
+                <Logout
                   src={`/assets/img/common/${
                     dark ? 'dark' : 'light'
                   }/logout.svg`}
@@ -127,10 +139,10 @@ function Header() {
                   alt="logout"
                   onClick={handleLogout}
                 />
-                <Image
+                <ProfileImage
                   src={profile.image}
-                  width={24}
-                  height={24}
+                  width={48}
+                  height={48}
                   alt="profile"
                 />
               </Profile>
