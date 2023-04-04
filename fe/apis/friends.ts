@@ -18,16 +18,18 @@ export const useGetFriends = () => {
     })
     .then(res => res.data);
 
-  const { isLoading, data, isError, error } = useQuery<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
-  >([FRIEND], () => queryFn, {
-    keepPreviousData: true,
-    staleTime: STALE_TIME,
-    cacheTime: CACHE_TIME,
-  });
+  return queryFn;
 
-  return { isLoading, data, isError, error };
+  // const { isLoading, data, isError, error } = useQuery<
+  //   AxiosResponse<UsersResponse>,
+  //   AxiosError<ErrorResponse>
+  // >([FRIEND], () => queryFn, {
+  //   keepPreviousData: true,
+  //   staleTime: STALE_TIME,
+  //   cacheTime: CACHE_TIME,
+  // });
+
+  // return { isLoading, data, isError, error };
 };
 
 /** 캐릭터 선택 */
@@ -35,8 +37,8 @@ export const usePatchFriends = (friendId: number) => {
   //   요청 url
   const queryKey = `${BASE_URL}${FRIEND}/${String(friendId)}`;
   //   axios 요청
-  const queryFn = axios
-    .patch(
+  const queryFn = () =>
+    axios.patch(
       queryKey,
       {},
       {
@@ -44,15 +46,9 @@ export const usePatchFriends = (friendId: number) => {
           Authorization: `${getCookie('Authorization')}`,
         },
       },
-    )
-    .then(res => res.data);
+    );
 
-  const { isLoading, data, isError, error } = useMutation<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
-  >([FRIEND, friendId], () => queryFn);
-
-  return { isLoading, data, isError, error };
+  return queryFn;
 };
 
 /** 캐릭터 구매 */
@@ -74,10 +70,12 @@ export const usePostFriends = (friendId: number) => {
     )
     .then(res => res.data);
 
-  const { isLoading, data, isError, error } = useMutation<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
-  >([FRIEND], () => queryFn);
+  return queryFn;
 
-  return { isLoading, data, isError, error };
+  // const { isLoading, data, isError, error } = useMutation<
+  //   AxiosResponse<UsersResponse>,
+  //   AxiosError<ErrorResponse>
+  // >([FRIEND], () => queryFn);
+
+  // return { isLoading, data, isError, error };
 };

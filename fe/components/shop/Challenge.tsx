@@ -1,6 +1,15 @@
+import { GetServerSideProps } from 'next';
 import styled from '@emotion/styled';
+import { QueryClient, dehydrate, useQuery } from 'react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import Round, { DiaryProps } from '../progressbar/Round';
 import { useNowDate, useDate } from '../../hooks/useDate';
+import { ErrorResponse } from '../../types/commonTypes';
+import { getCookie } from '../../utils/cookie';
+import { CACHE_TIME, STALE_TIME, CHALLENGE } from '../../constants/api';
+import { useGetUsersChallenge } from '../../apis/users';
+import useCookie from '../../hooks/useCookie';
+import { ChallengeData } from '../../types/usersTypes';
 
 const Container = styled.div`
   position: relative;
@@ -83,6 +92,22 @@ const dummy: DiaryProps[] = [
   },
 ];
 
+export const getServerSideProps: GetServerSideProps = async context => {
+  const cookieString = context.req.headers.cookie || '';
+  const cookies = useCookie(cookieString);
+  const token = cookies.Authorization;
+  const queryClinet = new QueryClient();
+  await Promise.all([
+    queryClinet.prefetchQuery([CHALLENGE], () => useGetUsersChallenge(token)),
+  ]);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClinet),
+    },
+  };
+};
+
 function Challenge() {
   const renderRound = () => {
     const renderRoundArr = dummy.map((el: DiaryProps) => {
@@ -90,6 +115,17 @@ function Challenge() {
     });
     return renderRoundArr;
   };
+  const { data } = useQuery<
+    AxiosResponse<ChallengeData>,
+    AxiosError<ErrorResponse>,
+    ChallengeData
+  >([CHALLENGE], () => useGetUsersChallenge(getCookie('Authorization')), {
+    keepPreviousData: true,
+    staleTime: STALE_TIME,
+    cacheTime: CACHE_TIME,
+  });
+
+  console.log(data);
 
   return <Container>{renderRound()}</Container>;
 }

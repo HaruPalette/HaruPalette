@@ -87,14 +87,16 @@ export const useGetUsersPoints = (category: string, date: string) => {
     })
     .then(res => res.data);
 
-  const { isLoading, data, isError, error } = useQuery<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
-  >([POINTS], () => queryFn, {
-    keepPreviousData: true,
-    staleTime: STALE_TIME,
-    cacheTime: CACHE_TIME,
-  });
+  return queryFn;
 
-  return { isLoading, data, isError, error };
+  // const { isLoading, data, isError, error } = useQuery<
+  //   AxiosResponse<UsersResponse>,
+  //   AxiosError<ErrorResponse>
+  // >([POINTS], () => queryFn, {
+  //   keepPreviousData: true,
+  //   staleTime: STALE_TIME,
+  //   cacheTime: CACHE_TIME,
+  // });
+
+  // return { isLoading, data, isError, error };
 };
