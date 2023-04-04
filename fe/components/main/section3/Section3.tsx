@@ -9,6 +9,7 @@ import useTheme from '../../../hooks/useTheme';
 import Mouse from '../Mouse';
 import ScriptTalk from '../../animation/ScriptTalk';
 import { SECTION_3 } from '../../../constants/script';
+import { common } from '../../../styles/theme';
 // How to axios patch method with useMutation
 const Section = styled.section<{ windowHeight: number }>`
   width: 100vw;
@@ -36,6 +37,15 @@ const TextContainer = styled.article<{ windowHeight: number }>`
   font-size: 5vw;
   z-index: 9;
 
+  // article 태그의 자식 요소중 div 태그의 첫번째 h1 자식 요소에만 적용
+  & > div > h1:first-of-type {
+    background: ${common.colors.error};
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+  }
+
   @media screen and (max-width: 500px) {
   }
 `;
@@ -50,7 +60,7 @@ const SectionTextYes = styled.h1<{ theme: ColorTypes; windowHeight: number }>`
 
   font-size: 5vw;
   z-index: 9;
-  background: #00a200;
+  background: ${common.colors.success};
 
   transition: all 0.5s ease-in-out;
   background-clip: text;
@@ -90,10 +100,14 @@ function Section3() {
         목소리는 YES
       </SectionTextYes>
       <Background windowHeight={windowHeight}>
-        {windowHeight < 4500 ? <div /> : <Pulse />}
+        {windowHeight < 4500 || windowHeight > 5000 ? <div /> : <Pulse />}
       </Background>
-      {windowHeight < 3900 ? <div /> : <Mouse top={4500} />}
-      {windowHeight < 4500 ? <div /> : <Mouse top={5700} />}
+      {windowHeight < 3900 || windowHeight > 4100 ? (
+        <div />
+      ) : (
+        <Mouse top={4500} />
+      )}
+      {windowHeight < 4500 ? <div /> : <Mouse top={5300} />}
     </Section>
   );
 }
