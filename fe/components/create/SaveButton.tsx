@@ -40,7 +40,6 @@ function SaveButton(props: { audioRecorder: AudioRecorder }) {
   const { audioRecorder } = props;
   const theme = useTheme();
   const dispatch = useAppDispatch();
-  console.log(audioRecorder.recordedChunks);
   // const mutation = useMutation<AxiosResponse<any>, AxiosError<ErrorResponse>>(
   //   [STT],
   //   usePostDiariesSTT(audioRecorder.recordedChunks),
