@@ -10,7 +10,6 @@ COPY ./requirements.txt /app/requirements.txt
 # 라이브러리 설치
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir ffmpeg
 
 ## 로컬의 모든 파일을 복사
 COPY . /app
