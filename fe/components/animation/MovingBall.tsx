@@ -2,12 +2,16 @@ import React, { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { BallReturn } from '../../types/movingBallTypes';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
+import useScreenY from '../../hooks/useScreenY';
 
-const SangukIsGod = styled.canvas`
-  position: relative;
+const SangukIsGod = styled.canvas<{ windowHeight: number }>`
+  position: absolute;
+
+  opacity: ${props => 600 - props.windowHeight};
 `;
 
 function MovingBall() {
+  const windowHeight = useScreenY();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const Ball = (
@@ -269,7 +273,7 @@ function MovingBall() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.height = 1700;
     for (let i = 0; i < ballRef.current.length; i++) {
       ballRef.current[i].resizeScreen();
     }
@@ -279,7 +283,7 @@ function MovingBall() {
 
   const colors = [
     { color: '', x: 0, y: 0, l: 0 },
-    { color: 'rgb(255, 215, 166)', x: 400, y: 0, l: 2000 },
+    { color: 'rgb(255, 215, 166)', x: 400, y: 0, l: 1800 },
     { color: 'rgb(250, 121, 169)', x: 800, y: -700, l: 1600 },
     { color: 'rgb(33, 50, 140)', x: -400, y: 200, l: 1200 },
     { color: 'rgb(160, 228, 18)', x: -200, y: -300, l: 800 },
@@ -300,7 +304,13 @@ function MovingBall() {
     return () => window.removeEventListener('resize', resizeHandler);
   }, []);
 
-  return <SangukIsGod ref={canvasRef} onMouseMove={mouseMoveHandler} />;
+  return (
+    <SangukIsGod
+      ref={canvasRef}
+      onMouseMove={mouseMoveHandler}
+      windowHeight={windowHeight}
+    />
+  );
 }
 
 export default MovingBall;

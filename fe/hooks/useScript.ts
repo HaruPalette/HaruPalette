@@ -24,7 +24,7 @@ const useScript = (talkData: TalkData[], type: string) => {
     const script = scripts[index];
     const typingInterval = setInterval(() => {
       setText(prev => {
-        if (prev.length === script.length - 1) {
+        if (prev.length >= script.length - 1) {
           clearInterval(typingInterval);
           setTimeout(() => {
             setIsTyping(false);
@@ -41,11 +41,11 @@ const useScript = (talkData: TalkData[], type: string) => {
     if (index === scripts.length - 1) return;
     const removeInterval = setInterval(() => {
       setText(prev => {
-        if (prev.length === 0) {
+        if (prev.length <= 0) {
           clearInterval(removeInterval);
           setIsTyping(true);
           setIndex(prevIdx => {
-            return prevIdx === scripts.length - 1 ? prevIdx : prevIdx + 1;
+            return prevIdx >= scripts.length - 1 ? prevIdx : prevIdx + 1;
           });
           return prev;
         }

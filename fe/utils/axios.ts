@@ -28,9 +28,9 @@ import { getCookie } from './cookie';
 
 const createAxiosInstance = (): AxiosInstance => {
   const baseURL = BASE_URL;
-  const accessToken: string | undefined = getCookie('Authorization');
-  const headers = accessToken ? { Authorization: `${accessToken}` } : undefined;
-
+  const accessToken = getCookie('Authorization');
+  // console.log('요청 헤더', accessToken);
+  const headers = { Authorization: `${accessToken}` };
   const axiosInstance = axios.create({
     baseURL,
     headers,

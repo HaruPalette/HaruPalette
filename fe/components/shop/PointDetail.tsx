@@ -1,12 +1,19 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { ColorTypes } from '@emotion/react';
+import { useQuery } from 'react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import useTheme from '../../hooks/useTheme';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectTheme } from '../../store/modules/theme';
 import { selectShop, setOpenFilterModal } from '../../store/modules/shop';
 import { SHOP_FILTER_CATORIGY_LIST } from '../../constants/nav';
 import { common } from '../../styles/theme';
+import { ErrorResponse } from '../../types/commonTypes';
+import { PointData, PointResponse } from '../../types/usersTypes';
+import { CACHE_TIME, STALE_TIME, POINTS } from '../../constants/api';
+import { useGetUsersPoints } from '../../apis/users';
+import { getCookie } from '../../utils/cookie';
 
 interface IDummy {
   imgSrc: string;
@@ -54,29 +61,48 @@ const dummy: IDummy[] = [
 ];
 
 const Container = styled.div`
+  position: relative;
   display: flex;
-  width: 80vw;
-  bottom: 0px;
-  justify-content: space-between;
+  width: 45vw;
+  padding: 0 100px;
+  justify-content: center;
   align-items: center;
+  flex-direction: column;
+  @media all and (max-width: 1500px) {
+    width: 45vw;
+    padding: 0 70px;
+    margin-top: 20px;
+  }
+  @media all and (max-width: 1150px) {
+    padding: 0;
+  }
+  @media all and (max-width: 960px) {
+    width: 60vw;
+    margin-top: 20px;
+  }
+  @media all and (max-width: 700px) {
+    width: 85vw;
+    margin-top: 20px;
+  }
+  @media all and (max-width: 580px) {
+    margin-top: 0px;
+    width: 90vw;
+  }
 `;
 const LeftContainer = styled.div`
-  width: 320px;
-  height: 290px;
+  position: relative;
+  width: 100%;
+  height: 100px;
   /* border: 3px solid black; */
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-const RightContainer = styled.div`
-  width: 320px;
-  height: 290px;
-  /* border: 3px solid red; */
-`;
+//
 const FilterDiv = styled.div<{ theme: ColorTypes }>`
-  position: absolute;
-  width: 200px;
-  height: 48px;
+  position: relative;
+  width: 350px;
+  height: 50px;
   border-radius: 16px;
   border: 2px solid ${common.colors.disable};
   display: flex;
@@ -85,37 +111,39 @@ const FilterDiv = styled.div<{ theme: ColorTypes }>`
   justify-content: center;
   cursor: pointer;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
+  background: ${props => props.theme.background};
 `;
 const FilterTitle = styled.span<{ theme: ColorTypes }>`
   position: absolute;
   width: 120px;
   height: 18px;
   color: ${props => props.theme.color};
-  font-size: 16px;
+  font-size: ${common.fontSize.fs16};
   line-height: 18px;
   font-weight: 600;
-  text-align: left;
+  text-align: center;
 `;
 const FilterIcon = styled(Image)`
   position: absolute;
   width: 16px;
   height: 16px;
   right: 30px;
-  top: 12px;
+  top: 13px;
 `;
 
 const MiddleContainer = styled.div<{ theme: ColorTypes }>`
   position: relative;
-  width: 350px;
-  height: 290px;
+  width: 100%;
+  height: 380px;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
   border-radius: 6px;
+  margin-bottom: 60px;
   &::-webkit-scrollbar {
     width: 10px;
     border-radius: 6px;
-    background: ${props => props.theme.background};
+    background: ${props => props.theme.primary20};
     /* background-color: white; */
   }
   overflow-x: hidden;
@@ -124,12 +152,17 @@ const MiddleContainer = styled.div<{ theme: ColorTypes }>`
     border-radius: 6px;
   }
 `;
-const DummyEls = styled.div`
-  width: 330px;
+const DummyEls = styled.div<{ theme: ColorTypes }>`
+  width: 99%;
   height: 58px;
   padding: 38px;
   display: flex;
   align-items: center;
+  &:hover {
+    background-color: ${props => props.theme.diaryBackground};
+    border-radius: 12px;
+    color: ${props => props.theme.border};
+  }
 `;
 
 const DummyImg = styled(Image)`
@@ -147,10 +180,13 @@ const DummyTitle = styled.span<{ theme: ColorTypes }>`
   height: 18px;
   left: 80px;
   color: ${props => props.theme.color};
-  font-size: 16px;
+  font-size: ${common.fontSize.fs16};
   line-height: 0px;
   font-weight: 600;
   text-align: left;
+  &:hover {
+    color: ${props => props.theme.border};
+  }
 `;
 const DummyAddPointPlus = styled.span`
   position: absolute;
@@ -220,7 +256,7 @@ function PointDetail() {
   const renderRound = () => {
     const renderRoundArr = dummy.map((el: IDummy) => {
       return (
-        <DummyEls key={el.index}>
+        <DummyEls theme={theme} key={el.index}>
           <DummyImg src={el.imgSrc} width={58} height={58} alt="DummyImg" />
           <DummyTitle theme={theme}>{el.title}</DummyTitle>
           {el.addPoint > 0 ? (
@@ -247,6 +283,24 @@ function PointDetail() {
     return renderRoundArr;
   };
 
+  const category = 'all';
+  const date = '2023-04';
+  const { data } = useQuery<
+    AxiosResponse<PointResponse>,
+    AxiosError<ErrorResponse>,
+    PointData
+  >(
+    [POINTS],
+    () => useGetUsersPoints(category, date, getCookie('Authorization')),
+    {
+      keepPreviousData: true,
+      staleTime: STALE_TIME,
+      cacheTime: CACHE_TIME,
+    },
+  );
+
+  console.log(data);
+
   return (
     <Container>
       <LeftContainer>
@@ -265,7 +319,6 @@ function PointDetail() {
         </FilterDiv>
       </LeftContainer>
       <MiddleContainer theme={theme}>{renderRound()}</MiddleContainer>
-      <RightContainer />
     </Container>
   );
 }
