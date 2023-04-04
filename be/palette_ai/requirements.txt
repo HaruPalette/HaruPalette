@@ -5,5 +5,7 @@ torch
 torchaudio
 torchvision
 transformers==4.27.1
+ffmpeg
+ffprobe
 pydub==0.25.1
 protobuf==4.22.1
