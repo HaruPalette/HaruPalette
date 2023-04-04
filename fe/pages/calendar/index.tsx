@@ -205,7 +205,12 @@ function Diary() {
             <Challenge />
             <CreateButton />
             {!isLoading && Boolean(data) && (
-              <Remind theme={theme}>
+              <Remind
+                theme={theme}
+                onClick={() => {
+                  window.location.href = `/detail/${data?.diaryId}`;
+                }}
+              >
                 <Image
                   src="/assets/img/common/remind.svg"
                   width={40}

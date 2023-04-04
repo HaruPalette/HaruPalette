@@ -31,8 +31,7 @@ const Card = styled.span<{ background: string }>`
 
   @media screen and (max-width: 500px) {
     font-size: 12px;
-    margin: 0.25rem 0;
-    margin-left: 0.5rem;
+    margin: 0.5rem;
   }
 `;
 

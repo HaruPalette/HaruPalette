@@ -21,7 +21,7 @@ interface DateItem {
   type: string;
   data: number;
   diaryId: number | null;
-  happy: number;
+  happy: number | null;
 }
 
 const Container = styled.div`
@@ -49,7 +49,7 @@ const OtherDate = styled.button<{ theme: ColorTypes }>`
   }
 `;
 
-const NowDate = styled.button<{ theme: ColorTypes; happy: number }>`
+const NowDate = styled.button<{ theme: ColorTypes; happy: number | null }>`
   width: 4rem;
   height: 4rem;
   margin: 0.5rem;
@@ -57,15 +57,12 @@ const NowDate = styled.button<{ theme: ColorTypes; happy: number }>`
   font-size: ${common.fontSize.fs24};
   text-align: center;
   border-radius: 4rem;
+  background: ${props =>
+    `rgba(${props.theme.happy}, ${props.happy ? props.happy / 100 : 0})`};
 
   @media screen and (max-width: 500px) {
     width: 10vw;
     height: 10vw;
-  }
-
-  :before {
-    background: ${props => props.theme.primary60};
-    opacity: ${props => (props.happy < 20 ? 20 : props.happy)};
   }
 `;
 
@@ -85,7 +82,6 @@ function Calendar(props: { year: number; month: number }) {
     },
   );
   const { data } = query;
-  console.log(data);
 
   useEffect(() => {
     query.refetch();
@@ -109,11 +105,13 @@ function Calendar(props: { year: number; month: number }) {
         type: 'prev',
         data: prevDate,
         diaryId: null,
-        happy: 0,
+        happy: null,
       });
       prevDate -= 1;
     }
   }
+  data?.sort((a, b) => a.date.localeCompare(b.date));
+
   let left = 0;
   // 이번 달 날짜 배열
   for (let i = 1; i <= nowDate; i++) {
@@ -125,18 +123,20 @@ function Calendar(props: { year: number; month: number }) {
           type: 'now',
           data: i,
           diaryId: data[left].diaryId,
-          happy: data[left].happy,
+          happy: data[left].happy < 20 ? 20 : data[left].happy,
         });
         left += 1;
-      } else monthDate.push({ type: 'now', data: i, diaryId: null, happy: 0 });
+      } else
+        monthDate.push({ type: 'now', data: i, diaryId: null, happy: null });
       continue;
     }
-    monthDate.push({ type: 'now', data: i, diaryId: null, happy: 0 });
+    monthDate.push({ type: 'now', data: i, diaryId: null, happy: null });
   }
   // 다음 달 날짜 배열
   for (let i = 1; i < 7 - nowDay; i++) {
-    monthDate.push({ type: 'next', data: i, diaryId: null, happy: 0 });
+    monthDate.push({ type: 'next', data: i, diaryId: null, happy: null });
   }
+
   return (
     <Container>
       {monthDate.map(item => {

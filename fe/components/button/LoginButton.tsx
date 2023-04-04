@@ -8,6 +8,7 @@ const KakaoLogInButton = styled.button`
   justify-content: space-between;
 
   padding: 0 1rem;
+  margin-left: 1rem;
 
   width: 5rem;
   height: 2.5rem;

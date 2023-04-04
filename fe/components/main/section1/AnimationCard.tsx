@@ -17,9 +17,8 @@ const Card = styled.span<{ background: string; windowHeight: number }>`
   transform: ${props => {
     if (props.windowHeight > 1400) {
       return 'rotate(15deg) translateX(15%)';
-    } else {
-      return 'rotate(0deg) translateX(0%)';
     }
+    return 'rotate(0deg) translateX(0%)';
   }};
 
   font-size: 1.5rem;
@@ -39,14 +38,12 @@ const Card = styled.span<{ background: string; windowHeight: number }>`
 
   @media screen and (max-width: 500px) {
     font-size: 12px;
-    margin: 0.25rem 0;
-    margin-left: 0.5rem;
+    margin: 0.5rem;
   }
 `;
 
 function AnimationCard(props: { cardData: CardData; windowHeight: number }) {
   const { cardData, windowHeight } = props;
-  console.log(windowHeight);
   return (
     <Card background={cardData.backgroundColor} windowHeight={windowHeight}>
       <Image

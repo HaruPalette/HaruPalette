@@ -7,7 +7,6 @@ import { DIARIES } from '../../constants/api';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 import { ErrorResponse } from '../../types/commonTypes';
-import { getCookie } from '../../utils/cookie';
 import { usePatchDiaries } from '../../apis/diaries';
 
 const DeleteButtonStyles = styled.button<{ theme: ColorTypes }>`
@@ -45,13 +44,12 @@ function DeleteButton(props: { diaryId: number }) {
     if (!mutation.isError) window.location.href = '/calendar';
   };
   return (
-    <DeleteButtonStyles type="button" theme={theme}>
+    <DeleteButtonStyles type="button" theme={theme} onClick={handleDeleteBtn}>
       <DeleteImg
         src="/assets/img/common/delete.svg"
         width={40}
         height={40}
         alt="share"
-        onClick={handleDeleteBtn}
       />
       일기 삭제
     </DeleteButtonStyles>

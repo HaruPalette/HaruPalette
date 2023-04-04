@@ -11,8 +11,9 @@ const Section = styled.section<{ windowHeight: number }>`
   width: 100vw;
   height: 100vh;
   display: flex;
+
   opacity: ${props =>
-    props.windowHeight >= 1400 && props.windowHeight <= 1800 ? 1 : 0};
+    props.windowHeight >= 1000 && props.windowHeight <= 1800 ? 1 : 0};
   justify-content: space-between;
   align-items: center;
 
@@ -21,25 +22,28 @@ const Section = styled.section<{ windowHeight: number }>`
   padding: 0 10rem;
 
   @media screen and (max-width: 500px) {
+    // center
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-left: -0.5rem;
+    padding: 0;
   }
 `;
 
 const SectionText = styled.h1<{ windowHeight: number }>`
   display: flex;
   text-align: start;
+  flex-direction: column;
+  justify-content: center;
 
-  width: 50vw;
   z-index: 2;
 
   font-size: 5vw;
-  opacity: ${props => props.windowHeight - 1250};
+  opacity: ${props => props.windowHeight - 1100};
 
   @media screen and (max-width: 500px) {
-    padding-left: 1rem;
+    margin-bottom: 5rem;
+    font-size: 2rem;
   }
 `;
 
@@ -49,13 +53,17 @@ const CardContainer = styled.article<{ windowHeight: number }>`
   justify-content: center;
   z-index: 2;
 
-  width: 50vw;
-
-  opacity: ${props => props.windowHeight - 1250};
+  opacity: ${props => props.windowHeight - 1100};
 `;
 
 const Row = styled.article`
   display: flex;
+  justify-content: center;
+`;
+
+const Background = styled.div<{ windowHeight: number }>`
+  display: ${props =>
+    props.windowHeight >= 1400 && props.windowHeight < 2200 ? 'flex' : 'none'};
 `;
 
 function Section1() {
@@ -82,7 +90,9 @@ function Section1() {
           <SectionCard cardData={cardList[3]} />
         </Row>
       </CardContainer>
-      <JellyList ball={ball} />
+      <Background windowHeight={windowHeight}>
+        <JellyList ball={ball} />
+      </Background>
       {windowHeight > 1800 ? <div /> : <Mouse top={2200} />}
     </Section>
   );
