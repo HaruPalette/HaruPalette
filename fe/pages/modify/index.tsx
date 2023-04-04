@@ -68,15 +68,12 @@ function Modify() {
   const theme = useTheme();
   const date = useDate();
   const ball = useBall();
-  // const len = useSelector(selectScript).curScriptIndex;
 
   const scriptArr: string[] = [...useAppSelector(selectScript).nowScript];
   const chr = useAppSelector(selectProfile).chrName;
   const image = useImage();
 
-  console.log('리덕스 스크립트', scriptArr);
   useEffect(() => {
-    console.log('리덕스 스크립트 렌더링', scriptArr);
     let temp = nowScript;
     if (scriptArr.length > 0) {
       temp = '';
@@ -85,7 +82,6 @@ function Modify() {
       }
     }
     setNowScript(temp);
-    console.log('리덕스에서 받아온 문자열', temp);
   }, [scriptArr]);
 
   // axios로 받아올 일기 상세조회

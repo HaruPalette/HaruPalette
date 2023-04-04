@@ -6,6 +6,7 @@ export interface ScriptSlice {
   isRecoding: boolean;
   isPausing: boolean;
   curScriptIndex: number;
+  totalScriptCount: number;
   nowScript: string[];
 }
 
@@ -14,6 +15,7 @@ const initialState = {
   isRecoding: false,
   isPausing: false,
   curScriptIndex: 0,
+  totalScriptCount: 0,
   nowScript: [],
 };
 
@@ -27,9 +29,10 @@ const scriptSlice = createSlice({
       temp.isRecoding = false;
       temp.isPausing = false;
       temp.curScriptIndex = 0;
+      temp.totalScriptCount = 0;
       temp.nowScript = [];
     },
-    /**  */
+    /** 시작하기 버튼 */
     startDiarySuccess(state) {
       const temp = state;
       temp.curScriptIndex = state.curScriptIndex + 1;
@@ -55,7 +58,9 @@ const scriptSlice = createSlice({
       temp.isRecoding = false;
       temp.isPausing = false;
       temp.curScriptIndex = Math.min(state.curScriptIndex + 1, 2);
+      temp.totalScriptCount = state.totalScriptCount + 1;
     },
+    /** 대화 종료 버튼 */
     endDiarySuceess(state) {
       const temp = state;
       temp.curScriptIndex = state.curScriptIndex + 1;
