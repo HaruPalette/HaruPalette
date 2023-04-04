@@ -181,6 +181,8 @@ function Diary() {
   const theme = useTheme();
   const [year, setYear] = useState(nowYear);
   const [month, setMonth] = useState(nowMonth);
+  const [today, setToday] = useState(false);
+  const [diaryId, setDiaryId] = useState(0);
   const ball = useBall();
 
   return (
@@ -199,12 +201,17 @@ function Diary() {
               setMonth={setMonth}
               month={month}
             />
-            <Calendar year={year} month={month} />
+            <Calendar
+              year={year}
+              month={month}
+              setToday={setToday}
+              setDiaryId={setDiaryId}
+            />
             <Palette />
           </Section>
           <Section>
             <Challenge />
-            <CreateButton />
+            <CreateButton today={today} diaryId={diaryId} />
             {!isLoading && Boolean(data) && (
               <Remind
                 theme={theme}
