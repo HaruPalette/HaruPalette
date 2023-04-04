@@ -12,6 +12,7 @@ import Section3 from '../components/main/section3/Section3';
 import Section4 from '../components/main/section4/Section4';
 import Section5 from '../components/main/section5/Section5';
 import Section6 from '../components/main/section6/Section6';
+import Section7 from '../components/main/section7/Section7';
 // import Section2 from '../components/main/section2/Section2';
 
 const HomePage = styled.div<{ theme: ColorTypes }>`
@@ -50,6 +51,7 @@ export default function Home() {
         <Section4 />
         <Section5 />
         <Section6 />
+        <Section7 />
       </MainContainer>
       <ScrollToTopButton />
       <Footer />
