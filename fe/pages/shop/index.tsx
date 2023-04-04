@@ -1,6 +1,8 @@
+import { GetServerSideProps } from 'next';
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
+import { dehydrate, QueryClient } from 'react-query';
 import Header from '../../components/common/Header';
 import Model from '../../components/common/ModelShopMainCopy';
 import ShopNav from '../../components/nav/ShopNav';
@@ -13,6 +15,10 @@ import MainPoint from '../../components/shop/MainPoint';
 import Challenge from '../../components/shop/Challenge';
 import BuyingBuddy from '../../components/shop/BuyingBuddy';
 import PointDetail from '../../components/shop/PointDetail';
+import useCookie from '../../hooks/useCookie';
+import { CHALLENGE, FRIEND, POINTS } from '../../constants/api';
+import { useGetUsersChallenge, useGetUsersPoints } from '../../apis/users';
+import { useGetFriends } from '../../apis/friends';
 
 const ShopPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -116,6 +122,35 @@ const BlurBg = styled.div`
 
   background: rgba(136, 136, 136, 0.5);
 `;
+
+export const getServerSideProps: GetServerSideProps = async context => {
+  const cookieString = context.req.headers.cookie || '';
+  const cookies = useCookie(cookieString);
+  const token = cookies.Authorization;
+  const queryClinet = new QueryClient();
+  const date = new Date();
+  await Promise.all([
+    queryClinet.prefetchQuery([FRIEND], () => useGetFriends(token)),
+    queryClinet.prefetchQuery([POINTS], () =>
+      useGetUsersPoints(
+        'all',
+        `${date.getFullYear()}-${
+          date.getMonth() + 1 < 10
+            ? String(`0${date.getMonth() + 1}`)
+            : date.getMonth() + 1
+        }`,
+        token,
+      ),
+    ),
+    queryClinet.prefetchQuery([CHALLENGE], () => useGetUsersChallenge(token)),
+  ]);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClinet),
+    },
+  };
+};
 
 function Shop() {
   const dispatch = useAppDispatch();

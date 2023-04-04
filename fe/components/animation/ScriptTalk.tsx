@@ -29,7 +29,7 @@ const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean; type: string }>`
   -webkit-text-fill-color: transparent;
   white-space: nowrap;
   @media screen and (max-width: 500px) {
-    font-size: 1.5rem;
+    font-size: ${props => (props.type === 'main' ? '2rem' : '1.5rem')};
   }
 `;
 
