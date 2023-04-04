@@ -23,11 +23,11 @@ export const SCRIPT = `${DIARIES}/script`;
 export const CALENDARS = `${DIARIES}/calendars`;
 
 // 도전과제 조회
-export const CHALLENGE = `${V1}/challenge`;
+export const CHALLENGE = `${USERS}/challenge`;
 // 캐릭터 조회
-export const FRIEND = `${V1}/friend`;
+export const FRIEND = `${V1}/friends`;
 // 포인트 내역 조회
-export const POINTS = `${V1}/points`;
+export const POINTS = `${USERS}/points`;
 // stale time
 export const STALE_TIME = 1000 * 60 * 5;
 // cache time

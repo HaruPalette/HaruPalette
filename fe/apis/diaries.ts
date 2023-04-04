@@ -41,7 +41,7 @@ export const usePostDiariesSTT = (file: Blob[]) => {
     return axios.post(
       queryKey,
       {
-        file: file,
+        file: { file },
       },
       {
         headers: {

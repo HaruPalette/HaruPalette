@@ -8,10 +8,16 @@ import { Autoplay, EffectCoverflow, Pagination, Navigation } from 'swiper';
 // import { SwiperModule } from 'swiper/types';
 import Image from 'next/image';
 import { ColorTypes } from '@emotion/react';
+import { useQuery } from 'react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import { selectTheme } from '../../store/modules/theme';
 import { useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import FriendCard from './FriendCard';
+import { CACHE_TIME, FRIEND, STALE_TIME } from '../../constants/api';
+import { useGetFriends } from '../../apis/friends';
+import { FriendsData, FriendsResponse } from '../../types/friendsTypes';
+import { ErrorResponse } from '../../types/commonTypes';
 
 // import SwiperCore, { Autoplay, Pagination } from 'swiper';
 
@@ -185,12 +191,24 @@ function BuyingBuddy() {
     const renderCardsArr = friendData.map((el: IFriendData) => {
       return (
         <SwiperSlide key={el.index}>
-          <FriendCard data={el} />
+          <FriendCard data2={el} />
         </SwiperSlide>
       );
     });
     return renderCardsArr;
   };
+
+  const { data } = useQuery<
+    AxiosResponse<FriendsResponse>,
+    AxiosError<ErrorResponse>,
+    FriendsData
+  >([FRIEND], () => useGetFriends(), {
+    keepPreviousData: true,
+    staleTime: STALE_TIME,
+    cacheTime: CACHE_TIME,
+  });
+
+  console.log(data);
   return (
     <Container>
       <Swiper

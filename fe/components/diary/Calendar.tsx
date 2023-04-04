@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { ColorTypes } from '@emotion/react';
 import { useQuery } from 'react-query';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
+import { useEffect } from 'react';
 import {
   useNowDate,
   useNowDay,
@@ -15,7 +16,6 @@ import { CACHE_TIME, DIARIES, STALE_TIME } from '../../constants/api';
 import { useGetDiariesCalendars } from '../../apis/diaries';
 import { getCookie } from '../../utils/cookie';
 import { CalendarData } from '../../types/diariesTypes';
-import { useEffect } from 'react';
 
 interface DateItem {
   type: string;

@@ -174,6 +174,7 @@ function Diary() {
     staleTime: STALE_TIME,
     cacheTime: CACHE_TIME,
   });
+
   const nowYear = useDate().year;
   const nowMonth = useDate().month;
   const theme = useTheme();
