@@ -13,7 +13,6 @@ public class DiaryDto {
 	String stickerCode;
 	String weather;
 	String contents;
-	String date;
 	String image;
 	Long friendId;
 }
