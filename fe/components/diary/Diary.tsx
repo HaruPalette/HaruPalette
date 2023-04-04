@@ -140,8 +140,8 @@ function Diary(props: {
   const { diary, type, save, share, setSave, setShare, stickerCode } = props;
   const theme = prevTheme(diary?.friendEname);
   const title = useDay(diary ? diary.date : '');
-  const [previewImage, setPreviewImage] = useState(diary ? diary.image : '');
-  const [image, setImage] = useState<File | null>(null);
+  const [image, setImage] = useState(diary ? diary.image : '');
+  const [file, setFile] = useState<File | null>(null);
 
   // 스티커 경로
   const chrSticker = `/assets/img/${diary?.friendEname}/2d.svg`;
@@ -158,9 +158,9 @@ function Diary(props: {
   }) => {
     if (type === 'modify') {
       event.preventDefault();
-      const { files } = event.dataTransfer;
-      setPreviewImage(URL.createObjectURL(files[0]));
-      setImage(files[0] as File);
+      const files = event.dataTransfer.files?.[0];
+      setImage(URL.createObjectURL(files));
+      setFile(files);
     }
   };
 
@@ -174,8 +174,8 @@ function Diary(props: {
       weather,
       contents,
       friend,
-      previewImage.split('blob:')[0],
-      image,
+      image.split('blob:')[0],
+      file,
     ),
   );
 
@@ -188,7 +188,7 @@ function Diary(props: {
   };
 
   useEffect(() => {
-    setPreviewImage(diary ? diary.image : '');
+    setImage(diary ? diary.image : '');
   }, [diary]);
 
   // 일기 이미지로 저장
@@ -229,9 +229,9 @@ function Diary(props: {
     <DetailStyles ref={diaryRef} theme={theme}>
       <DiaryLine theme={theme}>
         <Title theme={theme}>{title}</Title>
-        {previewImage && (
+        {image && (
           <DiaryImage
-            src={previewImage}
+            src={image}
             width={300}
             height={300}
             alt="img"
@@ -239,7 +239,7 @@ function Diary(props: {
             onDrop={handleDrop}
             onDragOver={event => event.preventDefault()}
             onClick={() => {
-              window.open(previewImage);
+              window.open(image);
             }}
             ref={imageRef}
           />
