@@ -13,7 +13,7 @@ const Section = styled.section<{ windowHeight: number }>`
   justify-content: center;
   align-items: center;
   opacity: ${props =>
-    props.windowHeight > 5200 && props.windowHeight < 6200 ? 1 : 0};
+    props.windowHeight > 5000 && props.windowHeight < 6200 ? 1 : 0};
 
   padding: 0 10rem;
 
@@ -51,11 +51,12 @@ const Emoji = styled(Image)<{
   position: fixed;
   top: ${props => props.top};
   left: ${props => props.left};
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%)
+    translateY(${props => props.windowHeight / (props.height / -20) + 300}px);
   z-index: 999;
   opacity: ${props =>
-    props.windowHeight > 5200 + props.height &&
-    props.windowHeight < 5600 + props.height
+    props.windowHeight > 4800 + props.height &&
+    props.windowHeight < 5700 + props.height
       ? 1
       : 0};
   transition: opacity 0.4s ease-in-out;
@@ -69,8 +70,8 @@ function Section4() {
       <SectionText theme={theme}>감정 분석 달력</SectionText>
       <SectionCalendar />
       {Object.entries(EMOJI).map(([key, value]) =>
-        windowHeight >= 5000 + value.height &&
-        windowHeight < 5800 + value.height ? (
+        windowHeight >= 4600 + value.height &&
+        windowHeight < 5900 + value.height ? (
           <Emoji
             key={key}
             src={value.url}
