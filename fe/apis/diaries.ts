@@ -68,8 +68,9 @@ export const usePostDiaries = (
   contents: string,
   friend: number,
   image: string,
-  file: MediaStream | null,
+  file: File | null,
 ) => {
+  console.log(stickerCode, weather, contents, friend, image, file);
   //   요청 url
   const queryKey = BASE_URL + DIARIES;
   //   axios 요청
@@ -77,26 +78,16 @@ export const usePostDiaries = (
     axios.post(
       queryKey,
       {
-        stickerCode,
-        weather,
-        contents,
-        friend,
-        image,
-        file,
+        diaryDto: { stickerCode, weather, contents, friend, image, file },
       },
       {
         headers: {
           Authorization: `${getCookie('Authorization')}`,
+          'Content-Type': 'multipart/form-data',
         },
       },
     );
   return queryFn;
-  // const { isLoading, data, isError, error } = useMutation<
-  //   AxiosResponse<UsersResponse>,
-  //   AxiosError<ErrorResponse>
-  // >([DIARIES], () => queryFn);
-
-  // return { isLoading, data, isError, error };
 };
 
 /** 일기 수정 조회 */

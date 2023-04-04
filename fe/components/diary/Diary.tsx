@@ -141,7 +141,7 @@ function Diary(props: {
   const theme = prevTheme(diary?.friendEname);
   const title = useDay(diary ? diary.date : '');
   const [previewImage, setPreviewImage] = useState(diary ? diary.image : '');
-  const [image, setImage] = useState<File | any>(null);
+  const [image, setImage] = useState<File | null>(null);
 
   // 스티커 경로
   const chrSticker = `/assets/img/${diary?.friendEname}/2d.svg`;
@@ -174,8 +174,8 @@ function Diary(props: {
       weather,
       contents,
       friend,
-      previewImage,
-      null,
+      previewImage.split('blob:')[0],
+      image,
     ),
   );
 
