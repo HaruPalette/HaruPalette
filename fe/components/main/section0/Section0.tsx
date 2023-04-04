@@ -9,9 +9,6 @@ const Section = styled.section<{ windowHeight: number }>`
   height: 1600px;
   opacity: ${props => 2 - props.windowHeight / 500};
 
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
   h1:nth-of-type(1) {
     position: fixed;
     top: 50%;
@@ -23,7 +20,10 @@ const Section = styled.section<{ windowHeight: number }>`
 
     transition: font-size 0s ease-in-out;
 
-    font-size: calc(5vw + ${props => props.windowHeight / 10}px);
+    font-size: ${props =>
+      props.windowHeight >= 1500
+        ? '1rem'
+        : `calc(5vw + ${props.windowHeight / 10}px)`};
   }
 `;
 

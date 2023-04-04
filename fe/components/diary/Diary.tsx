@@ -103,7 +103,10 @@ const CreateButton = styled.button<{ theme: ColorTypes }>`
   margin: auto;
 `;
 
-const DiaryImage = styled(Image)`
+const DiaryImage = styled.div<{ url: string }>`
+  background-image: ${props => `url(${props.url})`};
+  background-size: cover;
+  background-position: center;
   width: 18.75rem;
   height: 18.75rem;
   border-radius: 1rem;
@@ -193,7 +196,6 @@ function Diary(props: {
 
   // 일기 이미지로 저장
   const diaryRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
   useEffect(() => {
     if (diaryRef.current && save) {
       html2canvas(diaryRef.current, {
@@ -231,17 +233,12 @@ function Diary(props: {
         <Title theme={theme}>{title}</Title>
         {image && (
           <DiaryImage
-            src={image}
-            width={300}
-            height={300}
-            alt="img"
-            priority
+            url={image}
             onDrop={handleDrop}
             onDragOver={event => event.preventDefault()}
             onClick={() => {
               window.open(image);
             }}
-            ref={imageRef}
           />
         )}
         <ContentList theme={theme} type={type}>

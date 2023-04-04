@@ -7,6 +7,7 @@ import ScriptItem from './ScriptItem';
 import { SCRIPT } from '../../constants/script';
 import { selectProfile } from '../../store/modules/profile';
 import { useAppSelector } from '../../hooks/reduxHook';
+import { selectScript } from '../../store/modules/script';
 
 const Container = styled.div<{ theme: ColorTypes }>`
   width: 30rem;
@@ -64,11 +65,10 @@ const ChrInfo = styled.div<{ theme: ColorTypes }>`
 function ScriptList() {
   const theme = useTheme();
   const chr = useAppSelector(selectProfile).chrName;
-  // const scriptLen = useSelector(selectScript).curScriptIndex;
-  const scriptLen = 3;
+  const totalScriptCount = 3;
   return (
     <Container theme={theme}>
-      {Array.from({ length: scriptLen }, (v, i) => i).map(item => {
+      {Array.from({ length: totalScriptCount }, (v, i) => i).map(item => {
         return (
           <ScriptSet key={item}>
             <ChrScript theme={theme}>

@@ -110,6 +110,7 @@ const Remind = styled.div<{ theme: ColorTypes }>`
   text-decoration: underline;
   font-size: ${common.fontSize.fs24};
   margin-top: 3rem;
+  cursor: pointer;
   transform: scale(1);
 
   @media screen and (max-width: 500px) {
@@ -180,6 +181,8 @@ function Diary() {
   const theme = useTheme();
   const [year, setYear] = useState(nowYear);
   const [month, setMonth] = useState(nowMonth);
+  const [today, setToday] = useState(false);
+  const [diaryId, setDiaryId] = useState(0);
   const ball = useBall();
 
   return (
@@ -198,17 +201,22 @@ function Diary() {
               setMonth={setMonth}
               month={month}
             />
-            <Calendar year={year} month={month} />
+            <Calendar
+              year={year}
+              month={month}
+              setToday={setToday}
+              setDiaryId={setDiaryId}
+            />
             <Palette />
           </Section>
           <Section>
             <Challenge />
-            <CreateButton />
+            <CreateButton today={today} diaryId={diaryId} />
             {!isLoading && Boolean(data) && (
               <Remind
                 theme={theme}
                 onClick={() => {
-                  window.location.href = `/detail/${data?.diaryId}`;
+                  window.location.href = `/detail/${data}`;
                 }}
               >
                 <Image

@@ -84,6 +84,24 @@ const ProgressBar2 = styled.circle<{
   animation: ${props => animation(props.percent)} 2s linear;
 `;
 
+const ProgressBar3 = styled.div`
+  width: 240px;
+  height: 240px;
+  border-radius: 240px;
+  background: rgba(122, 122, 122, 0.8);
+  position: relative;
+  top: -247px;
+  left: 0;
+  z-index: 9;
+`;
+
+const Stamp = styled(Image)`
+  position: relative;
+  top: -400px;
+  left: 130px;
+  z-index: 99;
+`;
+
 const Diary = styled(Image)`
   position: absolute;
   /* top: 0으로 바꿔야 함 */
@@ -138,7 +156,7 @@ function Round(props: { data: DiaryProps }) {
           cy="110"
           r="110"
           theme={theme}
-          percent={percent}
+          percent={percent > 100 ? 100 : percent}
           primary={primary}
         />
       </ProgressWrap>
@@ -147,9 +165,19 @@ function Round(props: { data: DiaryProps }) {
         <div>{content}</div>
 
         <Percent>
-          {data.currCnt}/{data.allCnt}
+          {data.currCnt > data.allCnt ? data.allCnt : data.currCnt}/
+          {data.allCnt}
         </Percent>
       </Challenge>
+      {percent >= 100 && <ProgressBar3 />}
+      {percent >= 100 && (
+        <Stamp
+          src={`/assets/img/${chr.chrName}/stamp.svg`}
+          width={150}
+          height={150}
+          alt="stamp"
+        />
+      )}
     </Container>
   );
 }

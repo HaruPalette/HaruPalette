@@ -1,11 +1,12 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
-import { useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useScript from '../../hooks/useScript';
 import useTheme from '../../hooks/useTheme';
 import { selectTheme } from '../../store/modules/theme';
 import { TalkData } from '../../types/commonTypes';
+import { resetScriptIndexSuccess } from '../../store/modules/script';
 
 const TalkContainer = styled.div`
   display: flex;
@@ -38,9 +39,12 @@ function ScriptTalk(props: { talkData: TalkData[]; type: string }) {
   const theme = useTheme();
   const isDark = useAppSelector(selectTheme);
   const scriptData = useScript(talkData, type);
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
     scriptData.start();
+    return () => {
+      dispatch(resetScriptIndexSuccess());
+    };
   }, []);
 
   return (
