@@ -1,6 +1,6 @@
 // 기본 URL
-export const BASE_URL = 'https://harupalette.com/';
-
+// export const BASE_URL = 'https://harupalette.com/';
+export const BASE_URL = 'http://localhost:8080/';
 // API 엔드 포인트
 export const V1 = 'api/v1';
 export const V2 = 'api/v2';

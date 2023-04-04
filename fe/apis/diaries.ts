@@ -38,27 +38,20 @@ export const usePostDiariesSTT = (file: Blob[]) => {
   const queryKey = BASE_URL + STT;
   //   axios 요청
   const queryFn = () => {
-    return axios.post(
-      queryKey,
-      {
-        file,
+    const blob = new Blob(file, { type: 'audio/webm' });
+    const audioFile = new File([blob], 'audio.webm', { type: 'audio/webm' });
+    const formData = new FormData();
+    formData.append('file', audioFile);
+    console.log(formData.get('file'));
+    return axios.post(queryKey, formData, {
+      headers: {
+        Authorization: getCookie('Authorization'),
+        'Content-Type': 'multipart/form-data',
       },
-      {
-        headers: {
-          Authorization: getCookie('Authorization'),
-        },
-      },
-    );
+    });
   };
 
   return queryFn;
-  //
-  // const { isLoading, data, isError, error } = useMutation<
-  //   AxiosResponse<UsersResponse>,
-  //   AxiosError<ErrorResponse>
-  // >([STT], () => queryFn);
-  //
-  // return { isLoading, data, isError, error };
 };
 
 /** 일기 작성 */
@@ -66,27 +59,39 @@ export const usePostDiaries = (
   stickerCode: string,
   weather: string,
   contents: string,
-  friend: number,
+  friendId: number,
   image: string,
   file: File | null,
 ) => {
-  console.log(stickerCode, weather, contents, friend, image, file);
+  const formData = new FormData();
+  formData.append('file', file as Blob);
+  formData.append(
+    'diaryDto',
+    new Blob(
+      [
+        JSON.stringify({
+          stickerCode,
+          weather,
+          contents,
+          friendId,
+          image,
+        }),
+      ],
+      {
+        type: 'application/json',
+      },
+    ),
+  );
   //   요청 url
   const queryKey = BASE_URL + DIARIES;
   //   axios 요청
   const queryFn = () =>
-    axios.post(
-      queryKey,
-      {
-        diaryDto: { stickerCode, weather, contents, friend, image, file },
+    axios.post(queryKey, formData, {
+      headers: {
+        Authorization: `${getCookie('Authorization')}`,
+        'Content-Type': 'multipart/form-data',
       },
-      {
-        headers: {
-          Authorization: `${getCookie('Authorization')}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      },
-    );
+    });
   return queryFn;
 };
 
