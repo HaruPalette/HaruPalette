@@ -112,16 +112,18 @@ export const useGetDiariesScript = (index: number) => {
     })
     .then(res => res.data);
 
-  const { isLoading, data, isError, error } = useQuery<
-    AxiosResponse<UsersResponse>,
-    AxiosError<ErrorResponse>
-  >([SCRIPT], () => queryFn, {
-    keepPreviousData: true,
-    staleTime: STALE_TIME,
-    cacheTime: CACHE_TIME,
-  });
+  return queryFn;
 
-  return { isLoading, data, isError, error };
+  // const { isLoading, data, isError, error } = useQuery<
+  //   AxiosResponse<UsersResponse>,
+  //   AxiosError<ErrorResponse>
+  // >([SCRIPT], () => queryFn, {
+  //   keepPreviousData: true,
+  //   staleTime: STALE_TIME,
+  //   cacheTime: CACHE_TIME,
+  // });
+
+  // return { isLoading, data, isError, error };
 };
 
 /** 일기 삭제 */
