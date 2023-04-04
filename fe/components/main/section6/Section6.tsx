@@ -1,49 +1,49 @@
 import styled from '@emotion/styled';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../../hooks/reduxHook';
-import { selectTheme } from '../../../store/modules/theme';
+import { selectProfile } from '../../../store/modules/profile';
+import ModelCreate from '../../common/ModelCreate';
+import ModelShopMain from '../../common/ModelShopMain';
 
 const Section = styled.section`
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   position: relative;
+
+  transition: font-size 0s ease-in-out;
+
+  @media screen and (max-width: 960px) {
+  }
+
+  @media screen and (max-width: 500px) {
+  }
+`;
+
+const FriendList = styled.div`
+  width: 100vw
+  display: flex;
+  flex-direction: row;
+  scale: 0.25;
 `;
 
 function Section6() {
-  const isDark = useAppSelector(selectTheme);
-  const [width, setWidth] = useState<number>(0);
-  const [height, setHeight] = useState<number>(0);
+  const curCharName = useAppSelector(selectProfile).chrName;
 
-  const handleWidth = () => {
-    const curWidth =
-      window.innerWidth >= 960
-        ? window.innerWidth - 320
-        : window.innerWidth - 32;
-    setWidth(curWidth);
-    setHeight((curWidth / 16) * 9);
-  };
-
-  useEffect(() => {
-    handleWidth();
-    window.addEventListener('resize', handleWidth);
-    return () => {
-      window.removeEventListener('resize', handleWidth);
-    };
-  }, []);
   return (
     <Section>
-      <Image
-        src={`/assets/img/common/${isDark ? 'dark' : 'light'}/team_member_${
-          isDark ? 'dark' : 'light'
-        }.svg`}
-        width={width}
-        height={height}
-        alt="team member image"
-      />
+      <ModelShopMain data={curCharName} />
+      <FriendList>
+        <div>
+          <ModelCreate data="haru" />
+        </div>
+        <div>
+          <ModelCreate data="tori" />
+        </div>
+        <div>
+          <ModelCreate data="gomi" />
+        </div>
+      </FriendList>
     </Section>
   );
 }

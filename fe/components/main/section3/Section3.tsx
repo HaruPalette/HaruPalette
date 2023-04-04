@@ -107,7 +107,7 @@ function Section3() {
       ) : (
         <Mouse top={4500} />
       )}
-      {windowHeight < 4500 ? <div /> : <Mouse top={5300} />}
+      {windowHeight < 4500 ? <div /> : <Mouse top={5100} />}
     </Section>
   );
 }
