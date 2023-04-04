@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { ColorTypes } from '@emotion/react';
 import { useMutation } from 'react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { IFriendData } from './BuyingBuddy';
 import {
   common,
   gomiDark,
@@ -17,10 +16,10 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectTheme } from '../../store/modules/theme';
 import Model from '../common/ModelCharacter';
 import { setCharName } from '../../store/modules/profile';
-import { selectShop, setFriendShip } from '../../store/modules/shop';
 import { FRIEND } from '../../constants/api';
 import { usePatchFriends } from '../../apis/friends';
 import { ErrorResponse } from '../../types/commonTypes';
+import { FriendList } from '../../types/friendsTypes';
 
 const Section = styled.section`
   position: relative;
@@ -208,15 +207,15 @@ const BtnYesFriendBack = styled.button<{ theme: ColorTypes }>`
   margin-right: 10px;
 `;
 
-function FriendCard(props: { data2: IFriendData }) {
-  const { data2 } = props;
+function FriendCard(props: { friend: FriendList }) {
+  const { friend } = props;
   const dispatch = useAppDispatch();
   // const theme1 = useTheme();
   const isDark = useAppSelector(selectTheme) ? 'Dark' : 'Light';
-  const isFriendShip = useAppSelector(selectShop).friendShipList[data2.index];
-  const customTheme = data2.ename + isDark;
+  // const isFriendShip = useAppSelector(selectShop).friendShipList[friend.];
+  const customTheme = friend.ename + isDark;
 
-  const imgSrc = `/assets/img/${data2.ename}/2d.svg`;
+  const imgSrc = `/assets/img/${friend.ename}/2d.svg`;
   const backBtnImg = `/assets/img/common/coin2.svg`;
   const getTheme = () => {
     if (customTheme === 'haruDark') return haruDark;
@@ -240,27 +239,27 @@ function FriendCard(props: { data2: IFriendData }) {
 
     // alert 띄우고 확인 시
     const isConfirm = window.confirm(
-      `${data2.name}와 친구를 맺으시겠어요?\n${data2.amount}가 포인트에서 차감됩니다.`,
+      `${friend.kname}와 친구를 맺으시겠어요?\n${friend.price}가 포인트에서 차감됩니다.`,
     );
     if (isConfirm) {
       // store에 포인트 저장해 놓고, 가져와야 함
       // 포인트 차감해야 함
-      dispatch(setFriendShip(data2.index));
-      dispatch(setCharName(data2.ename));
-      alert(`${data2.name}와 친구가 되었어요:)`);
+      // dispatch(setFriendShip(friend.index));
+      dispatch(setCharName(friend.ename));
+      alert(`${friend.kname}와 친구가 되었어요:)`);
     }
   };
 
   const handleCurrFriendShip = () => {
-    const isConfirm = window.confirm(`${data2.name}을 선택하시겠어요?`);
+    const isConfirm = window.confirm(`${friend.kname}을 선택하시겠어요?`);
     if (isConfirm) {
       mutation.mutate();
-      dispatch(setCharName(data2.ename));
+      dispatch(setCharName(friend.ename));
     }
   };
 
   const handleCharacteristic = () => {
-    const CharacteristicArr = data2.characteristic.map((el: string) => {
+    const CharacteristicArr = friend.tag.split(' ').map((el: string) => {
       return (
         <Characteristic theme={getTheme()} key={el}>
           {el}
@@ -287,11 +286,11 @@ function FriendCard(props: { data2: IFriendData }) {
       <Card theme={getTheme()}>
         <Front theme={getTheme()}>
           <NameDiv theme={getTheme()}>
-            <NameTitle>{data2.name}</NameTitle>
-            <ENameTitle>{data2.ename}</ENameTitle>
+            <NameTitle>{friend.kname}</NameTitle>
+            <ENameTitle>{friend.ename}</ENameTitle>
           </NameDiv>
           <CharacterDiv>
-            <Model data={data2.ename} />
+            <Model data={friend.ename} />
           </CharacterDiv>
           <CharacteristicDiv>{handleCharacteristic()}</CharacteristicDiv>
         </Front>
@@ -304,9 +303,9 @@ function FriendCard(props: { data2: IFriendData }) {
               alt="CharacterBackImg"
             />
           </CharacterDivBack>
-          <DescDivBack theme={getTheme()}>{data2.desc}</DescDivBack>
+          <DescDivBack theme={getTheme()}>{friend.contents}</DescDivBack>
           {/* <BtnDivBack theme={getTheme()}> */}
-          {isFriendShip ? (
+          {friend.isBuy ? (
             <BtnDivBack theme={getTheme()}>
               <BtnImgDivBack
                 src={backBtnImg}
@@ -337,7 +336,7 @@ function FriendCard(props: { data2: IFriendData }) {
                   handleDoFriendShip();
                 }}
               >
-                500
+                {friend.price} P
               </BtnNotFriendBack>
             </BtnDivBack>
           )}
