@@ -13,6 +13,7 @@ import { ErrorResponse } from '../../types/commonTypes';
 import { PointData, PointResponse } from '../../types/usersTypes';
 import { CACHE_TIME, STALE_TIME, POINTS } from '../../constants/api';
 import { useGetUsersPoints } from '../../apis/users';
+import { getCookie } from '../../utils/cookie';
 
 interface IDummy {
   imgSrc: string;
@@ -288,11 +289,15 @@ function PointDetail() {
     AxiosResponse<PointResponse>,
     AxiosError<ErrorResponse>,
     PointData
-  >([POINTS], () => useGetUsersPoints(category, date), {
-    keepPreviousData: true,
-    staleTime: STALE_TIME,
-    cacheTime: CACHE_TIME,
-  });
+  >(
+    [POINTS],
+    () => useGetUsersPoints(category, date, getCookie('Authorization')),
+    {
+      keepPreviousData: true,
+      staleTime: STALE_TIME,
+      cacheTime: CACHE_TIME,
+    },
+  );
 
   console.log(data);
 

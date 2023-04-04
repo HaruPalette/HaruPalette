@@ -1,16 +1,17 @@
-export interface FriendsData {
-  friendList: {
-    friendId: number;
-    friendKname: string;
-    friendEname: string;
-    contents: string;
-    tag: string;
-    price: number;
-    isBuy: boolean;
-  }[];
-  currentPoint: number;
+export interface FriendList {
+  friendId: number;
+  kname: string;
+  ename: string;
+  contents: string;
+  tag: string;
+  price: number;
+  isBuy: boolean;
 }
 
+export interface FriendsData {
+  friendList: FriendList[];
+  currentPoint: number;
+}
 export interface FriendsSelectData {
   currentPoint: number;
 }
