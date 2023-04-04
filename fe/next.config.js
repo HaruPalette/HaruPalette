@@ -8,6 +8,7 @@ const nextConfig = {
       'harupalette.com',
       'k.kakaocdn.net',
     ],
+    unoptimized: true,
   },
   compiler: {
     emotion: true,
