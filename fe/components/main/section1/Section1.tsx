@@ -62,6 +62,10 @@ const Row = styled.article`
 `;
 
 const Background = styled.div<{ windowHeight: number }>`
+  // center
+  position: fixed;
+  top: 50%;
+  left: 50%;
   display: ${props =>
     props.windowHeight >= 1400 && props.windowHeight < 2200 ? 'flex' : 'none'};
 `;
