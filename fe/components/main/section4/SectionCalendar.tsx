@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import Calendar from '../../diary/Calendar';
 import { common } from '../../../styles/theme';
@@ -58,13 +58,22 @@ function SectionCalendar() {
   const year = new Date().getFullYear();
   const month = new Date().getMonth() + 1;
   const isDark = useAppSelector(selectTheme);
+  const [today, setToday] = useState(false);
+  const [diaryId, setDiaryId] = useState(0);
+
+  console.log(today, diaryId);
 
   return (
     <CalendarContainer isDark={isDark}>
       <CalendarHead>
         <Month>{month}월</Month>
       </CalendarHead>
-      <Calendar year={year} month={month} />
+      <Calendar
+        year={year}
+        month={month}
+        setToday={setToday}
+        setDiaryId={setDiaryId}
+      />
     </CalendarContainer>
   );
 }
