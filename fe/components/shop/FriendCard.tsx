@@ -17,7 +17,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectTheme } from '../../store/modules/theme';
 import Model from '../common/ModelCharacter';
 import { setCharName } from '../../store/modules/profile';
-import { selectShop, setFriendShip } from '../../store/modules/shop';
 import { FRIEND } from '../../constants/api';
 import { usePatchFriends } from '../../apis/friends';
 import { ErrorResponse } from '../../types/commonTypes';
@@ -213,7 +212,6 @@ function FriendCard(props: { data2: IFriendData }) {
   const dispatch = useAppDispatch();
   // const theme1 = useTheme();
   const isDark = useAppSelector(selectTheme) ? 'Dark' : 'Light';
-  const isFriendShip = useAppSelector(selectShop).friendShipList[data2.index];
   const customTheme = data2.ename + isDark;
 
   const imgSrc = `/assets/img/${data2.ename}/2d.svg`;
@@ -227,16 +225,46 @@ function FriendCard(props: { data2: IFriendData }) {
     return gomiLight;
   };
 
-  const friendId = 1;
-  // 캐릭터 선택 axios(이미 구매한 것, def = 1)
-  // const { data } =
-  const mutation = useMutation<AxiosResponse<any>, AxiosError<ErrorResponse>>(
-    [FRIEND, friendId],
-    usePatchFriends(friendId),
-  );
+  // const getCharPoint = useQuery<
+  //   AxiosResponse<FriendsResponse>,
+  //   AxiosError<ErrorResponse>,
+  //   FriendsData
+  // >([FRIEND], () => useGetFriends(), {
+  //   keepPreviousData: true,
+  //   staleTime: STALE_TIME,
+  //   cacheTime: CACHE_TIME,
+  // });
 
+  const friendId = 2;
+  // 캐릭터 선택 axios(이미 구매한 것, def = 1)
+  const mutationCharChoice = useMutation<
+    AxiosResponse<any>,
+    AxiosError<ErrorResponse>
+  >([FRIEND, friendId], usePatchFriends(friendId), {
+    onSuccess: () => {
+      // const a = useGetFriends();
+      console.log('선택 axios 성공');
+    },
+  });
+  // 캐릭터 구매 axios(구매를 안했을 시)
+  const mutationCharBuying = useMutation<
+    AxiosResponse<any>,
+    AxiosError<ErrorResponse>
+  >([FRIEND, friendId], usePatchFriends(friendId), {
+    onSuccess: () => {
+      mutationCharChoice.mutate();
+    },
+  });
+
+  /**
+   * 친해지기: 캐릭터 구매를 진행하지 않은 캐릭터 선택 시
+   */
   const handleDoFriendShip = () => {
     // 포인트 선택을 진행함 ( 돈이 없을 때는 바로 리턴 )
+    // if()
+
+    // return alert("돈이 부족합니다.")
+    mutationCharBuying.mutate();
 
     // alert 띄우고 확인 시
     const isConfirm = window.confirm(
@@ -245,16 +273,18 @@ function FriendCard(props: { data2: IFriendData }) {
     if (isConfirm) {
       // store에 포인트 저장해 놓고, 가져와야 함
       // 포인트 차감해야 함
-      dispatch(setFriendShip(data2.index));
       dispatch(setCharName(data2.ename));
       alert(`${data2.name}와 친구가 되었어요:)`);
     }
   };
 
+  /**
+   * 선택하기: 구매한 캐릭터 선택 시
+   */
   const handleCurrFriendShip = () => {
     const isConfirm = window.confirm(`${data2.name}을 선택하시겠어요?`);
     if (isConfirm) {
-      mutation.mutate();
+      mutationCharChoice.mutate();
       dispatch(setCharName(data2.ename));
     }
   };
@@ -274,7 +304,7 @@ function FriendCard(props: { data2: IFriendData }) {
 
   // 캐릭터 구매 axios(구매하지 않은 것, def: 1 제외)
   // const { data } = useQuery<
-  //   AxiosResponse<FriendsSelectData>,
+  // AxiosResponse<FriendsSelectData>,
   //   AxiosError<ErrorResponse>
   // >([FRIEND], () => usePostFriends(friendId), {
   //   keepPreviousData: true,
@@ -306,7 +336,7 @@ function FriendCard(props: { data2: IFriendData }) {
           </CharacterDivBack>
           <DescDivBack theme={getTheme()}>{data2.desc}</DescDivBack>
           {/* <BtnDivBack theme={getTheme()}> */}
-          {isFriendShip ? (
+          {true ? (
             <BtnDivBack theme={getTheme()}>
               <BtnImgDivBack
                 src={backBtnImg}

@@ -49,6 +49,13 @@ export const usePatchFriends = (friendId: number) => {
     );
 
   return queryFn;
+
+  // const { isLoading, data, isError, error } = useMutation<
+  //   AxiosResponse<UsersResponse>,
+  //   AxiosError<ErrorResponse>
+  // >([FRIEND, friendId], () => queryFn);
+
+  // return { isLoading, data, isError, error };
 };
 
 /** 캐릭터 구매 */

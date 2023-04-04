@@ -123,7 +123,6 @@ function Shop() {
   const openFilterModalData = useAppSelector(selectShop).openFilterModal;
   const currCharName = useAppSelector(selectProfile).chrName;
   const compIdx = useAppSelector(selectShop).currCompIdx;
-
   useEffect(() => {
     dispatch(setCompIdx(0));
   }, []);

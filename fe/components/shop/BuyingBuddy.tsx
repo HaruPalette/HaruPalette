@@ -32,24 +32,6 @@ export interface IFriendData {
   index: number;
 }
 
-// interface ISetting {
-//   effect: string;
-//   grabCursor: boolean;
-//   centeredSlides: boolean;
-//   loop: boolean;
-//   slidesPerView: string;
-//   coverflowEffect: {
-//     rotate: number;
-//     stretch: number;
-//     depth: number;
-//     modifier: number;
-//   };
-//   pagination: any;
-//   navigation: any;
-//   modules: SwiperModule[];
-//   className: string;
-// }
-
 const friendData: IFriendData[] = [
   {
     characteristic: ['#다정한', '#진솔한', '#ISFP'],
