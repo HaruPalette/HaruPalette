@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+import org.apache.http.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -34,6 +35,7 @@ import com.ssafy.palette.domain.entity.Emotion;
 import com.ssafy.palette.domain.entity.File;
 import com.ssafy.palette.domain.entity.Friend;
 import com.ssafy.palette.domain.entity.User;
+import com.ssafy.palette.exception.NoScriptException;
 import com.ssafy.palette.repository.AnswerRepository;
 import com.ssafy.palette.repository.ChallengeRepository;
 import com.ssafy.palette.repository.DiaryRepository;
@@ -223,7 +225,7 @@ public class DiaryService {
 		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
 		// 키 존재 여부 & 인덱스에 해당 값 존재 여부 확인
 		if (index + 1 > operations.opsForList().size(userId)) {
-			throw new Exception("해당 스크립트가 없습니다.");
+			throw new NoScriptException("해당 스크립트가 없습니다.");
 		}
 		String str = operations.opsForList().index(userId, index);
 
