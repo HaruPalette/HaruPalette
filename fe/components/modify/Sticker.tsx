@@ -44,6 +44,16 @@ function Sticker(props: {
 }) {
   const { setNowSticker, nowSticker } = props;
   const theme = useTheme();
+
+  const handleSticker = (item: SetStateAction<string>) => {
+    setNowSticker(item);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <Container theme={theme}>
       {STICKER.map(item => {
@@ -55,7 +65,7 @@ function Sticker(props: {
                 width={48}
                 height={48}
                 alt={item}
-                onClick={() => setNowSticker(item)}
+                onClick={() => handleSticker(item)}
               />
             ) : (
               <StickerImage
@@ -63,7 +73,7 @@ function Sticker(props: {
                 width={48}
                 height={48}
                 alt={item}
-                onClick={() => setNowSticker(item)}
+                onClick={() => handleSticker(item)}
               />
             )}
           </button>

@@ -9,13 +9,16 @@ import { TalkData } from '../../types/commonTypes';
 
 const TalkContainer = styled.div`
   display: flex;
-  align-items: flex-end;
-  height: 5rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 10rem;
+  height: 10rem;
 `;
 
 const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean; type: string }>`
   z-index: 99;
-  font-size: 2rem;
+  font-size: ${props => (props.type === 'main' ? '5vw' : '2rem')};
   background: linear-gradient(
     to right,
     ${props => (props.type === 'main' ? props.theme.color : props.theme.sub)},
@@ -24,9 +27,9 @@ const Talk = styled.h1<{ theme: ColorTypes; isDark: boolean; type: string }>`
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
+  white-space: nowrap;
   @media screen and (max-width: 500px) {
-    font-size: 1.5rem;
+    font-size: ${props => (props.type === 'main' ? '2rem' : '1.5rem')};
   }
 `;
 

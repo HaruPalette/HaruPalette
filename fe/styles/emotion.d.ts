@@ -29,6 +29,7 @@ declare module '@emotion/react' {
     fontSize: FontSize;
   }
   export interface ColorTypes {
+    happy: string;
     primary20: string;
     primary40: string;
     primary60: string;
@@ -40,5 +41,11 @@ declare module '@emotion/react' {
     color: string;
     diaryBackground: string;
     shopBackground: string;
+  }
+  export interface weatherTypes {
+    clear: string;
+    clouds: string;
+    rain: string;
+    snow: string;
   }
 }

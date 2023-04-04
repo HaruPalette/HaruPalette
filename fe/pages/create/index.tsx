@@ -1,11 +1,10 @@
-/* eslint-disable jsx-a11y/media-has-caption */
-/* eslint-disable react/no-array-index-key */
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
 import Pulse from '../../components/animation/Pulse';
 import ScriptTalk from '../../components/animation/ScriptTalk';
 import CherryBlossom from '../../components/animation/CherryBlossom';
+import Cloud from '../../components/animation/Cloud';
 import Rain from '../../components/animation/Rain';
 import Snow from '../../components/animation/Snow';
 import HomeButton from '../../components/button/HomeButton';
@@ -41,19 +40,26 @@ const CreatePageContainer = styled.div`
   justify-content: space-around;
   width: 100%;
   z-index: 1;
-  padding: 2rem 0;
+  padding: 2rem;
 `;
 
 const CreateHeader = styled.div`
   display: flex;
   justify-content: space-between;
-
+  width: calc(100vw - 320px);
   position: relative;
 
-  width: calc(100vw - 32px);
+  @media screen and (max-width: 960px) {
+    width: calc(100vw - 32px);
+  }
   padding: 0 1rem;
 
   z-index: 1;
+`;
+
+const ModelContainer = styled.div`
+  scale: 0.8;
+  height: 50vh;
 `;
 
 function Create() {
@@ -63,24 +69,25 @@ function Create() {
   const isRecode = useAppSelector(selectScript).isRecoding;
   const reduxWeather = useAppSelector(selectWeather).curWeather;
   const weather = useWeather();
-  console.log(weather);
   const dispatch = useAppDispatch();
 
   const audioRecorder = useAudioRecorder();
 
   useEffect(() => {
     dispatch(changeWeatherSuccess(weather));
-    console.log(weather);
   }, [weather]);
 
   useEffect(() => {
     dispatch(resetScriptIndexSuccess());
+    return () => {
+      audioRecorder.forceQuit();
+    };
   }, []);
 
   return (
     <CreatePage theme={theme}>
       {reduxWeather === 'Clear' && <CherryBlossom />}
-      {reduxWeather === 'Clouds' && <Rain />}
+      {reduxWeather === 'Clouds' && <Cloud />}
       {reduxWeather === 'Rain' && <Rain />}
       {reduxWeather === 'Snow' && <Snow />}
       <Pulse />
@@ -90,7 +97,9 @@ function Create() {
           <WeatherButton />
         </CreateHeader>
         <ScriptTalk talkData={SCRIPT} type="create" />
-        <Model data={currCharName} />
+        <ModelContainer>
+          <Model data={currCharName} />
+        </ModelContainer>
         {isRecode ? (
           <RecodeBar audioRecorder={audioRecorder} />
         ) : (

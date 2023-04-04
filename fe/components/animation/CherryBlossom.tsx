@@ -1,18 +1,17 @@
 import { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
+import { weatherTypes } from '@emotion/react';
 import useAnimationFrame from '../../hooks/useAnimationFrame';
+import { useAppSelector } from '../../hooks/reduxHook';
+import { selectTheme } from '../../store/modules/theme';
+import { weatherLight, weatherDark } from '../../styles/weather';
 
-const CherryBlossomCanvas = styled.canvas`
+const CherryBlossomCanvas = styled.canvas<{ theme: weatherTypes }>`
   margin: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: linear-gradient(
-    to bottom right,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(220, 248, 255, 1) 50%,
-    rgba(255, 217, 220, 0.9) 100%
-  );
+  background: ${props => props.theme.clear};
   position: fixed;
   z-index: 0;
 `;
@@ -21,6 +20,9 @@ function CherryBlossom() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const totalRef = useRef<number>(70);
   const petalImageRef = useRef<HTMLImageElement[]>([]);
+  const isDark = useAppSelector(selectTheme);
+  const theme = isDark ? weatherDark : weatherLight;
+
   const imagePromise = (src: string) => {
     return new Promise<HTMLImageElement>((resolve, reject) => {
       const img = new Image();
@@ -70,6 +72,7 @@ function CherryBlossom() {
         this.x = -this.img.width;
         this.y = randomBetween(-window.innerHeight, window.innerHeight);
       }
+      ctx.save();
       ctx.globalAlpha = this.opacity;
       ctx.drawImage(
         this.img,
@@ -78,6 +81,7 @@ function CherryBlossom() {
         this.width * (0.66 + Math.abs(Math.cos(this.flip)) / 3),
         this.height * (0.8 + Math.abs(Math.sin(this.flip)) / 2),
       );
+      ctx.restore();
     }
 
     animate() {
@@ -88,41 +92,81 @@ function CherryBlossom() {
     }
   }
 
+  class CherryBlossomDefault {
+    img: HTMLImageElement;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    opacity: number;
+
+    constructor() {
+      [this.img] = petalImageRef.current;
+      this.x = randomBetween(-45, window.innerWidth);
+      this.y = randomBetween(window.innerHeight - 30, window.innerHeight);
+      this.width = randomBetween(30, 45);
+      this.height = randomBetween(20, 30);
+      this.opacity = 1;
+    }
+
+    draw() {
+      const ctx = canvasRef.current?.getContext('2d');
+      if (!ctx) return;
+      if (this.y > window.innerHeight || this.x > window.innerWidth) {
+        this.x = -this.img.width;
+        this.y = randomBetween(-window.innerHeight, window.innerHeight);
+      }
+      ctx.save();
+      ctx.globalAlpha = this.opacity;
+      ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+      ctx.restore();
+    }
+  }
+
   const petalListRef = useRef<CherryBlossomElem[]>([]);
+  const petalDefaultRef = useRef<CherryBlossomDefault[]>([]);
 
   useAnimationFrame(() => {
     const ctx = canvasRef.current?.getContext('2d');
     if (!ctx) return;
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    petalDefaultRef.current.forEach(petal => {
+      petal.draw();
+    });
     petalListRef.current.forEach(petal => {
       petal.animate();
     });
   }, 0);
+
+  const init = async () => {
+    const ctx = canvasRef.current?.getContext('2d');
+    if (!ctx) return;
+    await imagePromise('/assets/img/cherry_blossom/petal.png');
+    petalDefaultRef.current = [];
+    petalListRef.current = [];
+    for (let i = 0; i < 400; i++) {
+      petalDefaultRef.current.push(new CherryBlossomDefault());
+    }
+    for (let i = 0; i < totalRef.current; i++) {
+      petalListRef.current.push(new CherryBlossomElem());
+    }
+  };
 
   const resizeHandler = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-  };
-
-  const init = async () => {
-    const ctx = canvasRef.current?.getContext('2d');
-    if (!ctx) return;
-    resizeHandler();
-    await imagePromise('/assets/img/cherry_blossom/petal.png');
-    for (let i = 0; i < totalRef.current; i++) {
-      petalListRef.current.push(new CherryBlossomElem());
-    }
+    init();
   };
 
   useEffect(() => {
-    init();
+    resizeHandler();
     window.addEventListener('resize', resizeHandler);
     return () => window.removeEventListener('resize', resizeHandler);
   }, []);
 
-  return <CherryBlossomCanvas ref={canvasRef} />;
+  return <CherryBlossomCanvas ref={canvasRef} theme={theme} />;
 }
 
 export default CherryBlossom;

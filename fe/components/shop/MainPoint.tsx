@@ -4,10 +4,9 @@ import styled from '@emotion/styled';
 import useTheme from '../../hooks/useTheme';
 
 const Container = styled.div`
-  position: absolute;
+  position: relative;
   width: 200px;
   height: 50px;
-  top: 330px;
   background: #ffffff;
   z-index: 3;
   display: flex;
@@ -20,9 +19,9 @@ const Container = styled.div`
 
 const PointImg = styled(Image)`
   position: absolute;
-  width: 80px;
-  height: 30px;
-  left: 5px;
+  width: 35px;
+  height: 35px;
+  left: 30px;
 `;
 const Point = styled.div<{ theme: ColorTypes }>`
   position: absolute;
@@ -46,7 +45,7 @@ const PointDesc = styled.div`
 `;
 
 function MainPoint() {
-  const PointImgSrc = `/assets/img/palette.svg`;
+  const PointImgSrc = `/assets/img/common/coin2.svg`;
   const theme = useTheme();
 
   return (

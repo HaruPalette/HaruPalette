@@ -25,9 +25,10 @@ export const common: CommonTypes = {
 };
 
 export const haruLight: ColorTypes = {
+  happy: '193, 45, 125',
   primary20: '#FFA6D6',
   primary40: '#ED62AD',
-  primary60: '#C12D7D',
+  primary60: '#C12C7C',
   primary80: '#6B1745',
   main: '#6B1745',
   sub: '#FFA6D6',
@@ -40,9 +41,10 @@ export const haruLight: ColorTypes = {
 };
 
 export const haruDark: ColorTypes = {
+  happy: '193, 45, 125',
   primary20: '#FFA6D6',
   primary40: '#ED62AD',
-  primary60: '#C12D7D',
+  primary60: '#C12C7C',
   primary80: '#6B1745',
   main: '#FFA6D6',
   sub: '#ffffff',
@@ -54,9 +56,10 @@ export const haruDark: ColorTypes = {
 };
 
 export const toriLight: ColorTypes = {
+  happy: '163, 95, 35',
   primary20: '#D29763',
   primary40: '#CB7428',
-  primary60: '#A35F23',
+  primary60: '#A25E22',
   primary80: '#5D340F',
   main: '#5D340F',
   sub: '#D29763',
@@ -68,9 +71,10 @@ export const toriLight: ColorTypes = {
     'linear-gradient(180deg, rgba(210, 151, 99, 0.5) 0%, rgba(210, 151, 99, 0.185) 36.77%, rgba(210, 151, 99, 0) 100%);',
 };
 export const toriDark: ColorTypes = {
+  happy: '163, 95, 35',
   primary20: '#D29763',
   primary40: '#CB7428',
-  primary60: '#A35F23',
+  primary60: '#A25E22',
   primary80: '#5D340F',
   main: '#D29763',
   sub: '#ffffff',
@@ -82,6 +86,7 @@ export const toriDark: ColorTypes = {
 };
 
 export const gomiLight: ColorTypes = {
+  happy: '51, 140, 55',
   primary20: '#4FDC55',
   primary40: '#41BA46',
   primary60: '#338C37',
@@ -97,6 +102,7 @@ export const gomiLight: ColorTypes = {
 };
 
 export const gomiDark: ColorTypes = {
+  happy: '51, 140, 55',
   primary20: '#4FDC55',
   primary40: '#41BA46',
   primary60: '#338C37',

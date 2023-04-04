@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useSelector } from 'react-redux';
 import useTheme from '../../hooks/useTheme';
 // import { selectScript } from '../../store/modules/script';
 import ScriptItem from './ScriptItem';
 import { SCRIPT } from '../../constants/script';
 import { selectProfile } from '../../store/modules/profile';
+import { useAppSelector } from '../../hooks/reduxHook';
 
 const Container = styled.div<{ theme: ColorTypes }>`
   width: 30rem;
@@ -63,7 +63,7 @@ const ChrInfo = styled.div<{ theme: ColorTypes }>`
 
 function ScriptList() {
   const theme = useTheme();
-  const chr = useSelector(selectProfile).chrName;
+  const chr = useAppSelector(selectProfile).chrName;
   // const scriptLen = useSelector(selectScript).curScriptIndex;
   const scriptLen = 3;
   return (

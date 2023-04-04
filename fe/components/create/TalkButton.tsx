@@ -2,7 +2,7 @@ import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import {
   endDiarySuceess,
@@ -64,8 +64,8 @@ const ButtonContainer = styled.div<{ index: number }>`
 function TalkButton(props: { audioRecorder: AudioRecorder }) {
   const { audioRecorder } = props;
   const theme = useTheme();
-  const dispatch = useDispatch();
-  const scriptData = useSelector(selectScript);
+  const dispatch = useAppDispatch();
+  const scriptData = useAppSelector(selectScript);
   const router = useRouter();
 
   const handleStart = () => {

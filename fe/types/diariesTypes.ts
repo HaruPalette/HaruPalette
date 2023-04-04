@@ -3,7 +3,7 @@ export interface DiaryData {
   date: string;
   contents: string;
   weather: string;
-  ename: string;
+  friendEname: string;
   answer: string;
   image: string;
   stickerCode: string;
@@ -11,17 +11,15 @@ export interface DiaryData {
   happy: number;
   surprise: number;
   anger: number;
-  disgust: number;
   anxiety: number;
   sadness: number;
+  disgust: number;
 }
 
-export interface ImageData {
-  image: string;
-}
-
-export interface STTData {
-  contents: string;
+export interface CalendarData {
+  diaryId: number;
+  happy: number;
+  date: string;
 }
 
 export interface ScriptData {
@@ -33,14 +31,10 @@ export interface DiariesResponse {
   diaryData: DiaryData;
 }
 
-export interface ImageResponse {
-  imageData: ImageData;
-}
-
-export interface STTResponse {
-  sttData: STTData;
-}
-
 export interface ScriptResponse {
   scriptData: ScriptData;
+}
+
+export interface CalendarResponse {
+  calendarData: CalendarData;
 }
