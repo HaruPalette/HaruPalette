@@ -19,6 +19,12 @@ const useScript = (talkData: TalkData[], type: string) => {
     setIsTyping(true);
   };
 
+  const reset = () => {
+    setText('');
+    setIndex(0);
+    setIsTyping(false);
+  };
+
   useEffect(() => {
     if (!isTyping) return;
     const script = scripts[index];
@@ -58,7 +64,7 @@ const useScript = (talkData: TalkData[], type: string) => {
     start();
   }, [scriptIndex]);
 
-  return { text, start };
+  return { text, start, reset };
 };
 
 export default useScript;
