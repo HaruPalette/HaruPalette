@@ -1,16 +1,5 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
-import {
-  BASE_URL,
-  CACHE_TIME,
-  CALENDARS,
-  DIARIES,
-  SCRIPT,
-  STALE_TIME,
-  STT,
-} from '../constants/api';
-import { ErrorResponse } from '../types/commonTypes';
-import { UsersResponse } from '../types/usersTypes';
+import axios from 'axios';
+import { BASE_URL, CALENDARS, DIARIES, SCRIPT } from '../constants/api';
 import { getCookie } from '../utils/cookie';
 
 /** 일기 상세 조회 */
@@ -31,29 +20,6 @@ export const useGetDiaries = (diaryId: number, token: string | undefined) => {
 
   return queryFn;
 };
-
-/** 일기 STT */
-// export const usePostDiariesSTT = (file: Blob[]) => {
-//   //   요청 url
-//   const queryKey = BASE_URL + STT;
-//
-//   //   axios 요청
-//   const queryFn = () => {
-//     const blob = new Blob(file, { type: 'audio/webm' });
-//     const audioFile = new File([blob], 'audio.webm', { type: 'audio/webm' });
-//     const formData = new FormData();
-//     formData.append('file', audioFile);
-//     console.log(formData.get('file'));
-//     return axios.post(queryKey, formData, {
-//       headers: {
-//         Authorization: getCookie('Authorization'),
-//         'Content-Type': 'multipart/form-data',
-//       },
-//     });
-//   };
-//
-//   return queryFn;
-// };
 
 /** 일기 작성 */
 export const usePostDiaries = (
