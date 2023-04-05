@@ -48,13 +48,13 @@ public class DiaryController {
 
 	// stt
 	@CrossOrigin(origins = "*")
-	@PostMapping(value = "/stt", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> speechToText(@RequestHeader HttpHeaders header, MultipartFile file) throws Exception {
+	@PostMapping(value = "/stt/{order}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity<?> speechToText(@RequestHeader HttpHeaders header, MultipartFile file, @PathVariable int order) throws Exception {
 		log.info("stt");
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
 
-		diaryService.addRedisList(file, userId);
+		diaryService.addRedisList(file, userId, order);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
