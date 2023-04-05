@@ -101,6 +101,7 @@ public class DiaryController {
 		String userId = jwtUtil.getUid(token);
 
 		String str = diaryService.sendScript(order, userId);
+		log.info("수정 조회" + order + "번째 결과: " + str);
 		return new ResponseEntity<String>(str, HttpStatus.OK);
 	}
 
