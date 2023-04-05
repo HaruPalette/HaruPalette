@@ -46,8 +46,8 @@ function SaveButton(props: { audioRecorder: AudioRecorder }) {
   // );
 
   const handleRecode = () => {
-    dispatch(recodingSuccess());
     audioRecorder.stopRecording();
+    dispatch(recodingSuccess());
     // mutation.mutate();
   };
 
