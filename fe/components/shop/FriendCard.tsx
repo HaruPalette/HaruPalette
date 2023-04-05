@@ -14,7 +14,7 @@ import {
 } from '../../styles/theme';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectTheme } from '../../store/modules/theme';
-import Model from '../common/ModelCharacter';
+import Model from '../common/ModelShopBackCard';
 import { setCharName } from '../../store/modules/profile';
 import { FRIEND } from '../../constants/api';
 import { usePatchFriends, usePostFriends } from '../../apis/friends';

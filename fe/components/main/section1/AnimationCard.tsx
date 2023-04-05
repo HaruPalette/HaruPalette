@@ -9,9 +9,12 @@ const Card = styled.span<{ background: string; windowHeight: number }>`
   align-items: center;
   justify-content: space-around;
 
-  width: 12vw;
+  font-weight: bold;
+  color: #f62f5f;
+
+  width: 13vw;
   min-width: 5rem;
-  height: 12vw;
+  height: 13vw;
   min-height: 5rem;
 
   transform: ${props => {
@@ -25,9 +28,21 @@ const Card = styled.span<{ background: string; windowHeight: number }>`
   margin: 1rem 0;
   margin-left: 2rem;
 
-  border-radius: 0.5rem;
+  border-radius: 2.11rem;
 
   background-color: ${props => props.background};
+
+  & .CardImgDiv {
+    transform: ${props => {
+      if (props.windowHeight > 1400) {
+        return 'rotate(0deg) translateX(0%)';
+      }
+      return 'rotate(0deg) translateX(0%)';
+    }};
+    & img {
+      /* left: 340px; */
+    }
+  }
 
   @media screen and (max-width: 960px) {
     font-size: 14px;
@@ -47,9 +62,10 @@ function AnimationCard(props: { cardData: CardData; windowHeight: number }) {
   return (
     <Card background={cardData.backgroundColor} windowHeight={windowHeight}>
       <Image
+        className="CardImgDiv"
         src={cardData.image}
-        width={48}
-        height={48}
+        width={60}
+        height={60}
         alt={cardData.script}
       />
       {cardData.script}

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
 import Header from '../../components/common/Header';
-import Model from '../../components/common/ModelShopMainCopy';
+import Model from '../../components/common/ModelShopMain';
 import ShopNav from '../../components/nav/ShopNav';
 import useTheme from '../../hooks/useTheme';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
