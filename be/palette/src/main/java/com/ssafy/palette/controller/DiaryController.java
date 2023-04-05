@@ -58,7 +58,7 @@ public class DiaryController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	// 수정 조회
+	// 스크립트 초기화
 	@PostMapping("/script")
 	public ResponseEntity<?> scriptDiary(@RequestHeader HttpHeaders header){
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
