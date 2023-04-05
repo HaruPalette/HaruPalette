@@ -29,8 +29,9 @@ const HaruNav = styled.nav<{ menu: Menu; theme: ColorTypes }>`
   @media screen and (max-width: 500px) {
     display: flex;
     flex-direction: column;
+    justify-content: center;
 
-    width: 100%;
+    width: 100vw;
 
     position: fixed;
     top: 5.5rem;
