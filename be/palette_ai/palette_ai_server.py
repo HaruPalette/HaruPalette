@@ -6,8 +6,9 @@ import logging
 import torch
 import torchaudio
 from transformers import pipeline
-import os
 from pydub import AudioSegment
+import os
+import time
 
 # 모델 로드
 # whisper 모델
@@ -50,10 +51,9 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
         sound = AudioSegment.from_file(weba_file, format="webm")
         sound.export(wav_file, format="wav", parameters=['-ar', '16000'])
         audio_input, _ = torchaudio.load(wav_file)
-        logger.info("Audio file loaded")
+        logger.info(time.strftime('%Y/%m/%d %H:%M:%S ') + "Audio file loaded")
         input_values = torch.mean(audio_input, dim=0).numpy()
-        logger.info("Audio file converted")
-        logger.info("Prediction started...")
+        logger.info(time.strftime('%Y/%m/%d %H:%M:%S ') + "Prediction started...")
         prediction = whisperPipe(
             input_values,
             generate_kwargs={
@@ -62,10 +62,12 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
                 "max_new_tokens": 65535
              }
         )['text']
-        logger.info("Prediction finished")
-        logger.info("Prediction: " + prediction)
-        # os.remove(weba_file)
-        # os.remove(wav_file)
+        prediction = "test"
+        logger.info(time.strftime('%Y/%m/%d %H:%M:%S ') + "Prediction: " + prediction)
+        if os.path.exists(weba_file):
+            os.remove(weba_file)
+        if os.path.exists(wav_file):
+            os.remove(wav_file)
         return palette_ai_pb2.TextResponse(prediction=prediction)
 
     def TextToEmotion(self, request, context):
@@ -73,7 +75,7 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
         data = {
             ko2en[r["label"]]: r["score"] for r in result
         }
-        logger.info("Prediction: " + str(data))
+        logger.info(time.strftime('%Y/%m/%d %H:%M:%S ') + "Prediction: " + str(data))
         ret = palette_ai_pb2.EmotionResponse(
             neutral=data.get("neutral", 0),
             happy=data.get("happy", 0),
@@ -95,7 +97,7 @@ def serve():
     port = '50051'
     server.add_insecure_port('[::]:' + port)
     server.start()
-    logger.info("Server started, listening on " + port)
+    logger.info(time.strftime('%Y/%m/%d %H:%M:%S ') + "Server started, listening on " + port)
     server.wait_for_termination()
 
 
