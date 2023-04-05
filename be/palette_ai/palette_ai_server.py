@@ -48,7 +48,7 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
         with open(weba_file, 'wb') as f:
             f.write(audio_data)
         sound = AudioSegment.from_file(weba_file, format="webm")
-        sound.export(wav_file, format="wav", parameters=['-ac', '1', '-ar', '16000'])
+        sound.export(wav_file, format="wav", parameters=['-ar', '16000'])
         audio_input, _ = torchaudio.load(wav_file)
         logger.info("Audio file loaded")
         input_values = torch.mean(audio_input, dim=0).numpy()
