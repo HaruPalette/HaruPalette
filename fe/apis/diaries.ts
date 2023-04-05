@@ -1,16 +1,5 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
-import {
-  BASE_URL,
-  CACHE_TIME,
-  CALENDARS,
-  DIARIES,
-  SCRIPT,
-  STALE_TIME,
-  STT,
-} from '../constants/api';
-import { ErrorResponse } from '../types/commonTypes';
-import { UsersResponse } from '../types/usersTypes';
+import axios from 'axios';
+import { BASE_URL, CALENDARS, DIARIES, SCRIPT } from '../constants/api';
 import { getCookie } from '../utils/cookie';
 
 /** 일기 상세 조회 */

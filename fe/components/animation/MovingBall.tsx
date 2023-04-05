@@ -249,7 +249,7 @@ function MovingBall() {
   const mouseMoveHandler = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) return;
     for (let i = 0; i < ballRef.current.length; i++) {
       ballRef.current[i].mouseX = e.clientX;
@@ -261,7 +261,7 @@ function MovingBall() {
   const draw = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < ballRef.current.length; i++) {
