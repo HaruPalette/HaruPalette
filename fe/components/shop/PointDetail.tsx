@@ -299,8 +299,6 @@ function PointDetail() {
     },
   );
 
-  console.log(data);
-
   return (
     <Container>
       <LeftContainer>

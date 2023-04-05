@@ -26,6 +26,21 @@ const style = () => css`
     transition: 0.4s ease-in-out;
   }
 
+  body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  img {
+    -webkit-user-drag: none;
+  }
+
+  a {
+    -webkit-user-drag: none;
+  }
+
   button {
     cursor: pointer !important;
     all: unset;
@@ -36,7 +51,7 @@ const style = () => css`
   }
 
   h1 {
-    font-family: 'yg-jalnan';
+    font-family: 'yg-jalnan', 'serif';
   }
 
   a {

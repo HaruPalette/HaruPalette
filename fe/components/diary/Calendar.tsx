@@ -88,7 +88,6 @@ function Calendar(props: {
     },
   );
   const { data } = query;
-  console.log(data);
 
   useEffect(() => {
     query.refetch();
