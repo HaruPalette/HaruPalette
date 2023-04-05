@@ -13,7 +13,9 @@ const Section = styled.section`
 
   @media screen and (max-width: 500px) {
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
+    align-items: flex-start;
+    padding: 0 1rem;
   }
 `;
 
@@ -31,9 +33,9 @@ const SectionText = styled.h1`
 
 const ChallengeContainer = styled.article<{ windowHeight: number }>`
   display: ${props =>
-    props.windowHeight > 7000 && props.windowHeight < 8000 ? 'flex' : 'none'};
+    props.windowHeight > 6100 && props.windowHeight < 7000 ? 'flex' : 'none'};
   opacity: ${props =>
-    props.windowHeight > 7200 && props.windowHeight < 7800 ? 1 : 0};
+    props.windowHeight > 6300 && props.windowHeight < 6800 ? 1 : 0};
   width: 40vw;
   height: 100%;
 
@@ -42,8 +44,15 @@ const ChallengeContainer = styled.article<{ windowHeight: number }>`
   align-items: center;
 
   @media screen and (max-width: 500px) {
-    width: 100vw;
+    width: 100%;
+    justify-content: center;
+    align-items: flex-start;
+    scale: 0.8;
     padding: 0 1rem;
+    display: ${props =>
+      props.windowHeight > 6500 && props.windowHeight < 8000 ? 'flex' : 'none'};
+    opacity: ${props =>
+      props.windowHeight > 6700 && props.windowHeight < 7800 ? 1 : 0};
   }
 `;
 
@@ -81,8 +90,8 @@ function Section5() {
       </RightContainer>
       <ChallengeContainer windowHeight={windowHeight}>
         {ROUND_DATA.map(data => (
-          <ChallengeItem>
-            <Round key={data.allCnt} data={data} />
+          <ChallengeItem key={data.allCnt}>
+            <Round data={data} />
           </ChallengeItem>
         ))}
       </ChallengeContainer>
