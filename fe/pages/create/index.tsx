@@ -92,6 +92,7 @@ function Create() {
 
   useEffect(() => {
     dispatch(resetScriptIndexSuccess());
+    navigator.mediaDevices.getUserMedia({ audio: true });
     return () => {
       audioRecorder.forceQuit();
     };
