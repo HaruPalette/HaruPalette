@@ -24,7 +24,7 @@ const diarySlice = createSlice({
     },
     resetImageSuccess(state) {
       const temp = state;
-      temp.image = 'blob:';
+      temp.image = '';
       temp.file = null;
     },
   },
