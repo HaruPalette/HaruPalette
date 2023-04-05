@@ -194,6 +194,9 @@ const MobileText = styled.h1<{ windowHeight: number }>`
 `;
 
 const Background = styled.div<{ windowHeight: number }>`
+  position: fixed;
+  top: 50%;
+  left: 50%;
   display: ${props =>
     props.windowHeight >= 2200 && props.windowHeight < 3700 ? 'flex' : 'none'};
 `;

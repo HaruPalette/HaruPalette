@@ -50,7 +50,7 @@ function HomeButton() {
   return (
     <HaruHomeButton type="button">
       <Link href="/" onClick={() => handleChangeLink('/')}>
-        <HomeImage src={icon} width={56} height={56} alt="home" />
+        <HomeImage src={icon} width={56} height={56} alt="home" priority />
       </Link>
     </HaruHomeButton>
   );

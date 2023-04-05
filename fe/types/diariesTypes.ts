@@ -24,7 +24,11 @@ export interface CalendarData {
 
 export interface ScriptData {
   contents: string;
-  image: string;
+}
+
+export interface ScriptErrorData {
+  code: string;
+  message: string;
 }
 
 export interface DiariesResponse {

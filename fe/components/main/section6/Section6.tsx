@@ -1,49 +1,65 @@
 import styled from '@emotion/styled';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { useAppSelector } from '../../../hooks/reduxHook';
-import { selectTheme } from '../../../store/modules/theme';
+import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHook';
+import { changeMainChar, selectProfile } from '../../../store/modules/profile';
+import ModelCreate from '../../common/ModelCreate';
+import ModelShopMain from '../../common/ModelShopMain';
 
 const Section = styled.section`
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
+  position: relative;
+
+  transition: font-size 0s ease-in-out;
+
+  @media screen and (max-width: 960px) {
+  }
+
+  @media screen and (max-width: 500px) {
+  }
+`;
+
+const FriendList = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  position: relative;
+`;
+
+const ModelButton = styled.button`
+  width: 10rem;
+  scale: 0.25;
+  cursor: pointer;
 `;
 
 function Section6() {
-  const isDark = useAppSelector(selectTheme);
-  const [width, setWidth] = useState<number>(0);
-  const [height, setHeight] = useState<number>(0);
+  const curCharName = useAppSelector(selectProfile).chrName;
+  const mainCharName = useAppSelector(selectProfile).mainChrName;
+  const dispatch = useAppDispatch();
 
-  const handleWidth = () => {
-    const curWidth =
-      window.innerWidth >= 960
-        ? window.innerWidth - 320
-        : window.innerWidth - 32;
-    setWidth(curWidth);
-    setHeight((curWidth / 16) * 9);
+  const handleModelClick = (name: string) => {
+    dispatch(changeMainChar(name));
   };
 
-  useEffect(() => {
-    handleWidth();
-    window.addEventListener('resize', handleWidth);
-    return () => {
-      window.removeEventListener('resize', handleWidth);
-    };
-  }, []);
   return (
     <Section>
-      <Image
-        src={`/assets/img/common/${isDark ? 'dark' : 'light'}/team_member_${
-          isDark ? 'dark' : 'light'
-        }.svg`}
-        width={width}
-        height={height}
-        alt="team member image"
+      <ModelShopMain
+        data={curCharName !== 'haru' ? curCharName : mainCharName}
       />
+      <FriendList>
+        <ModelButton type="button" onClick={() => handleModelClick('haru')}>
+          <ModelCreate data="haru" />
+        </ModelButton>
+        <ModelButton type="button" onClick={() => handleModelClick('tori')}>
+          <ModelCreate data="tori" />
+        </ModelButton>
+        <ModelButton type="button" onClick={() => handleModelClick('gomi')}>
+          <ModelCreate data="gomi" />
+        </ModelButton>
+      </FriendList>
     </Section>
   );
 }

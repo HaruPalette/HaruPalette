@@ -1,49 +1,91 @@
 import styled from '@emotion/styled';
-import { useAppSelector } from '../../../hooks/reduxHook';
-import { selectProfile } from '../../../store/modules/profile';
-import ModelCreate from '../../common/ModelCreate';
-import ModelShopMain from '../../common/ModelShopMain';
+import Round from '../../progressbar/Round';
+import useScreenY from '../../../hooks/useScreenY';
 
 const Section = styled.section`
   width: 100vw;
   height: 100vh;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10rem;
   position: relative;
 
-  transition: font-size 0s ease-in-out;
-
-  @media screen and (max-width: 960px) {
-  }
-
   @media screen and (max-width: 500px) {
+    flex-direction: column;
+    justify-content: center;
   }
 `;
 
-const FriendList = styled.div`
-  width: 100vw
+const RightContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+`;
+
+const SectionText = styled.h1`
+  font-size: 5vw;
+  margin-bottom: 1rem;
+`;
+
+const ChallengeContainer = styled.article<{ windowHeight: number }>`
+  display: ${props =>
+    props.windowHeight > 7000 && props.windowHeight < 8000 ? 'flex' : 'none'};
+  opacity: ${props =>
+    props.windowHeight > 7200 && props.windowHeight < 7800 ? 1 : 0};
+  width: 40vw;
+  height: 100%;
+
   flex-direction: row;
-  scale: 0.25;
+  justify-content: space-between;
+  align-items: center;
+
+  @media screen and (max-width: 500px) {
+    width: 100vw;
+    padding: 0 1rem;
+  }
+`;
+
+const ChallengeItem = styled.div`
+  @media screen and (max-width: 500px) {
+    scale: 0.8;
+  }
 `;
 
 function Section5() {
-  const curCharName = useAppSelector(selectProfile).chrName;
-
+  const windowHeight = useScreenY();
+  const ROUND_DATA = [
+    {
+      currCnt: 3,
+      allCnt: 3,
+      desc: '주 3회 작성하기',
+      color: '20',
+    },
+    {
+      currCnt: 3,
+      allCnt: 7,
+      desc: '주 7회 작성하기',
+      color: '40',
+    },
+  ];
   return (
     <Section>
-      <ModelShopMain data={curCharName} />
-      <FriendList>
-        <div>
-          <ModelCreate data="haru" />
-        </div>
-        <div>
-          <ModelCreate data="tori" />
-        </div>
-        <div>
-          <ModelCreate data="gomi" />
-        </div>
-      </FriendList>
+      <RightContainer>
+        <SectionText>챌린지 달성</SectionText>
+        <p>
+          꾸준한 일기 작성 통해 의지를 올려보고!
+          <br />
+          대량의 포인트도 쌓아보고!
+        </p>
+      </RightContainer>
+      <ChallengeContainer windowHeight={windowHeight}>
+        {ROUND_DATA.map(data => (
+          <ChallengeItem>
+            <Round key={data.allCnt} data={data} />
+          </ChallengeItem>
+        ))}
+      </ChallengeContainer>
     </Section>
   );
 }
