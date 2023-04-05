@@ -1,29 +1,29 @@
-import useTheme from '../hooks/useTheme';
+// import useTheme from '../hooks/useTheme';
 import { CardData } from '../types/commonTypes';
 
 const useCard = () => {
-  const theme = useTheme();
+  // const theme = useTheme();
 
   const CARD_LIST: CardData[] = [
     {
       image: '/assets/img/common/card4.svg',
       script: '일기 작성',
-      backgroundColor: `${theme.primary40}`,
+      backgroundColor: '#FF6F6F',
     },
     {
       image: '/assets/img/common/card2.svg',
       script: '감정 달력',
-      backgroundColor: `${theme.primary20}`,
+      backgroundColor: '#FFF6E9',
     },
     {
       image: '/assets/img/common/card3.svg',
       script: '도전 과제',
-      backgroundColor: `${theme.primary20}`,
+      backgroundColor: '#F62F5F',
     },
     {
       image: '/assets/img/common/card1.svg',
       script: '일기 공유',
-      backgroundColor: `${theme.primary40}`,
+      backgroundColor: '#FB9A9A',
     },
   ];
 

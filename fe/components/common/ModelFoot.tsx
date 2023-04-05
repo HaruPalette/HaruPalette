@@ -3,8 +3,8 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 /**
- * 동동 뛰는 애니매이션
- * 위치: shop-캐릭터-카드front
+ * 로딩 발바닥
+ * 위치: 로딩
  */
 const CustomDiv = styled.canvas`
   width: 280px;
