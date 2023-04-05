@@ -95,10 +95,10 @@ export function useSectionOneBall() {
 export function useSectionTwoBall() {
   const ballData: BallData[] = [];
   ballData.push({
-    width: '20rem',
-    height: '20rem',
+    width: '25rem',
+    height: '25rem',
     top: '10rem',
-    left: '25rem',
+    left: '38rem',
     color: '#9A208C',
     opacity: 0.8,
     delay: 2,
