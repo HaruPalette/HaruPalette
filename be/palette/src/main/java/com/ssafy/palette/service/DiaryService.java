@@ -14,8 +14,13 @@ import java.util.Random;
 
 import org.apache.http.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.Cursor;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -234,8 +239,25 @@ public class DiaryService {
 	}
 
 	public void deleteScript(String userId) {
-		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
-		operations.delete(userId);
+		List<String> result = new ArrayList<>();
+		redisTemplate.execute(new RedisCallback() {
+			@Override
+			public Object doInRedis(RedisConnection connection) throws DataAccessException {
+
+				ScanOptions options = ScanOptions.scanOptions().match(userId + "*").count(20).build();
+
+				Cursor<byte[]> entries = connection.scan(options);
+
+				while (entries.hasNext()) {
+					String key = new String(entries.next());
+					result.add(key);
+					redisTemplate.delete(key);
+				}
+				return result;
+			}
+		});
+
+		log.info(result.toString());
 	}
 
 	public LocalDate todayDate() {
