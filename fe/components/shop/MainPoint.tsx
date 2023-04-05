@@ -27,7 +27,7 @@ const Point = styled.div<{ theme: ColorTypes }>`
   position: absolute;
   width: 100px;
   height: 40px;
-  right: 10px;
+  right: 25px;
   color: ${props => props.theme.main};
   font-size: 28px;
   line-height: 45px;
@@ -44,15 +44,18 @@ const PointDesc = styled.div`
   font-weight: 600;
 `;
 
-function MainPoint() {
+function MainPoint(props: any) {
   const PointImgSrc = `/assets/img/common/coin2.svg`;
+  // const currPointData = useAppSelector(selectShop).currPoint;
+  // useEffect(() => {}, []);
+  const data = props;
   const theme = useTheme();
 
   return (
     <Container>
       <PointImg src={PointImgSrc} width={20} height={20} alt="pointImg" />
-      <Point theme={theme}>700</Point>
-      <PointDesc>P</PointDesc>
+      <Point theme={theme}>{data.data}</Point>
+      <PointDesc> P</PointDesc>
     </Container>
   );
 }

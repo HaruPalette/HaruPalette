@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useAppDispatch } from './reduxHook';
+import { changeWeatherSuccess } from '../store/modules/weather';
 
 type Position = {
   coords: {
@@ -14,8 +16,8 @@ type Position = {
 };
 
 const useWeather = () => {
-  const [weather, setWeather] = useState('');
   const API_KEY = '29fad2dad33c72a1e610d42a9b29e2ac';
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const onGeoOk = (position: Position) => {
@@ -41,10 +43,7 @@ const useWeather = () => {
           } else {
             curWeather = 'Clouds';
           }
-          setWeather(curWeather);
-        })
-        .catch(error => {
-          console.log(error);
+          dispatch(changeWeatherSuccess(curWeather));
         });
     };
 
@@ -54,8 +53,6 @@ const useWeather = () => {
 
     navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
   }, []);
-
-  return weather;
 };
 
 export default useWeather;

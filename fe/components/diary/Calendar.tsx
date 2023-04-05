@@ -27,7 +27,7 @@ interface DateItem {
 
 const Container = styled.div`
   width: 100%;
-  min-height: 26rem;
+  min-height: 32rem;
   text-align: center;
 
   @media screen and (max-width: 500px) {
@@ -88,7 +88,6 @@ function Calendar(props: {
     },
   );
   const { data } = query;
-  console.log(data);
 
   useEffect(() => {
     query.refetch();

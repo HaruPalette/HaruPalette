@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import useTheme from '../../hooks/useTheme';
-// import { selectScript } from '../../store/modules/script';
 import ScriptItem from './ScriptItem';
 import { SCRIPT } from '../../constants/script';
 import { selectProfile } from '../../store/modules/profile';
@@ -65,10 +64,10 @@ const ChrInfo = styled.div<{ theme: ColorTypes }>`
 function ScriptList() {
   const theme = useTheme();
   const chr = useAppSelector(selectProfile).chrName;
-  const totalScriptCount = 3;
+  const totalCount = useAppSelector(selectScript).totalScriptCount;
   return (
     <Container theme={theme}>
-      {Array.from({ length: totalScriptCount }, (v, i) => i).map(item => {
+      {Array.from({ length: totalCount }, (v, i) => i).map(item => {
         return (
           <ScriptSet key={item}>
             <ChrScript theme={theme}>
@@ -83,7 +82,7 @@ function ScriptList() {
               </ChrInfo>
               {item === 0 ? SCRIPT[1].script : SCRIPT[2].script}
             </ChrScript>
-            <ScriptItem index={item} />
+            <ScriptItem order={item} />
           </ScriptSet>
         );
       })}

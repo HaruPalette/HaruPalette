@@ -1,3 +1,5 @@
+import { useMutation } from 'react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect } from 'react';
@@ -26,6 +28,8 @@ import {
   selectWeather,
 } from '../../store/modules/weather';
 import useWeather from '../../hooks/useWeather';
+import { ErrorResponse } from '../../types/commonTypes';
+import { usePostDiariesScript } from '../../apis/diaries';
 
 const CreatePage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -72,6 +76,15 @@ function Create() {
   const dispatch = useAppDispatch();
 
   const audioRecorder = useAudioRecorder();
+
+  const mutation = useMutation<AxiosResponse<any>, AxiosError<ErrorResponse>>(
+    [SCRIPT],
+    usePostDiariesScript(),
+  );
+
+  useEffect(() => {
+    mutation.mutate();
+  }, []);
 
   useEffect(() => {
     dispatch(changeWeatherSuccess(weather));
