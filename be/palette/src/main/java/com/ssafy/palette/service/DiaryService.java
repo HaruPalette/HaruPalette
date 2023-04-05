@@ -16,6 +16,7 @@ import org.apache.http.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -212,22 +213,22 @@ public class DiaryService {
 		return response.getPrediction();
 	}
 
-	public void addRedisList(MultipartFile file, String userId) throws IOException {
+	public void addRedisList(MultipartFile file, String userId, int index) throws IOException {
 		// 음성 파일 넘겨 string 반환받기
 		String str = file2Bytes(file) + "\n\n";
 		// redis에 list로 저장
-		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
-		operations.opsForList().rightPush(userId, str);
-		log.info(operations.opsForList().range(userId, 0, -1).toString());
+		ValueOperations<String, String> stringStringValueOperations = redisTemplate.opsForValue();
+		stringStringValueOperations.set(userId+Integer.toString(index), str);
+		log.info(stringStringValueOperations.get(userId+String.valueOf(index)));
 	}
 
 	public String sendScript(int index, String userId) throws Exception {
-		RedisOperations<String, String> operations = redisTemplate.opsForList().getOperations();
+		ValueOperations<String, String> stringStringValueOperations = redisTemplate.opsForValue();
 		// 키 존재 여부 & 인덱스에 해당 값 존재 여부 확인
-		if (index + 1 > operations.opsForList().size(userId)) {
+		if (!(redisTemplate.hasKey(userId+Integer.toString(index)))) {
 			return "504";
 		}
-		String str = operations.opsForList().index(userId, index);
+		String str = stringStringValueOperations.get(userId+Integer.toString(index));
 
 		return str;
 	}
