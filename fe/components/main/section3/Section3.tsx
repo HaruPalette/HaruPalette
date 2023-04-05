@@ -74,6 +74,7 @@ const SectionTextYes = styled.h1<{ theme: ColorTypes; windowHeight: number }>`
 `;
 
 const Background = styled.div<{ windowHeight: number }>`
+  position: fixed;
   opacity: ${props =>
     props.windowHeight >= 4500 && props.windowHeight < 5000 ? 1 : 0};
 `;

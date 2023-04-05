@@ -22,7 +22,6 @@ const HomePage = styled.div<{ theme: ColorTypes }>`
 
   will-change: all;
   overflow-x: hidden;
-  touch-action: none;
 `;
 
 const MainContainer = styled.main<{ theme: ColorTypes }>`
