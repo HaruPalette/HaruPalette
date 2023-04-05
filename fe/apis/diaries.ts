@@ -32,29 +32,6 @@ export const useGetDiaries = (diaryId: number, token: string | undefined) => {
   return queryFn;
 };
 
-/** 일기 STT */
-export const usePostDiariesSTT = (file: Blob[]) => {
-  //   요청 url
-  const queryKey = BASE_URL + STT;
-
-  //   axios 요청
-  const queryFn = () => {
-    const blob = new Blob(file, { type: 'audio/webm' });
-    const audioFile = new File([blob], 'audio.webm', { type: 'audio/webm' });
-    const formData = new FormData();
-    formData.append('file', audioFile);
-    console.log(formData.get('file'));
-    return axios.post(queryKey, formData, {
-      headers: {
-        Authorization: getCookie('Authorization'),
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  };
-
-  return queryFn;
-};
-
 /** 일기 작성 */
 export const usePostDiaries = (
   stickerCode: string,

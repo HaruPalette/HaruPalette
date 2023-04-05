@@ -22,7 +22,6 @@ const useAudioRecorder = () => {
       const audioFile = new File([blob], 'audio.webm', { type: 'audio/webm' });
       const formData = new FormData();
       formData.append('file', audioFile);
-      console.log(formData.get('file'));
       const queryKey = BASE_URL + STT;
       axios.post(queryKey, formData, {
         headers: {

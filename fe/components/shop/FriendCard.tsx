@@ -269,8 +269,6 @@ function FriendCard(props: { friend: FriendList }) {
     return CharacteristicArr;
   };
 
-  // console.log(data);
-
   // 캐릭터 구매 axios(구매하지 않은 것, def: 1 제외)
   // const { data } = useQuery<
   //   AxiosResponse<FriendsSelectData>,

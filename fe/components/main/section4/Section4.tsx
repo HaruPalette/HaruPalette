@@ -83,7 +83,7 @@ function Section4() {
             alt={key}
           />
         ) : (
-          <div />
+          <div key={key} />
         ),
       )}
     </Section>

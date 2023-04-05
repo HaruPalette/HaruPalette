@@ -6,7 +6,7 @@ import { common } from '../../styles/theme';
 
 const Container = styled.div`
   width: 100%;
-  height: 4.75rem;
+  //height: 4.75rem;
 
   @media screen and (max-width: 500px) {
     transform: scale(0.75);
