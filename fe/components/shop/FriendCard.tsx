@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { ColorTypes } from '@emotion/react';
-import { useMutation } from 'react-query';
+import { UseQueryResult, useMutation } from 'react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import {
   common,
@@ -17,9 +17,9 @@ import { selectTheme } from '../../store/modules/theme';
 import Model from '../common/ModelCharacter';
 import { setCharName } from '../../store/modules/profile';
 import { FRIEND } from '../../constants/api';
-import { usePatchFriends } from '../../apis/friends';
+import { usePatchFriends, usePostFriends } from '../../apis/friends';
 import { ErrorResponse } from '../../types/commonTypes';
-import { FriendList } from '../../types/friendsTypes';
+import { FriendList, FriendsData } from '../../types/friendsTypes';
 
 const Section = styled.section`
   position: relative;
@@ -207,8 +207,11 @@ const BtnYesFriendBack = styled.button<{ theme: ColorTypes }>`
   margin-right: 10px;
 `;
 
-function FriendCard(props: { friend: FriendList }) {
-  const { friend } = props;
+function FriendCard(props: {
+  friend: FriendList;
+  query: UseQueryResult<FriendsData, AxiosError<ErrorResponse, any>>;
+}) {
+  const { friend, query } = props;
   const dispatch = useAppDispatch();
   // const theme1 = useTheme();
   const isDark = useAppSelector(selectTheme) ? 'Dark' : 'Light';
@@ -226,34 +229,64 @@ function FriendCard(props: { friend: FriendList }) {
     return gomiLight;
   };
 
-  const friendId = 1;
-  // 캐릭터 선택 axios(이미 구매한 것, def = 1)
-  // const { data } =
-  const mutation = useMutation<AxiosResponse<any>, AxiosError<ErrorResponse>>(
-    [FRIEND, friendId],
-    usePatchFriends(friendId),
-  );
+  // const getCharPoint = useQuery<
+  //   AxiosResponse<FriendsResponse>,
+  //   AxiosError<ErrorResponse>,
+  //   FriendsData
+  // >([FRIEND], () => useGetFriends(), {
+  //   keepPreviousData: true,
+  //   staleTime: STALE_TIME,
+  //   cacheTime: CACHE_TIME,
+  // });
 
+  // 캐릭터 선택: axios(이미 구매한 것, def = 1)
+  const mutationCharChoice = useMutation<
+    AxiosResponse<any>,
+    AxiosError<ErrorResponse>
+  >([FRIEND, friend.friendId], usePatchFriends(friend.friendId), {
+    onSuccess: () => {
+      dispatch(setCharName(friend.ename));
+    },
+  });
+  // 캐릭터 구매: axios(구매를 안했을 시)
+  const mutationCharBuying = useMutation<
+    AxiosResponse<any>,
+    AxiosError<ErrorResponse>
+  >([FRIEND, friend.friendId], usePostFriends(friend.friendId), {
+    onSuccess: () => {
+      mutationCharChoice.mutate();
+      query.refetch();
+    },
+  });
+
+  /**
+   * 친해지기: 캐릭터 구매를 진행하지 않은 캐릭터 선택 시
+   */
   const handleDoFriendShip = () => {
     // 포인트 선택을 진행함 ( 돈이 없을 때는 바로 리턴 )
-
-    // alert 띄우고 확인 시
-    const isConfirm = window.confirm(
-      `${friend.kname}와 친구를 맺으시겠어요?\n${friend.price}가 포인트에서 차감됩니다.`,
-    );
-    if (isConfirm) {
-      // store에 포인트 저장해 놓고, 가져와야 함
-      // 포인트 차감해야 함
-      // dispatch(setFriendShip(friend.index));
-      dispatch(setCharName(friend.ename));
-      alert(`${friend.kname}와 친구가 되었어요:)`);
+    if ((query.data?.currentPoint || 0) < friend.price) {
+      alert('포인트가 부족합니다.');
+    } else {
+      // alert 띄우고 확인 시
+      const isConfirm = window.confirm(
+        `${friend.kname}와 친구를 맺으시겠어요?\n${friend.price}가 포인트에서 차감됩니다.`,
+      );
+      if (isConfirm) {
+        // store에 포인트 저장해 놓고, 가져와야 함
+        // 포인트 차감해야 함
+        mutationCharBuying.mutate();
+        alert(`${friend.kname}와 친구가 되었어요:)`);
+      }
     }
   };
 
+  /**
+   * 선택하기: 구매한 캐릭터 선택 시
+   */
   const handleCurrFriendShip = () => {
     const isConfirm = window.confirm(`${friend.kname}을 선택하시겠어요?`);
     if (isConfirm) {
-      mutation.mutate();
+      mutationCharChoice.mutate();
       dispatch(setCharName(friend.ename));
     }
   };
@@ -271,7 +304,7 @@ function FriendCard(props: { friend: FriendList }) {
 
   // 캐릭터 구매 axios(구매하지 않은 것, def: 1 제외)
   // const { data } = useQuery<
-  //   AxiosResponse<FriendsSelectData>,
+  // AxiosResponse<FriendsSelectData>,
   //   AxiosError<ErrorResponse>
   // >([FRIEND], () => usePostFriends(friendId), {
   //   keepPreviousData: true,
