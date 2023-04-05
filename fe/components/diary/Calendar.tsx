@@ -27,7 +27,7 @@ interface DateItem {
 
 const Container = styled.div`
   width: 100%;
-  min-height: 26rem;
+  min-height: 32rem;
   text-align: center;
 
   @media screen and (max-width: 500px) {

@@ -55,7 +55,7 @@ const Emoji = styled(Image)<{
     translateY(${props => props.windowHeight / (props.height / -20) + 300}px);
   z-index: 999;
   opacity: ${props =>
-    props.windowHeight > 4800 + props.height &&
+    props.windowHeight > 4900 + props.height &&
     props.windowHeight < 5700 + props.height
       ? 1
       : 0};
