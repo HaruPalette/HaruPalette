@@ -5,6 +5,8 @@ import useScreenY from '../../../hooks/useScreenY';
 import SectionCalendar from './SectionCalendar';
 import useTheme from '../../../hooks/useTheme';
 import EMOJI from '../../../constants/emoji';
+import { useAppSelector } from '../../../hooks/reduxHook';
+import { selectTheme } from '../../../store/modules/theme';
 
 const Section = styled.section<{ windowHeight: number }>`
   display: flex;
@@ -35,36 +37,56 @@ const SectionText = styled.h1<{ theme: ColorTypes }>`
   font-size: 5vw;
 
   @media screen and (max-width: 500px) {
-    top: 20%;
-    z-index: 999;
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    top: 30%;
   }
 `;
 
-const Emoji = styled(Image)<{
-  top: string;
-  left: string;
-  height: number;
+const EmojiContainer = styled.div<{
   windowHeight: number;
+  top: string;
+  height: number;
+  left: string;
+  isDark: boolean;
 }>`
-  width: 10%;
-  height: 10%;
+  width: 100px;
+  height: 100px;
   position: fixed;
   top: ${props => props.top};
   left: ${props => props.left};
   transform: translate(-50%, -50%)
-    translateY(${props => props.windowHeight / (props.height / -20) + 300}px);
+    translateY(${props => props.windowHeight / -(props.height / 20) + 300}px);
   z-index: 999;
   opacity: ${props =>
     props.windowHeight > 4900 + props.height &&
-    props.windowHeight < 5700 + props.height
+    props.windowHeight < 6200 + props.height
       ? 1
       : 0};
   transition: opacity 0.4s ease-in-out;
+  border-radius: 50%;
+  box-shadow: 0 0.5rem 1rem
+    ${props =>
+      props.isDark ? 'rgba(255, 255, 255, 0.25)' : 'rgba(0, 0, 0, 0.25)'};
+  overflow: hidden;
+
+  @media screen and (max-width: 500px) {
+    width: 50px;
+    height: 50px;
+  }
+`;
+
+const Emoji = styled(Image)`
+  width: 100%;
+  height: 100%;
 `;
 
 function Section4() {
   const windowHeight = useScreenY();
   const theme = useTheme();
+  const isDark = useAppSelector(selectTheme);
+
   return (
     <Section windowHeight={windowHeight}>
       <SectionText theme={theme}>감정 분석 달력</SectionText>
@@ -72,18 +94,18 @@ function Section4() {
       {Object.entries(EMOJI).map(([key, value]) =>
         windowHeight >= 4600 + value.height &&
         windowHeight < 5900 + value.height ? (
-          <Emoji
+          <EmojiContainer
             key={key}
-            src={value.url}
-            width={0}
-            height={value.height}
+            windowHeight={windowHeight}
             top={value.top}
             left={value.left}
-            windowHeight={windowHeight}
-            alt={key}
-          />
+            height={value.height}
+            isDark={isDark}
+          >
+            <Emoji src={value.url} width={100} height={100} alt={value.alt} />
+          </EmojiContainer>
         ) : (
-          <div key={key} />
+          <div key={value.idx} />
         ),
       )}
     </Section>
