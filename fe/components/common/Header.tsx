@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectMenu } from '../../store/modules/menu';
 import { logoutSuccess, selectProfile } from '../../store/modules/profile';
 import { selectTheme } from '../../store/modules/theme';
+import { openSnackBarSuccess } from '../../store/modules/snackbar';
 
 const HaruHeader = styled.header<{
   theme: ColorTypes;
@@ -109,6 +110,7 @@ function Header() {
 
   const handleLogout = () => {
     dispatch(logoutSuccess());
+    dispatch(openSnackBarSuccess('로그아웃 되었습니다.'));
   };
 
   return (
