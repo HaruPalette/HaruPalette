@@ -95,6 +95,7 @@ public class PointService {
 						.point(point.getPoint())
 						.date(point.getDate().toLocalDate())
 						.contents(point.getCategory())
+						.type(point.getType())
 						.build())
 					.collect(Collectors.toList());
 
@@ -111,6 +112,7 @@ public class PointService {
 						.point(point.getPoint())
 						.date(point.getDate().toLocalDate())
 						.contents(point.getCategory())
+						.type(point.getType())
 						.build())
 					.collect(Collectors.toList());
 
