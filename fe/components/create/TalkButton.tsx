@@ -1,6 +1,5 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';

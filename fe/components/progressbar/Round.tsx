@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import { selectProfile } from '../../store/modules/profile';
+import { useEffect, useRef } from 'react';
 
 export interface DiaryProps {
   currCnt: number;
@@ -100,6 +101,7 @@ const Stamp = styled(Image)`
   top: -400px;
   left: 130px;
   z-index: 99;
+  display: none;
 `;
 
 const Diary = styled(Image)`
@@ -147,6 +149,16 @@ function Round(props: { data: DiaryProps }) {
   //   const AnimatedNumbers = dynamic(() => import('react-animated-numbers'), {
   //     ssr: false,
   //   });
+  const stampRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (stampRef.current) {
+        stampRef.current.style.display = 'block';
+      }
+    }, 2000);
+  }, []);
+
   return (
     <Container>
       <ProgressWrap>
@@ -176,6 +188,7 @@ function Round(props: { data: DiaryProps }) {
           width={150}
           height={150}
           alt="stamp"
+          ref={stampRef}
         />
       )}
     </Container>
