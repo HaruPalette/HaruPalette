@@ -15,7 +15,7 @@ export default function Document() {
         />
         <meta
           property="og:image"
-          content="/assets/img/common/kakao_open_graph.svg"
+          content="/assets/img/common/kakao_open_graph.png"
         />
 
         {/* 네이버 site verification 등록 */}
