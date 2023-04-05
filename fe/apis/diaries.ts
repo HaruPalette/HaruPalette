@@ -1,16 +1,5 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import { useQuery } from 'react-query';
-import {
-  BASE_URL,
-  CACHE_TIME,
-  CALENDARS,
-  DIARIES,
-  SCRIPT,
-  STALE_TIME,
-  STT,
-} from '../constants/api';
-import { ErrorResponse } from '../types/commonTypes';
-import { UsersResponse } from '../types/usersTypes';
+import axios from 'axios';
+import { BASE_URL, CALENDARS, DIARIES, SCRIPT } from '../constants/api';
 import { getCookie } from '../utils/cookie';
 
 /** 일기 상세 조회 */
@@ -28,29 +17,6 @@ export const useGetDiaries = (diaryId: number, token: string | undefined) => {
       },
     })
     .then(res => res.data);
-
-  return queryFn;
-};
-
-/** 일기 STT */
-export const usePostDiariesSTT = (file: Blob[]) => {
-  //   요청 url
-  const queryKey = BASE_URL + STT;
-
-  //   axios 요청
-  const queryFn = () => {
-    const blob = new Blob(file, { type: 'audio/webm' });
-    const audioFile = new File([blob], 'audio.webm', { type: 'audio/webm' });
-    const formData = new FormData();
-    formData.append('file', audioFile);
-    console.log(formData.get('file'));
-    return axios.post(queryKey, formData, {
-      headers: {
-        Authorization: getCookie('Authorization'),
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  };
 
   return queryFn;
 };
@@ -97,33 +63,21 @@ export const usePostDiaries = (
 };
 
 /** 일기 수정 조회 */
-export const useGetDiariesScript = (index: number) => {
+export const useGetDiariesScript = (order: number) => {
+  console.log(order);
   //   요청 url
   const queryKey = BASE_URL + SCRIPT;
   //   axios 요청
-  const queryFn = axios
-    .get(queryKey, {
-      headers: {
-        Authorization: `${getCookie('Authorization')}`,
-      },
-      params: {
-        index,
-      },
-    })
-    .then(res => res.data);
+  const queryFn = axios.get(queryKey, {
+    headers: {
+      Authorization: `${getCookie('Authorization')}`,
+    },
+    params: {
+      order,
+    },
+  });
 
   return queryFn;
-
-  // const { isLoading, data, isError, error } = useQuery<
-  //   AxiosResponse<UsersResponse>,
-  //   AxiosError<ErrorResponse>
-  // >([SCRIPT], () => queryFn, {
-  //   keepPreviousData: true,
-  //   staleTime: STALE_TIME,
-  //   cacheTime: CACHE_TIME,
-  // });
-
-  // return { isLoading, data, isError, error };
 };
 
 /** 일기 삭제 */
@@ -163,6 +117,27 @@ export const useGetDiariesCalendars = (
       },
     })
     .then(res => res.data);
+
+  return queryFn;
+};
+
+/** 스크립트 초기화 */
+export const usePostDiariesScript = () => {
+  //   요청 url
+  const queryKey = BASE_URL + SCRIPT;
+  //   axios 요청
+  const queryFn = () =>
+    axios
+      .post(
+        queryKey,
+        {},
+        {
+          headers: {
+            Authorization: `${getCookie('Authorization')}`,
+          },
+        },
+      )
+      .then(res => res.data);
 
   return queryFn;
 };

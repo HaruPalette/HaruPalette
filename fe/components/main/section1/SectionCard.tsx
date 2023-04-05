@@ -9,16 +9,18 @@ const Card = styled.span<{ background: string }>`
   align-items: center;
   justify-content: space-around;
 
-  width: 12vw;
+  width: 13vw;
   min-width: 5rem;
-  height: 12vw;
+  height: 13vw;
   min-height: 5rem;
 
   font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
   margin: 1rem 0;
   margin-left: 2rem;
 
-  border-radius: 0.5rem;
+  border-radius: 2.11rem;
 
   background-color: ${props => props.background};
 

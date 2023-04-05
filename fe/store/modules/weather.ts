@@ -7,7 +7,7 @@ export interface WeatherSlice {
 }
 
 // 초기 상태 정의
-const initialState = {
+const initialState: WeatherSlice = {
   curWeather: 'Clear',
 };
 

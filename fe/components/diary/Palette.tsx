@@ -6,11 +6,13 @@ import { common } from '../../styles/theme';
 
 const Container = styled.div`
   width: 100%;
-  height: 4.75rem;
+  height: 100%;
+  margin-bottom: 3rem;
 
   @media screen and (max-width: 500px) {
     transform: scale(0.75);
     margin-top: -2rem;
+    margin-bottom: 0;
   }
 `;
 
@@ -31,6 +33,7 @@ const Content = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 `;
 const Text = styled.div<{ theme: ColorTypes }>`
   color: ${props => props.theme.color};

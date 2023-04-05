@@ -21,6 +21,7 @@ function Snow() {
   const totalRef = useRef<number>(200);
   const isDark = useAppSelector(selectTheme);
   const theme = isDark ? weatherDark : weatherLight;
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const randomBetween = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -162,11 +163,21 @@ function Snow() {
 
   useEffect(() => {
     resizeHandler();
+    if (audioRef.current) {
+      audioRef.current.volume = 0.4;
+    }
     window.addEventListener('resize', resizeHandler);
     return () => window.removeEventListener('resize', resizeHandler);
   }, []);
 
-  return <SnowCanvas ref={canvasRef} theme={theme} />;
+  return (
+    <>
+      <SnowCanvas ref={canvasRef} theme={theme} />
+      <audio autoPlay loop ref={audioRef}>
+        <source src="/assets/sound/snow.mp3" type="audio/mpeg" />
+      </audio>
+    </>
+  );
 }
 
 export default Snow;

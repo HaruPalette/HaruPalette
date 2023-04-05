@@ -187,6 +187,7 @@ function Diary(props: {
       window.confirm('지금까지의 내용을 바탕으로\n 일기를 작성하시겠습니까 ?')
     ) {
       mutation.mutate();
+      window.location.href = '/calendar';
     }
   };
 
