@@ -50,7 +50,6 @@ public class DiaryController {
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/stt/{order}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 	public ResponseEntity<?> speechToText(@RequestHeader HttpHeaders header, MultipartFile file, @PathVariable int order) throws Exception {
-		log.info("stt");
 		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
 		String userId = jwtUtil.getUid(token);
 
@@ -101,7 +100,6 @@ public class DiaryController {
 		String userId = jwtUtil.getUid(token);
 
 		String str = diaryService.sendScript(order, userId);
-		log.info("수정 조회" + order + "번째 결과: " + str);
 		return new ResponseEntity<String>(str, HttpStatus.OK);
 	}
 
