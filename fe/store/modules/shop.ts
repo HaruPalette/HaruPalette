@@ -12,7 +12,7 @@ export interface ShopSlice {
 }
 
 // 초기 상태 정의
-const initialState = {
+const initialState: ShopSlice = {
   currCompIdx: 0,
   currFilterCategoryIdx: 0,
   filterYear: useDate().year,

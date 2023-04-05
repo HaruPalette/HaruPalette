@@ -4,10 +4,11 @@ import { RootState } from '..';
 // state type
 export interface menuSlice {
   isActive: boolean;
+  link: string;
 }
 
 // 초기 상태 정의
-const initialState = {
+const initialState: menuSlice = {
   isActive: false,
   link: '/',
 };
