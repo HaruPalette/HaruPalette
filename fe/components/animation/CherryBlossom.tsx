@@ -173,7 +173,7 @@ function CherryBlossom() {
 
   return (
     <>
-      <CherryBlossomCanvas ref={canvasRef} theme={theme} />;
+      <CherryBlossomCanvas ref={canvasRef} theme={theme} />
       <audio autoPlay loop ref={audioRef}>
         <source src="/assets/sound/clear.mp3" type="audio/mpeg" />
       </audio>

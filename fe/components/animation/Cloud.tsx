@@ -126,7 +126,7 @@ function Cloud() {
 
   return (
     <>
-      <CloudCanvas ref={canvasRef} theme={theme} />;
+      <CloudCanvas ref={canvasRef} theme={theme} />
       <audio autoPlay loop ref={audioRef}>
         <source src="/assets/sound/clouds.mp3" type="audio/mpeg" />
       </audio>

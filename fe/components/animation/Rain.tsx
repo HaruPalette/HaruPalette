@@ -23,6 +23,7 @@ function Rain() {
   const isDark = useAppSelector(selectTheme);
   const theme = isDark ? weatherDark : weatherLight;
   const audioRef = useRef<HTMLAudioElement>(null);
+  const thunderAudioRef = useRef<HTMLAudioElement>(null);
 
   const randomBetween = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -153,7 +154,10 @@ function Rain() {
     const ctx = canvasRef.current?.getContext('2d');
     if (!ctx) return;
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    if (Math.random() < THUNDER_RATE) thunderRef.current.opacity = 1;
+    if (Math.random() < THUNDER_RATE) {
+      thunderRef.current.opacity = 1;
+      thunderAudioRef.current?.play();
+    }
     thunderRef.current.animate();
     rainListRef.current.forEach(rain => rain.animate());
     dropListRef.current.forEach((drop, index) => {
@@ -189,6 +193,9 @@ function Rain() {
     if (audioRef.current) {
       audioRef.current.volume = 1.0;
     }
+    if (thunderAudioRef.current) {
+      thunderAudioRef.current.volume = 1.0;
+    }
     window.addEventListener('resize', resizeHandler);
     return () => window.removeEventListener('resize', resizeHandler);
   }, []);
@@ -198,6 +205,9 @@ function Rain() {
       <RainCanvas ref={canvasRef} theme={theme} />
       <audio autoPlay loop ref={audioRef}>
         <source src="/assets/sound/rain.mp3" type="audio/mpeg" />
+      </audio>
+      <audio ref={thunderAudioRef}>
+        <source src="/assets/sound/thunder.mp3" type="audio/mpeg" />
       </audio>
     </>
   );

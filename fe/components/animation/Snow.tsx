@@ -172,7 +172,7 @@ function Snow() {
 
   return (
     <>
-      <SnowCanvas ref={canvasRef} theme={theme} />;
+      <SnowCanvas ref={canvasRef} theme={theme} />
       <audio autoPlay loop ref={audioRef}>
         <source src="/assets/sound/snow.mp3" type="audio/mpeg" />
       </audio>
