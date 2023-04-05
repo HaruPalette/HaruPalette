@@ -1,7 +1,7 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import { SHOP_FILTER_CATORIGY_LIST } from '../../constants/nav';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { useDate } from '../../hooks/useDate';
@@ -15,6 +15,8 @@ import {
   setFilterYear,
   setOpenFilterModal,
 } from '../../store/modules/shop';
+// import { useGetUsersPoints } from '../../apis/users';
+// import { getCookie } from '../../utils/cookie';
 
 const Container = styled.div<{ theme: ColorTypes }>`
   position: absolute;
@@ -132,10 +134,12 @@ const SelectDiv = styled.div<{ theme: ColorTypes }>`
   z-index: 4;
 `;
 
-function FilterModal() {
+function FilterModal(props: { setCategory: Dispatch<SetStateAction<string>> }) {
+  const { setCategory } = props;
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const isDark = useAppSelector(selectTheme);
+  // const filterYearData = useAppSelector(selectShop).filterYear;
   const nowYear = useDate().year;
   const nowMonth = useDate().month;
   const [year, setYear] = useState(nowYear);
@@ -146,13 +150,15 @@ function FilterModal() {
   // const openFilterModal = useAppSelector(selectShop).openFilterModal;
   // console.log(year, month);
   const img = `/assets/img/common/${isDark ? 'xIconWhite' : 'xIconBlack'}.svg`;
-
-  const setFilterAll = (): any => {
+  const setFilterAll = () => {
     dispatch(setFilterYear(year));
     dispatch(setFilterMonth(month));
     dispatch(setFilterCategory(categoryIdx));
-    dispatch(setOpenFilterModal(false));
+    setCategory(SHOP_FILTER_CATORIGY_LIST[categoryIdx].etitle);
     alert('필터 설정이 완료되었습니다.');
+    dispatch(setOpenFilterModal(false));
+    // const date = month > 9 ? month : `0${month}`;
+    // const calender = `${year}-${date}`;
 
     // axios 요청해야 함
   };
@@ -202,12 +208,7 @@ function FilterModal() {
           );
         })}
       </CategoryButtons>
-      <CategoryConfirmBtn
-        theme={theme}
-        onClick={() => {
-          setFilterAll();
-        }}
-      >
+      <CategoryConfirmBtn theme={theme} onClick={setFilterAll}>
         확인
       </CategoryConfirmBtn>
     </Container>

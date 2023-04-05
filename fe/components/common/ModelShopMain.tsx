@@ -2,59 +2,51 @@ import styled from '@emotion/styled';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-/**
- * 동동 뛰는 애니매이션
- * 위치: shop-메인 (canvas가 아닌 기존 div로 정상 구현)
- *
- */
-const CustomDiv = styled.div`
-  position: absolute;
-  /* padding: 0 160px; */
-  top: 88px;
-  left: 0px;
-  /* scale: 0.8; */
+const CustomDiv = styled.canvas`
+  position: relative;
   width: 100%;
 `;
 
 function Model(props: any) {
   const temp = props;
   const currModel = temp.data;
-  const refDiv = useRef<HTMLDivElement>(null);
+  const refDiv = useRef<HTMLCanvasElement>(null);
   let rendererPrev: any;
   let cameraPrev: any;
   let scenePrev: any;
+  // let texture: any;
+  // let framebuffer: any;
 
   useEffect(() => {
     const group = new THREE.Group();
-    let customdiv = refDiv.current;
-    if (customdiv && rendererPrev) {
-      customdiv = null;
-      rendererPrev = null;
-    }
+    const customdiv = refDiv.current;
+
     if (customdiv && !rendererPrev) {
-      console.log(customdiv);
       const sizes = {
         width: window.innerWidth,
         height: window.innerHeight,
+        aspect: window.innerWidth / window.innerHeight,
       };
 
       const renderer = new THREE.WebGLRenderer({
         antialias: true,
+        canvas: customdiv,
         alpha: true,
       });
-      // renderer.setClearColor(0x000000, 1);
-
-      customdiv?.appendChild(renderer.domElement);
 
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setPixelRatio(window.devicePixelRatio);
-      // renderer.setSize(sizes.width, sizes.height - 120);
-      // renderer.setSize(sizes.width, sizes.height - 222 - 200 - 32);
-      renderer.setSize(sizes.width, 300);
+      if (sizes.width >= 500) {
+        renderer.setSize((sizes.width - 320) * 0.4, 400);
+      } else {
+        renderer.setSize(sizes.width, 300);
+      }
       rendererPrev = renderer;
+      // renderer.dispose();
+      // rendererPrev.dispose();
 
       const scene = new THREE.Scene();
       scene.background = null;
@@ -82,9 +74,9 @@ function Model(props: any) {
         }),
       );
 
+      sphereShadow.position.x = 0.1;
+      sphereShadow.position.y = -0.95;
       sphereShadow.rotation.x = -Math.PI * 0.5;
-      sphereShadow.position.x = 0;
-      sphereShadow.position.y = -0.55;
       sphereShadow.scale.set(0.7, 0.7, 0.7);
 
       group.add(sphereShadow);
@@ -92,36 +84,50 @@ function Model(props: any) {
       let width = customdiv ? customdiv.clientWidth : 0;
       let height = customdiv ? customdiv.clientHeight : 0;
       const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100);
-      // const controls = new OrbitControls(camera, customdiv);
-      // controls.saveState();
-      // controls.minDistance = 2.2;
-      // controls.maxDistance = 2.2;
-      // controls.minPolarAngle = 1.5; // 윗각도 제한
-      // controls.maxPolarAngle = 1.5; // 아래각도 제한(MATH.PI/2의 경우 바닥까지만 보여줌)
-      // controls.enableDamping = true;
-      // controls.enableZoom = false;
-      // controls.screenSpacePanning = false;
+
+      // OrbitControls 적용이 되지 않았을 때 내가 맞춘값
+      // camera.position.x = 0;
+      // camera.position.y = 0.35;
+      // camera.position.z = 1.8;
+
       camera.position.x = 0;
       camera.position.y = 0.35;
-      camera.position.z = 1.8;
+      camera.position.z = 2;
       // controls.update();
       cameraPrev = camera;
+      const controls = new OrbitControls(camera, customdiv);
+      // controls.saveState();
+      // controls.minDistance = 1.8;
+      // controls.maxDistance = 1.8;
+      controls.minPolarAngle = 1.5; // 윗각도 제한
+      controls.maxPolarAngle = 1.5; // 아래각도 제한(MATH.PI/2의 경우 바닥까지만 보여줌)
+      controls.enableDamping = true;
+      controls.enableZoom = false;
+      controls.screenSpacePanning = false;
 
       const onWindowResize = function (): void {
         width = window.innerWidth;
         height = window.innerHeight;
 
-        if (sizes.width === width) {
-          rendererPrev.setPixelRatio(window.devicePixelRatio);
-          cameraPrev.aspect = sizes.width / 300; // canvas비율을 카메라에 적용
-          rendererPrev.setSize(sizes.width, 300, true);
-        } else {
-          height = sizes.height - 420 > 300 ? 300 : sizes.height - 420;
-          cameraPrev.aspect = width / height; // canvas비율을 카메라에 적용
-          rendererPrev.setSize(width, height, true);
+        /**
+         * case1
+         * 창최대(or 전체화면)를 할때
+         */
+        // case2: 아이패드
+        // case3: 모바일
+        console.log(sizes.width, width);
+        rendererPrev.setPixelRatio(window.devicePixelRatio);
+        // if (sizes.width === width) {
+        if (width >= 0) {
+          cameraPrev.aspect = sizes.aspect; // canvas비율을 카메라에 적용
+          rendererPrev.setSize((sizes.width - 320) * 0.4, 400, true);
         }
-        cameraPrev.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
-        // _renderer.setSize(sizes.width, sizes.height - 120 - 98);
+
+        // else if (width < 1150) {
+        //   // cameraPrev.aspect = width / height; // canvas비율을 카메라에 적용
+        //   rendererPrev.setSize(500, 300, true);
+        // }
+        // cameraPrev.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
         // controls.reset();
       };
 
@@ -132,7 +138,7 @@ function Model(props: any) {
       group.add(ambientLight);
 
       const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
-      directionalLight.position.set(0, 1, 4);
+      directionalLight.position.set(2, 1.3, 5);
       directionalLight.castShadow = true;
       group.add(directionalLight);
 
@@ -141,14 +147,15 @@ function Model(props: any) {
       glftLoader.load(`/assets/img/${temp.data}/${temp.data}.gltf`, el => {
         const temp6 = el;
         temp6.scene.position.x = 0.35;
-        temp6.scene.position.y = 0;
-        temp6.scene.position.z = 1;
+        temp6.scene.position.y = 1;
+        temp6.scene.position.z = 1.1;
+
+        temp6.scene.rotation.x = 0.3;
         // 옆면: -0.7 정면: -0.4
         temp6.scene.rotation.y = -0.9;
-        temp6.scene.rotation.x = 0.3;
 
         // scene.add(el.scene);
-        group.add(el.scene);
+        group.add(temp6.scene);
 
         // 부모 요소에는 castShadow가 true이지만 자식요소의 그림자옵션 false -> true로 변경
         el.scene.traverse(function (child) {
@@ -162,16 +169,16 @@ function Model(props: any) {
 
         const animate = () => {
           if (temp6) {
-            step += 0.02;
+            step += 0.02; // 움직임 속도
             temp6.scene.scale.set(0.9, 0.9, 0.9);
-            temp6.scene.position.y = 0.5 * Math.abs(Math.sin(step));
+            temp6.scene.position.y = -0.4 + 0.4 * Math.abs(Math.sin(step));
             // el.scene.position.y = Math.sin(elapsedTime * .5) * .1 - 0.1
             sphereShadow.material.opacity =
-              (1 - Math.abs(el.scene.position.y)) * 0.5;
+              (1 - Math.abs(temp6.scene.position.y + 0.4)) * 0.5;
           }
           // requestAnimationFrame: 애니메이션을 무한 반복 되도록 하는 메서드
           requestAnimationFrame(animate);
-          // controls.update();
+          controls.update();
 
           rendererPrev.render(scenePrev, cameraPrev);
         };
@@ -182,12 +189,12 @@ function Model(props: any) {
         `/assets/img/${temp.data}/${temp.data}_item.gltf`,
         ele => {
           const temp3 = ele;
-          temp3.scene.position.x = -1.1;
-          temp3.scene.position.y = 0.4;
-          temp3.scene.position.z = 0.4;
-          temp3.scene.rotation.y = 2;
+          temp3.scene.position.x = -1.2;
+          temp3.scene.position.y = 0.7;
+          temp3.scene.position.z = 0.1;
+          temp3.scene.rotation.y = 1.8;
           temp3.scene.rotation.x = 0.3;
-          group.add(ele.scene);
+          group.add(temp3.scene);
 
           // scene.add(el.scene);
           ele.scene.scale.set(0.1, 0.1, 0.1);
@@ -198,6 +205,6 @@ function Model(props: any) {
     }
   }, [refDiv, currModel]);
 
-  return <CustomDiv ref={refDiv} />;
+  return <CustomDiv className="canva" ref={refDiv} />;
 }
 export default Model;

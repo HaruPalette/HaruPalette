@@ -22,6 +22,7 @@ function Cloud() {
   const cloudImageRef = useRef<HTMLImageElement[]>([]);
   const isDark = useAppSelector(selectTheme);
   const theme = isDark ? weatherDark : weatherLight;
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const randomBetween = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -116,11 +117,21 @@ function Cloud() {
 
   useEffect(() => {
     resizeHandler();
+    if (audioRef.current) {
+      audioRef.current.volume = 0.3;
+    }
     window.addEventListener('resize', resizeHandler);
     return () => window.removeEventListener('resize', resizeHandler);
   }, []);
 
-  return <CloudCanvas ref={canvasRef} theme={theme} />;
+  return (
+    <>
+      <CloudCanvas ref={canvasRef} theme={theme} />
+      <audio autoPlay loop ref={audioRef}>
+        <source src="/assets/sound/clouds.mp3" type="audio/mpeg" />
+      </audio>
+    </>
+  );
 }
 
 export default Cloud;

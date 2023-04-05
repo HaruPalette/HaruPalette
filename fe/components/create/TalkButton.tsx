@@ -1,6 +1,5 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
@@ -88,41 +87,21 @@ function TalkButton(props: { audioRecorder: AudioRecorder }) {
 
   return scriptData.curScriptIndex === 0 ? (
     <CustomButton type="button" theme={theme} onClick={handleStart}>
-      <Image
-        src="/assets/img/common/mic.svg"
-        width={32}
-        height={32}
-        alt="mic"
-      />
+      <i className="fas fa-play" />
       <h4>시작하기</h4>
     </CustomButton>
   ) : (
     <ButtonContainer index={scriptData.curScriptIndex}>
       <CustomButton type="button" theme={theme} onClick={handleRecode}>
-        <Image
-          src="/assets/img/common/mic.svg"
-          width={32}
-          height={32}
-          alt="mic"
-        />
+        <i className="fas fa-microphone" />
         <h4>대화하기</h4>
       </CustomButton>
       <CustomButton type="button" theme={theme} onClick={handleEnd}>
-        <Image
-          src="/assets/img/common/mic.svg"
-          width={32}
-          height={32}
-          alt="mic"
-        />
+        <i className="fas fa-power-off" />
         <h4>종료하기</h4>
       </CustomButton>
       <CustomButton type="button" theme={theme} onClick={hendleModify}>
-        <Image
-          src="/assets/img/common/mic.svg"
-          width={32}
-          height={32}
-          alt="mic"
-        />
+        <i className="fas fa-pen" />
         <h4>일기작성</h4>
       </CustomButton>
     </ButtonContainer>

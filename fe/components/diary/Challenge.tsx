@@ -61,7 +61,7 @@ function Challenge() {
           color={theme.primary20}
         />
         <CountStyles theme={theme}>
-          <div>0회</div>
+          <div>{data?.weekCnt}회</div>
           <div>7회</div>
         </CountStyles>
       </ChallengeStyles>
@@ -74,7 +74,7 @@ function Challenge() {
           color={theme.primary20}
         />
         <CountStyles theme={theme}>
-          <div>0회</div>
+          <div>{data?.monthCnt}회</div>
           <div>{nowDate}회</div>
         </CountStyles>
       </ChallengeStyles>

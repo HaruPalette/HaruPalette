@@ -3,7 +3,7 @@ import { TalkData } from '../types/commonTypes';
 export const MAIN_SCRIPT: TalkData[] = [
   {
     idx: 0,
-    script: ['안녕하세요', '음성으로 기록하는 일기', '하루팔레트입니다.'],
+    script: ['안녕하세요', '음성으로 기록하는 일기', '하루팔레트 입니다.'],
   },
 ];
 

@@ -15,7 +15,7 @@ export default function Document() {
         />
         <meta
           property="og:image"
-          content="https://harupalette.com/images/common/harupalette_main.png"
+          content="/assets/img/common/kakao_open_graph.svg"
         />
 
         {/* 네이버 site verification 등록 */}

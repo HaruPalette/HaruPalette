@@ -1,12 +1,14 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 import WEATHER_LIST from '../../constants/weather';
-import { useAppDispatch } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import useWeather from '../../hooks/useWeather';
-import { changeWeatherSuccess } from '../../store/modules/weather';
+import {
+  changeWeatherSuccess,
+  selectWeather,
+} from '../../store/modules/weather';
 
 const WeatherContainer = styled.div<{ theme: ColorTypes }>`
   display: flex;
@@ -72,23 +74,18 @@ const WeatherImage = styled(Image)`
 
 function WeatherButton() {
   const theme = useTheme();
-  const newWeather = useWeather();
-  const [curWeather, setcurWeather] = useState(newWeather);
+  const curWeatherData = useAppSelector(selectWeather).curWeather;
   const dispatch = useAppDispatch();
 
+  useWeather();
   const handleCurWeather = (weather: string) => {
-    setcurWeather(weather);
     dispatch(changeWeatherSuccess(weather));
   };
-
-  useEffect(() => {
-    setcurWeather(newWeather);
-  }, [newWeather]);
 
   return (
     <WeatherContainer theme={theme}>
       {Object.entries(WEATHER_LIST).map(weather =>
-        curWeather === weather[0] ? (
+        curWeatherData === weather[0] ? (
           <CurWeatherIcon type="button" key={weather[0]}>
             <WeatherImage
               src={weather[1]}

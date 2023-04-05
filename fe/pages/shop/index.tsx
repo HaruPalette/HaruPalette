@@ -1,24 +1,32 @@
-import { GetServerSideProps } from 'next';
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
-import { dehydrate, QueryClient } from 'react-query';
+import { useEffect, useState } from 'react';
+import { AxiosError, AxiosResponse } from 'axios';
+import { useQuery } from 'react-query';
 import Header from '../../components/common/Header';
-import Model from '../../components/common/ModelShopMainCopy';
+import Model from '../../components/common/ModelShopMain';
 import ShopNav from '../../components/nav/ShopNav';
 import useTheme from '../../hooks/useTheme';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { selectShop, setCompIdx } from '../../store/modules/shop';
+import {
+  selectShop,
+  setCompIdx,
+  setFilterCategory,
+  setFilterMonth,
+  setFilterYear,
+} from '../../store/modules/shop';
 import FilterModal from '../../components/shop/FilterModal';
 import { selectProfile } from '../../store/modules/profile';
 import MainPoint from '../../components/shop/MainPoint';
 import Challenge from '../../components/shop/Challenge';
 import BuyingBuddy from '../../components/shop/BuyingBuddy';
 import PointDetail from '../../components/shop/PointDetail';
-import useCookie from '../../hooks/useCookie';
-import { CHALLENGE, FRIEND, POINTS } from '../../constants/api';
-import { useGetUsersChallenge, useGetUsersPoints } from '../../apis/users';
-import { useGetFriends } from '../../apis/friends';
+import { ErrorResponse } from '../../types/commonTypes';
+import { CACHE_TIME, POINTS, STALE_TIME } from '../../constants/api';
+import { getCookie } from '../../utils/cookie';
+import { PointData, PointResponse } from '../../types/usersTypes';
+import { useGetUsersPoints } from '../../apis/users';
+import { useDate } from '../../hooks/useDate';
 
 const ShopPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -123,60 +131,78 @@ const BlurBg = styled.div`
   background: rgba(136, 136, 136, 0.5);
 `;
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  const cookieString = context.req.headers.cookie || '';
-  const cookies = useCookie(cookieString);
-  const token = cookies.Authorization;
-  const queryClinet = new QueryClient();
-  const date = new Date();
-  await Promise.all([
-    queryClinet.prefetchQuery([FRIEND], () => useGetFriends(token)),
-    queryClinet.prefetchQuery([POINTS], () =>
-      useGetUsersPoints(
-        'all',
-        `${date.getFullYear()}-${
-          date.getMonth() + 1 < 10
-            ? String(`0${date.getMonth() + 1}`)
-            : date.getMonth() + 1
-        }`,
-        token,
-      ),
-    ),
-    queryClinet.prefetchQuery([CHALLENGE], () => useGetUsersChallenge(token)),
-  ]);
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClinet),
-    },
-  };
-};
-
 function Shop() {
   const dispatch = useAppDispatch();
   const theme = useTheme();
   const openFilterModalData = useAppSelector(selectShop).openFilterModal;
   const currCharName = useAppSelector(selectProfile).chrName;
   const compIdx = useAppSelector(selectShop).currCompIdx;
+  const currFilterCategoryIdxData =
+    useAppSelector(selectShop).currFilterCategoryIdx;
+  const filterYearData = useAppSelector(selectShop).filterYear;
+  const filterMonthData = useAppSelector(selectShop).filterMonth;
+  const currPointData = useAppSelector(selectShop).currPoint;
+
+  // const category = SHOP_FILTER_CATORIGY_LIST[currFilterCategoryIdxData].etitle;
+  const date = filterMonthData > 9 ? filterMonthData : `0${filterMonthData}`;
+  const calender = `${filterYearData}-${date}`;
 
   useEffect(() => {
     dispatch(setCompIdx(0));
+    dispatch(setFilterYear(useDate().year));
+    dispatch(setFilterMonth(useDate().month));
+    dispatch(setFilterCategory(0));
   }, []);
+
+  // const { data } = useQuery<
+  //   AxiosResponse<FriendsResponse>,
+  //   AxiosError<ErrorResponse>,
+  //   FriendsData
+  // >([FRIEND], () => useGetFriends(getCookie('Authorization')), {
+  //   keepPreviousData: true,
+  //   staleTime: STALE_TIME,
+  //   cacheTime: CACHE_TIME,
+  // });
+
+  const [category, setCategory] = useState('all');
+  const query = useQuery<
+    AxiosResponse<PointResponse>,
+    AxiosError<ErrorResponse>,
+    PointData
+  >(
+    [POINTS],
+    () => useGetUsersPoints(category, calender, getCookie('Authorization')),
+    {
+      keepPreviousData: true,
+      staleTime: STALE_TIME,
+      cacheTime: CACHE_TIME,
+    },
+  );
+
+  const { data } = query;
+
+  useEffect(() => {
+    setTimeout(() => {
+      query.refetch();
+    }, 500);
+  }, [filterYearData, currPointData, currFilterCategoryIdxData]);
+  // dispatch(setCurrPoint(data?.currentPoint));
+
   return (
     <ShopPage theme={theme}>
-      {openFilterModalData ? <FilterModal /> : ''}
+      {openFilterModalData ? <FilterModal setCategory={setCategory} /> : ''}
       {openFilterModalData ? <BlurBg /> : ''}
       <Header />
       <DiaryStyles theme={theme}>
         <LeftDiv>
           <Model data={currCharName} />
-          <MainPoint />
+          <MainPoint data={data?.currentPoint} />
         </LeftDiv>
         <RightDiv>
           <ShopNav />
           <ContentDiv theme={theme}>
             {(() => {
-              if (compIdx === 1) return <PointDetail />;
+              if (compIdx === 1) return <PointDetail data={data} />;
               if (compIdx === 2) return <BuyingBuddy />;
               return <Challenge />;
             })()}

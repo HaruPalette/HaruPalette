@@ -11,6 +11,7 @@ interface NavItem {
 
 interface ShopNavItem {
   title: string;
+  etitle: string;
   index: number;
 }
 

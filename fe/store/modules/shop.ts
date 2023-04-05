@@ -9,15 +9,17 @@ export interface ShopSlice {
   filterYear: number;
   filterMonth: number;
   openFilterModal: boolean;
+  currPoint: number;
 }
 
 // 초기 상태 정의
-const initialState = {
+const initialState: ShopSlice = {
   currCompIdx: 0,
   currFilterCategoryIdx: 0,
   filterYear: useDate().year,
   filterMonth: useDate().month,
   openFilterModal: false,
+  currPoint: 0,
 };
 
 const shopSlice = createSlice({
@@ -44,6 +46,10 @@ const shopSlice = createSlice({
       const temp = state;
       temp.openFilterModal = action.payload;
     },
+    setCurrPoint(state, action) {
+      const temp = state;
+      temp.currPoint = action.payload;
+    },
   },
 });
 
@@ -54,6 +60,7 @@ export const {
   setFilterYear,
   setFilterMonth,
   setOpenFilterModal,
+  setCurrPoint,
 } = shopSlice.actions;
 export const selectShop = (state: RootState) => state.shop;
 // 리듀서

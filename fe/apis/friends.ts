@@ -42,8 +42,8 @@ export const usePostFriends = (friendId: number) => {
   //   요청 url
   const queryKey = BASE_URL + FRIEND;
   //   axios 요청
-  const queryFn = axios
-    .post(
+  const queryFn = () =>
+    axios.post(
       queryKey,
       {
         friendId,
@@ -53,8 +53,7 @@ export const usePostFriends = (friendId: number) => {
           Authorization: `${getCookie('Authorization')}`,
         },
       },
-    )
-    .then(res => res.data);
+    );
 
   return queryFn;
 };

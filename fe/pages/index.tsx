@@ -13,6 +13,7 @@ import Section4 from '../components/main/section4/Section4';
 import Section5 from '../components/main/section5/Section5';
 import Section6 from '../components/main/section6/Section6';
 import Section7 from '../components/main/section7/Section7';
+import Snackbar from '../components/common/Snackbar';
 // import Section2 from '../components/main/section2/Section2';
 
 const HomePage = styled.div<{ theme: ColorTypes }>`
@@ -42,6 +43,7 @@ export default function Home() {
   return (
     <HomePage theme={theme}>
       <Header />
+      <Snackbar />
       <MovingBall />
       <MainContainer theme={theme}>
         <Section0 />

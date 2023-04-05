@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { ColorTypes } from '@emotion/react';
-import { useQuery } from 'react-query';
-import { AxiosError, AxiosResponse } from 'axios';
+import axios from 'axios';
 import { selectScript, setScript } from '../../store/modules/script';
 import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
-import { ErrorResponse } from '../../types/commonTypes';
-import { CACHE_TIME, SCRIPT, STALE_TIME } from '../../constants/api';
-import { useGetDiariesScript } from '../../apis/diaries';
+import { BASE_URL, SCRIPT } from '../../constants/api';
+import { getCookie } from '../../utils/cookie';
 
 const Container = styled.div<{ theme: ColorTypes }>`
   width: 23rem;
@@ -41,44 +39,32 @@ const Script = styled.textarea<{ theme: ColorTypes }>`
   }
 `;
 
-function ScriptItem(props: { index: number }) {
-  const { index } = props;
-  const [loadData, setLoadData] = useState('');
+function ScriptItem(props: { order: number }) {
+  const { order } = props;
 
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
-  const script: string[] = [...useAppSelector(selectScript).nowScript];
-
-  const query = useQuery<
-    AxiosResponse<string>,
-    AxiosError<ErrorResponse>,
-    string
-  >([SCRIPT], () => useGetDiariesScript(index), {
-    keepPreviousData: true,
-    staleTime: STALE_TIME,
-    cacheTime: CACHE_TIME,
-  });
-
-  const { data } = query;
-  if (data !== '504') {
-    setLoadData(data || '');
-    script.push(data || '');
-    dispatch(setScript(script));
-  }
+  const script = useAppSelector(selectScript).nowScript;
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!loadData) {
-        query.refetch();
-        if (data) {
-          setLoadData(data || '');
-          script.push(data || '');
-          dispatch(setScript(script));
-          clearInterval(interval);
-        }
-      } else clearInterval(interval);
-    }, 5000);
+      axios
+        .get(BASE_URL + SCRIPT, {
+          headers: {
+            Authorization: `${getCookie('Authorization')}`,
+          },
+          params: {
+            order,
+          },
+        })
+        .then(res => {
+          if (res.data !== 504) {
+            dispatch(setScript({ index: order, contents: res.data }));
+            clearInterval(interval);
+          }
+        });
+    }, 2000);
     return () => {
       clearInterval(interval);
     };
@@ -86,20 +72,23 @@ function ScriptItem(props: { index: number }) {
 
   const handleScript = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const eventTarget = e.target;
-    setLoadData(eventTarget.value);
-    script[index] = eventTarget.value;
-    dispatch(setScript(script));
+    dispatch(setScript({ index: order, contents: eventTarget.value }));
   };
   return (
     <Container theme={theme}>
-      {!loadData && (
+      {!script[order] && (
         <Script
           theme={theme}
-          defaultValue={`${index + 1}번째 스크립트 로딩 중 ...`}
+          defaultValue={`${order + 1}번째 스크립트 로딩 중 ...`}
+          readOnly
         />
       )}
-      {loadData && (
-        <Script defaultValue={loadData} theme={theme} onChange={handleScript} />
+      {script[order] && (
+        <Script
+          defaultValue={script[order]}
+          theme={theme}
+          onChange={handleScript}
+        />
       )}
     </Container>
   );
