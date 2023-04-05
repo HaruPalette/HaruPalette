@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { useAppSelector } from '../../../hooks/reduxHook';
-import { selectProfile } from '../../../store/modules/profile';
+import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHook';
+import { changeMainChar, selectProfile } from '../../../store/modules/profile';
 import ModelCreate from '../../common/ModelCreate';
 import ModelShopMain from '../../common/ModelShopMain';
 
@@ -21,28 +21,44 @@ const Section = styled.section`
 `;
 
 const FriendList = styled.div`
-  width: 100vw
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ModelButton = styled.button`
+  width: 10rem;
   scale: 0.25;
+  cursor: pointer;
 `;
 
 function Section6() {
   const curCharName = useAppSelector(selectProfile).chrName;
+  const mainCharName = useAppSelector(selectProfile).mainChrName;
+  const dispatch = useAppDispatch();
+
+  const handleModelClick = (name: string) => {
+    dispatch(changeMainChar(name));
+  };
 
   return (
     <Section>
-      <ModelShopMain data={curCharName} />
+      <ModelShopMain
+        data={curCharName !== 'haru' ? curCharName : mainCharName}
+      />
       <FriendList>
-        <div>
+        <ModelButton type="button" onClick={() => handleModelClick('haru')}>
           <ModelCreate data="haru" />
-        </div>
-        <div>
+        </ModelButton>
+        <ModelButton type="button" onClick={() => handleModelClick('tori')}>
           <ModelCreate data="tori" />
-        </div>
-        <div>
+        </ModelButton>
+        <ModelButton type="button" onClick={() => handleModelClick('gomi')}>
           <ModelCreate data="gomi" />
-        </div>
+        </ModelButton>
       </FriendList>
     </Section>
   );
