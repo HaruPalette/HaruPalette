@@ -2,11 +2,14 @@ import { useState } from 'react';
 import axios from 'axios';
 import { getCookie } from '../utils/cookie';
 import { BASE_URL, STT } from '../constants/api';
+import { useAppSelector } from './reduxHook';
+import { selectScript } from '../store/modules/script';
 
 const useAudioRecorder = () => {
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>();
   const [isRecording, setIsRecording] = useState(false);
   let recordedChunks: Blob[] = [];
+  const order = useAppSelector(selectScript).totalScriptCount;
 
   const startRecording = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -22,7 +25,7 @@ const useAudioRecorder = () => {
       const audioFile = new File([blob], 'audio.webm', { type: 'audio/webm' });
       const formData = new FormData();
       formData.append('file', audioFile);
-      const queryKey = BASE_URL + STT;
+      const queryKey = `${BASE_URL}${STT}/${order}`;
       axios.post(queryKey, formData, {
         headers: {
           Authorization: getCookie('Authorization'),

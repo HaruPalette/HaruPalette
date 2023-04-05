@@ -7,7 +7,7 @@ export interface themeSlice {
 }
 
 // 초기 상태 정의
-const initialState = { isDark: false };
+const initialState: themeSlice = { isDark: false };
 
 const themeSlice = createSlice({
   name: 'theme',
