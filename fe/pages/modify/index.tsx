@@ -8,12 +8,13 @@ import useTheme from '../../hooks/useTheme';
 import { DiaryData } from '../../types/diariesTypes';
 import { useDate } from '../../hooks/useDate';
 import { selectProfile } from '../../store/modules/profile';
-import { selectScript } from '../../store/modules/script';
+import { selectScript, setScript } from '../../store/modules/script';
 import Sticker from '../../components/modify/Sticker';
 import { common } from '../../styles/theme';
-import { useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { useBall } from '../../hooks/useBall';
 import useImage from '../../hooks/useImage';
+import { selectWeather } from '../../store/modules/weather';
 
 const ModifyPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -69,16 +70,27 @@ function Modify() {
   const date = useDate();
   const ball = useBall();
 
-  const scriptArr: string[] = [...useAppSelector(selectScript).nowScript];
+  const dispatch = useAppDispatch();
+
+  const len = useAppSelector(selectScript).totalScriptCount;
+
+  const scriptArr: string[] = useAppSelector(selectScript).nowScript;
   const chr = useAppSelector(selectProfile).chrName;
+
+  if (!scriptArr) {
+    for (let i = 0; i < len; i++) {
+      dispatch(setScript({ index: i, contents: '' }));
+    }
+  }
   const image = useImage();
+  const weather = useAppSelector(selectWeather).curWeather;
 
   useEffect(() => {
     let temp = nowScript;
     if (scriptArr.length > 0) {
       temp = '';
       for (let i = 0; i < scriptArr.length; i++) {
-        temp += scriptArr[i];
+        if (scriptArr[i]) temp += scriptArr[i];
       }
     }
     setNowScript(temp);
@@ -89,18 +101,18 @@ function Modify() {
     diaryId: 1,
     date: `${date.year}-${date.month}-${date.date}`,
     contents: `${nowScript}`,
-    weather: 'Clear',
+    weather,
     friendEname: chr,
     answer: '',
     image,
     stickerCode: `${nowSticker}`,
-    neutral: 60,
-    happy: 20,
-    surprise: 10,
-    anger: 5,
-    disgust: 1,
-    anxiety: 2,
-    sadness: 2,
+    neutral: 0,
+    happy: 0,
+    surprise: 0,
+    anger: 0,
+    disgust: 0,
+    anxiety: 0,
+    sadness: 0,
   };
 
   return (

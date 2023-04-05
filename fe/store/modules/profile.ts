@@ -11,7 +11,7 @@ export interface profileSlice {
 }
 
 // 초기 상태 정의
-const initialState = {
+const initialState: profileSlice = {
   image: '',
   chrName: 'haru',
   mainChrName: 'haru',

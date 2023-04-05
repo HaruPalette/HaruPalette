@@ -63,33 +63,21 @@ export const usePostDiaries = (
 };
 
 /** 일기 수정 조회 */
-export const useGetDiariesScript = (index: number) => {
+export const useGetDiariesScript = (order: number) => {
+  console.log(order);
   //   요청 url
   const queryKey = BASE_URL + SCRIPT;
   //   axios 요청
-  const queryFn = axios
-    .get(queryKey, {
-      headers: {
-        Authorization: `${getCookie('Authorization')}`,
-      },
-      params: {
-        index,
-      },
-    })
-    .then(res => res.data);
+  const queryFn = axios.get(queryKey, {
+    headers: {
+      Authorization: `${getCookie('Authorization')}`,
+    },
+    params: {
+      order,
+    },
+  });
 
   return queryFn;
-
-  // const { isLoading, data, isError, error } = useQuery<
-  //   AxiosResponse<UsersResponse>,
-  //   AxiosError<ErrorResponse>
-  // >([SCRIPT], () => queryFn, {
-  //   keepPreviousData: true,
-  //   staleTime: STALE_TIME,
-  //   cacheTime: CACHE_TIME,
-  // });
-
-  // return { isLoading, data, isError, error };
 };
 
 /** 일기 삭제 */
@@ -129,6 +117,27 @@ export const useGetDiariesCalendars = (
       },
     })
     .then(res => res.data);
+
+  return queryFn;
+};
+
+/** 스크립트 초기화 */
+export const usePostDiariesScript = () => {
+  //   요청 url
+  const queryKey = BASE_URL + SCRIPT;
+  //   axios 요청
+  const queryFn = () =>
+    axios
+      .post(
+        queryKey,
+        {},
+        {
+          headers: {
+            Authorization: `${getCookie('Authorization')}`,
+          },
+        },
+      )
+      .then(res => res.data);
 
   return queryFn;
 };

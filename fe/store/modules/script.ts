@@ -11,7 +11,7 @@ export interface ScriptSlice {
 }
 
 // 초기 상태 정의
-const initialState = {
+const initialState: ScriptSlice = {
   isRecoding: false,
   isPausing: false,
   curScriptIndex: 0,
@@ -65,10 +65,10 @@ const scriptSlice = createSlice({
       const temp = state;
       temp.curScriptIndex = state.curScriptIndex + 1;
     },
-    /** 사용자가 스크립트 수정 */
-    setScript(state, actions) {
+    /** 받아온 데이터 넣기 */
+    setScript(state, action) {
       const temp = state;
-      temp.nowScript = actions.payload;
+      temp.nowScript[action.payload.index] = action.payload.contents;
     },
     /** 메인 페이지 입장 시 효과 시작 */
     setPulseStart(state) {
