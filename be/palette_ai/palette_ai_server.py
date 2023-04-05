@@ -64,8 +64,8 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
         )['text']
         logger.info("Prediction finished")
         logger.info("Prediction: " + prediction)
-        os.remove(weba_file)
-        os.remove(wav_file)
+        # os.remove(weba_file)
+        # os.remove(wav_file)
         return palette_ai_pb2.TextResponse(prediction=prediction)
 
     def TextToEmotion(self, request, context):
