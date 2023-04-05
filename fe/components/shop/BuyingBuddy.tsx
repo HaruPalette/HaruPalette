@@ -132,6 +132,7 @@ const PrevIcon = styled(Image)`
 function BuyingBuddy() {
   const isDark = useAppSelector(selectTheme);
   const theme = useTheme();
+
   const NextIconImg = `/assets/img/common/${
     isDark ? 'nextBtnDark' : 'nextBtnLight'
   }.svg`;
@@ -139,7 +140,7 @@ function BuyingBuddy() {
     isDark ? 'prevBtnDark' : 'prevBtnLight'
   }.svg`;
 
-  const { data } = useQuery<
+  const query = useQuery<
     AxiosResponse<FriendsResponse>,
     AxiosError<ErrorResponse>,
     FriendsData
@@ -148,12 +149,16 @@ function BuyingBuddy() {
     staleTime: STALE_TIME,
     cacheTime: CACHE_TIME,
   });
+  const { data } = query;
+  // if (!isLoading) {
+  //   dispatch(setCurrPoint(data?.currentPoint));
+  // }
 
   const renderCards = () => {
     const renderCardsArr = data?.friendList.map((el: FriendList) => {
       return (
         <SwiperSlide key={el.friendId}>
-          <FriendCard friend={el} />
+          <FriendCard friend={el} query={query} />
         </SwiperSlide>
       );
     });

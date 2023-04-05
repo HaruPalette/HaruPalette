@@ -49,6 +49,7 @@
     "jsx-a11y/no-static-element-interactions": "off",
     "react/no-this-in-sfc": "off",
     "lines-between-class-members": "off",
-    "max-classes-per-file": "off"
+    "max-classes-per-file": "off",
+    "jsx-a11y/media-has-caption": "off"
   }
 }

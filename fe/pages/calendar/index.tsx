@@ -30,7 +30,7 @@ import { useGetDiariesCalendars } from '../../apis/diaries';
 import { RemindResponse } from '../../types/usersTypes';
 import { useBall } from '../../hooks/useBall';
 
-export const DirayPage = styled.div<{ theme: ColorTypes }>`
+export const DiaryPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -186,7 +186,7 @@ function Diary() {
   const ball = useBall();
 
   return (
-    <DirayPage theme={theme}>
+    <DiaryPage theme={theme}>
       <Header />
       <JellyList ball={ball} />
       <Container>
@@ -231,7 +231,7 @@ function Diary() {
           </Section>
         </SectionContainer>
       </Container>
-    </DirayPage>
+    </DiaryPage>
   );
 }
 
