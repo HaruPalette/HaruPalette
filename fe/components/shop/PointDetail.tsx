@@ -1,65 +1,63 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { ColorTypes } from '@emotion/react';
-import { useQuery } from 'react-query';
-import { AxiosError, AxiosResponse } from 'axios';
 import useTheme from '../../hooks/useTheme';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectTheme } from '../../store/modules/theme';
 import { selectShop, setOpenFilterModal } from '../../store/modules/shop';
 import { SHOP_FILTER_CATORIGY_LIST } from '../../constants/nav';
 import { common } from '../../styles/theme';
-import { ErrorResponse } from '../../types/commonTypes';
-import { PointData, PointResponse } from '../../types/usersTypes';
-import { CACHE_TIME, STALE_TIME, POINTS } from '../../constants/api';
-import { useGetUsersPoints } from '../../apis/users';
-import { getCookie } from '../../utils/cookie';
+// interface IDummy {
+//   imgSrc: string;
+//   title: string;
+//   addPoint: number;
+//   date: string;
+//   index: number;
+// }
+// const dummy: IDummy[] = [
+//   {
+//     imgSrc: '/assets/img/common/coin.svg',
+//     title: '하루 친구비',
+//     addPoint: -30,
+//     date: '2023.03.12',
+//     index: 0,
+//   },
+//   {
+//     imgSrc: '/assets/img/common/coin.svg',
+//     title: '한달 과제 달성',
+//     addPoint: +130,
+//     date: '2023.03.11',
+//     index: 1,
+//   },
+//   {
+//     imgSrc: '/assets/img/common/coin.svg',
+//     title: '주 7회 과제 달성',
+//     addPoint: +30,
+//     date: '2023.03.10',
+//     index: 2,
+//   },
+//   {
+//     imgSrc: '/assets/img/common/coin.svg',
+//     title: '고미 친구비',
+//     addPoint: -30,
+//     date: '2023.03.09',
+//     index: 3,
+//   },
+//   {
+//     imgSrc: '/assets/img/common/coin.svg',
+//     title: '고미 친구비',
+//     addPoint: -30,
+//     date: '2023.03.08',
+//     index: 4,
+//   },
+// ];
 
-interface IDummy {
-  imgSrc: string;
-  title: string;
-  addPoint: number;
+export interface PointProps {
+  point: number;
   date: string;
-  index: number;
+  content: string;
+  type: string;
 }
-const dummy: IDummy[] = [
-  {
-    imgSrc: '/assets/img/common/coin.svg',
-    title: '하루 친구비',
-    addPoint: -30,
-    date: '2023.03.12',
-    index: 0,
-  },
-  {
-    imgSrc: '/assets/img/common/coin.svg',
-    title: '한달 과제 달성',
-    addPoint: +130,
-    date: '2023.03.11',
-    index: 1,
-  },
-  {
-    imgSrc: '/assets/img/common/coin.svg',
-    title: '주 7회 과제 달성',
-    addPoint: +30,
-    date: '2023.03.10',
-    index: 2,
-  },
-  {
-    imgSrc: '/assets/img/common/coin.svg',
-    title: '고미 친구비',
-    addPoint: -30,
-    date: '2023.03.09',
-    index: 3,
-  },
-  {
-    imgSrc: '/assets/img/common/coin.svg',
-    title: '고미 친구비',
-    addPoint: -30,
-    date: '2023.03.08',
-    index: 4,
-  },
-];
-
 const Container = styled.div`
   position: relative;
   display: flex;
@@ -165,7 +163,7 @@ const DummyEls = styled.div<{ theme: ColorTypes }>`
   }
 `;
 
-const DummyImg = styled(Image)`
+const DummyImgDiv = styled.div<{ theme: ColorTypes }>`
   position: absolute;
   width: 50px;
   height: 50px;
@@ -173,6 +171,16 @@ const DummyImg = styled(Image)`
   background: #ffffff;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
   border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const DummyImg = styled(Image)<{ theme: ColorTypes }>`
+  width: 40px;
+  height: 40px;
+  /* background: ${props => props.theme.primary20}; */
+  /* box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25); */
+  /* border-radius: 30px; */
 `;
 const DummyTitle = styled.span<{ theme: ColorTypes }>`
   position: absolute;
@@ -185,7 +193,7 @@ const DummyTitle = styled.span<{ theme: ColorTypes }>`
   font-weight: 600;
   text-align: left;
   &:hover {
-    color: ${props => props.theme.border};
+    /* color: ${props => props.theme.border}; */
   }
 `;
 const DummyAddPointPlus = styled.span`
@@ -235,17 +243,11 @@ const DummySumPoint = styled.span`
   text-align: right;
 `;
 
-function PointDetail() {
+function PointDetail(props: { data: any }) {
+  const { data } = props;
   const theme = useTheme();
   const dispatch = useAppDispatch();
-  let getTotalPoint = 1600;
-  const calcPoint = (point: number) => {
-    getTotalPoint += point;
-
-    return getTotalPoint > 1000
-      ? `${Math.floor(getTotalPoint / 1000)},${getTotalPoint % 1000}`
-      : getTotalPoint;
-  };
+  let getTotalPoint = 0;
   const isDark = useAppSelector(selectTheme);
   const currFilterCategoryIdxData =
     useAppSelector(selectShop).currFilterCategoryIdx;
@@ -253,51 +255,77 @@ function PointDetail() {
   const filterYearData = useAppSelector(selectShop).filterYear;
   const filterMonthData = useAppSelector(selectShop).filterMonth;
   const img = `/assets/img/common/filter${isDark ? 'Dark' : 'Light'}.svg`;
+  const pData: any = data?.pointList;
+
+  // if (currFilterCategoryIdxData === 1) {
+  //   pData = pData?.filter((el: any) => {
+  //     return el.point > 0;
+  //   });
+  // }
+  // if (currFilterCategoryIdxData === 2) {
+  //   pData = pData?.filter((el: any) => {
+  //     return el.point < 0;
+  //   });
+  // }
+  console.log(pData);
+
+  const tmp = (point: number) => {
+    if (point / 1000 > 0) return `00${point % 1000}`;
+    if (point / 100 > 0) return `0${point}`;
+    return `00${point}`;
+  };
+  const calcPoint = (point: number) => {
+    getTotalPoint += point;
+
+    return getTotalPoint >= 1000
+      ? `${Math.floor(getTotalPoint / 1000)},${tmp(getTotalPoint)}`
+      : getTotalPoint;
+  };
+
   const renderRound = () => {
-    const renderRoundArr = dummy.map((el: IDummy) => {
+    let idx = -1;
+    const renderRoundArr = pData?.map((el: any) => {
+      idx += 1;
+      let imgSrc;
+      if (el.type === 'haru' || el.type === 'gomi' || el.type === 'tori')
+        imgSrc = `/assets/img/${el.type}/2d.svg`;
+      else imgSrc = `/assets/img/common/${el.type}.svg`;
+
       return (
-        <DummyEls theme={theme} key={el.index}>
-          <DummyImg src={el.imgSrc} width={58} height={58} alt="DummyImg" />
-          <DummyTitle theme={theme}>{el.title}</DummyTitle>
-          {el.addPoint > 0 ? (
+        <DummyEls theme={theme} key={idx}>
+          <DummyImgDiv theme={theme}>
+            <DummyImg
+              theme={theme}
+              src={imgSrc}
+              width={58}
+              height={58}
+              alt="DummyImg"
+            />
+          </DummyImgDiv>
+          <DummyTitle theme={theme}>{el.contents}</DummyTitle>
+          {el.point > 0 ? (
             <DummyAddPointPlus>
               +
-              {el.addPoint > 1000
-                ? `${Math.floor(el.addPoint / 1000)},${el.addPoint % 1000}`
-                : `${el.addPoint} `}
+              {el.point > 1000
+                ? `${Math.floor(el.point / 1000)},${el.point % 1000}`
+                : `${el.point} `}
               P
             </DummyAddPointPlus>
           ) : (
             <DummyAddPointMinus>
-              {el.addPoint > 1000
-                ? `${Math.floor(el.addPoint / 1000)},${el.addPoint % 1000}`
-                : `${el.addPoint} `}
+              {el.point > 1000
+                ? `${Math.floor(el.point / 1000)},${el.point % 1000}`
+                : `${el.point} `}
               P
             </DummyAddPointMinus>
           )}
           <DummyDate>{el.date}</DummyDate>
-          <DummySumPoint>{calcPoint(el.addPoint)} P</DummySumPoint>
+          <DummySumPoint>{calcPoint(el.point)} P</DummySumPoint>
         </DummyEls>
       );
     });
     return renderRoundArr;
   };
-
-  const category = 'all';
-  const date = '2023-04';
-  const { data } = useQuery<
-    AxiosResponse<PointResponse>,
-    AxiosError<ErrorResponse>,
-    PointData
-  >(
-    [POINTS],
-    () => useGetUsersPoints(category, date, getCookie('Authorization')),
-    {
-      keepPreviousData: true,
-      staleTime: STALE_TIME,
-      cacheTime: CACHE_TIME,
-    },
-  );
 
   return (
     <Container>
