@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useRef, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useRef, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 import styled from '@emotion/styled';
@@ -14,10 +14,11 @@ import { common } from '../../styles/theme';
 import { ErrorResponse } from '../../types/commonTypes';
 import { DIARIES } from '../../constants/api';
 import { usePostDiaries } from '../../apis/diaries';
-import { useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectWeather } from '../../store/modules/weather';
 import { selectScript } from '../../store/modules/script';
 import { selectProfile } from '../../store/modules/profile';
+import { changeImageSuccess, selectDiary } from '../../store/modules/diary';
 
 const DetailStyles = styled.div<{ theme: ColorTypes }>`
   width: 30rem;
@@ -45,10 +46,16 @@ const DiaryLine = styled.div<{ theme: ColorTypes }>`
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const Title = styled.div<{ theme: ColorTypes }>`
-  margin-left: 4rem;
+  width: 18.75rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   font-size: ${common.fontSize.fs16};
   font-weight: bold;
   color: ${props => props.theme.main};
@@ -103,14 +110,45 @@ const CreateButton = styled.button<{ theme: ColorTypes }>`
   margin: auto;
 `;
 
+const ImageContainer = styled.article`
+  display: flex;
+
+  width: 18.75rem;
+  height: 18.75rem;
+  border-radius: 1rem;
+  position: relative;
+`;
+
 const DiaryImage = styled.div<{ url: string }>`
   background-image: ${props => `url(${props.url})`};
   background-size: cover;
   background-position: center;
+
   width: 18.75rem;
   height: 18.75rem;
   border-radius: 1rem;
-  margin: 1rem auto;
+`;
+const Dimmed = styled.div`
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 18.75rem;
+  height: 18.75rem;
+  border-radius: 1rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
+const InfoText = styled.h1`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  color: ${common.colors.inheritWhite};
+  text-align: center;
+  font-size: 1rem;
+  z-index: 1;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
 `;
 
 const ChrSticker = styled(Image)`
@@ -131,7 +169,7 @@ const UserSticker = styled(Image)`
 `;
 
 function Diary(props: {
-  diary: DiaryData | undefined;
+  diary: DiaryData;
   type: string;
   save: boolean;
   share: boolean;
@@ -143,9 +181,8 @@ function Diary(props: {
   const { diary, type, save, share, setSave, setShare, stickerCode } = props;
   const theme = prevTheme(diary?.friendEname);
   const title = useDay(diary ? diary.date : '');
-  const [image, setImage] = useState(diary ? diary.image : '');
-  const [file, setFile] = useState<File | null>(null);
-
+  const { image, file } = useAppSelector(selectDiary);
+  const dispatch = useAppDispatch();
   // 스티커 경로
   const chrSticker = `/assets/img/${diary?.friendEname}/2d.svg`;
   const weatherSticker = `/assets/img/sticker/${diary?.weather}.svg`;
@@ -155,16 +192,24 @@ function Diary(props: {
   const contentList = useContents(diary ? diary.contents : '');
   const answerList = useAnswer(diary ? diary.answer : '');
 
+  /** 드랍을 통한 이미지 변경 */
   const handleDrop = (event: {
     preventDefault: () => void;
     dataTransfer: { files: any };
   }) => {
     if (type === 'modify') {
       event.preventDefault();
-      const files = event.dataTransfer.files?.[0];
-      setImage(URL.createObjectURL(files));
-      setFile(files);
+      const newfile = event.dataTransfer.files?.[0];
+      const newImage = URL.createObjectURL(newfile);
+      dispatch(changeImageSuccess({ image: newImage, file: newfile }));
     }
+  };
+
+  /** 버튼 클릭을 통한 이미지 변경 */
+  const handleChange = (event: { target: { files: any } }) => {
+    const newfile = event.target.files?.[0];
+    const newImage = URL.createObjectURL(newfile);
+    dispatch(changeImageSuccess({ image: newImage, file: newfile }));
   };
 
   const weather = useAppSelector(selectWeather).curWeather;
@@ -177,7 +222,7 @@ function Diary(props: {
       weather,
       contents,
       friend,
-      image.split('blob:')[0],
+      image?.split('blob:')[0],
       file,
     ),
   );
@@ -190,10 +235,6 @@ function Diary(props: {
       window.location.href = '/calendar';
     }
   };
-
-  useEffect(() => {
-    setImage(diary ? diary.image : '');
-  }, [diary]);
 
   // 일기 이미지로 저장
   const diaryRef = useRef<HTMLDivElement>(null);
@@ -228,20 +269,51 @@ function Diary(props: {
     }
     if (setShare) setShare(false);
   }, [share]);
+
+  useEffect(() => {
+    if (diary?.image) {
+      dispatch(changeImageSuccess({ image: diary.image, file: null }));
+    }
+  }, []);
+
   return (
     <DetailStyles ref={diaryRef} theme={theme}>
       <DiaryLine theme={theme}>
         <Title theme={theme}>{title}</Title>
-        {image && (
-          <DiaryImage
-            url={image}
-            onDrop={handleDrop}
-            onDragOver={event => event.preventDefault()}
-            onClick={() => {
+        <ImageContainer
+          onDrop={handleDrop}
+          onDragOver={event => event.preventDefault()}
+          onClick={() => {
+            if (type !== 'modify') {
               window.open(image);
-            }}
-          />
-        )}
+            }
+          }}
+        >
+          {type === 'modify' ? (
+            <>
+              <input
+                hidden
+                id="file-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleChange}
+              />
+              <label htmlFor="file-upload">
+                <InfoText>
+                  드래그 드롭
+                  <br />
+                  및
+                  <br />
+                  클릭
+                </InfoText>
+                <Dimmed />
+                <DiaryImage url={image === '' ? diary?.image : image} />
+              </label>
+            </>
+          ) : (
+            <DiaryImage url={diary?.image} />
+          )}
+        </ImageContainer>
         <ContentList theme={theme} type={type}>
           {contentList.map(item => {
             return (
