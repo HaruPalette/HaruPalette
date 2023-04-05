@@ -10,7 +10,7 @@ import Mouse from '../Mouse';
 const Section = styled.section<{ windowHeight: number }>`
   width: 100vw;
   height: 300vh;
-  display: 'flex';
+  display: flex;
   opacity: ${props =>
     props.windowHeight >= 2200 && props.windowHeight < 3700 ? 1 : 0};
   align-items: center;
