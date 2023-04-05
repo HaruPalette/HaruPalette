@@ -12,4 +12,5 @@ public class ProfileDto {
 	String image;
 	String friendEname;
 	Long friendId;
+	boolean isToday;
 }
