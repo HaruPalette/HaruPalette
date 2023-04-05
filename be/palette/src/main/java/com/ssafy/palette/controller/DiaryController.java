@@ -58,6 +58,16 @@ public class DiaryController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	// 수정 조회
+	@PostMapping("/script")
+	public ResponseEntity<?> scriptDiary(@RequestHeader HttpHeaders header){
+		String token = header.get("Authorization").get(0).substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
+		String userId = jwtUtil.getUid(token);
+
+		diaryService.deleteScript(userId);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 	// 일기 작성
 	@PostMapping()
 	public ResponseEntity<?> writeDiary(@RequestHeader HttpHeaders header,
