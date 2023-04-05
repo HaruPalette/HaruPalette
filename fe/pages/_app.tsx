@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import Script from 'next/script';
 import GlobalStyle from '../styles/globals';
 import store from '../store';
-import Snackbar from '../components/common/Snackbar';
 
 declare global {
   interface Window {
@@ -65,7 +64,6 @@ export default function App({ Component, pageProps }: AppProps) {
           <Provider store={store}>
             <PersistGate persistor={persist}>
               <GlobalStyle />
-              <Snackbar />
               <Component {...pageProps} />
             </PersistGate>
           </Provider>
