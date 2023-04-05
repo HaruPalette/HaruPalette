@@ -6,7 +6,6 @@ const Card = styled.span<{ background: string }>`
   display: flex;
   flex-direction: column;
 
-  align-items: center;
   justify-content: space-around;
 
   width: 13vw;
@@ -23,6 +22,14 @@ const Card = styled.span<{ background: string }>`
   border-radius: 2.11rem;
 
   background-color: ${props => props.background};
+
+  & img {
+    margin-left: 55px;
+  }
+
+  & span {
+    margin-left: 50px;
+  }
 
   @media screen and (max-width: 960px) {
     font-size: 14px;
@@ -43,11 +50,11 @@ function SectionCard(props: { cardData: CardData }) {
     <Card background={cardData.backgroundColor}>
       <Image
         src={cardData.image}
-        width={56}
-        height={56}
+        width={90}
+        height={90}
         alt={cardData.script}
       />
-      {cardData.script}
+      <span>{cardData.script}</span>
     </Card>
   );
 }
