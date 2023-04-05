@@ -36,11 +36,13 @@ const Card = styled.span<{ background: string }>`
     margin: 0.5rem 0;
     margin-left: 1rem;
     justify-content: space-around;
+    border-radius: 1rem;
   }
 
   @media screen and (max-width: 500px) {
     font-size: 12px;
     margin: 0.5rem;
+    border-radius: 0.5rem;
   }
 `;
 
