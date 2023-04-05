@@ -1,6 +1,8 @@
 # HaruPalette 🎨
 ![logo](https://user-images.githubusercontent.com/55950992/230177770-c2362c56-9f90-45ed-8740-a1ae72aca76f.png)
 
+![목업](https://user-images.githubusercontent.com/55950992/230185259-c0709622-89d2-4dc0-861d-31af079a8acd.png)
+
 ### 프로젝트 설명
 > 💗 오늘 하루도 수고하셨습니다. 무슨 일이 있었는지 들려주실 수 있나요?
 > 대화를 통해 언어로 정서를 표현하면 마음이 정화되고, 감정을 해소하는데 도움이 됩니다. 
