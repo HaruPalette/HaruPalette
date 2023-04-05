@@ -23,6 +23,7 @@ export interface PointData {
       point: number;
       date: string;
       contents: string;
+      type: string;
     },
   ];
   currentPoint: number;
