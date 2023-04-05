@@ -8,6 +8,7 @@ import menu from './menu';
 import shop from './shop';
 import script from './script';
 import weather from './weather';
+import snackbar from './snackbar';
 
 const rootReducer = combineReducers({
   theme,
@@ -16,13 +17,22 @@ const rootReducer = combineReducers({
   shop,
   script,
   weather,
+  snackbar,
   // 여기에 추가하세요
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whiteList: ['theme', 'profile', 'menu', 'shop', 'script', 'weather'],
+  whiteList: [
+    'theme',
+    'profile',
+    'menu',
+    'shop',
+    'script',
+    'weather',
+    'snackbar',
+  ],
 };
 
 const persistReducers = persistReducer(persistConfig, rootReducer);
