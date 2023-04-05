@@ -62,7 +62,6 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
                 "max_new_tokens": 65535
              }
         )['text']
-        prediction = "test"
         logger.info(time.strftime('%Y/%m/%d %H:%M:%S ') + "Prediction: " + prediction)
         if os.path.exists(weba_file):
             os.remove(weba_file)
