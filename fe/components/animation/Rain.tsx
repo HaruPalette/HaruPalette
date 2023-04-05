@@ -18,15 +18,11 @@ const RainCanvas = styled.canvas<{ theme: weatherTypes }>`
 
 function Rain() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  // const mouseRef = useRef<{ x: number; y: number; isActive: boolean }>({
-  //   x: 0,
-  //   y: 0,
-  //   isActive: false,
-  // });
   const totalRef = useRef<number>(50);
   const THUNDER_RATE = 0.003;
   const isDark = useAppSelector(selectTheme);
   const theme = isDark ? weatherDark : weatherLight;
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const randomBetween = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -71,14 +67,6 @@ function Rain() {
     constructor() {
       this.opacity = 0;
     }
-
-    // light
-    // `rgba(200, 200, 200, ${this.opacity})`
-    // `rgba(35, 35, 35, ${this.opacity})`
-
-    // dark
-    // `rgba(96, 114, 129, ${this.opacity})`
-    // `rgba(18, 23, 27, ${this.opacity})`
 
     draw() {
       const ctx = canvasRef.current?.getContext('2d');
@@ -198,25 +186,20 @@ function Rain() {
 
   useEffect(() => {
     resizeHandler();
+    if (audioRef.current) {
+      audioRef.current.volume = 1.0;
+    }
     window.addEventListener('resize', resizeHandler);
     return () => window.removeEventListener('resize', resizeHandler);
   }, []);
 
   return (
-    <RainCanvas
-      ref={canvasRef}
-      theme={theme}
-      // onMouseEnter={() => {
-      //   mouseRef.current.isActive = true;
-      // }}
-      // onMouseLeave={() => {
-      //   mouseRef.current.isActive = false;
-      // }}
-      // onMouseMove={e => {
-      //   mouseRef.current.x = e.clientX;
-      //   mouseRef.current.y = e.clientY;
-      // }}
-    />
+    <>
+      <RainCanvas ref={canvasRef} theme={theme} />
+      <audio autoPlay loop ref={audioRef}>
+        <source src="/assets/sound/rain.mp3" type="audio/mpeg" />
+      </audio>
+    </>
   );
 }
 

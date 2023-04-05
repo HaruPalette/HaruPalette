@@ -5,6 +5,7 @@ import useAnimationFrame from '../../hooks/useAnimationFrame';
 import { useAppSelector } from '../../hooks/reduxHook';
 import { selectTheme } from '../../store/modules/theme';
 import { weatherLight, weatherDark } from '../../styles/weather';
+import { Audio } from 'three';
 
 const CherryBlossomCanvas = styled.canvas<{ theme: weatherTypes }>`
   margin: 0;
@@ -22,6 +23,7 @@ function CherryBlossom() {
   const petalImageRef = useRef<HTMLImageElement[]>([]);
   const isDark = useAppSelector(selectTheme);
   const theme = isDark ? weatherDark : weatherLight;
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const imagePromise = (src: string) => {
     return new Promise<HTMLImageElement>((resolve, reject) => {
@@ -162,11 +164,21 @@ function CherryBlossom() {
 
   useEffect(() => {
     resizeHandler();
+    if (audioRef.current) {
+      audioRef.current.volume = 1.0;
+    }
     window.addEventListener('resize', resizeHandler);
     return () => window.removeEventListener('resize', resizeHandler);
   }, []);
 
-  return <CherryBlossomCanvas ref={canvasRef} theme={theme} />;
+  return (
+    <>
+      <CherryBlossomCanvas ref={canvasRef} theme={theme} />;
+      <audio autoPlay loop ref={audioRef}>
+        <source src="/assets/sound/clear.mp3" type="audio/mpeg" />
+      </audio>
+    </>
+  );
 }
 
 export default CherryBlossom;
