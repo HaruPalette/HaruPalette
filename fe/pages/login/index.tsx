@@ -3,7 +3,7 @@ import { useAppDispatch } from '../../hooks/reduxHook';
 import { loginSuccess } from '../../store/modules/profile';
 import { useGetUsers } from '../../apis/users';
 import { setCookie } from '../../utils/cookie';
-import Model from '../../components/common/ModelCharacter2';
+import Model from '../../components/common/ModelFoot';
 
 // const ModelLoading = styled.canvas`
 //   top: 88px;
