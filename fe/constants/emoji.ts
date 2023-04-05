@@ -4,6 +4,7 @@ type Face = {
   height: number;
   top: string;
   left: string;
+  alt: string;
 };
 
 interface Emoji {
@@ -23,6 +24,7 @@ const EMOJI: Emoji = {
     height: 450,
     top: '20%',
     left: '30%',
+    alt: 'smile',
   },
   sadness: {
     idx: 1,
@@ -30,6 +32,7 @@ const EMOJI: Emoji = {
     height: 350,
     top: '60%',
     left: '20%',
+    alt: 'sadness',
   },
   soso: {
     idx: 2,
@@ -37,6 +40,7 @@ const EMOJI: Emoji = {
     height: 275,
     top: '90%',
     left: '40%',
+    alt: 'soso',
   },
   surprise: {
     idx: 3,
@@ -44,6 +48,7 @@ const EMOJI: Emoji = {
     height: 425,
     top: '30%',
     left: '70%',
+    alt: 'surprise',
   },
   neutral: {
     idx: 4,
@@ -51,6 +56,7 @@ const EMOJI: Emoji = {
     height: 400,
     top: '40%',
     left: '50%',
+    alt: 'neutral',
   },
   happy: {
     idx: 5,
@@ -58,6 +64,7 @@ const EMOJI: Emoji = {
     height: 325,
     top: '70%',
     left: '80%',
+    alt: 'happy',
   },
   disgust: {
     idx: 6,
@@ -65,6 +72,7 @@ const EMOJI: Emoji = {
     height: 300,
     top: '80%',
     left: '60%',
+    alt: 'disgust',
   },
 };
 

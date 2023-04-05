@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import { ColorTypes, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useEffect, useRef } from 'react';
 import { useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import { selectProfile } from '../../store/modules/profile';
-import { useEffect, useRef } from 'react';
 
 export interface DiaryProps {
   currCnt: number;
