@@ -214,9 +214,6 @@ function Diary(props: {
     if (type === 'modify') {
       event.preventDefault();
       const newfile = event.dataTransfer.files?.[0];
-      const fileSizeInBytes = newfile.size;
-      const fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
-      console.log(fileSizeInMegabytes);
       const newImage = URL.createObjectURL(newfile);
       dispatch(changeImageSuccess({ image: newImage, file: newfile }));
     }
@@ -257,7 +254,7 @@ function Diary(props: {
       dispatch(setIsToday(true));
       setTimeout(() => {
         window.location.href = '/calendar';
-      }, 400);
+      }, 1000);
     }
   };
 
