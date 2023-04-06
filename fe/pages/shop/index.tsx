@@ -119,10 +119,12 @@ const ContentDiv = styled.div<{ theme: ColorTypes }>`
   margin-top: 40px;
   margin-bottom: 40px;
   color: ${props => props.theme.color};
-
   @media all and (min-height: 800px) {
     margin-top: 0px;
-    margin-bottom: 80px;
+  }
+
+  @media all and (max-width: 500px) {
+    height: auto;
   }
 `;
 
