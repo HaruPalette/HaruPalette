@@ -75,8 +75,8 @@ public class ChallengeService {
 		List<Challenge> challenges = challengeRepository.findByIdBetween(1L, 3L);
 		for (Challenge c : challenges) {
 			if (weekCnt == c.getCount()) {
-				pointService.earnPoint(userId, c.getPoint());
 				pointService.addChallengeHistory(userId, c.getId(), time, "goal");
+				pointService.earnPoint(userId, c.getPoint());
 			}
 		}
 	}
@@ -86,21 +86,21 @@ public class ChallengeService {
 		// challenge마다 조건 충족 확인
 		Challenge challenge = challengeRepository.findById(4L).get();
 		if (monthCnt == challenge.getCount()) {
-			pointService.earnPoint(userId, challenge.getPoint());
 			pointService.addChallengeHistory(userId, challenge.getId(), time, "goal");
+			pointService.earnPoint(userId, challenge.getPoint());
 		}
 	}
 
 	public void dailyChallenge(String userId, LocalDateTime time) {
 		Challenge challenge = challengeRepository.findById(5L).get();
-		pointService.earnPoint(userId, challenge.getPoint());
 		pointService.addChallengeHistory(userId, challenge.getId(), time, "goal");
+		pointService.earnPoint(userId, challenge.getPoint());
 	}
 
 	public void eventChallenge(String userId, LocalDateTime time) {
 		Challenge challenge = challengeRepository.findById(6L).get();
-		pointService.earnPoint(userId, challenge.getPoint());
 		pointService.addChallengeHistory(userId, challenge.getId(), time, "sign");
+		pointService.earnPoint(userId, challenge.getPoint());
 	}
 
 	public void checkChallenge(String userId, LocalDateTime time) {
