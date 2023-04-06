@@ -4,7 +4,7 @@ import { changeMainChar, selectProfile } from '../../../store/modules/profile';
 // import ModelCreate from '../../common/ModelCreate';
 import ModelShopMain from '../../common/ModelShopMain';
 import JellyList from '../../common/JellyList';
-import { useSectionThreeBall } from '../../../hooks/useBall';
+import { useSectionFourBall } from '../../../hooks/useBall';
 import useScreenY from '../../../hooks/useScreenY';
 
 const Section = styled.section`
@@ -38,10 +38,20 @@ const Background = styled.div<{ windowHeight: number }>`
   }
 `;
 
+const Main = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+
+  & span {
+    z-index: 2;
+    padding-top: 40px;
+  }
+`;
+
 const MainModel = styled.div`
-  width: 500px;
-  height: 500px;
-  right: 0px;
+  margin-top: 300px;
 `;
 
 const FriendList = styled.div`
@@ -51,6 +61,8 @@ const FriendList = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding-bottom: 600px;
+  padding-right: 80px;
 `;
 
 const ModelButton = styled.button`
@@ -67,7 +79,7 @@ const ModelButton = styled.button`
 function Section6() {
   const curCharName = useAppSelector(selectProfile).chrName;
   const mainCharName = useAppSelector(selectProfile).mainChrName;
-  const ball = useSectionThreeBall();
+  const ball = useSectionFourBall();
   const windowHeight = useScreenY();
   console.log(windowHeight);
 
@@ -82,22 +94,25 @@ function Section6() {
       <Background windowHeight={windowHeight}>
         <JellyList ball={ball} />
       </Background>
-      <MainModel>
-        <ModelShopMain
-          data={curCharName !== 'haru' ? curCharName : mainCharName}
-        />
-      </MainModel>
-      <FriendList>
-        <ModelButton type="button" onClick={() => handleModelClick('haru')}>
-          <ModelShopMain data="haru" />
-        </ModelButton>
-        <ModelButton type="button" onClick={() => handleModelClick('tori')}>
-          <ModelShopMain data="tori" />
-        </ModelButton>
-        <ModelButton type="button" onClick={() => handleModelClick('gomi')}>
-          <ModelShopMain data="gomi" />
-        </ModelButton>
-      </FriendList>
+      <Main>
+        <MainModel>
+          <ModelShopMain
+            data={curCharName !== 'haru' ? curCharName : mainCharName}
+          />
+        </MainModel>
+        <span>아래의 캐릭터를 눌러 보세요 !</span>
+        <FriendList>
+          <ModelButton type="button" onClick={() => handleModelClick('haru')}>
+            <ModelShopMain data="haru" />
+          </ModelButton>
+          <ModelButton type="button" onClick={() => handleModelClick('tori')}>
+            <ModelShopMain data="tori" />
+          </ModelButton>
+          <ModelButton type="button" onClick={() => handleModelClick('gomi')}>
+            <ModelShopMain data="gomi" />
+          </ModelButton>
+        </FriendList>
+      </Main>
     </Section>
   );
 }
