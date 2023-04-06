@@ -54,8 +54,8 @@ export function useSectionOneBall() {
     height: '25rem',
     top: '15rem',
     left: '15rem',
-    color: '#E3FDFD',
-    opacity: 0.2,
+    color: '#fc809d',
+    opacity: 1,
     delay: 2,
     start: 0.1,
   });

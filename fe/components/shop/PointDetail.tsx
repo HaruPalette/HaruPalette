@@ -203,13 +203,14 @@ function PointDetail(props: { data: any }) {
   const { data } = props;
   const theme = useTheme();
   const dispatch = useAppDispatch();
-  let getTotalPoint = 0;
   const isDark = useAppSelector(selectTheme);
   const currFilterCategoryIdxData =
     useAppSelector(selectShop).currFilterCategoryIdx;
   const openFilterModalData = useAppSelector(selectShop).openFilterModal;
   const filterYearData = useAppSelector(selectShop).filterYear;
   const filterMonthData = useAppSelector(selectShop).filterMonth;
+  let getTotalPoint = data.currentPoint;
+  console.log(getTotalPoint);
   const img = `/assets/img/common/filter${isDark ? 'Dark' : 'Light'}.svg`;
   const pData: any = data?.pointList;
 
