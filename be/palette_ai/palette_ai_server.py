@@ -8,7 +8,7 @@ import torchaudio
 from transformers import pipeline
 from pydub import AudioSegment
 import os
-import time
+from datetime import datetime, timezone, timedelta
 
 # 모델 로드
 # whisper 모델
@@ -37,6 +37,11 @@ ko2en = {
 }
 
 
+def kortime():
+    kst = timezone(timedelta(hours=9))
+    return datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S ")
+
+
 # 메인 로직
 class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
     def __init__(self):
@@ -51,9 +56,9 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
         sound = AudioSegment.from_file(weba_file, format="webm")
         sound.export(wav_file, format="wav", parameters=['-ar', '16000'])
         audio_input, _ = torchaudio.load(wav_file)
-        logger.info(time.strftime('%Y/%m/%d %H:%M:%S ') + "Audio file loaded")
+        logger.info(kortime() + "Audio file loaded")
         input_values = torch.mean(audio_input, dim=0).numpy()
-        logger.info(time.strftime('%Y/%m/%d %H:%M:%S ') + "Prediction started...")
+        logger.info(kortime() + "Prediction started...")
         prediction = whisperPipe(
             input_values,
             generate_kwargs={
@@ -62,7 +67,7 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
                 "max_new_tokens": 65535
              }
         )['text']
-        logger.info(time.strftime('%Y/%m/%d %H:%M:%S ') + "Prediction: " + prediction)
+        logger.info(kortime() + "Prediction: " + prediction)
         if os.path.exists(weba_file):
             os.remove(weba_file)
         if os.path.exists(wav_file):
@@ -74,7 +79,7 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
         data = {
             ko2en[r["label"]]: r["score"] for r in result
         }
-        logger.info(time.strftime('%Y/%m/%d %H:%M:%S ') + "Prediction: " + str(data))
+        logger.info(kortime() + "Prediction: " + str(data))
         ret = palette_ai_pb2.EmotionResponse(
             neutral=data.get("neutral", 0),
             happy=data.get("happy", 0),
@@ -96,7 +101,7 @@ def serve():
     port = '50051'
     server.add_insecure_port('[::]:' + port)
     server.start()
-    logger.info(time.strftime('%Y/%m/%d %H:%M:%S ') + "Server started, listening on " + port)
+    logger.info(kortime() + "Server started, listening on " + port)
     server.wait_for_termination()
 
 
