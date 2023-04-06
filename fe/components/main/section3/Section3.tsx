@@ -44,9 +44,9 @@ const TextContainer = styled.article<{ windowHeight: number }>`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     white-space: nowrap;
-  }
-
-  @media screen and (max-width: 500px) {
+    @media screen and (max-width: 500px) {
+      font-size: 3rem;
+    }
   }
 `;
 
@@ -69,7 +69,7 @@ const SectionTextYes = styled.h1<{ theme: ColorTypes; windowHeight: number }>`
   white-space: nowrap;
 
   @media screen and (max-width: 500px) {
-    font-size: 2rem;
+    font-size: 3rem;
   }
 `;
 

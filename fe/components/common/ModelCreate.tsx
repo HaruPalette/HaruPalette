@@ -89,15 +89,7 @@ function Model(props: any) {
       let width = customdiv ? customdiv.clientWidth : 0;
       let height = customdiv ? customdiv.clientHeight : 0;
       const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100);
-      // const controls = new OrbitControls(camera, customdiv);
-      // controls.saveState();
-      // controls.minDistance = 2.2;
-      // controls.maxDistance = 2.2;
-      // controls.minPolarAngle = 1.5; // 윗각도 제한
-      // controls.maxPolarAngle = 1.5; // 아래각도 제한(MATH.PI/2의 경우 바닥까지만 보여줌)
-      // controls.enableDamping = true;
-      // controls.enableZoom = false;
-      // controls.screenSpacePanning = false;
+
       camera.position.x = 0;
       camera.position.y = 0.4;
       camera.position.z = 1.8;
