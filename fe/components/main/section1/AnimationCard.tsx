@@ -47,7 +47,8 @@ const Card = styled.span<{ background: string; windowHeight: number }>`
     }
   }
   & span {
-    padding-left: 48px;
+    padding-left: 40px;
+
     @media screen and (max-width: 500px) {
       margin-left: -1.9rem;
       margin-bottom: 10px;
