@@ -27,6 +27,7 @@ import { getCookie } from '../../utils/cookie';
 import { PointData, PointResponse } from '../../types/usersTypes';
 import { useGetUsersPoints } from '../../apis/users';
 import { useDate } from '../../hooks/useDate';
+import { changeLinkSuccess } from '../../store/modules/menu';
 
 const ShopPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -152,6 +153,7 @@ function Shop() {
     dispatch(setFilterYear(useDate().year));
     dispatch(setFilterMonth(useDate().month));
     dispatch(setFilterCategory(0));
+    dispatch(changeLinkSuccess('/shop'));
   }, []);
 
   // const { data } = useQuery<
