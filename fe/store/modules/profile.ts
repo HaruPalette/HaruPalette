@@ -48,6 +48,10 @@ const profileSlice = createSlice({
       const temp = state;
       temp.chrName = action.payload;
     },
+    setCharPK(state, action) {
+      const temp = state;
+      temp.chrPK = action.payload;
+    },
     changeMainChar(state, action) {
       const temp = state;
       temp.mainChrName = action.payload;
@@ -68,6 +72,7 @@ export const {
   logoutSuccess,
   loginSuccess,
   setCharName,
+  setCharPK,
   changeMainChar,
   setIsToday,
   setIsPlay,
