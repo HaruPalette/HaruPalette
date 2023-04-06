@@ -70,10 +70,9 @@ const NowDate = styled.button<{ theme: ColorTypes; happy: number | null }>`
 function Calendar(props: {
   year: number;
   month: number;
-  setToday: Dispatch<SetStateAction<boolean>>;
   setDiaryId: Dispatch<SetStateAction<number>>;
 }) {
-  const { year, month, setToday, setDiaryId } = props;
+  const { year, month, setDiaryId } = props;
   const query = useQuery<CalendarData[], AxiosError<ErrorResponse>>(
     [DIARIES],
     () =>
@@ -126,7 +125,6 @@ function Calendar(props: {
       const temp = data[left].date.split('-');
       if (Number(temp[2]) === i) {
         if (i === useDate().date) {
-          setToday(true);
           setDiaryId(data[left].diaryId);
         }
         monthDate.push({
