@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,7 +73,7 @@ public class PointService {
 		LocalDateTime end = temp.plusMonths(1).minusDays(1).atTime(23, 59, 59);
 		switch (category) {
 			case "all":
-				pointList = pointRepository.findByUser_IdAndDateBetween(userId, start, end)
+				pointList = pointRepository.findByUser_IdAndDateBetween(userId, start, end, Sort.by("date").descending())
 					.stream()
 					.map(point -> PointListDto.PointDto.builder()
 						.point(point.getPoint())
@@ -89,7 +90,7 @@ public class PointService {
 				break;
 
 			case "earn":
-				pointList = pointRepository.findByUser_IdAndDateBetweenAndPointGreaterThan(userId, start, end, 0)
+				pointList = pointRepository.findByUser_IdAndDateBetweenAndPointGreaterThan(userId, start, end, 0, Sort.by("date").descending())
 					.stream()
 					.map(point -> PointListDto.PointDto.builder()
 						.point(point.getPoint())
@@ -106,7 +107,7 @@ public class PointService {
 				break;
 
 			case "use":
-				pointList = pointRepository.findByUser_IdAndDateBetweenAndPointLessThan(userId, start, end, 0)
+				pointList = pointRepository.findByUser_IdAndDateBetweenAndPointLessThan(userId, start, end, 0, Sort.by("date").descending())
 					.stream()
 					.map(point -> PointListDto.PointDto.builder()
 						.point(point.getPoint())
