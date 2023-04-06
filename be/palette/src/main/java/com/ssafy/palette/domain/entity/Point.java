@@ -40,6 +40,10 @@ public class Point {
 	@NotNull
 	private int point;
 
+	// 이전 포인트
+	@Column
+	private int prevPoint;
+
 	// 구분
 	@Column
 	@NotNull
