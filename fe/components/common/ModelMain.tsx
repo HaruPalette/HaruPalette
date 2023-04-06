@@ -115,7 +115,7 @@ function Model(props: any) {
          */
         // case2: 아이패드
         // case3: 모바일
-        console.log(sizes.width, width);
+        // console.log(sizes.width, width);
         rendererPrev.setPixelRatio(window.devicePixelRatio);
         // if (sizes.width === width) {
         if (width >= 0) {

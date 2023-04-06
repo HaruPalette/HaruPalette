@@ -5,7 +5,7 @@ import JellyList from '../../common/JellyList';
 import { useSectionThreeBall } from '../../../hooks/useBall';
 import Mouse from '../Mouse';
 
-const Section = styled.section`
+const Section = styled.section<{ windowHeight: number }>`
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -13,6 +13,12 @@ const Section = styled.section`
   align-items: center;
   padding: 0 10rem;
   position: relative;
+  opacity: ${props =>
+    props.windowHeight > 6600 && props.windowHeight < 7150 ? 1 : 0};
+  @media screen and (min-height: 800px) {
+    opacity: ${props =>
+      props.windowHeight >= 7250 && props.windowHeight < 7850 ? 1 : 0};
+  }
 
   @media screen and (max-width: 960px) {
     padding: 0 1rem;
@@ -31,11 +37,11 @@ const Background = styled.div<{ windowHeight: number }>`
   top: 50%;
   left: 50%;
   display: ${props =>
-    props.windowHeight >= 6600 && props.windowHeight < 8600 ? 'flex' : 'none'};
+    props.windowHeight >= 6600 && props.windowHeight < 7200 ? 'flex' : 'none'};
 
   @media screen and (min-height: 800px) {
     display: ${props =>
-      props.windowHeight >= 7400 && props.windowHeight < 7850
+      props.windowHeight >= 7400 && props.windowHeight < 7900
         ? 'flex'
         : 'none'};
   }
@@ -51,12 +57,16 @@ const RightContainer = styled.div<{ windowHeight: number }>`
     color: white;
   }
   z-index: 1;
+  display: ${props =>
+    props.windowHeight > 6600 && props.windowHeight < 7200 ? 'flex' : 'none'};
+  opacity: ${props =>
+    props.windowHeight >= 6650 && props.windowHeight < 7000 ? 1 : 0};
 
   @media screen and (min-height: 800px) {
     display: ${props =>
       props.windowHeight > 7200 && props.windowHeight < 8200 ? 'flex' : 'none'};
     opacity: ${props =>
-      props.windowHeight >= 7250 && props.windowHeight < 7850 ? 1 : 0};
+      props.windowHeight >= 7250 && props.windowHeight < 7900 ? 1 : 0};
   }
 `;
 
@@ -68,9 +78,9 @@ const SectionText = styled.h1`
 
 const ChallengeContainer = styled.article<{ windowHeight: number }>`
   display: ${props =>
-    props.windowHeight > 6600 && props.windowHeight < 8600 ? 'flex' : 'none'};
+    props.windowHeight > 6600 && props.windowHeight < 7200 ? 'flex' : 'none'};
   opacity: ${props =>
-    props.windowHeight >= 6800 && props.windowHeight < 8400 ? 1 : 0};
+    props.windowHeight >= 6650 && props.windowHeight < 7000 ? 1 : 0};
   width: 40vw;
   height: 100%;
 
@@ -82,7 +92,7 @@ const ChallengeContainer = styled.article<{ windowHeight: number }>`
     display: ${props =>
       props.windowHeight > 7200 && props.windowHeight < 8200 ? 'flex' : 'none'};
     opacity: ${props =>
-      props.windowHeight >= 7250 && props.windowHeight < 7850 ? 1 : 0};
+      props.windowHeight >= 7310 && props.windowHeight < 7850 ? 1 : 0};
   }
 
   @media screen and (max-width: 960px) {
@@ -111,6 +121,8 @@ const ChallengeItem = styled.div`
 
 function Section5() {
   const windowHeight = useScreenY();
+  const windowHScale = window.innerHeight > 800 ? 600 : 0;
+  console.log(windowHScale);
   // console.log(windowHeight);
   const ball = useSectionThreeBall();
 
@@ -129,7 +141,7 @@ function Section5() {
     },
   ];
   return (
-    <Section>
+    <Section windowHeight={windowHeight}>
       <Background windowHeight={windowHeight}>
         <JellyList ball={ball} />
       </Background>
@@ -152,7 +164,12 @@ function Section5() {
           ),
         )}
       </ChallengeContainer>
-      {windowHeight < 6850 ? <div /> : <Mouse top={8400} />}
+      {windowHeight >= 6800 + windowHScale &&
+      windowHeight <= 7200 + windowHScale ? (
+        <Mouse top={7800 + windowHScale} />
+      ) : (
+        ''
+      )}
     </Section>
   );
 }
