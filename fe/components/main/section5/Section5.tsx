@@ -14,7 +14,7 @@ const Section = styled.section<{ windowHeight: number }>`
   padding: 0 10rem;
   position: relative;
   opacity: ${props =>
-    props.windowHeight > 6600 && props.windowHeight < 7150 ? 1 : 0};
+    props.windowHeight > 6300 && props.windowHeight < 6950 ? 1 : 0};
   @media screen and (min-height: 800px) {
     opacity: ${props =>
       props.windowHeight >= 7250 && props.windowHeight < 7850 ? 1 : 0};
@@ -37,7 +37,7 @@ const Background = styled.div<{ windowHeight: number }>`
   top: 50%;
   left: 50%;
   display: ${props =>
-    props.windowHeight >= 6600 && props.windowHeight < 7200 ? 'flex' : 'none'};
+    props.windowHeight >= 6400 && props.windowHeight < 6980 ? 'flex' : 'none'};
 
   @media screen and (min-height: 800px) {
     display: ${props =>
@@ -58,9 +58,9 @@ const RightContainer = styled.div<{ windowHeight: number }>`
   }
   z-index: 1;
   display: ${props =>
-    props.windowHeight > 6600 && props.windowHeight < 7200 ? 'flex' : 'none'};
+    props.windowHeight > 6200 && props.windowHeight < 6950 ? 'flex' : 'none'};
   opacity: ${props =>
-    props.windowHeight >= 6650 && props.windowHeight < 7000 ? 1 : 0};
+    props.windowHeight >= 6450 && props.windowHeight < 6900 ? 1 : 0};
 
   @media screen and (min-height: 800px) {
     display: ${props =>
@@ -78,9 +78,9 @@ const SectionText = styled.h1`
 
 const ChallengeContainer = styled.article<{ windowHeight: number }>`
   display: ${props =>
-    props.windowHeight > 6600 && props.windowHeight < 7200 ? 'flex' : 'none'};
+    props.windowHeight > 6200 && props.windowHeight < 6950 ? 'flex' : 'none'};
   opacity: ${props =>
-    props.windowHeight >= 6650 && props.windowHeight < 7000 ? 1 : 0};
+    props.windowHeight >= 6450 && props.windowHeight < 6900 ? 1 : 0};
   width: 40vw;
   height: 100%;
 
@@ -92,7 +92,7 @@ const ChallengeContainer = styled.article<{ windowHeight: number }>`
     display: ${props =>
       props.windowHeight > 7200 && props.windowHeight < 8200 ? 'flex' : 'none'};
     opacity: ${props =>
-      props.windowHeight >= 7310 && props.windowHeight < 7850 ? 1 : 0};
+      props.windowHeight >= 7410 && props.windowHeight < 7850 ? 1 : 0};
   }
 
   @media screen and (max-width: 960px) {
@@ -121,8 +121,7 @@ const ChallengeItem = styled.div`
 
 function Section5() {
   const windowHeight = useScreenY();
-  const windowHScale = window.innerHeight > 800 ? 600 : 0;
-  console.log(windowHScale);
+  const windowHScale = window.innerHeight > 800 ? 1050 : 0;
   // console.log(windowHeight);
   const ball = useSectionThreeBall();
 
@@ -164,8 +163,8 @@ function Section5() {
           ),
         )}
       </ChallengeContainer>
-      {windowHeight >= 6800 + windowHScale &&
-      windowHeight <= 7200 + windowHScale ? (
+      {windowHeight >= 6500 + windowHScale &&
+      windowHeight <= 6900 + windowHScale ? (
         <Mouse top={7800 + windowHScale} />
       ) : (
         ''
