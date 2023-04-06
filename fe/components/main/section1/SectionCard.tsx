@@ -36,8 +36,8 @@ const Card = styled.span<{ background: string }>`
   }
 
   & span {
-    margin-left: 50px;
-    text-align: @media screen and (max-width: 500px) {
+    text-align: center;
+    @media screen and (max-width: 500px) {
       margin-left: 1rem;
       padding-bottom: 30px;
     }
