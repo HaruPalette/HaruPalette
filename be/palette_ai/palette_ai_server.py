@@ -7,7 +7,7 @@ import torch
 import torchaudio
 from transformers import pipeline
 from pydub import AudioSegment
-import os
+# import os
 from datetime import datetime, timezone, timedelta
 
 # 모델 로드
@@ -68,10 +68,10 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
              }
         )['text']
         logger.info(kortime() + "Prediction: " + prediction)
-        if os.path.exists(weba_file):
-            os.remove(weba_file)
-        if os.path.exists(wav_file):
-            os.remove(wav_file)
+        # if os.path.exists(weba_file):
+        #     os.remove(weba_file)
+        # if os.path.exists(wav_file):
+        #     os.remove(wav_file)
         return palette_ai_pb2.TextResponse(prediction=prediction)
 
     def TextToEmotion(self, request, context):
