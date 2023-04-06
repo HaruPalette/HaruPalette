@@ -5,7 +5,7 @@ import { CardData } from '../../../types/commonTypes';
 const Card = styled.span<{ background: string; windowHeight: number }>`
   display: flex;
   flex-direction: column;
-
+  align-items: center;
   justify-content: space-around;
 
   font-weight: bold;
@@ -38,20 +38,17 @@ const Card = styled.span<{ background: string; windowHeight: number }>`
       }
       return 'rotate(0deg) translateX(0%)';
     }};
-    margin-left: 45px;
 
     @media screen and (max-width: 500px) {
       margin: -0.5rem;
       border-radius: 0.5rem;
       scale: 0.6;
+      padding-top: 10px;
     }
   }
   & span {
-    padding-left: 40px;
-
     @media screen and (max-width: 500px) {
-      margin-left: -1.9rem;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
   }
 
@@ -65,7 +62,7 @@ const Card = styled.span<{ background: string; windowHeight: number }>`
 
   @media screen and (max-width: 500px) {
     font-size: 12px;
-    margin: 1em;
+    margin: 1rem;
     border-radius: 0.5rem;
     scale: 1.2;
   }

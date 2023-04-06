@@ -5,7 +5,7 @@ import { CardData } from '../../../types/commonTypes';
 const Card = styled.span<{ background: string }>`
   display: flex;
   flex-direction: column;
-
+  align-items: center;
   justify-content: space-around;
 
   width: 13vw;
@@ -24,22 +24,17 @@ const Card = styled.span<{ background: string }>`
   background-color: ${props => props.background};
 
   & img {
-    margin-left: 55px;
-
     @media screen and (max-width: 500px) {
-      margin: 0rem;
+      margin: -0.5rem;
       border-radius: 0.5rem;
-      scale: 0.7;
-      margin-top: 20px;
-      padding-right: 15px;
+      scale: 0.6;
+      padding-top: 10px;
     }
   }
 
   & span {
-    text-align: center;
     @media screen and (max-width: 500px) {
-      margin-left: 1rem;
-      padding-bottom: 30px;
+      margin-bottom: 20px;
     }
   }
 
