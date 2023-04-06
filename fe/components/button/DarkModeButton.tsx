@@ -15,6 +15,18 @@ const ThemeButton = styled.button<{ theme: ColorTypes }>`
   height: ${common.fontSize.fs40};
   border-radius: 50%;
   background: ${props => props.theme.background};
+
+  @media all and (max-width: 500px) {
+    width: 2rem;
+    height: 2rem;
+  }
+`;
+
+const ThemeImage = styled(Image)`
+  @media all and (max-width: 500px) {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
 `;
 
 function DarkModeButton() {
@@ -30,7 +42,7 @@ function DarkModeButton() {
   }_theme.svg`;
   return (
     <ThemeButton onClick={handleChangeTheme} theme={theme}>
-      <Image src={img} width={24} height={24} alt="theme" />
+      <ThemeImage src={img} width={24} height={24} alt="theme" />
     </ThemeButton>
   );
 }

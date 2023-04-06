@@ -18,13 +18,12 @@ const ImageContainer = styled.div<{ isDark: boolean }>`
   box-shadow: 0 0.5rem 1rem
     ${props =>
       props.isDark ? 'rgba(255, 255, 255, 0.25)' : 'rgba(0, 0, 0, 0.25)'};
-  overflow: hidden;
 `;
 
 const CalendarContainer = styled(Image)`
   @media screen and (max-width: 500px) {
-    width: 300px;
-    height: 300px;
+    width: 280px;
+    height: 256px;
   }
 `;
 

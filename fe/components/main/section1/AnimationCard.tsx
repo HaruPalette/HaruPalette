@@ -6,7 +6,6 @@ const Card = styled.span<{ background: string; windowHeight: number }>`
   display: flex;
   flex-direction: column;
 
-  align-items: center;
   justify-content: space-around;
 
   font-weight: bold;
@@ -39,9 +38,10 @@ const Card = styled.span<{ background: string; windowHeight: number }>`
       }
       return 'rotate(0deg) translateX(0%)';
     }};
-    & img {
-      /* left: 340px; */
-    }
+    margin-left: 45px;
+  }
+  & span {
+    padding-left: 48px;
   }
 
   @media screen and (max-width: 960px) {
@@ -49,11 +49,13 @@ const Card = styled.span<{ background: string; windowHeight: number }>`
     margin: 0.5rem 0;
     margin-left: 1rem;
     justify-content: space-around;
+    border-radius: 1rem;
   }
 
   @media screen and (max-width: 500px) {
     font-size: 12px;
     margin: 0.5rem;
+    border-radius: 0.5rem;
   }
 `;
 
@@ -64,11 +66,11 @@ function AnimationCard(props: { cardData: CardData; windowHeight: number }) {
       <Image
         className="CardImgDiv"
         src={cardData.image}
-        width={60}
-        height={60}
+        width={90}
+        height={90}
         alt={cardData.script}
       />
-      {cardData.script}
+      <span className="CardText">{cardData.script}</span>
     </Card>
   );
 }

@@ -11,7 +11,7 @@ import { ColorTypes } from '@emotion/react';
 import { useQuery } from 'react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { selectTheme } from '../../store/modules/theme';
-import { useAppSelector } from '../../hooks/reduxHook';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import FriendCard from './FriendCard';
 import { CACHE_TIME, FRIEND, STALE_TIME } from '../../constants/api';
@@ -23,6 +23,7 @@ import {
   FriendsResponse,
 } from '../../types/friendsTypes';
 import { getCookie } from '../../utils/cookie';
+import { setCurrPoint } from '../../store/modules/shop';
 
 // import SwiperCore, { Autoplay, Pagination } from 'swiper';
 
@@ -132,6 +133,7 @@ const PrevIcon = styled(Image)`
 function BuyingBuddy() {
   const isDark = useAppSelector(selectTheme);
   const theme = useTheme();
+  const dispatch = useAppDispatch();
 
   const NextIconImg = `/assets/img/common/${
     isDark ? 'nextBtnDark' : 'nextBtnLight'
@@ -145,6 +147,9 @@ function BuyingBuddy() {
     AxiosError<ErrorResponse>,
     FriendsData
   >([FRIEND], () => useGetFriends(getCookie('Authorization')), {
+    onSuccess: () => {
+      dispatch(setCurrPoint(query.data?.currentPoint));
+    },
     keepPreviousData: true,
     staleTime: STALE_TIME,
     cacheTime: CACHE_TIME,

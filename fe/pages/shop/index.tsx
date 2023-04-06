@@ -27,6 +27,7 @@ import { getCookie } from '../../utils/cookie';
 import { PointData, PointResponse } from '../../types/usersTypes';
 import { useGetUsersPoints } from '../../apis/users';
 import { useDate } from '../../hooks/useDate';
+import { changeLinkSuccess } from '../../store/modules/menu';
 
 const ShopPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -39,7 +40,6 @@ const ShopPage = styled.div<{ theme: ColorTypes }>`
 const DiaryStyles = styled.div<{ theme: ColorTypes }>`
   width: calc(100vw - 320px);
   height: calc(100vh);
-  /* margin: 0 160px; */
   padding-top: 5.5rem;
   display: flex;
   align-items: center;
@@ -64,7 +64,6 @@ const DiaryStyles = styled.div<{ theme: ColorTypes }>`
 const LeftDiv = styled.div`
   width: 40vw;
   height: 100%;
-  /* border: 3px solid green; */
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -91,7 +90,6 @@ const LeftDiv = styled.div`
 const RightDiv = styled.div`
   width: 60vw;
   height: 100%;
-  /* border: 3px solid tomato; */
   display: flex;
   justify-content: space-around;
   flex-direction: column;
@@ -118,6 +116,13 @@ const ContentDiv = styled.div<{ theme: ColorTypes }>`
   margin-top: 40px;
   margin-bottom: 40px;
   color: ${props => props.theme.color};
+  @media all and (min-height: 800px) {
+    margin-top: 0px;
+  }
+
+  @media all and (max-width: 500px) {
+    height: auto;
+  }
 `;
 
 const BlurBg = styled.div`
@@ -143,7 +148,6 @@ function Shop() {
   const filterMonthData = useAppSelector(selectShop).filterMonth;
   const currPointData = useAppSelector(selectShop).currPoint;
 
-  // const category = SHOP_FILTER_CATORIGY_LIST[currFilterCategoryIdxData].etitle;
   const date = filterMonthData > 9 ? filterMonthData : `0${filterMonthData}`;
   const calender = `${filterYearData}-${date}`;
 
@@ -152,17 +156,8 @@ function Shop() {
     dispatch(setFilterYear(useDate().year));
     dispatch(setFilterMonth(useDate().month));
     dispatch(setFilterCategory(0));
+    dispatch(changeLinkSuccess('/shop'));
   }, []);
-
-  // const { data } = useQuery<
-  //   AxiosResponse<FriendsResponse>,
-  //   AxiosError<ErrorResponse>,
-  //   FriendsData
-  // >([FRIEND], () => useGetFriends(getCookie('Authorization')), {
-  //   keepPreviousData: true,
-  //   staleTime: STALE_TIME,
-  //   cacheTime: CACHE_TIME,
-  // });
 
   const [category, setCategory] = useState('all');
   const query = useQuery<
@@ -185,8 +180,13 @@ function Shop() {
     setTimeout(() => {
       query.refetch();
     }, 500);
-  }, [filterYearData, currPointData, currFilterCategoryIdxData]);
-  // dispatch(setCurrPoint(data?.currentPoint));
+  }, [
+    filterYearData,
+    filterMonthData,
+    currPointData,
+    currFilterCategoryIdxData,
+    currCharName,
+  ]);
 
   return (
     <ShopPage theme={theme}>
