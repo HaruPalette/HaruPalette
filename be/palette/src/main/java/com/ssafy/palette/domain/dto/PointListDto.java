@@ -25,6 +25,7 @@ public class PointListDto {
 	@NoArgsConstructor
 	public static class PointDto {
 		private int point;
+		private int prevPoint;
 		private LocalDate date;
 		private String contents;
 		private String type;
