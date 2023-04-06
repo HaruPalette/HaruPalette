@@ -84,8 +84,8 @@ public class FriendService {
 			.build();
 		userFriendRepository.save(userFriend);
 
-		pointService.usePoint(userId, friend.getPrice());
 		pointService.addFriendHistory(userId, friendId, date);
+		pointService.usePoint(userId, friend.getPrice());
 
 		return user.getPoint();
 	}
