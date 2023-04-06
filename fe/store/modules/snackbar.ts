@@ -18,7 +18,7 @@ const snackbarSlice = createSlice({
   initialState,
   reducers: {
     openSnackBarSuccess(state, action) {
-      console.log(action);
+      // console.log(action);
       const temp = state;
       temp.message = action.payload;
       temp.isActive = true;
