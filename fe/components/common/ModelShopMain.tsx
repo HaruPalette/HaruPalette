@@ -17,6 +17,7 @@ function Model(props: any) {
   let cameraPrev: any;
   let scenePrev: any;
   const windowWidth = window.innerWidth;
+  console.log(windowWidth);
   // let texture: any;
   // let framebuffer: any;
 
@@ -39,8 +40,8 @@ function Model(props: any) {
 
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      renderer.setPixelRatio(window.devicePixelRatio);
-      if (sizes.width > 500) {
+      // renderer.setPixelRatio(window.devicePixelRatio);
+      if (sizes.width >= 500) {
         renderer.setSize(486, 400);
       } else {
         renderer.setSize(375, 308);
@@ -120,7 +121,7 @@ function Model(props: any) {
         // rendererPrev.setPixelRatio(window.devicePixelRatio);
         // if (sizes.width === width) {
         cameraPrev.aspect = 1.415; // canvas비율을 카메라에 적용
-        if (sizes.width > 500) {
+        if (sizes.width >= 500) {
           rendererPrev.setSize(486, 400, true);
         } else {
           rendererPrev.setSize(375, 308, true);
@@ -208,7 +209,7 @@ function Model(props: any) {
     <CustomDiv
       className="canva"
       ref={refDiv}
-      windowWidth={windowWidth > 500 ? 486 : 375}
+      windowWidth={windowWidth >= 500 ? 486 : 375}
     />
   );
 }
