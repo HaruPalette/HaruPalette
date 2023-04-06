@@ -17,7 +17,7 @@ import { usePostDiaries } from '../../apis/diaries';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectWeather } from '../../store/modules/weather';
 import { selectScript } from '../../store/modules/script';
-import { selectProfile } from '../../store/modules/profile';
+import { selectProfile, setIsToday } from '../../store/modules/profile';
 import {
   changeImageSuccess,
   resetImageSuccess,
@@ -183,7 +183,7 @@ const UserSticker = styled(Image)`
 `;
 
 function Diary(props: {
-  diary: DiaryData;
+  diary: DiaryData | undefined;
   type: string;
   save: boolean;
   share: boolean;
@@ -214,6 +214,9 @@ function Diary(props: {
     if (type === 'modify') {
       event.preventDefault();
       const newfile = event.dataTransfer.files?.[0];
+      const fileSizeInBytes = newfile.size;
+      const fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
+      console.log(fileSizeInMegabytes);
       const newImage = URL.createObjectURL(newfile);
       dispatch(changeImageSuccess({ image: newImage, file: newfile }));
     }
@@ -251,7 +254,10 @@ function Diary(props: {
       window.confirm('지금까지의 내용을 바탕으로\n 일기를 작성하시겠습니까 ?')
     ) {
       mutation.mutate();
-      window.location.href = '/calendar';
+      dispatch(setIsToday(true));
+      setTimeout(() => {
+        window.location.href = '/calendar';
+      }, 400);
     }
   };
 
@@ -295,6 +301,8 @@ function Diary(props: {
     }
   }, []);
 
+  const url = diary?.image ? diary?.image : '';
+
   return (
     <DetailStyles ref={diaryRef} theme={theme}>
       <DiaryLine theme={theme}>
@@ -321,7 +329,7 @@ function Diary(props: {
                   클릭
                 </InfoText>
                 <Dimmed />
-                <DiaryImage url={image === '' ? diary.image : image} />
+                <DiaryImage url={image === '' ? url : image} />
               </label>
               <CustomButton
                 type="button"
@@ -335,7 +343,7 @@ function Diary(props: {
             </>
           ) : (
             <DiaryImage
-              url={diary?.image}
+              url={diary?.image ? diary?.image : ''}
               onClick={() => {
                 window.open(diary?.image);
               }}
