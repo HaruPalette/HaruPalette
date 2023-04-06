@@ -8,6 +8,9 @@ import useTheme from '../../hooks/useTheme';
 import { common } from '../../styles/theme';
 import { ErrorResponse } from '../../types/commonTypes';
 import { usePatchDiaries } from '../../apis/diaries';
+import { useDate } from '../../hooks/useDate';
+import { useAppDispatch } from '../../hooks/reduxHook';
+import { setIsToday } from '../../store/modules/profile';
 
 const DeleteButtonStyles = styled.button<{ theme: ColorTypes }>`
   width: 15rem;
@@ -29,19 +32,25 @@ const DeleteImg = styled(Image)`
   margin-right: 2.5rem;
 `;
 
-function DeleteButton(props: { diaryId: number }) {
-  const { diaryId } = props;
+function DeleteButton(props: { diaryId: number; date: string | undefined }) {
+  const { diaryId, date } = props;
   const theme = useTheme();
+  const dispatch = useAppDispatch();
 
   const mutation = useMutation<AxiosResponse<any>, AxiosError<ErrorResponse>>(
     [DIARIES, diaryId],
     usePatchDiaries(diaryId),
   );
+  const today = useDate();
+  const todayData = `${today.year}-${
+    today.month < 10 ? `0${today.month}` : today.month
+  }-${today.date < 10 ? `0${today.date}` : today.date}`;
 
   // 버튼 onClick 시 삭제 axios 호출
   const handleDeleteBtn = () => {
     mutation.mutate();
     if (!mutation.isError) window.location.href = '/calendar';
+    if (date === todayData) dispatch(setIsToday(false));
   };
   return (
     <DeleteButtonStyles type="button" theme={theme} onClick={handleDeleteBtn}>
