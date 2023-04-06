@@ -39,9 +39,19 @@ const Card = styled.span<{ background: string; windowHeight: number }>`
       return 'rotate(0deg) translateX(0%)';
     }};
     margin-left: 45px;
+
+    @media screen and (max-width: 500px) {
+      margin: -0.5rem;
+      border-radius: 0.5rem;
+      scale: 0.6;
+    }
   }
   & span {
     padding-left: 48px;
+    @media screen and (max-width: 500px) {
+      margin-left: -1.9rem;
+      margin-bottom: 10px;
+    }
   }
 
   @media screen and (max-width: 960px) {
@@ -54,8 +64,9 @@ const Card = styled.span<{ background: string; windowHeight: number }>`
 
   @media screen and (max-width: 500px) {
     font-size: 12px;
-    margin: 0.5rem;
+    margin: 1em;
     border-radius: 0.5rem;
+    scale: 1.2;
   }
 `;
 
