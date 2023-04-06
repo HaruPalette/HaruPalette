@@ -53,8 +53,6 @@ function DeleteButton(props: { diaryId: number; date: string | undefined }) {
     today.month < 10 ? `0${today.month}` : today.month
   }-${nowDate}`;
 
-  console.log(todayData);
-
   // 버튼 onClick 시 삭제 axios 호출
   const handleDeleteBtn = () => {
     if (window.confirm('정말 이 행복한 추억을 지울거야 ? 😥')) {
