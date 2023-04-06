@@ -6,7 +6,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const CustomDiv = styled.canvas`
   position: relative;
-  width: 486px;
+  width: 375px;
 `;
 
 function Model(props: any) {
@@ -39,7 +39,12 @@ function Model(props: any) {
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setPixelRatio(window.devicePixelRatio);
-      renderer.setSize(486, 400);
+      if (sizes.width > 500) {
+        renderer.setSize(486, 400);
+      } else {
+        renderer.setSize(375, 308);
+      }
+
       rendererPrev = renderer;
 
       const scene = new THREE.Scene();
@@ -114,7 +119,12 @@ function Model(props: any) {
         // rendererPrev.setPixelRatio(window.devicePixelRatio);
         // if (sizes.width === width) {
         cameraPrev.aspect = 1.415; // canvas비율을 카메라에 적용
-        rendererPrev.setSize(486, 400, true);
+        if (sizes.width > 500) {
+          rendererPrev.setSize(486, 400, true);
+        } else {
+          renderer.setSize(375, 308);
+          rendererPrev.setSize(375, 308, true);
+        }
 
         // cameraPrev.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
         // controls.reset();

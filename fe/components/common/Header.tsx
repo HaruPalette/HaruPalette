@@ -14,7 +14,6 @@ import { selectMenu } from '../../store/modules/menu';
 import { logoutSuccess, selectProfile } from '../../store/modules/profile';
 import { selectTheme } from '../../store/modules/theme';
 import { openSnackBarSuccess } from '../../store/modules/snackbar';
-import MusicButton from '../button/MusicButton';
 
 const HaruHeader = styled.header<{
   theme: ColorTypes;
@@ -129,7 +128,6 @@ function Header() {
           </CenterContainer>
 
           <RightContainer>
-            <MusicButton />
             <DarkModeButton />
             {!profile.isLogin && <LoginButton />}
             {profile.isLogin && (
