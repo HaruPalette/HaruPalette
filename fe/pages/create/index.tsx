@@ -30,6 +30,7 @@ import {
 import useWeather from '../../hooks/useWeather';
 import { ErrorResponse } from '../../types/commonTypes';
 import { usePostDiariesScript } from '../../apis/diaries';
+import { changeLinkSuccess } from '../../store/modules/menu';
 
 const CreatePage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -92,9 +93,14 @@ function Create() {
 
   useEffect(() => {
     dispatch(resetScriptIndexSuccess());
+    navigator.mediaDevices.getUserMedia({ audio: true });
     return () => {
       audioRecorder.forceQuit();
     };
+  }, []);
+
+  useEffect(() => {
+    dispatch(changeLinkSuccess('/create'));
   }, []);
 
   return (

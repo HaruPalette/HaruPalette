@@ -35,6 +35,7 @@ const SectionText = styled.h1<{ windowHeight: number }>`
   text-align: start;
   flex-direction: column;
   justify-content: center;
+  color: #ffffff;
 
   z-index: 2;
 

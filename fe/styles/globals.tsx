@@ -57,6 +57,10 @@ const style = () => css`
   a {
     text-decoration: none;
   }
+
+  canvas {
+    width: 100%;
+  }
 `;
 
 function GlobalStyle() {

@@ -2,6 +2,7 @@ export interface UserData {
   image: string;
   friendEname: string;
   friendId: number;
+  isToday: boolean;
 }
 
 export interface ChallengeList {

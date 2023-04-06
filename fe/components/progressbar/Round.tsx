@@ -28,15 +28,7 @@ const Container = styled.div`
   position: relative;
   width: 240px;
   height: 240px;
-  /* 반응형에 따라 스케일 바꾸기 */
-  /* transform: scale(0.75); */
-  /* @media all and (max-width: 1400px) {
-    width: 216px;
-    height: 216px;
-    /* scale: 0.9; */
-  @media all and (max-width: 560px) {
-    margin: 30px 0;
-  }
+
   @media all and (max-width: 560px) {
     margin: 30px 0;
   }
@@ -82,7 +74,7 @@ const ProgressBar2 = styled.circle<{
     if (props.primary === 'primary80') return props.theme.primary80;
     return props.theme.primary20;
   }};
-  animation: ${props => animation(props.percent)} 2s linear;
+  animation: ${props => animation(props.percent)} 1s linear;
 `;
 
 const ProgressBar3 = styled.div`
@@ -94,6 +86,8 @@ const ProgressBar3 = styled.div`
   top: -247px;
   left: 0;
   z-index: 9;
+  opacity: 0;
+  transition: all 0.4s;
 `;
 
 const Stamp = styled(Image)`
@@ -101,12 +95,12 @@ const Stamp = styled(Image)`
   top: -400px;
   left: 130px;
   z-index: 99;
-  display: none;
+  opacity: 0;
+  transition: all 1s;
 `;
 
 const Diary = styled(Image)`
   position: absolute;
-  /* top: 0으로 바꿔야 함 */
   top: 0;
   left: 0;
   width: 100%;
@@ -146,17 +140,18 @@ function Round(props: { data: DiaryProps }) {
   const diary = `/assets/img/${chr.chrName}/${primary}_diary.svg`;
   // 과제 내용 및 현황
   const content = data.desc;
-  //   const AnimatedNumbers = dynamic(() => import('react-animated-numbers'), {
-  //     ssr: false,
-  //   });
   const stampRef = useRef<HTMLImageElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setTimeout(() => {
       if (stampRef.current) {
-        stampRef.current.style.display = 'block';
+        stampRef.current.style.opacity = '1';
       }
-    }, 2000);
+      if (divRef.current) {
+        divRef.current.style.opacity = '1';
+      }
+    }, 1000);
   }, []);
 
   return (
@@ -181,7 +176,7 @@ function Round(props: { data: DiaryProps }) {
           {data.allCnt}
         </Percent>
       </Challenge>
-      {percent >= 100 && <ProgressBar3 />}
+      {percent >= 100 && <ProgressBar3 ref={divRef} />}
       {percent >= 100 && (
         <Stamp
           src={`/assets/img/${chr.chrName}/stamp.svg`}
