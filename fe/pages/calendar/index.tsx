@@ -183,7 +183,6 @@ function Diary() {
   const theme = useTheme();
   const [year, setYear] = useState(nowYear);
   const [month, setMonth] = useState(nowMonth);
-  const [today, setToday] = useState(false);
   const [diaryId, setDiaryId] = useState(0);
   const ball = useBall();
   const dispatch = useAppDispatch();
@@ -208,17 +207,12 @@ function Diary() {
               setMonth={setMonth}
               month={month}
             />
-            <Calendar
-              year={year}
-              month={month}
-              setToday={setToday}
-              setDiaryId={setDiaryId}
-            />
+            <Calendar year={year} month={month} setDiaryId={setDiaryId} />
             <Palette />
           </Section>
           <Section>
             <Challenge />
-            <CreateButton today={today} diaryId={diaryId} />
+            <CreateButton diaryId={diaryId} />
             {!isLoading && Boolean(data) && (
               <Remind
                 theme={theme}

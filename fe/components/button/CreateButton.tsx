@@ -1,7 +1,6 @@
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useAppSelector } from '../../hooks/reduxHook';
 import useTheme from '../../hooks/useTheme';
 import { selectProfile } from '../../store/modules/profile';
@@ -31,13 +30,15 @@ const ButtonStyles = styled.button<{ theme: ColorTypes }>`
   }
 `;
 
-function CreateButton(props: { today: boolean; diaryId: number }) {
-  const { today, diaryId } = props;
+function CreateButton(props: { diaryId: number }) {
+  const { diaryId } = props;
   const theme = useTheme();
   const chr = useAppSelector(selectProfile);
   const icon = `/assets/img/${chr.chrName}/2d.svg`;
+  const today = useAppSelector(selectProfile).isToday;
+
   return (
-    <Link href="/create">
+    <>
       {!today && (
         <ButtonStyles
           type="button"
@@ -62,7 +63,7 @@ function CreateButton(props: { today: boolean; diaryId: number }) {
           <Image src={icon} width={72} height={60} alt="2d" />
         </ButtonStyles>
       )}
-    </Link>
+    </>
   );
 }
 
