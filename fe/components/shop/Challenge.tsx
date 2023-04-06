@@ -37,7 +37,7 @@ const Container = styled.div`
   }
   @media all and (max-width: 1000px) {
     margin-bottom: 100px;
-    margin-top: 110px;
+    margin-top: 170px;
     width: 60vw;
   }
   @media all and (max-width: 840px) {

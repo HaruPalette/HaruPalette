@@ -134,6 +134,7 @@ const DesktopText = styled.h1<{ windowHeight: number }>`
       props.windowHeight >= 2200 && props.windowHeight < 3700
         ? 'flex'
         : 'none'};
+    color: black;
   }
 `;
 
@@ -163,6 +164,7 @@ const TabletText = styled.h1<{ windowHeight: number }>`
       props.windowHeight >= 2200 && props.windowHeight < 3700
         ? 'flex'
         : 'none'};
+    color: black;
   }
 `;
 
@@ -192,6 +194,7 @@ const MobileText = styled.h1<{ windowHeight: number }>`
       props.windowHeight >= 2200 && props.windowHeight < 3700
         ? 'flex'
         : 'none'};
+    color: black;
   }
 `;
 

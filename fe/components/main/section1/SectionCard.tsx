@@ -25,10 +25,22 @@ const Card = styled.span<{ background: string }>`
 
   & img {
     margin-left: 55px;
+
+    @media screen and (max-width: 500px) {
+      margin: 0rem;
+      border-radius: 0.5rem;
+      scale: 0.7;
+      margin-top: 20px;
+      padding-right: 15px;
+    }
   }
 
   & span {
     margin-left: 50px;
+    text-align: @media screen and (max-width: 500px) {
+      margin-left: 1rem;
+      padding-bottom: 30px;
+    }
   }
 
   @media screen and (max-width: 960px) {
@@ -41,8 +53,9 @@ const Card = styled.span<{ background: string }>`
 
   @media screen and (max-width: 500px) {
     font-size: 12px;
-    margin: 0.5rem;
+    margin: 1rem;
     border-radius: 0.5rem;
+    scale: 1.2;
   }
 `;
 
