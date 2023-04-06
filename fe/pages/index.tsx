@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { ColorTypes } from '@emotion/react';
+import { useEffect } from 'react';
 import Header from '../components/common/Header';
 import Footer from '../components/common/Footer';
 import ScrollToTopButton from '../components/button/ScrollToTopButton';
@@ -14,6 +15,8 @@ import Section5 from '../components/main/section5/Section5';
 import Section6 from '../components/main/section6/Section6';
 import Section7 from '../components/main/section7/Section7';
 import Snackbar from '../components/common/Snackbar';
+import { useAppDispatch } from '../hooks/reduxHook';
+import { changeLinkSuccess } from '../store/modules/menu';
 // import Section2 from '../components/main/section2/Section2';
 
 const HomePage = styled.div<{ theme: ColorTypes }>`
@@ -38,6 +41,11 @@ const MainContainer = styled.main<{ theme: ColorTypes }>`
 
 export default function Home() {
   const theme = useTheme();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(changeLinkSuccess('/'));
+  }, []);
 
   return (
     <HomePage theme={theme}>
