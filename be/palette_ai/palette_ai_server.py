@@ -7,7 +7,7 @@ import torch
 import torchaudio
 from transformers import pipeline
 from pydub import AudioSegment
-# import os
+import os
 from datetime import datetime, timezone, timedelta
 
 # 모델 로드
@@ -49,11 +49,11 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
 
     def SpeechToText(self, request, context):
         audio_data = request.audio
-        weba_file = "audio.webm"
-        wav_file = "audio.wav"
-        with open(weba_file, 'wb') as f:
+        webm_file = datetime.now().strftime("%Y%m%d%H%M%S") + ".webm"
+        wav_file = datetime.now().strftime("%Y%m%d%H%M%S") + ".wav"
+        with open(webm_file, 'wb') as f:
             f.write(audio_data)
-        sound = AudioSegment.from_file(weba_file, format="webm")
+        sound = AudioSegment.from_file(webm_file, format="webm")
         sound.export(wav_file, format="wav", parameters=['-ar', '16000'])
         audio_input, _ = torchaudio.load(wav_file)
         logger.info(kortime() + "Audio file loaded")
@@ -68,10 +68,10 @@ class PaletteAI(palette_ai_pb2_grpc.PaletteAIServicer):
              }
         )['text']
         logger.info(kortime() + "Prediction: " + prediction)
-        # if os.path.exists(weba_file):
-        #     os.remove(weba_file)
-        # if os.path.exists(wav_file):
-        #     os.remove(wav_file)
+        if os.path.exists(webm_file):
+            os.remove(webm_file)
+        if os.path.exists(wav_file):
+            os.remove(wav_file)
         return palette_ai_pb2.TextResponse(prediction=prediction)
 
     def TextToEmotion(self, request, context):
@@ -97,7 +97,7 @@ def serve():
     # 병렬 처리
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=None))
     palette_ai_pb2_grpc.add_PaletteAIServicer_to_server(PaletteAI(), server)
-    # 포트번호
+    # 포트 번호
     port = '50051'
     server.add_insecure_port('[::]:' + port)
     server.start()
