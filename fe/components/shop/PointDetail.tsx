@@ -7,50 +7,6 @@ import { selectTheme } from '../../store/modules/theme';
 import { selectShop, setOpenFilterModal } from '../../store/modules/shop';
 import { SHOP_FILTER_CATORIGY_LIST } from '../../constants/nav';
 import { common } from '../../styles/theme';
-// interface IDummy {
-//   imgSrc: string;
-//   title: string;
-//   addPoint: number;
-//   date: string;
-//   index: number;
-// }
-// const dummy: IDummy[] = [
-//   {
-//     imgSrc: '/assets/img/common/coin.svg',
-//     title: '하루 친구비',
-//     addPoint: -30,
-//     date: '2023.03.12',
-//     index: 0,
-//   },
-//   {
-//     imgSrc: '/assets/img/common/coin.svg',
-//     title: '한달 과제 달성',
-//     addPoint: +130,
-//     date: '2023.03.11',
-//     index: 1,
-//   },
-//   {
-//     imgSrc: '/assets/img/common/coin.svg',
-//     title: '주 7회 과제 달성',
-//     addPoint: +30,
-//     date: '2023.03.10',
-//     index: 2,
-//   },
-//   {
-//     imgSrc: '/assets/img/common/coin.svg',
-//     title: '고미 친구비',
-//     addPoint: -30,
-//     date: '2023.03.09',
-//     index: 3,
-//   },
-//   {
-//     imgSrc: '/assets/img/common/coin.svg',
-//     title: '고미 친구비',
-//     addPoint: -30,
-//     date: '2023.03.08',
-//     index: 4,
-//   },
-// ];
 
 export interface PointProps {
   point: number;
@@ -257,17 +213,7 @@ function PointDetail(props: { data: any }) {
   const img = `/assets/img/common/filter${isDark ? 'Dark' : 'Light'}.svg`;
   const pData: any = data?.pointList;
 
-  // if (currFilterCategoryIdxData === 1) {
-  //   pData = pData?.filter((el: any) => {
-  //     return el.point > 0;
-  //   });
-  // }
-  // if (currFilterCategoryIdxData === 2) {
-  //   pData = pData?.filter((el: any) => {
-  //     return el.point < 0;
-  //   });
-  // }
-  console.log(pData);
+  // console.log(pData);
 
   const tmp = (point: number) => {
     if (point / 1000 > 0) return `00${point % 1000}`;

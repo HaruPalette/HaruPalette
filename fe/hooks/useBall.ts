@@ -136,3 +136,48 @@ export function useSectionTwoBall() {
   });
   return ballData;
 }
+
+export function useSectionThreeBall() {
+  const ballData: BallData[] = [];
+  ballData.push({
+    width: '28rem',
+    height: '28rem',
+    top: '10rem',
+    left: '00rem',
+    color: '#234d20',
+    opacity: 0.8,
+    delay: 2,
+    start: 0.1,
+  });
+  ballData.push({
+    width: '30rem',
+    height: '30rem',
+    top: '40rem',
+    left: '10rem',
+    color: '#77ab59',
+    opacity: 0.6,
+    delay: 3,
+    start: 0.1,
+  });
+  ballData.push({
+    width: '36rem',
+    height: '36rem',
+    top: '45rem',
+    left: '70rem',
+    color: '#c9df8a',
+    opacity: 0.8,
+    delay: 4,
+    start: 0.1,
+  });
+  ballData.push({
+    width: '25rem',
+    height: '25rem',
+    top: '5rem',
+    left: '55rem',
+    color: '#f0f7da',
+    opacity: 0.8,
+    delay: 2,
+    start: 0,
+  });
+  return ballData;
+}
