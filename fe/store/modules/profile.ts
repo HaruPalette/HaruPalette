@@ -8,6 +8,7 @@ export interface profileSlice {
   mainChrName: string;
   chrPK: number;
   isLogin: boolean;
+  isToday: boolean;
 }
 
 // 초기 상태 정의
@@ -17,6 +18,7 @@ const initialState: profileSlice = {
   mainChrName: 'haru',
   chrPK: 1,
   isLogin: false,
+  isToday: false,
 };
 
 const profileSlice = createSlice({
@@ -29,6 +31,7 @@ const profileSlice = createSlice({
       temp.chrName = action.payload.friendEname;
       temp.chrPK = action.payload.friendId;
       temp.isLogin = true;
+      temp.isToday = action.payload.isToday;
     },
     logoutSuccess(state) {
       const temp = state;
@@ -36,6 +39,7 @@ const profileSlice = createSlice({
       temp.chrName = 'haru';
       temp.chrPK = 1;
       temp.isLogin = false;
+      temp.isToday = false;
     },
     setCharName(state, action) {
       const temp = state;

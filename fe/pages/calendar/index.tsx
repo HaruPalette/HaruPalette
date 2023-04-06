@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ColorTypes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
@@ -29,6 +29,8 @@ import { getCookie } from '../../utils/cookie';
 import { useGetDiariesCalendars } from '../../apis/diaries';
 import { RemindResponse } from '../../types/usersTypes';
 import { useBall } from '../../hooks/useBall';
+import { useAppDispatch } from '../../hooks/reduxHook';
+import { changeLinkSuccess } from '../../store/modules/menu';
 
 export const DiaryPage = styled.div<{ theme: ColorTypes }>`
   width: 100vw;
@@ -184,6 +186,11 @@ function Diary() {
   const [today, setToday] = useState(false);
   const [diaryId, setDiaryId] = useState(0);
   const ball = useBall();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(changeLinkSuccess('/calendar'));
+  }, []);
 
   return (
     <DiaryPage theme={theme}>

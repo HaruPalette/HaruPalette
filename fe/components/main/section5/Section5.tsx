@@ -49,9 +49,9 @@ const SectionText = styled.h1`
 
 const ChallengeContainer = styled.article<{ windowHeight: number }>`
   display: ${props =>
-    props.windowHeight > 6400 && props.windowHeight < 8600 ? 'flex' : 'none'};
+    props.windowHeight > 7000 && props.windowHeight < 8600 ? 'flex' : 'none'};
   opacity: ${props =>
-    props.windowHeight > 7000 && props.windowHeight < 8600 ? 1 : 0};
+    props.windowHeight > 7400 && props.windowHeight < 8200 ? 1 : 0};
   width: 40vw;
   height: 100%;
 
