@@ -7,50 +7,7 @@ import { selectTheme } from '../../store/modules/theme';
 import { selectShop, setOpenFilterModal } from '../../store/modules/shop';
 import { SHOP_FILTER_CATORIGY_LIST } from '../../constants/nav';
 import { common } from '../../styles/theme';
-// interface IDummy {
-//   imgSrc: string;
-//   title: string;
-//   addPoint: number;
-//   date: string;
-//   index: number;
-// }
-// const dummy: IDummy[] = [
-//   {
-//     imgSrc: '/assets/img/common/coin.svg',
-//     title: '하루 친구비',
-//     addPoint: -30,
-//     date: '2023.03.12',
-//     index: 0,
-//   },
-//   {
-//     imgSrc: '/assets/img/common/coin.svg',
-//     title: '한달 과제 달성',
-//     addPoint: +130,
-//     date: '2023.03.11',
-//     index: 1,
-//   },
-//   {
-//     imgSrc: '/assets/img/common/coin.svg',
-//     title: '주 7회 과제 달성',
-//     addPoint: +30,
-//     date: '2023.03.10',
-//     index: 2,
-//   },
-//   {
-//     imgSrc: '/assets/img/common/coin.svg',
-//     title: '고미 친구비',
-//     addPoint: -30,
-//     date: '2023.03.09',
-//     index: 3,
-//   },
-//   {
-//     imgSrc: '/assets/img/common/coin.svg',
-//     title: '고미 친구비',
-//     addPoint: -30,
-//     date: '2023.03.08',
-//     index: 4,
-//   },
-// ];
+import { PointData } from '../../types/usersTypes';
 
 export interface PointProps {
   point: number;
@@ -91,12 +48,10 @@ const LeftContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100px;
-  /* border: 3px solid black; */
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-//
 const FilterDiv = styled.div<{ theme: ColorTypes }>`
   position: relative;
   width: 350px;
@@ -141,8 +96,7 @@ const MiddleContainer = styled.div<{ theme: ColorTypes }>`
   &::-webkit-scrollbar {
     width: 10px;
     border-radius: 6px;
-    background: ${props => props.theme.primary20};
-    /* background-color: white; */
+    background: ${props => props.theme.sub};
   }
   overflow-x: hidden;
   &::-webkit-scrollbar-thumb {
@@ -178,9 +132,6 @@ const DummyImgDiv = styled.div<{ theme: ColorTypes }>`
 const DummyImg = styled(Image)<{ theme: ColorTypes }>`
   width: 40px;
   height: 40px;
-  /* background: ${props => props.theme.primary20}; */
-  /* box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25); */
-  /* border-radius: 30px; */
 `;
 const DummyTitle = styled.span<{ theme: ColorTypes }>`
   position: absolute;
@@ -192,9 +143,6 @@ const DummyTitle = styled.span<{ theme: ColorTypes }>`
   line-height: 0px;
   font-weight: 600;
   text-align: left;
-  &:hover {
-    /* color: ${props => props.theme.border}; */
-  }
 `;
 const DummyAddPointPlus = styled.span`
   position: absolute;
@@ -243,43 +191,23 @@ const DummySumPoint = styled.span`
   text-align: right;
 `;
 
-function PointDetail(props: { data: any }) {
+function PointDetail(props: { data: PointData | undefined }) {
   const { data } = props;
   const theme = useTheme();
   const dispatch = useAppDispatch();
-  let getTotalPoint = 0;
   const isDark = useAppSelector(selectTheme);
   const currFilterCategoryIdxData =
     useAppSelector(selectShop).currFilterCategoryIdx;
   const openFilterModalData = useAppSelector(selectShop).openFilterModal;
   const filterYearData = useAppSelector(selectShop).filterYear;
   const filterMonthData = useAppSelector(selectShop).filterMonth;
+  let getTotalPoint = data?.currentPoint ? data.currentPoint : 0;
   const img = `/assets/img/common/filter${isDark ? 'Dark' : 'Light'}.svg`;
   const pData: any = data?.pointList;
 
-  // if (currFilterCategoryIdxData === 1) {
-  //   pData = pData?.filter((el: any) => {
-  //     return el.point > 0;
-  //   });
-  // }
-  // if (currFilterCategoryIdxData === 2) {
-  //   pData = pData?.filter((el: any) => {
-  //     return el.point < 0;
-  //   });
-  // }
-  console.log(pData);
-
-  const tmp = (point: number) => {
-    if (point / 1000 > 0) return `00${point % 1000}`;
-    if (point / 100 > 0) return `0${point}`;
-    return `00${point}`;
-  };
   const calcPoint = (point: number) => {
-    getTotalPoint += point;
-
-    return getTotalPoint >= 1000
-      ? `${Math.floor(getTotalPoint / 1000)},${tmp(getTotalPoint)}`
-      : getTotalPoint;
+    getTotalPoint += point * -1;
+    return getTotalPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
   const renderRound = () => {
@@ -305,18 +233,11 @@ function PointDetail(props: { data: any }) {
           <DummyTitle theme={theme}>{el.contents}</DummyTitle>
           {el.point > 0 ? (
             <DummyAddPointPlus>
-              +
-              {el.point > 1000
-                ? `${Math.floor(el.point / 1000)},${el.point % 1000}`
-                : `${el.point} `}
-              P
+              +{el.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}P
             </DummyAddPointPlus>
           ) : (
             <DummyAddPointMinus>
-              {el.point > 1000
-                ? `${Math.floor(el.point / 1000)},${el.point % 1000}`
-                : `${el.point} `}
-              P
+              {el.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}P
             </DummyAddPointMinus>
           )}
           <DummyDate>{el.date}</DummyDate>

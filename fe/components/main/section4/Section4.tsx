@@ -34,7 +34,12 @@ const SectionText = styled.h1<{ theme: ColorTypes }>`
   top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 5vw;
+  font-size: 3.8vw;
+  color: ${props => props.theme.primary40};
+
+  @media screen and (min-height: 800px) {
+    font-size: 4.5vw;
+  }
 
   @media screen and (max-width: 500px) {
     width: 100%;
