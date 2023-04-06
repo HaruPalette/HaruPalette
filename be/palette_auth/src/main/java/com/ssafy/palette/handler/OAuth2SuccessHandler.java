@@ -37,7 +37,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 	private final UserClient userClient;
 
 	// 로그인 성공 후 리다이렉트할 프론트 페이지 URL
-	private String redirectUrl = "http://localhost:3000/login";
+	private String redirectUrl = "https://harupalette.com/login";
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
