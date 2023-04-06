@@ -12,12 +12,12 @@ const useCard = () => {
     },
     {
       image: '/assets/img/common/card2.svg',
-      script: '감정 달력',
+      script: '위로 한마디',
       backgroundColor: '#FFF6E9',
     },
     {
       image: '/assets/img/common/card3.svg',
-      script: '도전 과제',
+      script: '일기 꾸미기',
       backgroundColor: '#F62F5F',
     },
     {

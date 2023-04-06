@@ -209,8 +209,7 @@ function PointDetail(props: { data: any }) {
   const openFilterModalData = useAppSelector(selectShop).openFilterModal;
   const filterYearData = useAppSelector(selectShop).filterYear;
   const filterMonthData = useAppSelector(selectShop).filterMonth;
-  let getTotalPoint = data.currentPoint;
-  console.log(getTotalPoint);
+  let getTotalPoint = 0;
   const img = `/assets/img/common/filter${isDark ? 'Dark' : 'Light'}.svg`;
   const pData: any = data?.pointList;
 

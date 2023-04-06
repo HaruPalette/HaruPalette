@@ -3,6 +3,9 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHook';
 import { changeMainChar, selectProfile } from '../../../store/modules/profile';
 import ModelCreate from '../../common/ModelCreate';
 import ModelShopMain from '../../common/ModelShopMain';
+import JellyList from '../../common/JellyList';
+import { useSectionThreeBall } from '../../../hooks/useBall';
+import useScreenY from '../../../hooks/useScreenY';
 
 const Section = styled.section`
   width: 100vw;
@@ -17,6 +20,23 @@ const Section = styled.section`
   }
 
   @media screen and (max-width: 500px) {
+  }
+`;
+
+const Background = styled.div<{ windowHeight: number }>`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* display: ${props =>
+    props.windowHeight >= 6600 && props.windowHeight < 8600
+      ? 'flex'
+      : 'none'}; */
+
+  @media screen and (min-height: 800px) {
+    display: ${props =>
+      props.windowHeight >= 8400 && props.windowHeight < 8850
+        ? 'flex'
+        : 'none'};
   }
 `;
 
@@ -38,6 +58,8 @@ const ModelButton = styled.button`
 function Section6() {
   const curCharName = useAppSelector(selectProfile).chrName;
   const mainCharName = useAppSelector(selectProfile).mainChrName;
+  const ball = useSectionThreeBall();
+  const windowHeight = useScreenY();
   const dispatch = useAppDispatch();
 
   const handleModelClick = (name: string) => {
@@ -46,6 +68,9 @@ function Section6() {
 
   return (
     <Section>
+      <Background windowHeight={windowHeight}>
+        <JellyList ball={ball} />
+      </Background>
       <ModelShopMain
         data={curCharName !== 'haru' ? curCharName : mainCharName}
       />

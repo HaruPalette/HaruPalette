@@ -3,16 +3,21 @@ import Round from '../../progressbar/Round';
 import useScreenY from '../../../hooks/useScreenY';
 import JellyList from '../../common/JellyList';
 import { useSectionThreeBall } from '../../../hooks/useBall';
+import Mouse from '../Mouse';
 
 const Section = styled.section`
   width: 100vw;
-  height: 200vh;
+  height: 100vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 10rem;
   position: relative;
 
+  @media screen and (max-width: 960px) {
+    padding: 0 1rem;
+    justify-content: space-around;
+  }
   @media screen and (max-width: 500px) {
     flex-direction: column;
     justify-content: start;
@@ -26,10 +31,17 @@ const Background = styled.div<{ windowHeight: number }>`
   top: 50%;
   left: 50%;
   display: ${props =>
-    props.windowHeight >= 7600 && props.windowHeight < 8600 ? 'flex' : 'none'};
+    props.windowHeight >= 6600 && props.windowHeight < 8600 ? 'flex' : 'none'};
+
+  @media screen and (min-height: 800px) {
+    display: ${props =>
+      props.windowHeight >= 7400 && props.windowHeight < 7850
+        ? 'flex'
+        : 'none'};
+  }
 `;
 
-const RightContainer = styled.div`
+const RightContainer = styled.div<{ windowHeight: number }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,6 +51,13 @@ const RightContainer = styled.div`
     color: white;
   }
   z-index: 1;
+
+  @media screen and (min-height: 800px) {
+    display: ${props =>
+      props.windowHeight > 7200 && props.windowHeight < 8200 ? 'flex' : 'none'};
+    opacity: ${props =>
+      props.windowHeight >= 7250 && props.windowHeight < 7850 ? 1 : 0};
+  }
 `;
 
 const SectionText = styled.h1`
@@ -49,15 +68,26 @@ const SectionText = styled.h1`
 
 const ChallengeContainer = styled.article<{ windowHeight: number }>`
   display: ${props =>
-    props.windowHeight > 7000 && props.windowHeight < 8600 ? 'flex' : 'none'};
+    props.windowHeight > 6600 && props.windowHeight < 8600 ? 'flex' : 'none'};
   opacity: ${props =>
-    props.windowHeight > 7400 && props.windowHeight < 8200 ? 1 : 0};
+    props.windowHeight >= 6800 && props.windowHeight < 8400 ? 1 : 0};
   width: 40vw;
   height: 100%;
 
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+
+  @media screen and (min-height: 800px) {
+    display: ${props =>
+      props.windowHeight > 7200 && props.windowHeight < 8200 ? 'flex' : 'none'};
+    opacity: ${props =>
+      props.windowHeight >= 7250 && props.windowHeight < 7850 ? 1 : 0};
+  }
+
+  @media screen and (max-width: 960px) {
+    scale: 0.8;
+  }
 
   @media screen and (max-width: 500px) {
     width: 100%;
@@ -73,6 +103,7 @@ const ChallengeContainer = styled.article<{ windowHeight: number }>`
 `;
 
 const ChallengeItem = styled.div`
+  margin: 0 1rem;
   @media screen and (max-width: 500px) {
     scale: 0.8;
   }
@@ -102,7 +133,7 @@ function Section5() {
       <Background windowHeight={windowHeight}>
         <JellyList ball={ball} />
       </Background>
-      <RightContainer>
+      <RightContainer windowHeight={windowHeight}>
         <SectionText>챌린지 달성</SectionText>
         <p>
           꾸준한 일기 작성 통해 의지를 올려보고!
@@ -112,7 +143,7 @@ function Section5() {
       </RightContainer>
       <ChallengeContainer windowHeight={windowHeight}>
         {ROUND_DATA.map(data =>
-          windowHeight >= 6500 && windowHeight < 8400 ? (
+          windowHeight >= 5900 && windowHeight < 8400 ? (
             <ChallengeItem key={data.allCnt}>
               <Round data={data} />
             </ChallengeItem>
@@ -121,6 +152,7 @@ function Section5() {
           ),
         )}
       </ChallengeContainer>
+      {windowHeight < 6850 ? <div /> : <Mouse top={8400} />}
     </Section>
   );
 }
