@@ -255,7 +255,7 @@ function FriendCard(props: {
     } else {
       // alert 띄우고 확인 시
       const isConfirm = window.confirm(
-        `${friend.kname}와 친구를 맺으시겠어요?\n${friend.price}가 포인트에서 차감됩니다.`,
+        `${friend.kname}와 친구를 맺으시겠어요?\n${friend.price}포인트가 차감됩니다.`,
       );
       if (isConfirm) {
         // store에 포인트 저장해 놓고, 가져와야 함

@@ -16,9 +16,11 @@ const Section = styled.section`
   position: relative;
 
   transition: font-size 0s ease-in-out;
-  @media screen and (max-width: 500px) {
-  }
+
   @media screen and (max-width: 960px) {
+    justify-content: space-around;
+    align-items: center;
+    padding: 0;
   }
 
   @media screen and (max-width: 500px) {
@@ -65,15 +67,25 @@ const RightContainer = styled.div<{ windowHeight: number }>`
     opacity: ${props =>
       props.windowHeight >= 8800 && props.windowHeight < 9250 ? 1 : 0};
   }
+
+  @media screen and (max-width: 501px) {
+    top: 0px;
+  }
 `;
 
 const SectionText = styled.h1`
   font-size: 4vw;
   color: white;
+  @media screen and (max-width: 501px) {
+    font-size: 3rem;
+  }
 `;
 
 const SectionTextDesc = styled.span`
   font-size: 16px;
+  @media screen and (max-width: 501px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const Main = styled.div`
@@ -84,14 +96,25 @@ const Main = styled.div`
 
   & span {
     z-index: 2;
-    /* font-weight: bold; */
     color: black;
-    /* padding-top: 40px; */
+
+    @media screen and (max-width: 501px) {
+      text-align: center;
+      align-items: center;
+    }
+  }
+  @media screen and (max-width: 501px) {
+    font-size: 0.8rem;
+    margin-bottom: 550px;
   }
 `;
 
 const MainModel = styled.div`
   margin-bottom: 2rem;
+  @media screen and (max-width: 501px) {
+    font-size: 0.8rem;
+    margin-bottom: 0rem;
+  }
 `;
 
 const FriendList = styled.div`
@@ -100,6 +123,11 @@ const FriendList = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 501px) {
+    padding-bottom: 100px;
+    width: auto;
+    scale: 0.3;
+  }
 `;
 
 const ModelButton = styled.button`
@@ -108,6 +136,10 @@ const ModelButton = styled.button`
 
   @media screen and (min-height: 800px) {
     scale: 0.8;
+  }
+  @media screen and (max-width: 501px) {
+    scale: 1.8;
+    margin: 0 2.5rem;
   }
 `;
 
@@ -135,11 +167,6 @@ function Section6() {
           고양이, 다람쥐, 판다 친구들을 구매해보세요. <br />
           귀여운 친구마다 서로 다른 테마로 변경되는 걸 확인해 보세요!
         </SectionTextDesc>
-        {/* <p>
-          꾸준한 일기 작성 통해 의지를 올려보고!
-          <br />
-          대량의 포인트도 쌓아보고!
-        </p> */}
       </RightContainer>
       <Main>
         <MainModel>

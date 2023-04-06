@@ -22,8 +22,8 @@ const ImageContainer = styled.div<{ isDark: boolean }>`
 
 const CalendarContainer = styled(Image)`
   @media screen and (max-width: 500px) {
-    width: 280px;
-    height: 256px;
+    width: 300px;
+    height: 350px;
   }
 `;
 
