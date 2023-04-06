@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useAppDispatch, useAppSelector } from '../../../hooks/reduxHook';
 import { changeMainChar, selectProfile } from '../../../store/modules/profile';
-import ModelCreate from '../../common/ModelCreate';
+// import ModelCreate from '../../common/ModelCreate';
 import ModelShopMain from '../../common/ModelShopMain';
 import JellyList from '../../common/JellyList';
 import { useSectionThreeBall } from '../../../hooks/useBall';
@@ -27,10 +27,8 @@ const Background = styled.div<{ windowHeight: number }>`
   position: fixed;
   top: 50%;
   left: 50%;
-  /* display: ${props =>
-    props.windowHeight >= 6600 && props.windowHeight < 8600
-      ? 'flex'
-      : 'none'}; */
+  display: ${props =>
+    props.windowHeight >= 7600 && props.windowHeight < 8050 ? 'flex' : 'none'};
 
   @media screen and (min-height: 800px) {
     display: ${props =>
@@ -38,6 +36,12 @@ const Background = styled.div<{ windowHeight: number }>`
         ? 'flex'
         : 'none'};
   }
+`;
+
+const MainModel = styled.div`
+  width: 500px;
+  height: 500px;
+  right: 0px;
 `;
 
 const FriendList = styled.div`
@@ -53,6 +57,11 @@ const ModelButton = styled.button`
   width: 10rem;
   scale: 0.25;
   cursor: pointer;
+  /* margin: 10px; */
+
+  @media screen and (min-height: 800px) {
+    scale: 0.4;
+  }
 `;
 
 function Section6() {
@@ -60,6 +69,8 @@ function Section6() {
   const mainCharName = useAppSelector(selectProfile).mainChrName;
   const ball = useSectionThreeBall();
   const windowHeight = useScreenY();
+  console.log(windowHeight);
+
   const dispatch = useAppDispatch();
 
   const handleModelClick = (name: string) => {
@@ -71,18 +82,20 @@ function Section6() {
       <Background windowHeight={windowHeight}>
         <JellyList ball={ball} />
       </Background>
-      <ModelShopMain
-        data={curCharName !== 'haru' ? curCharName : mainCharName}
-      />
+      <MainModel>
+        <ModelShopMain
+          data={curCharName !== 'haru' ? curCharName : mainCharName}
+        />
+      </MainModel>
       <FriendList>
         <ModelButton type="button" onClick={() => handleModelClick('haru')}>
-          <ModelCreate data="haru" />
+          <ModelShopMain data="haru" />
         </ModelButton>
         <ModelButton type="button" onClick={() => handleModelClick('tori')}>
-          <ModelCreate data="tori" />
+          <ModelShopMain data="tori" />
         </ModelButton>
         <ModelButton type="button" onClick={() => handleModelClick('gomi')}>
-          <ModelCreate data="gomi" />
+          <ModelShopMain data="gomi" />
         </ModelButton>
       </FriendList>
     </Section>
