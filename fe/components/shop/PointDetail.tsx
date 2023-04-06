@@ -201,14 +201,14 @@ function PointDetail(props: { data: PointData | undefined }) {
   const openFilterModalData = useAppSelector(selectShop).openFilterModal;
   const filterYearData = useAppSelector(selectShop).filterYear;
   const filterMonthData = useAppSelector(selectShop).filterMonth;
-  let getTotalPoint = data?.currentPoint ? data.currentPoint : 0;
+  // let getTotalPoint = data?.currentPoint ? data.currentPoint : 0;
   const img = `/assets/img/common/filter${isDark ? 'Dark' : 'Light'}.svg`;
   const pData: any = data?.pointList;
 
-  const calcPoint = (point: number) => {
-    getTotalPoint += point * -1;
-    return getTotalPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  };
+  // const calcPoint = (point: number) => {
+  //   getTotalPoint += point * -1;
+  //   return getTotalPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  // };
 
   const renderRound = () => {
     let idx = -1;
@@ -241,7 +241,7 @@ function PointDetail(props: { data: PointData | undefined }) {
             </DummyAddPointMinus>
           )}
           <DummyDate>{el.date}</DummyDate>
-          <DummySumPoint>{calcPoint(el.point)} P</DummySumPoint>
+          <DummySumPoint>{el.prevPoint} P</DummySumPoint>
         </DummyEls>
       );
     });
