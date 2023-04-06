@@ -111,7 +111,7 @@ const ChallengeItem = styled.div`
 
 function Section5() {
   const windowHeight = useScreenY();
-  console.log(windowHeight);
+  // console.log(windowHeight);
   const ball = useSectionThreeBall();
 
   const ROUND_DATA = [
