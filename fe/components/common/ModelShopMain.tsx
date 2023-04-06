@@ -4,9 +4,9 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-const CustomDiv = styled.canvas`
+const CustomDiv = styled.canvas<{ windowWidth: number }>`
   position: relative;
-  width: 375px;
+  width: ${props => props.windowWidth};
 `;
 
 function Model(props: any) {
@@ -16,6 +16,7 @@ function Model(props: any) {
   let rendererPrev: any;
   let cameraPrev: any;
   let scenePrev: any;
+  const windowWidth = window.innerWidth;
   // let texture: any;
   // let framebuffer: any;
 
@@ -115,14 +116,13 @@ function Model(props: any) {
          */
         // case2: 아이패드
         // case3: 모바일
-        console.log(sizes.width, width);
+        // console.log('sizes.width', sizes.width, width);
         // rendererPrev.setPixelRatio(window.devicePixelRatio);
         // if (sizes.width === width) {
         cameraPrev.aspect = 1.415; // canvas비율을 카메라에 적용
         if (sizes.width > 500) {
           rendererPrev.setSize(486, 400, true);
         } else {
-          renderer.setSize(375, 308);
           rendererPrev.setSize(375, 308, true);
         }
 
@@ -204,6 +204,12 @@ function Model(props: any) {
     }
   }, [refDiv, currModel]);
 
-  return <CustomDiv className="canva" ref={refDiv} />;
+  return (
+    <CustomDiv
+      className="canva"
+      ref={refDiv}
+      windowWidth={windowWidth > 500 ? 486 : 375}
+    />
+  );
 }
 export default Model;
