@@ -270,7 +270,7 @@ function FriendCard(props: {
    * 선택하기: 구매한 캐릭터 선택 시
    */
   const handleCurrFriendShip = () => {
-    const isConfirm = window.confirm(`${friend.kname}을 선택하시겠어요?`);
+    const isConfirm = window.confirm(`${friend.kname}를 선택하시겠어요?`);
     if (isConfirm) {
       mutationCharChoice.mutate();
       dispatch(setCharName(friend.ename));
