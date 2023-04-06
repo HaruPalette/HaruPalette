@@ -9,6 +9,7 @@ import shop from './shop';
 import script from './script';
 import weather from './weather';
 import snackbar from './snackbar';
+import diary from './diary';
 
 const rootReducer = combineReducers({
   theme,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   script,
   weather,
   snackbar,
+  diary,
   // 여기에 추가하세요
 });
 
@@ -32,6 +34,7 @@ const persistConfig = {
     'script',
     'weather',
     'snackbar',
+    'diary',
   ],
 };
 

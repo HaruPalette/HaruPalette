@@ -72,7 +72,9 @@ function ScriptItem(props: { order: number }) {
 
   const handleScript = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const eventTarget = e.target;
-    dispatch(setScript({ index: order, contents: eventTarget.value }));
+    if (eventTarget.value === '') {
+      dispatch(setScript({ index: order, contents: '텍스트를 입력해주세요.' }));
+    } else dispatch(setScript({ index: order, contents: eventTarget.value }));
   };
   return (
     <Container theme={theme}>

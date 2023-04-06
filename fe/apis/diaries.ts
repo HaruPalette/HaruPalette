@@ -64,7 +64,6 @@ export const usePostDiaries = (
 
 /** 일기 수정 조회 */
 export const useGetDiariesScript = (order: number) => {
-  console.log(order);
   //   요청 url
   const queryKey = BASE_URL + SCRIPT;
   //   axios 요청
