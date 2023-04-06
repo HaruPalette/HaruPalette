@@ -117,7 +117,7 @@ const DesktopText = styled.h1<{ windowHeight: number }>`
   top: 50%;
   left: 50%;
   transform: translateY(-50%);
-
+  color: white;
   z-index: 1;
 
   font-size: 5vw;
@@ -148,6 +148,7 @@ const TabletText = styled.h1<{ windowHeight: number }>`
 
   z-index: 1;
 
+  color: white;
   font-size: 5vw;
   opacity: ${props =>
     props.windowHeight >= 2700 && props.windowHeight < 3200 ? 1 : 0};
@@ -176,6 +177,7 @@ const MobileText = styled.h1<{ windowHeight: number }>`
 
   z-index: 1;
 
+  color: white;
   font-size: 5vw;
   opacity: ${props =>
     props.windowHeight >= 3200 && props.windowHeight < 3700 ? 1 : 0};
@@ -249,7 +251,7 @@ function Section2() {
           alt="mobile mockup"
         />
       </MobileMockUp>
-      <MobileText windowHeight={windowHeight}>보다 자유롭게</MobileText>
+      <MobileText windowHeight={windowHeight}>보다 자유롭게!</MobileText>
       {windowHeight >= 2200 && windowHeight < 2700 ? (
         <Mouse top={2700} />
       ) : (
