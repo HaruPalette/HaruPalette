@@ -7,6 +7,7 @@ import useTheme from '../../../hooks/useTheme';
 import EMOJI from '../../../constants/emoji';
 import { useAppSelector } from '../../../hooks/reduxHook';
 import { selectTheme } from '../../../store/modules/theme';
+import Mouse from '../Mouse';
 
 const Section = styled.section<{ windowHeight: number }>`
   display: flex;
@@ -113,6 +114,7 @@ function Section4() {
           <div key={value.idx} />
         ),
       )}
+      {windowHeight < 5100 ? <div /> : <Mouse top={6850} />}
     </Section>
   );
 }

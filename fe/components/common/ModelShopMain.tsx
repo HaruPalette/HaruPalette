@@ -6,7 +6,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const CustomDiv = styled.canvas`
   position: relative;
-  width: 100%;
+  width: 486px;
 `;
 
 function Model(props: any) {
@@ -39,14 +39,8 @@ function Model(props: any) {
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setPixelRatio(window.devicePixelRatio);
-      if (sizes.width >= 500) {
-        renderer.setSize((sizes.width - 320) * 0.4, 400);
-      } else {
-        renderer.setSize(sizes.width, 300);
-      }
+      renderer.setSize(486, 400);
       rendererPrev = renderer;
-      // renderer.dispose();
-      // rendererPrev.dispose();
 
       const scene = new THREE.Scene();
       scene.background = null;
@@ -95,6 +89,7 @@ function Model(props: any) {
       camera.position.z = 2;
       // controls.update();
       cameraPrev = camera;
+
       const controls = new OrbitControls(camera, customdiv);
       // controls.saveState();
       // controls.minDistance = 1.8;
@@ -116,17 +111,11 @@ function Model(props: any) {
         // case2: 아이패드
         // case3: 모바일
         console.log(sizes.width, width);
-        rendererPrev.setPixelRatio(window.devicePixelRatio);
+        // rendererPrev.setPixelRatio(window.devicePixelRatio);
         // if (sizes.width === width) {
-        if (width >= 0) {
-          cameraPrev.aspect = sizes.aspect; // canvas비율을 카메라에 적용
-          rendererPrev.setSize((sizes.width - 320) * 0.4, 400, true);
-        }
+        cameraPrev.aspect = 1.415; // canvas비율을 카메라에 적용
+        rendererPrev.setSize(486, 400, true);
 
-        // else if (width < 1150) {
-        //   // cameraPrev.aspect = width / height; // canvas비율을 카메라에 적용
-        //   rendererPrev.setSize(500, 300, true);
-        // }
         // cameraPrev.updateProjectionMatrix(); // 변경된 값을 카메라에 적용
         // controls.reset();
       };

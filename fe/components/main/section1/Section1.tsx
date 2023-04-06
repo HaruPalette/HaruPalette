@@ -45,6 +45,7 @@ const SectionText = styled.h1<{ windowHeight: number }>`
   @media screen and (max-width: 500px) {
     margin-bottom: 5rem;
     font-size: 2rem;
+    color: black;
   }
 `;
 
@@ -55,6 +56,10 @@ const CardContainer = styled.article<{ windowHeight: number }>`
   z-index: 2;
 
   opacity: ${props => props.windowHeight - 1100};
+
+  /* @media screen and (max-width: 500px) {
+    scale: 0.9;
+  } */
 `;
 
 const Row = styled.article`
@@ -98,7 +103,7 @@ function Section1() {
       <Background windowHeight={windowHeight}>
         <JellyList ball={ball} />
       </Background>
-      {windowHeight > 1800 ? <div /> : <Mouse top={2200} />}
+      {windowHeight > 2000 ? <div /> : <Mouse top={2200} />}
     </Section>
   );
 }
