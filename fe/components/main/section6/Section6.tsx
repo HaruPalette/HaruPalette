@@ -6,7 +6,7 @@ import ModelShopMain from '../../common/ModelShopMain';
 
 const Section = styled.section`
   width: 100vw;
-  height: 100vh;
+  height: 200vh;
   display: flex;
   flex-direction: column;
   position: relative;

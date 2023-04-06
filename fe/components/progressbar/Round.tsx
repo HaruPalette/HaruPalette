@@ -37,9 +37,6 @@ const Container = styled.div`
   @media all and (max-width: 560px) {
     margin: 30px 0;
   }
-  @media all and (max-width: 560px) {
-    margin: 30px 0;
-  }
 `;
 
 const ProgressWrap = styled.svg`
