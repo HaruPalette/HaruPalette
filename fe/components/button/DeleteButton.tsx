@@ -48,9 +48,11 @@ function DeleteButton(props: { diaryId: number; date: string | undefined }) {
 
   // 버튼 onClick 시 삭제 axios 호출
   const handleDeleteBtn = () => {
-    mutation.mutate();
-    if (!mutation.isError) window.location.href = '/calendar';
-    if (date === todayData) dispatch(setIsToday(false));
+    if (window.confirm('정말 이 행복한 추억을 지울거야 ? 😥')) {
+      mutation.mutate();
+      if (!mutation.isError) window.location.href = '/calendar';
+      if (date === todayData) dispatch(setIsToday(false));
+    }
   };
   return (
     <DeleteButtonStyles type="button" theme={theme} onClick={handleDeleteBtn}>
