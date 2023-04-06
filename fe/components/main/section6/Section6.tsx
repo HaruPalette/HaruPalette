@@ -43,16 +43,15 @@ const Main = styled.div`
   justify-content: space-around;
   align-items: center;
   flex-direction: column;
+  padding-top: 550px;
 
   & span {
     z-index: 2;
-    padding-top: 40px;
+    /* padding-top: 40px; */
   }
 `;
 
-const MainModel = styled.div`
-  margin-top: 300px;
-`;
+const MainModel = styled.div``;
 
 const FriendList = styled.div`
   width: 100vw;
@@ -61,7 +60,7 @@ const FriendList = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding-bottom: 600px;
+  padding-bottom: 550px;
   padding-right: 80px;
 `;
 

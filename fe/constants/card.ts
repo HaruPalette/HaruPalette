@@ -6,7 +6,7 @@ const useCard = () => {
 
   const CARD_LIST: CardData[] = [
     {
-      image: '/assets/img/common/card4.svg',
+      image: '/assets/img/common/card1.svg',
       script: '일기 작성',
       backgroundColor: '#FF6F6F',
     },
@@ -21,7 +21,7 @@ const useCard = () => {
       backgroundColor: '#F62F5F',
     },
     {
-      image: '/assets/img/common/card1.svg',
+      image: '/assets/img/common/card4.svg',
       script: '일기 공유',
       backgroundColor: '#FB9A9A',
     },
