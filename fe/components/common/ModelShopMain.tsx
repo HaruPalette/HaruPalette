@@ -6,7 +6,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const CustomDiv = styled.canvas<{ windowWidth: number }>`
   position: relative;
-  width: ${props => props.windowWidth};
+  width: ${props => props.windowWidth}px;
 `;
 
 function Model(props: any) {
@@ -46,7 +46,6 @@ function Model(props: any) {
       } else {
         renderer.setSize(375, 308);
       }
-
       rendererPrev = renderer;
 
       const scene = new THREE.Scene();
@@ -75,7 +74,7 @@ function Model(props: any) {
         }),
       );
 
-      sphereShadow.position.x = 0.1;
+      sphereShadow.position.x = 0.05;
       sphereShadow.position.y = -0.95;
       sphereShadow.rotation.x = -Math.PI * 0.5;
       sphereShadow.scale.set(0.7, 0.7, 0.7);
@@ -197,7 +196,7 @@ function Model(props: any) {
           group.add(temp3.scene);
 
           // scene.add(el.scene);
-          ele.scene.scale.set(0.1, 0.1, 0.1);
+          temp3.scene.scale.set(0.1, 0.1, 0.1);
         },
       );
 
