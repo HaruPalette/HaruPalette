@@ -45,7 +45,7 @@ const SectionText = styled.h1<{ theme: ColorTypes }>`
   @media screen and (max-width: 500px) {
     width: 100%;
     text-align: center;
-    font-size: 2rem;
+    font-size: 3rem;
     top: 30%;
   }
 `;

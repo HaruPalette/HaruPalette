@@ -43,8 +43,9 @@ const SectionText = styled.h1<{ windowHeight: number }>`
   opacity: ${props => props.windowHeight - 1100};
 
   @media screen and (max-width: 500px) {
-    margin-bottom: 5rem;
-    font-size: 2rem;
+    margin-bottom: 8rem;
+    font-size: 3rem;
+    line-height: 3.5rem;
     color: black;
   }
 `;
@@ -57,9 +58,9 @@ const CardContainer = styled.article<{ windowHeight: number }>`
 
   opacity: ${props => props.windowHeight - 1100};
 
-  /* @media screen and (max-width: 500px) {
-    scale: 0.9;
-  } */
+  @media screen and (max-width: 500px) {
+    scale: 1.4;
+  }
 `;
 
 const Row = styled.article`

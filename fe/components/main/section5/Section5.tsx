@@ -68,12 +68,22 @@ const RightContainer = styled.div<{ windowHeight: number }>`
     opacity: ${props =>
       props.windowHeight >= 7250 && props.windowHeight < 7900 ? 1 : 0};
   }
+  @media screen and (max-width: 500px) {
+    align-items: flex-start;
+    justify-content: space-around;
+  }
 `;
 
 const SectionText = styled.h1`
   font-size: 5vw;
   margin-bottom: 0.5rem;
   color: white;
+  @media screen and (max-width: 500px) {
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+    font-size: 3rem;
+  }
 `;
 
 const ChallengeContainer = styled.article<{ windowHeight: number }>`
