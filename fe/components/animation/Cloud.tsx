@@ -118,7 +118,7 @@ function Cloud() {
   useEffect(() => {
     resizeHandler();
     if (audioRef.current) {
-      audioRef.current.volume = 0.3;
+      audioRef.current.volume = 0.2;
     }
     window.addEventListener('resize', resizeHandler);
     return () => window.removeEventListener('resize', resizeHandler);

@@ -39,7 +39,7 @@ const TextContainer = styled.article<{ windowHeight: number }>`
 
   // article 태그의 자식 요소중 div 태그의 첫번째 h1 자식 요소에만 적용
   & > div > h1:first-of-type {
-    background: ${common.colors.error};
+    background: #f86363;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -74,6 +74,7 @@ const SectionTextYes = styled.h1<{ theme: ColorTypes; windowHeight: number }>`
 `;
 
 const Background = styled.div<{ windowHeight: number }>`
+  position: fixed;
   opacity: ${props =>
     props.windowHeight >= 4500 && props.windowHeight < 5000 ? 1 : 0};
 `;

@@ -15,7 +15,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHook';
 import { selectTheme } from '../../store/modules/theme';
 import Model from '../common/ModelShopBackCard';
-import { setCharName } from '../../store/modules/profile';
+import { setCharName, setCharPK } from '../../store/modules/profile';
 import { FRIEND } from '../../constants/api';
 import { usePatchFriends, usePostFriends } from '../../apis/friends';
 import { ErrorResponse } from '../../types/commonTypes';
@@ -40,11 +40,8 @@ const Card = styled.div<{ theme: ColorTypes }>`
   &:hover {
     transform: translate(-50%, -50%) rotateY(180deg);
   }
-  /* border: 3px solid ${props => props.theme.sub}; */
   z-index: 200;
   white-space: pre-wrap;
-  /* -webkit-box-reflect: below 35px
-    linear-gradient(transparent 45%, rgba(255, 255, 255, 0.4)); */
 `;
 
 const Front = styled.div<{ theme: ColorTypes }>`
@@ -213,9 +210,7 @@ function FriendCard(props: {
 }) {
   const { friend, query } = props;
   const dispatch = useAppDispatch();
-  // const theme1 = useTheme();
   const isDark = useAppSelector(selectTheme) ? 'Dark' : 'Light';
-  // const isFriendShip = useAppSelector(selectShop).friendShipList[friend.];
   const customTheme = friend.ename + isDark;
 
   const imgSrc = `/assets/img/${friend.ename}/2d.svg`;
@@ -229,16 +224,6 @@ function FriendCard(props: {
     return gomiLight;
   };
 
-  // const getCharPoint = useQuery<
-  //   AxiosResponse<FriendsResponse>,
-  //   AxiosError<ErrorResponse>,
-  //   FriendsData
-  // >([FRIEND], () => useGetFriends(), {
-  //   keepPreviousData: true,
-  //   staleTime: STALE_TIME,
-  //   cacheTime: CACHE_TIME,
-  // });
-
   // 캐릭터 선택: axios(이미 구매한 것, def = 1)
   const mutationCharChoice = useMutation<
     AxiosResponse<any>,
@@ -246,6 +231,7 @@ function FriendCard(props: {
   >([FRIEND, friend.friendId], usePatchFriends(friend.friendId), {
     onSuccess: () => {
       dispatch(setCharName(friend.ename));
+      dispatch(setCharPK(friend.friendId));
     },
   });
   // 캐릭터 구매: axios(구매를 안했을 시)
@@ -302,16 +288,6 @@ function FriendCard(props: {
     return CharacteristicArr;
   };
 
-  // 캐릭터 구매 axios(구매하지 않은 것, def: 1 제외)
-  // const { data } = useQuery<
-  // AxiosResponse<FriendsSelectData>,
-  //   AxiosError<ErrorResponse>
-  // >([FRIEND], () => usePostFriends(friendId), {
-  //   keepPreviousData: true,
-  //   staleTime: STALE_TIME,
-  //   cacheTime: CACHE_TIME,
-  // });
-
   return (
     <Section>
       <Card theme={getTheme()}>
@@ -335,7 +311,6 @@ function FriendCard(props: {
             />
           </CharacterDivBack>
           <DescDivBack theme={getTheme()}>{friend.contents}</DescDivBack>
-          {/* <BtnDivBack theme={getTheme()}> */}
           {friend.isBuy ? (
             <BtnDivBack theme={getTheme()}>
               <BtnImgDivBack
@@ -371,7 +346,6 @@ function FriendCard(props: {
               </BtnNotFriendBack>
             </BtnDivBack>
           )}
-          {/* </BtnDivBack> */}
         </Back>
       </Card>
     </Section>

@@ -56,6 +56,8 @@ const Container = styled.div`
   }
   @media all and (max-width: 460px) {
     width: 100vw;
+    height: auto;
+    // justify-content: center;
   }
 `;
 
