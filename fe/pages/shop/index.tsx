@@ -119,6 +119,9 @@ const ContentDiv = styled.div<{ theme: ColorTypes }>`
   margin-top: 40px;
   margin-bottom: 40px;
   color: ${props => props.theme.color};
+  @media all and (max-width: 500px) {
+    height: auto;
+  }
 `;
 
 const BlurBg = styled.div`
