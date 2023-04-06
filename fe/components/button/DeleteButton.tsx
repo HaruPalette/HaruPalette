@@ -42,9 +42,18 @@ function DeleteButton(props: { diaryId: number; date: string | undefined }) {
     usePatchDiaries(diaryId),
   );
   const today = useDate();
+  const hours = new Date().getHours();
+  let nowDate = `${today.date}`;
+  if (hours <= 4) {
+    nowDate = today.date < 10 ? `0${today.date - 1}` : `${today.date - 1}`;
+  } else {
+    nowDate = today.date < 10 ? `0${today.date}` : `${today.date}`;
+  }
   const todayData = `${today.year}-${
     today.month < 10 ? `0${today.month}` : today.month
-  }-${today.date < 10 ? `0${today.date}` : today.date}`;
+  }-${nowDate}`;
+
+  console.log(todayData);
 
   // 버튼 onClick 시 삭제 axios 호출
   const handleDeleteBtn = () => {
