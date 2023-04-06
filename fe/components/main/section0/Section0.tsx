@@ -24,6 +24,9 @@ const Section = styled.section<{ windowHeight: number }>`
       props.windowHeight >= 1500
         ? '1rem'
         : `calc(5vw + ${props.windowHeight / 10}px)`};
+    @media screen and (max-width: 500px) {
+      font-size: 30px;
+    }
   }
 `;
 
