@@ -221,7 +221,7 @@ function Detail() {
           </EmotionList>
           <ButtonList>
             <SaveImageButton setSave={setSave} />
-            <DeleteButton diaryId={Number(diaryId)} />
+            <DeleteButton date={data?.date} diaryId={Number(diaryId)} />
           </ButtonList>
         </DetailList>
       </Container>

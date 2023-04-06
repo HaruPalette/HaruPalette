@@ -9,6 +9,7 @@ export interface profileSlice {
   chrPK: number;
   isLogin: boolean;
   isToday: boolean;
+  isPlay: boolean;
 }
 
 // 초기 상태 정의
@@ -19,6 +20,7 @@ const initialState: profileSlice = {
   chrPK: 1,
   isLogin: false,
   isToday: false,
+  isPlay: false,
 };
 
 const profileSlice = createSlice({
@@ -40,6 +42,7 @@ const profileSlice = createSlice({
       temp.chrPK = 1;
       temp.isLogin = false;
       temp.isToday = false;
+      temp.isPlay = false;
     },
     setCharName(state, action) {
       const temp = state;
@@ -49,12 +52,26 @@ const profileSlice = createSlice({
       const temp = state;
       temp.mainChrName = action.payload;
     },
+    setIsToday(state, action) {
+      const temp = state;
+      temp.isToday = action.payload;
+    },
+    setIsPlay(state, action) {
+      const temp = state;
+      temp.isPlay = action.payload;
+    },
   },
 });
 
 // 액션 생성함수
-export const { logoutSuccess, loginSuccess, setCharName, changeMainChar } =
-  profileSlice.actions;
+export const {
+  logoutSuccess,
+  loginSuccess,
+  setCharName,
+  changeMainChar,
+  setIsToday,
+  setIsPlay,
+} = profileSlice.actions;
 export const selectProfile = (state: RootState) => state.profile;
 // 리듀서
 export default profileSlice.reducer;
