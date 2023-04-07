@@ -116,20 +116,16 @@ function Calendar(props: {
     }
   }
   data?.sort((a, b) => a.date.localeCompare(b.date));
-  console.log('data', data);
   let left = 0;
   // 이번 달 날짜 배열
   for (let i = 1; i <= nowDate; i++) {
     // 여기서 추가할 때 감정 %도 속성으로 추가해서 props로 css에서 받아서 색상 적용
     if (data && data.length > left) {
-      console.log('data[i]', data[i]);
       const temp = data[left].date.split('-');
-      console.log('temp', temp);
       if (Number(temp[2]) === i) {
         if (i === useDate().date) {
           setDiaryId(data[left].diaryId);
         }
-        console.log('temp', temp);
         monthDate.push({
           type: 'now',
           data: i,
