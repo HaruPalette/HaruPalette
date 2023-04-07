@@ -124,6 +124,7 @@ function Calendar(props: {
     if (data && data.length > left) {
       console.log('data[i]', data[i]);
       const temp = data[left].date.split('-');
+      console.log('temp', temp);
       if (Number(temp[2]) === i) {
         if (i === useDate().date) {
           setDiaryId(data[left].diaryId);
