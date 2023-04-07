@@ -116,7 +116,6 @@ function Calendar(props: {
     }
   }
   data?.sort((a, b) => a.date.localeCompare(b.date));
-
   let left = 0;
   // 이번 달 날짜 배열
   for (let i = 1; i <= nowDate; i++) {

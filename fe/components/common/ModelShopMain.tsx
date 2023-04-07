@@ -17,7 +17,6 @@ function Model(props: any) {
   let cameraPrev: any;
   let scenePrev: any;
   const windowWidth = window.innerWidth;
-  // console.log(windowWidth);
   // let texture: any;
   // let framebuffer: any;
 
