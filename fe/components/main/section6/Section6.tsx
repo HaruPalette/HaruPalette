@@ -144,7 +144,6 @@ const ModelButton = styled.button`
 `;
 
 function Section6() {
-  const curCharName = useAppSelector(selectProfile).chrName;
   const mainCharName = useAppSelector(selectProfile).mainChrName;
   const ball = useSectionFourBall();
   const windowHeight = useScreenY();
@@ -170,9 +169,7 @@ function Section6() {
       </RightContainer>
       <Main>
         <MainModel>
-          <ModelShopMain
-            data={curCharName !== 'haru' ? curCharName : mainCharName}
-          />
+          <ModelShopMain data={mainCharName} />
         </MainModel>
         <span>아래의 캐릭터를 눌러 보세요 !</span>
         <FriendList>
