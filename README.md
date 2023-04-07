@@ -116,13 +116,38 @@
 
 # 프로젝트 정보
 
-### 설치방법
-
-### 컴파일 방법
-
 ### 기술 스택
+<img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
+<img src="https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white">
+<img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
+<img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white">
+<img src="https://img.shields.io/badge/gitlab-FC6D26?style=for-the-badge&logo=gitlab&logoColor=white">
+<img src="https://img.shields.io/badge/jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white">
+<br />
+<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">
+<img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
+<br />
+<img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white">
+<img src="https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">
+<img src="https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=redux&logoColor=white">
+<img src="https://img.shields.io/badge/three.js-000000?style=for-the-badge&logo=threedotjs&logoColor=white">
+<img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+<img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white">
+<br />
+<img src="https://img.shields.io/badge/jira-0052CC?style=for-the-badge&logo=jira&logoColor=white">
+<img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
+<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
 
 ### 구현 목록
+
+#### - 인공지능 음성인식 모델을 통한 STT서비스
+- openAI의 whisper 모델을 사용하여 음성인식을 구현하였습니다.
+  ![whisper](https://user-images.githubusercontent.com/55950992/230521063-2e9093d9-e74e-4f4d-adbd-d35b141586a9.PNG)
+#### - 자연어처리 모델을 통한 다중감정분석 서비스
+- facebook의 RoBERTa 모델을 사용하여 다중감정분석을 구현하였습니다.
+  ![RoBERTa](https://user-images.githubusercontent.com/55950992/230521113-750c5108-fcf0-481a-8b49-c68940c59bd1.PNG)
 
 # 프로젝트 결과물
 ## 메인페이지
@@ -180,7 +205,5 @@
 #### next.js를 활용해 SSR과 SEO 최적화로 접근성과 사용자 경험을 고려해 제작했습니다.
 ![E4D03F23-8261-4BBF-9282-FEB95E89685C](https://user-images.githubusercontent.com/55950992/230454256-9e472873-ad6e-4dc9-87f5-b2f1dc9778cd.jpg)
 ![C2E1C583-62F6-47CB-93B6-696A0522078A](https://user-images.githubusercontent.com/55950992/230454334-35804a94-456e-48c0-9d96-e40bbabcb396.png)
-
-# 외부리소스 정보
 
 ### 출처 및 배포 라이선스
