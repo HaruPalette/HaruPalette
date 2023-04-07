@@ -224,4 +224,4 @@
 ![C2E1C583-62F6-47CB-93B6-696A0522078A](https://user-images.githubusercontent.com/55950992/230454334-35804a94-456e-48c0-9d96-e40bbabcb396.png)
 
 ## 시스템 아키텍쳐
-![최종 아키텍처](https://user-images.githubusercontent.com/55950992/230525072-df276475-1c27-41f7-8e43-f93bad014294.png)
+![최종 아키텍처-페이지-1 (2)](https://user-images.githubusercontent.com/55950992/230535308-f38b2810-14e9-4c23-8a04-5001bbd491ef.png)
