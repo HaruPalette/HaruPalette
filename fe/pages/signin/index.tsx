@@ -53,7 +53,9 @@ function Login() {
   const user = useGetUsers();
   if (!user.isLoading) {
     dispatch(loginSuccess(user.data));
-    window.location.href = '/';
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 1000);
   }
   return (
     <BlurBg>
