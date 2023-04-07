@@ -25,13 +25,17 @@ const Background = styled.div<{ windowHeight: number }>`
   top: 50%;
   left: 50%;
   display: ${props =>
-    props.windowHeight >= 8600 && props.windowHeight < 9250 ? 'flex' : 'none'};
+    props.windowHeight >= 8700 && props.windowHeight < 9550 ? 'flex' : 'none'};
+  opacity: ${props =>
+    props.windowHeight >= 8900 && props.windowHeight < 9350 ? 1 : 0};
 
   @media screen and (min-height: 800px) {
     display: ${props =>
-      props.windowHeight >= 10100 && props.windowHeight < 10350
+      props.windowHeight >= 9900 && props.windowHeight < 10550
         ? 'flex'
         : 'none'};
+    opacity: ${props =>
+      props.windowHeight >= 10100 && props.windowHeight < 10350 ? 1 : 0};
   }
 `;
 
