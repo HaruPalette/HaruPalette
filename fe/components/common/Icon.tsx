@@ -25,19 +25,19 @@ function Icon() {
       icon: `/assets/img/common/${isDark ? 'dark' : 'light'}/${
         isDark ? 'dark' : 'light'
       }_facebook.svg`,
-      url: 'https://lab.ssafy.com/s08-ai-speech-sub2/S08P22B303/-/tree/main',
+      url: 'https://www.youtube.com/watch?v=2YAJpYqgL7Y',
     },
     linkedin: {
       icon: `/assets/img/common/${isDark ? 'dark' : 'light'}/${
         isDark ? 'dark' : 'light'
       }_Linkedin.svg`,
-      url: 'https://ssafy.atlassian.net/jira/software/c/projects/S08P22B303/boards/1698',
+      url: 'https://few-sociology-01b.notion.site/README-cff0bc300fbd4ecb8ee7d1b31e831710',
     },
     twitter: {
       icon: `/assets/img/common/${isDark ? 'dark' : 'light'}/${
         isDark ? 'dark' : 'light'
       }_Twitter.svg`,
-      url: 'https://chat.openai.com/chat',
+      url: 'https://forms.gle/kNVwKtnizZCkbEob7',
     },
   };
   return (
