@@ -32,13 +32,17 @@ const Background = styled.div<{ windowHeight: number }>`
   top: 50%;
   left: 50%;
   display: ${props =>
-    props.windowHeight >= 7600 && props.windowHeight < 8050 ? 'flex' : 'none'};
+    props.windowHeight >= 7400 && props.windowHeight < 8550 ? 'flex' : 'none'};
+  opacity: ${props =>
+    props.windowHeight >= 7600 && props.windowHeight < 8350 ? 1 : 0};
 
   @media screen and (min-height: 800px) {
     display: ${props =>
-      props.windowHeight >= 8800 && props.windowHeight < 9250
+      props.windowHeight >= 8600 && props.windowHeight < 9700
         ? 'flex'
         : 'none'};
+    opacity: ${props =>
+      props.windowHeight >= 8800 && props.windowHeight < 9500 ? 1 : 0};
   }
 `;
 
@@ -148,7 +152,6 @@ function Section6() {
   const mainCharName = useAppSelector(selectProfile).mainChrName;
   const ball = useSectionFourBall();
   const windowHeight = useScreenY();
-  // console.log(windowHeight);
 
   const dispatch = useAppDispatch();
 
